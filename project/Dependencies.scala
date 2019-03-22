@@ -15,8 +15,16 @@ object Dependencies {
 
   lazy val logging =
     libraryDependencies ++= Seq(
-      "org.log4s" %% "log4s" % "1.6.1"
-      "ch.qos.logback" % "logback-classic" % "1.1.2"
+      "org.log4s" %% "log4s" % "1.6.1",
+      "ch.qos.logback" % "logback-classic" % "1.1.2",
+      "org.slf4j" % "slf4j-simple" % "1.7.5"
+    )
+
+  lazy val doobie =
+    libraryDependencies ++= Seq(
+      "org.tpolecat" %% "doobie-core" % "0.6.0",
+      "org.tpolecat" %% "doobie-h2" % "0.6.0",
+      "org.tpolecat" %% "doobie-postgres"  % "0.6.0",
     )
 
   lazy val cats =

@@ -10,8 +10,9 @@ val root =
       mainClass in Compile := Some("votelog.app.Webserver"),
       Settings.common,
       Dependencies.cats,
-      Dependencies.logging,
       Dependencies.common,
+      Dependencies.doobie,
+      Dependencies.logging,
       Dependencies.web,
     )
     .enablePlugins(JavaAppPackaging)
