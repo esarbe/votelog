@@ -15,7 +15,7 @@ class DoobiePoliticianTable extends PoliticianTable[ConnectionIO] {
 
     val create =
       sql"""
-            CREATE TABLE person (
+            CREATE TABLE politician (
               id   SERIAL AUTO_INCREMENT,
               name VARCHAR NOT NULL UNIQUE
             )

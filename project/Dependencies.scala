@@ -3,7 +3,7 @@ import sbt.Keys._
 
 object Dependencies {
 
-  import Settings.httpsVersion
+  import Settings.{circeVersion, httpsVersion, doobieVersion}
 
   lazy val common =
     libraryDependencies ++= Seq(
@@ -12,6 +12,13 @@ object Dependencies {
       "com.monovore" %% "decline" % "0.5.0",
       "ch.qos.logback" % "logback-classic" % "0.9.24"
     )
+  
+  lazy val circe =
+    libraryDependencies ++= Seq(
+      "io.circe" %% "circe-core",
+      "io.circe" %% "circe-generic",
+      "io.circe" %% "circe-parser"
+    ).map(_ % circeVersion)
 
   lazy val logging =
     libraryDependencies ++= Seq(
@@ -22,10 +29,10 @@ object Dependencies {
 
   lazy val doobie =
     libraryDependencies ++= Seq(
-      "org.tpolecat" %% "doobie-core" % "0.6.0",
-      "org.tpolecat" %% "doobie-h2" % "0.6.0",
-      "org.tpolecat" %% "doobie-postgres"  % "0.6.0",
-    )
+      "org.tpolecat" %% "doobie-core",
+      "org.tpolecat" %% "doobie-h2",
+      "org.tpolecat" %% "doobie-postgres",
+    ).map(_ % doobieVersion)
 
   lazy val cats =
     libraryDependencies ++= Seq(

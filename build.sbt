@@ -11,6 +11,7 @@ val root =
       Settings.common,
       Dependencies.cats,
       Dependencies.common,
+      Dependencies.circe,  
       Dependencies.doobie,
       Dependencies.logging,
       Dependencies.web,
