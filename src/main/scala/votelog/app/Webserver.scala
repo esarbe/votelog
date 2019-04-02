@@ -100,8 +100,9 @@ object Webserver extends IOApp {
         val httpRoutes: HttpRoutes[IO] = Router("/api" -> pws.service)
 
         val foo = httpRoutes.orNotFound
+        val port = sys.env("PORT")
 
-        val server = BlazeServerBuilder[IO].bindHttp(5000, "localhost").withHttpApp(foo)
+        val server = BlazeServerBuilder[IO].bindHttp(port.toInt, "localhost").withHttpApp(foo)
 
         server.serve.compile.drain.as(state)
       }
