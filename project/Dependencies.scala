@@ -10,7 +10,7 @@ object Dependencies {
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       "com.beachape" %% "enumeratum" % "1.5.12",
       "com.monovore" %% "decline" % "0.5.0",
-      "ch.qos.logback" % "logback-classic" % "0.9.24"
+      "ch.qos.logback" % "logback-classic" % "1.1.2"
     )
   
   lazy val circe =
