@@ -118,19 +118,81 @@ class EntityType:
         return res
 
 
+class End:
+    def __init__(self, root):
+        self.root = root
+        self.role = _to_snake_case(self.root.attrib['Role'])
+        self.multiplicity = _to_snake_case(self.root.attrib['Multiplicity'])
+        assert self.multiplicity in ('*', '1', '0..1')
+
+
+class PrincipalOrDependent:
+    def __init__(self, root):
+        self.root = root
+        self.role = root.attrib['Role']
+        self.property_ref = [_to_snake_case(t.attrib['Name']) for t in self.root.iter(NS + 'PropertyRef')]
+
+    def to_schema(self):
+        return ", ".join(self.property_ref)
+
+
+class ReferentialConstraint:
+    def __init__(self, root):
+        self.root = root
+        self.principal = PrincipalOrDependent(self.root.find(NS + 'Principal'))
+        self.dependent = PrincipalOrDependent(self.root.find(NS + 'Dependent'))
+
+    def to_schema(self):
+        pass
+
+
+class Association:
+    def __init__(self, root):
+        self.root = root
+        self.name = _to_snake_case(self.root.attrib['Name'])
+        self.principal = End(self.root[0])
+        self.dependent = End(self.root[1])
+        referential_constraint = self.root.find(NS + 'ReferentialConstraint')
+        if not referential_constraint:
+            raise RuntimeError("Missing ReferentialConstraint on Association {}".format(self.name))
+        self.referential_constraint = ReferentialConstraint(referential_constraint)
+
+    def to_schema(self):
+        if self.principal.multiplicity == '0..1' and self.dependent.multiplicity == '*':
+            return None
+        elif self.principal.multiplicity == '1' and self.dependent.multiplicity == '*':
+            return "ALTER TABLE {}\n".format(self.dependent.role) + \
+                   "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.name,
+                                                                                   self.referential_constraint.dependent.to_schema(),
+                                                                                   self.principal.role,
+                                                                                   self.referential_constraint.principal.to_schema())
+        else:
+            raise RuntimeError(
+                "Not implemented Association: Principal='{}', Dependent='{}'".format(self.principal.multiplicity,
+                                                                                     self.dependent.multiplicity))
+
+
 class ODataParser:
     def __init__(self, root):
         self.root = root
         self.schema = self.root[0][0]
         self.entities = []
-        self._parse_entity_types()
+        self.association = []
 
-    def to_schema(self):
-        return '\n\n'.join([e.to_schema() for e in self.entities])
-
-    def _parse_entity_types(self):
         for entity_type in self.schema.iter(NS + 'EntityType'):
             self.entities.append(EntityType(entity_type))
+
+        for association in self.schema.iter(NS + 'Association'):
+            self.association.append(Association(association))
+
+    def to_schema(self):
+        sections = []
+        if self.entities:
+            sections.append('\n\n'.join([e.to_schema() for e in self.entities]))
+        if self.association:
+            sections.append('\n\n'.join(a.to_schema() for a in self.association if a.to_schema()))
+
+        return "\n\n".join(sections)
 
 
 def schema_to_sql(metadata: str):

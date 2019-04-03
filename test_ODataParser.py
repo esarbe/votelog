@@ -105,3 +105,89 @@ class TestODataParser(TestCase):
             "  PRIMARY KEY (id)\n"
             ");",
             schema_to_sql(xml))
+
+    def test_to_schema_real_world_member_party_to_party_association(self):
+        xml = TestODataParser.XML_SCHEMA_PRE + """
+              <EntityType Name="MemberParty">
+                <Key>
+                  <PropertyRef Name="ID"/>
+                  <PropertyRef Name="Language"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+                <Property Name="PartyNumber" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="PartyName" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="true"/>
+                <Property Name="PersonNumber" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="PersonIdCode" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="FirstName" Type="Edm.String" MaxLength="40" FixedLength="false" Unicode="true"/>
+                <Property Name="LastName" Type="Edm.String" MaxLength="60" FixedLength="false" Unicode="true"/>
+                <Property Name="GenderAsString" Type="Edm.String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false"/>
+                <Property Name="PartyFunction" Type="Edm.String" MaxLength="80" FixedLength="false" Unicode="true"/>
+                <Property Name="Modified" Type="Edm.DateTime" Precision="3"/>
+                <Property Name="PartyAbbreviation" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="true"/>
+                <NavigationProperty Name="Parties" Relationship="itsystems.Pd.DataServices.DataModel.PartyMemberParty" ToRole="Party" FromRole="MemberParty"/>
+                <NavigationProperty Name="MembersCouncil" Relationship="itsystems.Pd.DataServices.DataModel.MemberCouncilMemberParty" ToRole="MemberCouncil" FromRole="MemberParty"/>
+              </EntityType>
+              <EntityType Name="Party">
+                <Key>
+                  <PropertyRef Name="ID"/>
+                  <PropertyRef Name="Language"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+                <Property Name="PartyNumber" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="PartyName" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="true"/>
+                <Property Name="StartDate" Type="Edm.DateTime" Nullable="false" Precision="3"/>
+                <Property Name="EndDate" Type="Edm.DateTime" Precision="3"/>
+                <Property Name="Modified" Type="Edm.DateTime" Precision="3"/>
+                <Property Name="PartyAbbreviation" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="true"/>
+                <NavigationProperty Name="MembersParty" Relationship="itsystems.Pd.DataServices.DataModel.PartyMemberParty" ToRole="MemberParty" FromRole="Party"/>
+              </EntityType>
+              <Association Name="PartyMemberParty">
+                <End Type="itsystems.Pd.DataServices.DataModel.Party" Role="Party" Multiplicity="1"/>
+                <End Type="itsystems.Pd.DataServices.DataModel.MemberParty" Role="MemberParty" Multiplicity="*"/>
+                <ReferentialConstraint>
+                  <Principal Role="Party">
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Language"/>
+                  </Principal>
+                  <Dependent Role="MemberParty">
+                    <PropertyRef Name="PartyNumber"/>
+                    <PropertyRef Name="Language"/>
+                  </Dependent>
+                </ReferentialConstraint>
+              </Association>
+        """ + TestODataParser.XML_SCHEMA_POST
+
+        self.assertEqual(
+            "CREATE TABLE member_party (\n"
+            "  id integer NOT NULL,\n"
+            "  language char(2) NOT NULL,\n"
+            "  party_number integer NOT NULL,\n"
+            "  party_name TEXT,\n"
+            "  person_number integer NOT NULL,\n"
+            "  person_id_code integer,\n"
+            "  first_name varchar(40),\n"
+            "  last_name varchar(60),\n"
+            "  gender_as_string varchar(1) NOT NULL,\n"
+            "  party_function varchar(80),\n"
+            "  modified timestamp,\n"
+            "  party_abbreviation TEXT,\n"
+            "  PRIMARY KEY (id, language)\n"
+            ");\n"
+            "\n"
+            "CREATE TABLE party (\n"
+            "  id integer NOT NULL,\n"
+            "  language char(2) NOT NULL,\n"
+            "  party_number integer NOT NULL,\n"
+            "  party_name TEXT,\n"
+            "  start_date timestamp NOT NULL,\n"
+            "  end_date timestamp,\n"
+            "  modified timestamp,\n"
+            "  party_abbreviation TEXT,\n"
+            "  PRIMARY KEY (id, language)\n"
+            ");\n"
+            "\nALTER TABLE member_party"
+            "\nADD CONSTRAINT party_member_party FOREIGN KEY (party_number, language) REFERENCES party (id, language);"
+            ,
+            schema_to_sql(xml))
