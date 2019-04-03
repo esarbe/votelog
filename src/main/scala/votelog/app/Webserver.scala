@@ -1,28 +1,23 @@
 package votelog.app
 
-import votelog.implicits._
-import cats.MonadError
-import cats.data.EitherT
 import cats.effect._
 import cats.implicits._
 import doobie._
-import doobie.implicits._
 import doobie.h2._
+import doobie.implicits._
 import io.circe
-import io.circe.Decoder
+import org.http4s.HttpRoutes
+import org.http4s.implicits._
 import org.http4s.server.Router
-import org.http4s.{EntityDecoder, EntityEncoder, HttpApp, HttpRoutes}
-import votelog.app.Webserver.transactor
-import votelog.domain.model.Motion.MotionIdentified
-import votelog.domain.model.{Politician, Politician2}
-import votelog.domain.service.PoliticianService
+import org.http4s.server.blaze.BlazeServerBuilder
+import votelog.domain.model.Politician
+import votelog.domain.service.PoliticianService.Recipe
 import votelog.implementation.Log4SLogger
+import votelog.implicits._
+import votelog.infrastructure.RestService
 import votelog.infrastructure.encoding.Encoder
 import votelog.infrastructure.logging.Logger
-import votelog.infrastructure.{CrudService, Identified, RestService}
 import votelog.persistence.doobie.{DoobiePoliticianRepository, DoobiePoliticianTable}
-import votelog.domain.service.PoliticianService.Recipe
-import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
 
 object Webserver extends IOApp {
   val log = new Log4SLogger[IO](org.log4s.getLogger)
@@ -64,50 +59,46 @@ object Webserver extends IOApp {
         }
 
       val init = for {
-        _ <- log.info("Deleting and re-creating database")
-        _ <- pt.inititalize.transact(xa)
-        _ <- log.info("Deleting and re-creating database successful")
-        fooId <- ps.create(Recipe("foo"))
-        barId <- ps.create(Recipe("bar"))
-        _ <- log.info(s"foo has id '$fooId'")
-        _ <- log.info(s"bar has id '$barId'")
-        bar <- ps.read(fooId)
-        ids <- pc.index
-        _ <- ids.map(id => log.info(id.toString)).sequence
-        _ <-
-          ids
-            .headOption
-            .map(pc.read)
-            .map(_.flatMap(p => log.info(s"found politician '${p}'")))
-            .getOrElse(log.warn("unable to find any politician"))
-        _ <- ps.delete(Politician.Id(4))
-        _ <-
-          ps.read(Politician.Id(3)).attempt.flatMap {
-            case Right(p) => log.info(s"found politician: $p")
-            case Left(error) => log.info(s"politician 3 not found: $error")
-           }
-        _ <- log.info("end of run")
+          _ <- log.info("Deleting and re-creating database")
+          _ <- pt.inititalize.transact(xa)
+          _ <- log.info("Deleting and re-creating database successful")
+          fooId <- ps.create(Recipe("foo"))
+          barId <- ps.create(Recipe("bar"))
+          _ <- log.info(s"foo has id '$fooId'")
+          _ <- log.info(s"bar has id '$barId'")
+          bar <- ps.read(fooId)
+          ids <- pc.index
+          _ <- ids.map(id => log.info(id.toString)).sequence
+          _ <-
+            ids
+              .headOption
+              .map(pc.read)
+              .map(_.flatMap(p => log.info(s"found politician '${p}'")))
+              .getOrElse(log.warn("unable to find any politician"))
+          _ <- ps.delete(Politician.Id(4))
+          _ <-
+            ps.read(Politician.Id(3)).attempt.flatMap {
+              case Right(p) => log.info(s"found politician: $p")
+              case Left(error) => log.info(s"politician 3 not found: $error")
+             }
+          _ <- log.info("end of run")
 
 
-      } yield ExitCode.Success
+        } yield ExitCode.Success
 
       init.flatMap { state: ExitCode =>
 
-        import org.http4s.server.blaze._
-        // import org.http4s.server.blaze._
-
-        import org.http4s.implicits._
         val httpRoutes: HttpRoutes[IO] = Router("/api" -> pws.service)
 
-        val foo = httpRoutes.orNotFound
         val port = sys.env("PORT")
 
-        val server = BlazeServerBuilder[IO].bindHttp(port.toInt, "localhost").withHttpApp(foo)
+        val server =
+          BlazeServerBuilder[IO]
+            .bindHttp(port.toInt, "0.0.0.0")
+            .withHttpApp(httpRoutes.orNotFound)
 
         server.serve.compile.drain.as(state)
       }
     }
-
-
 
 }
