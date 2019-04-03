@@ -94,7 +94,7 @@ object Webserver extends IOApp {
 
         val server =
           BlazeServerBuilder[IO]
-            .bindHttp(port.toInt, "0.0.0.0")
+            .bindHttp(port.toInt)
             .withHttpApp(httpRoutes.orNotFound)
 
         server.serve.compile.drain.as(state)
