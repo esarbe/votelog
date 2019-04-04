@@ -215,7 +215,7 @@ def schema_to_sql(metadata: str):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("metadatafile", type=argparse.FileType('r'))
+    parser.add_argument("--schema", type=argparse.FileType('r'))
     args = parser.parse_args()
 
     handler = logging.StreamHandler(sys.stdout)
@@ -224,7 +224,7 @@ def main():
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
-    xml = "".join(args.metadatafile.readlines())
+    xml = "".join(args.schema.readlines())
     print(schema_to_sql(xml))
 
 
