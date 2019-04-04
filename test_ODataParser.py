@@ -191,3 +191,86 @@ class TestODataParser(TestCase):
             "\nADD CONSTRAINT party_member_party FOREIGN KEY (party_number, language) REFERENCES party (id, language);"
             ,
             schema_to_sql(xml))
+
+    def test_to_schema_real_world_broken_referential_association(self):
+        xml = TestODataParser.XML_SCHEMA_PRE + """
+            <EntityType Name="Session">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Language"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+            </EntityType>
+            <EntityType Name="Business">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Language"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+                <Property Name="SubmissionSession" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Vote">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Language"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+            </EntityType>
+            <Association Name="SessionBusiness">
+                <End Type="itsystems.Pd.DataServices.DataModel.Session" Role="Session" Multiplicity="1"/>
+                <End Type="itsystems.Pd.DataServices.DataModel.Business" Role="Business" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Principal Role="Session">
+                        <PropertyRef Name="ID"/>
+                        <PropertyRef Name="Language"/>
+                    </Principal>
+                    <Dependent Role="Business">
+                        <PropertyRef Name="Language"/>
+                        <PropertyRef Name="SubmissionSession"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SessionVote">
+                <End Type="itsystems.Pd.DataServices.DataModel.Session" Role="Session" Multiplicity="1"/>
+                <End Type="itsystems.Pd.DataServices.DataModel.Vote" Role="Vote" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Principal Role="Session">
+                        <PropertyRef Name="ID"/>
+                        <PropertyRef Name="Language"/>
+                    </Principal>
+                    <Dependent Role="Vote">
+                        <PropertyRef Name="Language"/>
+                        <PropertyRef Name="IdSession"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+        """ + TestODataParser.XML_SCHEMA_POST
+
+        self.assertEqual(
+            "CREATE TABLE session (\n"
+            "  id integer NOT NULL,\n"
+            "  language char(2) NOT NULL,\n"
+            "  PRIMARY KEY (id, language)\n"
+            ");\n"
+            "\n"
+            "CREATE TABLE business (\n"
+            "  id integer NOT NULL,\n"
+            "  language char(2) NOT NULL,\n"
+            "  submission_session integer,\n"
+            "  PRIMARY KEY (id, language)\n"
+            ");\n"
+            "\n"
+            "CREATE TABLE vote (\n"
+            "  id integer NOT NULL,\n"
+            "  language char(2) NOT NULL,\n"
+            "  PRIMARY KEY (id, language)\n"
+            ");\n"
+            "\nALTER TABLE business"
+            "\nADD CONSTRAINT session_business FOREIGN KEY (submission_session, language) REFERENCES session (id, language);"
+            "\n\nALTER TABLE vote"
+            "\nADD CONSTRAINT session_vote FOREIGN KEY (id_session, language) REFERENCES session (id, language);"
+            ,
+            schema_to_sql(xml))

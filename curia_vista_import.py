@@ -147,6 +147,11 @@ class ReferentialConstraint:
 
 
 class Association:
+    BROKEN_REFERENTIAL_CONSTRAINTS = {
+        'session_business': "submission_session, language",
+        'session_vote': "id_session, language",
+    }
+
     def __init__(self, root):
         self.root = root
         self.name = _to_snake_case(self.root.attrib['Name'])
@@ -161,9 +166,11 @@ class Association:
         if self.principal.multiplicity == '0..1' and self.dependent.multiplicity == '*':
             return None
         elif self.principal.multiplicity == '1' and self.dependent.multiplicity == '*':
+            dependent = Association.BROKEN_REFERENTIAL_CONSTRAINTS[
+                self.name] if self.name in Association.BROKEN_REFERENTIAL_CONSTRAINTS else self.referential_constraint.dependent.to_schema()
             return "ALTER TABLE {}\n".format(self.dependent.role) + \
                    "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.name,
-                                                                                   self.referential_constraint.dependent.to_schema(),
+                                                                                   dependent,
                                                                                    self.principal.role,
                                                                                    self.referential_constraint.principal.to_schema())
         else:
