@@ -1,7 +1,6 @@
 from unittest import TestCase
 
-from curia_vista_import import ODataParser, schema_to_sql
-import xml.etree.ElementTree as ET
+from curia_vista_schema import schema_to_sql
 
 
 class TestODataParser(TestCase):

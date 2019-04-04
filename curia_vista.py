@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 import argparse
 import logging
-import re
 import sys
+import re
 import xml.etree.ElementTree as ET
 
 logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(sys.stdout)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 NS = '{http://schemas.microsoft.com/ado/2009/11/edm}'
 
@@ -202,31 +207,14 @@ class ODataParser:
         return "\n\n".join(sections)
 
 
+def create_parser(metadata: str):
+    root = ET.fromstring(metadata)
+    return ODataParser(root)
+
+
 def schema_to_sql(metadata: str):
     """
     Parse an XML string of an Open Data Protocol (OData) schema and return the SQL query to construct the respective
     table in a SQL database.
     """
-    root = ET.fromstring(metadata)
-
-    parser = ODataParser(root)
-    return parser.to_schema()
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--schema", type=argparse.FileType('r'))
-    args = parser.parse_args()
-
-    handler = logging.StreamHandler(sys.stdout)
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-    xml = "".join(args.schema.readlines())
-    print(schema_to_sql(xml))
-
-
-if __name__ == '__main__':
-    main()
+    return create_parser(metadata).to_schema()
