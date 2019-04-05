@@ -109,7 +109,8 @@ class Property:
 class EntityType:
     def __init__(self, root):
         self.root = root
-        self.table_name = _to_snake_case(self.root.attrib['Name'])
+        self.name = self.root.attrib['Name']
+        self.table_name = _to_snake_case(self.name)
         self.properties = [Property(p) for p in self.root.iter(NS + 'Property')]
         keys = list(self.root.iter(NS + 'Key'))
         assert len(keys) == 1
@@ -159,7 +160,8 @@ class Association:
 
     def __init__(self, root):
         self.root = root
-        self.name = _to_snake_case(self.root.attrib['Name'])
+        self.name = self.root.attrib['Name']
+        self.constrain_name = _to_snake_case(self.name)
         self.principal = End(self.root[0])
         self.dependent = End(self.root[1])
         referential_constraint = self.root.find(NS + 'ReferentialConstraint')
@@ -172,9 +174,9 @@ class Association:
             return None
         elif self.principal.multiplicity == '1' and self.dependent.multiplicity == '*':
             dependent = Association.BROKEN_REFERENTIAL_CONSTRAINTS[
-                self.name] if self.name in Association.BROKEN_REFERENTIAL_CONSTRAINTS else self.referential_constraint.dependent.to_schema()
+                self.constrain_name] if self.constrain_name in Association.BROKEN_REFERENTIAL_CONSTRAINTS else self.referential_constraint.dependent.to_schema()
             return "ALTER TABLE {}\n".format(self.dependent.role) + \
-                   "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.name,
+                   "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.constrain_name,
                                                                                    dependent,
                                                                                    self.principal.role,
                                                                                    self.referential_constraint.principal.to_schema())
