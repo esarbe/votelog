@@ -13,6 +13,9 @@ Thumbs.db
 *.sqlite3
 *.sqlite3-journal
 
+# Python
+__pycache__
+
 # R(Studio) specific (temp) files
 *.Rproj
 .RData

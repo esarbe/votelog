@@ -6,7 +6,7 @@ import re
 import xml.etree.ElementTree as ET
 
 logger = logging.getLogger(__name__)
-handler = logging.StreamHandler(sys.stdout)
+handler = logging.StreamHandler(sys.stderr)
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
@@ -15,7 +15,7 @@ logger.addHandler(handler)
 NS = '{http://schemas.microsoft.com/ado/2009/11/edm}'
 
 NAMESPACES = {
-    'edm': "{http://schemas.microsoft.com/ado/2009/11/edm}" # CSDL version 3.0
+    'edm': "{http://schemas.microsoft.com/ado/2009/11/edm}"  # CSDL version 3.0
 }
 
 EDM_TO_SQL_SIMPLE = {
@@ -63,7 +63,10 @@ class Property:
         self.nullable = True
         self.fixed_length = False
         self.max_length = None
-        self.parse_facets()
+        self._parse_facets()
+
+    def __str__(self):
+        return self.name
 
     def to_schema(self):
         res = _to_snake_case(self.name)
@@ -87,7 +90,7 @@ class Property:
             res += " NOT NULL"
         return res
 
-    def parse_facets(self):
+    def _parse_facets(self):
         for attr in self.root.attrib:
             if attr in ['Name', 'Type']:
                 continue
@@ -103,7 +106,10 @@ class Property:
                 except ValueError:
                     pass
                 continue
-            logger.warning("Unhandled facet in Property {}: {}".format(self.name, attr))
+            if attr in ('Unicode', 'Precision'):
+                logger.debug("Unhandled facet in Property {}: {}".format(self.name, attr))
+                continue
+            raise RuntimeError("Unhandled facet in Property {}: {}".format(self.name, attr))
 
 
 class EntityType:
@@ -116,6 +122,9 @@ class EntityType:
         assert len(keys) == 1
         self.key = Key(keys[0])
 
+    def __str__(self):
+        return self.name
+
     def to_schema(self):
         res = "CREATE TABLE {} (\n  ".format(self.table_name)
         res += ",\n  ".join([p.to_schema() for p in self.properties]) + ","
@@ -127,15 +136,20 @@ class EntityType:
 class End:
     def __init__(self, root):
         self.root = root
-        self.role = _to_snake_case(self.root.attrib['Role'])
+        self.role = self.root.attrib['Role']
+        self.table_name = _to_snake_case(self.role)
         self.multiplicity = _to_snake_case(self.root.attrib['Multiplicity'])
         assert self.multiplicity in ('*', '1', '0..1')
+
+    def __str__(self):
+        return self.role
 
 
 class PrincipalOrDependent:
     def __init__(self, root):
         self.root = root
         self.role = root.attrib['Role']
+        self.table_name = root.attrib['Role']
         self.property_ref = [_to_snake_case(t.attrib['Name']) for t in self.root.iter(NS + 'PropertyRef')]
 
     def to_schema(self):
@@ -154,6 +168,7 @@ class ReferentialConstraint:
 
 class Association:
     BROKEN_REFERENTIAL_CONSTRAINTS = {
+        'session_meeting': "id_session, language",
         'session_business': "submission_session, language",
         'session_vote': "id_session, language",
     }
@@ -169,16 +184,19 @@ class Association:
             raise RuntimeError("Missing ReferentialConstraint on Association {}".format(self.name))
         self.referential_constraint = ReferentialConstraint(referential_constraint)
 
+    def __str__(self):
+        return self.name
+
     def to_schema(self):
         if self.principal.multiplicity == '0..1' and self.dependent.multiplicity == '*':
             return None
         elif self.principal.multiplicity == '1' and self.dependent.multiplicity == '*':
             dependent = Association.BROKEN_REFERENTIAL_CONSTRAINTS[
                 self.constrain_name] if self.constrain_name in Association.BROKEN_REFERENTIAL_CONSTRAINTS else self.referential_constraint.dependent.to_schema()
-            return "ALTER TABLE {}\n".format(self.dependent.role) + \
+            return "ALTER TABLE {}\n".format(self.dependent.table_name) + \
                    "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.constrain_name,
                                                                                    dependent,
-                                                                                   self.principal.role,
+                                                                                   self.principal.table_name,
                                                                                    self.referential_constraint.principal.to_schema())
         else:
             raise RuntimeError(
@@ -186,32 +204,74 @@ class Association:
                                                                                      self.dependent.multiplicity))
 
 
-class ODataParser:
+class OData:
     def __init__(self, root):
         self.root = root
         self.schema = self.root[0][0]
-        self.entities = []
-        self.association = []
+        self.entity_types = []
+        self.associations = []
 
         for entity_type in self.schema.iter(NS + 'EntityType'):
-            self.entities.append(EntityType(entity_type))
+            self.entity_types.append(EntityType(entity_type))
 
         for association in self.schema.iter(NS + 'Association'):
-            self.association.append(Association(association))
+            self.associations.append(Association(association))
+
+    def __str__(self):
+        return self.schema.attrib['Namespace']
+
+    def get_dependencies(self, entity_type, recursive=True):
+        """
+        Return EntityTypes to which entity_type refers to on either directly or indirectly.
+        """
+        entities = set()
+        for association in self.associations:
+            if association.dependent.role == entity_type.name:
+                et = self.get_entity_type_by_name(association.principal.role)
+                if et not in entities:
+                    entities.add(et)
+                    if recursive:
+                        entities |= self.get_dependencies(et)
+        return entities
+
+    def get_dependants(self, entity_type):
+        """
+        Return EntityTypes which refer to entity_type either directly or indirectly.
+        """
+        entities = set()
+        for association in self.associations:
+            if association.principal.role == entity_type.name:
+                et = self.get_entity_type_by_name(association.dependent.role)
+                if et not in entities:
+                    entities.add(et)
+                    entities |= self.get_dependants(et)
+        return entities
+
+    def get_entity_type_by_name(self, name):
+        for entity_type in self.entity_types:
+            if entity_type.name == name:
+                return entity_type
+        raise RuntimeError("Could not find EntityType {}".format(name))
+
+    def _get_association_by_name(self, name):
+        for association in self.associations:
+            if association.name == name:
+                return association
+        raise RuntimeError("Could not find Association {}".format(name))
 
     def to_schema(self):
         sections = []
-        if self.entities:
-            sections.append('\n\n'.join([e.to_schema() for e in self.entities]))
-        if self.association:
-            sections.append('\n\n'.join(a.to_schema() for a in self.association if a.to_schema()))
+        if self.entity_types:
+            sections.append('\n\n'.join([e.to_schema() for e in self.entity_types]))
+        if self.associations:
+            sections.append('\n\n'.join(a.to_schema() for a in self.associations if a.to_schema()))
 
         return "\n\n".join(sections)
 
 
 def create_parser(metadata: str):
     root = ET.fromstring(metadata)
-    return ODataParser(root)
+    return OData(root)
 
 
 def schema_to_sql(metadata: str):
