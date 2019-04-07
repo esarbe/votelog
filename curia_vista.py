@@ -15,7 +15,7 @@ logger.addHandler(handler)
 NS = '{http://schemas.microsoft.com/ado/2009/11/edm}'
 
 NAMESPACES = {
-    'edm': "{http://schemas.microsoft.com/ado/2009/11/edm}"
+    'edm': "{http://schemas.microsoft.com/ado/2009/11/edm}" # CSDL version 3.0
 }
 
 EDM_TO_SQL_SIMPLE = {
