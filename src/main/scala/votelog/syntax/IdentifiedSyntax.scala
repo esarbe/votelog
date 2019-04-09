@@ -4,7 +4,7 @@ import votelog.infrastructure.Identified
 
 
 trait IdentifiedSyntax {
-  implicit def syntaxIdentified[A](a: A)(implicit A: Identified[A]) =
+  implicit def syntaxIdentified[A: Identified](a: A): IdentifiedOps[A] =
     new IdentifiedOps[A](a)
 }
 

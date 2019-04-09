@@ -9,41 +9,40 @@ import org.http4s._
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.infrastructure.logging.Logger
 
 
-trait RestService[T] {
-  val crud: CrudService[IO, T]
+trait StoreService[T, Identity, Recipe] {
+  val store: StoreAlg[IO, T, Identity, Recipe]
   val Mount: String
-  val Log: Logger[IO]
 
-  implicit val IdEncoder: encoding.Encoder[String, crud.Identity]
-  implicit val tidEncoder: Encoder[crud.Identity]
+  val IdEncoder: encoding.Encoder[String, Identity]
+
+  implicit val tidEncoder: Encoder[Identity]
   implicit val tEncoder: Encoder[T]
   implicit val tDecoder: Decoder[T]
-  implicit val recipeDecoder: Decoder[crud.Recipe]
+  implicit val recipeDecoder: Decoder[Recipe]
 
 
   object Id {
-    def unapply(str: String): Option[crud.Identity] =
+    def unapply(str: String): Option[Identity] =
       IdEncoder.encode(str).toOption
   }
 
 
-  val service = HttpRoutes.of[IO] {
+  def service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case GET -> Root / Mount / "index" =>
-      crud.index.flatMap(id => Ok(id.asJson))
+      store.index.flatMap(id => Ok(id.asJson))
 
     case GET -> Root / Mount / Id(id) =>
-      crud.read(id).attempt.flatMap {
+      store.read(id).attempt.flatMap {
         case Right(e) => Ok(e.asJson)
         case Left(e) => NotFound(e.getMessage)
       }
 
     case req @ POST -> Root / Mount / "create" =>
       req
-        .as[crud.Recipe]
-        .flatMap(crud.create)
+        .as[Recipe]
+        .flatMap(store.create)
         .attempt
         .flatMap {
           case Right(id) => Created(id.asJson)
@@ -52,7 +51,7 @@ trait RestService[T] {
 
     case req @ POST -> Root / Mount / Id(id) =>
       req.as[T]
-        .flatMap(t => crud.update(id, t))
+        .flatMap(t => store.update(id, t))
         .attempt
         .flatMap {
           case Right(e) => Ok(e.asJson)
@@ -60,7 +59,7 @@ trait RestService[T] {
         }
 
       case DELETE -> Root / Mount / Id(id) =>
-      crud
+      store
         .delete(id)
         .attempt
         .flatMap {

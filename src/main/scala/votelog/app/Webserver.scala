@@ -1,23 +1,20 @@
 package votelog.app
 
+import cats.Monad
 import cats.effect._
 import cats.implicits._
 import doobie._
 import doobie.h2._
 import doobie.implicits._
-import io.circe
 import org.http4s.HttpRoutes
 import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import votelog.domain.model.Politician
-import votelog.domain.service.PoliticianService.Recipe
 import votelog.implementation.Log4SLogger
-import votelog.implicits._
-import votelog.infrastructure.RestService
-import votelog.infrastructure.encoding.Encoder
-import votelog.infrastructure.logging.Logger
-import votelog.persistence.doobie.{DoobiePoliticianRepository, DoobiePoliticianTable}
+import votelog.persistence.PoliticianStore
+import votelog.persistence.doobie.{DoobieSchema, DoobieVoteStore}
+import votelog.service.{DoobiePoliticianStore, PoliticianService}
 
 object Webserver extends IOApp {
   val log = new Log4SLogger[IO](org.log4s.getLogger)
@@ -27,7 +24,7 @@ object Webserver extends IOApp {
       ce <- ExecutionContexts.fixedThreadPool[IO](32) // our connect EC
       te <- ExecutionContexts.cachedThreadPool[IO]    // our transaction EC
       xa <- H2Transactor.newH2Transactor[IO](
-        "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", // connect URL
+        "jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", // connect URL
         "sa",                                   // username
         "",                                     // password
         ce,                                     // await connection here
@@ -39,40 +36,31 @@ object Webserver extends IOApp {
   def run(args: List[String]): IO[ExitCode] =
     transactor.use { xa: H2Transactor[IO] =>
 
-      val pt = new DoobiePoliticianTable
-      val pc = new DoobiePoliticianRepository { val transactor: H2Transactor[IO] = xa }
-      val ps = new votelog.service.PoliticianServiceImpl(pc)
-      val pws =
-        new RestService[Politician] {
-
-          import io.circe.generic.semiauto._
-
-          val crud = ps
-          val Mount = "politician"
-          override implicit val Log: Logger[IO] = log
-          override implicit val IdEncoder: Encoder[String, Politician.Id] = PoliticianIdFromStringDecoder
-          override implicit val tidEncoder: circe.Encoder[Politician.Id] = deriveEncoder[Politician.Id]
-          implicit val tidDecoder: circe.Decoder[Politician.Id] = deriveDecoder[Politician.Id]
-          override implicit val recipeDecoder: circe.Decoder[Recipe] = deriveDecoder[Recipe]
-          override implicit val tEncoder: circe.Encoder[Politician] = deriveEncoder[Politician]
-          override implicit val tDecoder: circe.Decoder[Politician] = deriveDecoder[Politician]
+      val pt: DoobieSchema = new DoobieSchema
+      val ps = new DoobiePoliticianStore[IO] { val transactor: H2Transactor[IO] = xa }
+      val vs =
+        new DoobieVoteStore[IO] {
+          val transactor: H2Transactor[IO] = xa
+          val fMonad: Monad[IO] = implicitly[Monad[IO]]
         }
+
+      val pws = new PoliticianService(ps, vs, log)
 
       val init = for {
           _ <- log.info("Deleting and re-creating database")
-          _ <- pt.inititalize.transact(xa)
+          _ <- pt.initialize.transact(xa)
           _ <- log.info("Deleting and re-creating database successful")
-          fooId <- ps.create(Recipe("foo"))
-          barId <- ps.create(Recipe("bar"))
+          fooId <- ps.create(PoliticianStore.Recipe("foo"))
+          barId <- ps.create(PoliticianStore.Recipe("bar"))
           _ <- log.info(s"foo has id '$fooId'")
           _ <- log.info(s"bar has id '$barId'")
           bar <- ps.read(fooId)
-          ids <- pc.index
+          ids <- ps.index
           _ <- ids.map(id => log.info(id.toString)).sequence
           _ <-
             ids
               .headOption
-              .map(pc.read)
+              .map(ps.read)
               .map(_.flatMap(p => log.info(s"found politician '${p}'")))
               .getOrElse(log.warn("unable to find any politician"))
           _ <- ps.delete(Politician.Id(4))

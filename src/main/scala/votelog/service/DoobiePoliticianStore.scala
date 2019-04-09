@@ -1,19 +1,20 @@
-package votelog.persistence.doobie
+package votelog.service
 
-import cats.effect.IO
+import cats.Monad
+import votelog.domain.model.Politician
 import cats.implicits._
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
-import votelog.domain.model.Politician
-import votelog.persistence.politician.PoliticianRepository
+import votelog.persistence.PoliticianStore
+import votelog.persistence.PoliticianStore.Recipe
 
 
-trait DoobiePoliticianRepository extends PoliticianRepository[IO] {
+abstract class DoobiePoliticianStore[F[_]: Monad] extends PoliticianStore[F] {
 
-  val transactor: doobie.util.transactor.Transactor[IO]
+  val transactor: doobie.util.transactor.Transactor[F]
 
   def readQuery(id: Politician.Id): ConnectionIO[Politician]
-    = sql"select id, name from politician where id=${id}".query[Politician].unique
+  = sql"select id, name from politician where id=${id}".query[Politician].unique
 
   def deleteQuery(id: Politician.Id): doobie.ConnectionIO[Int] =
     sql"delete from politician where id = ${id}"
@@ -30,23 +31,23 @@ trait DoobiePoliticianRepository extends PoliticianRepository[IO] {
   val indexQuery: doobie.ConnectionIO[List[Politician.Id]] =
     sql"select id from politician".query[Politician.Id].accumulate[List]
 
-  override def create(recipe: Recipe): IO[Identity] =
+  override def create(recipe: Recipe): F[Politician.Id] =
     insertQuery(recipe).transact(transactor)
 
-  override def delete(id: Politician.Id): IO[Unit] =
+  override def delete(id: Politician.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
 
-  override def update(id: Politician.Id, t: Politician): IO[Politician] = {
+  override def update(id: Politician.Id, t: Politician): F[Politician] = {
     for {
       _ <- updateQuery(id,t).update.run
       p <- readQuery(t.id)
     } yield p
   }.transact(transactor)
 
-  override def read(id: Politician.Id): IO[Politician] =
+  override def read(id: Politician.Id): F[Politician] =
     readQuery(id).transact(transactor)
 
 
-  override def index: IO[List[Politician.Id]] =
+  override def index: F[List[Politician.Id]] =
     indexQuery.transact(transactor)
 }

@@ -2,9 +2,7 @@ package votelog
 package infrastructure
 
 
-trait CrudService[F[_], T] {
-  type Recipe
-  type Identity
+trait StoreAlg[F[_], T, Identity, Recipe] {
 
   def index: F[List[Identity]]
   def create(r: Recipe): F[Identity]
@@ -12,3 +10,4 @@ trait CrudService[F[_], T] {
   def update(id: Identity, t: T): F[T]
   def read(id: Identity): F[T]
 }
+

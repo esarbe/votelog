@@ -8,7 +8,7 @@ import scala.util.Try
 case class Politician(id: Id, name: String)
 
 object Politician {
-  case class Id(value: Long) extends AnyVal
+  case class Id(value: Long)
 
   implicit object PoliticianIdentified extends Identified[Politician] {
     override type Identity = Id
