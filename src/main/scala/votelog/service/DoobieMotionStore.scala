@@ -6,8 +6,8 @@ import cats.implicits._
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import votelog.domain.model.Motion
-import votelog.domain.model.Motion.Recipe
 import votelog.persistence.MotionStore
+import votelog.persistence.MotionStore.Recipe
 
 
 abstract class DoobieMotionStore[F[_]: Monad] extends MotionStore[F] {

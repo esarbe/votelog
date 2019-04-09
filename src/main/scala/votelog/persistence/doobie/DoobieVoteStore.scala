@@ -1,12 +1,15 @@
 package votelog.persistence.doobie
 
 import cats.Monad
+import cats.data.NonEmptyList
 import votelog.domain.model.{Motion, Politician, Votum}
 import votelog.infrastructure.VoteAlg
 import doobie.implicits._
-import Mappings._
+import cats.implicits._
 
-abstract class DoobieVoteStore[F[_]: Monad] extends VoteAlg[F]{
+abstract class DoobieVoteStore[F[_]: Monad] extends VoteAlg[F] {
+
+  import Mappings._
 
   val transactor: doobie.util.transactor.Transactor[F]
 
@@ -17,5 +20,13 @@ abstract class DoobieVoteStore[F[_]: Monad] extends VoteAlg[F]{
     insertQuery(p, m, v)
       .update
       .withUniqueGeneratedKeys("policiticianid", "motionid")
+      .transact(transactor)
+      .map(_ => Unit)
+
+  override def getVotes(p: Politician.Id): F[List[(Motion, Votum)]] =
+    sql"select * from ".query[(Motion, Votum)]
+      .stream
+      .compile
+      .toList
       .transact(transactor)
 }

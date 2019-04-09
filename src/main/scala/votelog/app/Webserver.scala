@@ -10,11 +10,14 @@ import org.http4s.HttpRoutes
 import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
-import votelog.domain.model.Politician
+import votelog.domain.model.{Motion, Politician, Votum}
 import votelog.implementation.Log4SLogger
-import votelog.persistence.PoliticianStore
+import votelog.infrastructure.StoreAlg
+import votelog.persistence.{MotionStore, PoliticianStore}
 import votelog.persistence.doobie.{DoobieSchema, DoobieVoteStore}
-import votelog.service.{DoobiePoliticianStore, PoliticianService}
+import votelog.service.{DoobieMotionStore, DoobiePoliticianStore, MotionStoreService, PoliticianService}
+
+import scala.util.Try
 
 object Webserver extends IOApp {
   val log = new Log4SLogger[IO](org.log4s.getLogger)
@@ -44,9 +47,11 @@ object Webserver extends IOApp {
           val fMonad: Monad[IO] = implicitly[Monad[IO]]
         }
 
-      val pws = new PoliticianService(ps, vs, log)
+      val ms: StoreAlg[IO, Motion, Motion.Id, MotionStore.Recipe] =
+        new DoobieMotionStore[IO] { val transactor: H2Transactor[IO] = xa }
 
-      val init = for {
+      val init: IO[ExitCode] =
+        for {
           _ <- log.info("Deleting and re-creating database")
           _ <- pt.initialize.transact(xa)
           _ <- log.info("Deleting and re-creating database successful")
@@ -69,14 +74,21 @@ object Webserver extends IOApp {
               case Right(p) => log.info(s"found politician: $p")
               case Left(error) => log.info(s"politician 3 not found: $error")
              }
+          _ <- ms.create(MotionStore.Recipe("eat the rich", Politician.Id(1)))
+          _ <- vs.voteFor(Politician.Id(2), Motion.Id(1), Votum.Yes)
           _ <- log.info("end of run")
-
-
         } yield ExitCode.Success
 
       init.flatMap { state: ExitCode =>
 
-        val httpRoutes: HttpRoutes[IO] = Router("/api" -> pws.service)
+        val pws = new PoliticianService(ps, vs, log)
+        val mws = new MotionStoreService(ms)
+
+        val httpRoutes: HttpRoutes[IO] =
+          Router(
+          "/api/politician" -> pws.service,
+          "/api/motion" -> mws.service
+          )
 
         val port = sys.env("PORT")
 
