@@ -4,7 +4,7 @@ import sbt.Keys._
 object Settings {
 
   val httpsVersion = "0.20.0-M6"
-  val circeVersion = "0.10.0"
+  val circeVersion = "0.11.1"
   val doobieVersion = "0.6.0"
 
   val common =

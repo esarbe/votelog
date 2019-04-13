@@ -10,7 +10,6 @@ object Dependencies {
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       "com.beachape" %% "enumeratum" % "1.5.12",
       "com.monovore" %% "decline" % "0.5.0",
-      "ch.qos.logback" % "logback-classic" % "1.1.2"
     )
   
   lazy val circe =
@@ -22,9 +21,9 @@ object Dependencies {
 
   lazy val logging =
     libraryDependencies ++= Seq(
-      "org.log4s" %% "log4s" % "1.6.1",
+      "org.log4s" %% "log4s" % "1.7.0",
       "ch.qos.logback" % "logback-classic" % "1.1.2",
-      "org.slf4j" % "slf4j-simple" % "1.7.5"
+      "org.slf4j" % "slf4j-simple" % "1.7.25"
     )
 
   lazy val doobie =
@@ -36,8 +35,8 @@ object Dependencies {
 
   lazy val cats =
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-core" % "1.4.0" withSources(),
-      "org.typelevel" %% "cats-effect" % "0.10.1" withSources(),
+      "org.typelevel" %% "cats-core" % "1.6.0" withSources(),
+      "org.typelevel" %% "cats-effect" % "1.2.0" withSources(),
     )
 
   val web =
