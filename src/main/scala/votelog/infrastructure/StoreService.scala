@@ -2,32 +2,31 @@ package votelog
 package infrastructure
 
 import cats.effect._
-import io.circe.{Encoder, _}
 import io.circe.syntax._
 import org.http4s.EntityEncoder._
 import org.http4s._
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
+import votelog.infrastructure.StoreService.StringEncoded
+import votelog.implicits._
 
+object StoreService {
+  type StringEncoded[T] = encoding.Encoder[String, T]
+}
 
-trait StoreService[T, Identity, Recipe] {
+abstract class StoreService[
+  T: io.circe.Encoder: io.circe.Decoder,
+  Identity: io.circe.Encoder: StringEncoded,
+  Recipe: io.circe.Decoder
+] {
   val store: StoreAlg[IO, T, Identity, Recipe]
   val Mount: String
 
-  val IdEncoder: encoding.Encoder[String, Identity]
-
-  implicit val tidEncoder: Encoder[Identity]
-  implicit val tEncoder: Encoder[T]
-  implicit val tDecoder: Decoder[T]
-  implicit val recipeDecoder: Decoder[Recipe]
-
-
   object Id {
     def unapply(str: String): Option[Identity] =
-      IdEncoder.encode(str).toOption
+      str.encodeAs[Identity].toOption
   }
-
 
   def service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case GET -> Root / Mount / "index" =>

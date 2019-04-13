@@ -66,38 +66,42 @@ object Webserver extends IOApp {
             ids
               .headOption
               .map(ps.read)
-              .map(_.flatMap(p => log.info(s"found politician '${p}'")))
+              .map(_.flatMap(p => log.info(s"found politician '$p'")))
               .getOrElse(log.warn("unable to find any politician"))
-          _ <- ps.delete(Politician.Id(4))
-          _ <-
-            ps.read(Politician.Id(3)).attempt.flatMap {
-              case Right(p) => log.info(s"found politician: $p")
-              case Left(error) => log.info(s"politician 3 not found: $error")
-             }
-          _ <- ms.create(MotionStore.Recipe("eat the rich", Politician.Id(1)))
-          _ <- vs.voteFor(Politician.Id(2), Motion.Id(1), Votum.Yes)
+          //_ <- ps.delete(Politician.Id(4))
+          _ <- ms.create(MotionStore.Recipe("eat the rich 2", Politician.Id(1)))
+          // motions
+          motions <- ms.index.flatMap(_.map(ms.read).sequence)
+          _ <- motions.map(m => log.info(s"found motion: $m")).sequence
+          _ <- vs.voteFor(Politician.Id(1), Motion.Id(1), Votum.Yes)
           _ <- log.info("end of run")
         } yield ExitCode.Success
 
-      init.flatMap { state: ExitCode =>
+      val q: IO[Unit] =
+        init.attempt.flatMap {
+          case Right(a) => log.info("all went well")
+          case Left(error) => log.info(s"something went wrong: $error")
+        }
+
+      q *> {
 
         val pws = new PoliticianService(ps, vs, log)
         val mws = new MotionStoreService(ms)
 
         val httpRoutes: HttpRoutes[IO] =
           Router(
-          "/api/politician" -> pws.service,
-          "/api/motion" -> mws.service
+            "/api/politician" -> pws.service,
+            "/api/motion" -> mws.service
           )
 
-        val port = sys.env("PORT")
+        val port = Try(sys.env("PORT")).getOrElse(sys.error("PORT env variable not defined!"))
 
         val server =
           BlazeServerBuilder[IO]
             .bindHttp(port.toInt)
             .withHttpApp(httpRoutes.orNotFound)
 
-        server.serve.compile.drain.as(state)
+        server.serve.compile.drain.as(ExitCode.Success)
       }
     }
 

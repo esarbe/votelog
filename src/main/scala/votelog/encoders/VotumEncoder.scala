@@ -1,4 +1,4 @@
-package votelog.decoders
+package votelog.encoders
 
 import votelog.domain.model.Votum
 import votelog.infrastructure.encoding.Encoder

@@ -25,7 +25,7 @@ abstract class DoobieMotionStore[F[_]: Monad] extends MotionStore[F] {
     sql"update motion set name = ${entity.name}, submitter = ${entity.submitter} where id = ${entity.id}"
 
   def insertQuery(recipe: Recipe): doobie.ConnectionIO[Motion.Id] =
-    sql"insert into motion (name, submitter) values (${recipe.name}, ${recipe.submitter})"
+    sql"insert into motion (name, submitter) values (${recipe.name}, ${recipe.submitter.value})"
       .update
       .withUniqueGeneratedKeys[Motion.Id]("id")
 
