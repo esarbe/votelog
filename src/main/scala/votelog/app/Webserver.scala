@@ -94,14 +94,22 @@ object Webserver extends IOApp {
             "/api/motion" -> mws.service
           )
 
-        val port = Try(sys.env("PORT")).getOrElse(sys.error("PORT env variable not defined!"))
 
-        val server =
-          BlazeServerBuilder[IO]
-            .bindHttp(port.toInt)
-            .withHttpApp(httpRoutes.orNotFound)
+        val server = for {
+          port <- IO(sys.env("PORT"))
+          _ <- log.info(s"attempting to bind to port $port")
+          server <-
+            BlazeServerBuilder[IO]
+              .bindHttp(port.toInt)
+              .withHttpApp(httpRoutes.orNotFound)
+              .serve
+              .compile
+              .drain
 
-        server.serve.compile.drain.as(ExitCode.Success)
+        } yield server
+
+        
+        server.as(ExitCode.Success)
       }
     }
 
