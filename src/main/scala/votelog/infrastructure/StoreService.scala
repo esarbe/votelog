@@ -21,7 +21,6 @@ abstract class StoreService[
   Recipe: io.circe.Decoder
 ] {
   val store: StoreAlg[IO, T, Identity, Recipe]
-  val Mount: String
 
   object Id {
     def unapply(str: String): Option[Identity] =
@@ -29,16 +28,16 @@ abstract class StoreService[
   }
 
   def service: HttpRoutes[IO] = HttpRoutes.of[IO] {
-    case GET -> Root / Mount / "index" =>
+    case GET -> Root / "index" =>
       store.index.flatMap(id => Ok(id.asJson))
 
-    case GET -> Root / Mount / Id(id) =>
+    case GET -> Root / Id(id) =>
       store.read(id).attempt.flatMap {
         case Right(e) => Ok(e.asJson)
         case Left(e) => NotFound(e.getMessage)
       }
 
-    case req @ POST -> Root / Mount / "create" =>
+    case req @ POST -> Root / "create" =>
       req
         .as[Recipe]
         .flatMap(store.create)
@@ -48,7 +47,7 @@ abstract class StoreService[
           case Left(e) => InternalServerError(e.getMessage)
         }
 
-    case req @ POST -> Root / Mount / Id(id) =>
+    case req @ POST -> Root / Id(id) =>
       req.as[T]
         .flatMap(t => store.update(id, t))
         .attempt
@@ -57,7 +56,7 @@ abstract class StoreService[
           case Left(e) => InternalServerError(e.getMessage)
         }
 
-      case DELETE -> Root / Mount / Id(id) =>
+      case DELETE -> Root / Id(id) =>
       store
         .delete(id)
         .attempt
@@ -65,6 +64,5 @@ abstract class StoreService[
           case Right(()) => NoContent()
           case Left(e) => InternalServerError(e.getMessage)
         }
-
   }
 }

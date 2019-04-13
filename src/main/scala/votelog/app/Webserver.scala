@@ -94,7 +94,6 @@ object Webserver extends IOApp {
             "/api/motion" -> mws.service
           )
 
-
         val server = for {
           port <- IO(sys.env("PORT"))
           _ <- log.info(s"attempting to bind to port $port")
@@ -108,7 +107,6 @@ object Webserver extends IOApp {
 
         } yield server
 
-        
         server.as(ExitCode.Success)
       }
     }

@@ -9,8 +9,4 @@ import votelog.implicits._
 
 class MotionStoreService(
   val store: StoreAlg[IO, Motion, Motion.Id, MotionStore.Recipe]
-) extends StoreService[Motion, Motion.Id, MotionStore.Recipe] {
-
-  val Mount = "motion"
-
-}
+) extends StoreService[Motion, Motion.Id, MotionStore.Recipe]
