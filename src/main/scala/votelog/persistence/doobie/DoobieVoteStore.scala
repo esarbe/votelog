@@ -23,8 +23,8 @@ abstract class DoobieVoteStore[F[_]: Monad] extends VoteAlg[F] {
       .transact(transactor)
       .map(_ => Unit)
 
-  override def getVotes(p: Politician.Id): F[List[(Motion, Votum)]] =
-    sql"select * from ".query[(Motion, Votum)]
+  override def getVotes(p: Politician.Id): F[List[(Motion.Id, Votum)]] =
+    sql"select motionid, votum from vote where politicianid = ${p.value}".query[(Motion.Id, Votum)]
       .stream
       .compile
       .toList
