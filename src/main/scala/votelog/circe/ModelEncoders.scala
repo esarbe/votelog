@@ -15,7 +15,7 @@ trait ModelEncoders {
       case Votum.Yes => "yes"
       case Votum.No => "no"
       case Votum.Abstain => "abstain"
-      case Votum.Abstain => "absent"
+      case Votum.Absent => "absent"
     }
 }
 
