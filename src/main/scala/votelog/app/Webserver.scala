@@ -99,7 +99,7 @@ object Webserver extends IOApp {
           _ <- log.info(s"attempting to bind to port $port")
           server <-
             BlazeServerBuilder[IO]
-              .bindHttp(port.toInt)
+              .bindHttp(port.toInt, "0.0.0.0")
               .withHttpApp(httpRoutes.orNotFound)
               .serve
               .compile
