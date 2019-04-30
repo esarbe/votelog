@@ -11,13 +11,16 @@ class DoobieSchema extends Schema[ConnectionIO] {
   override def initialize: ConnectionIO[Unit] = {
     val drop =
       sql"""
-            drop table if exists politician
-        """.update.run
+        drop table if exists politician;
+        drop table if exists motion;
+        drop table if exists vote;
+        drop table if exists rating;
+         """.update.run
 
     val createPoliticianTable =
       sql"""
         create table politician (
-          id   serial primary key,
+          id serial primary key,
           name varchar not null unique
         )""".update.run
 
@@ -37,27 +40,44 @@ class DoobieSchema extends Schema[ConnectionIO] {
           motionid serial not null,
           votum varchar not null,
           foreign key (politicianid) references politician (id),
-          foreign key (motionid) references motion (id)
-
+          foreign key (motionid) references motion (id),
+          primary key (politicianid, motionid)
         )""".update.run
-"-- unique (politicianid, motionid)"
-
-    def insert(n: String, id: Long) =
-      sql"insert into politician (name, id) values ($n, $id)".update
-
-    val insertVote =
-      List(
-        insert("qux", 1).run,
-        sql"insert into motion (id, name, submitter) values (1, 'eat the rich', 1);".update.run,
-        sql"insert into vote (politicianid, motionid, votum) values (1,1, 'yes');".update.run,
-    ).sequence
 
 
+    val createNgoTable =
+      sql"""
+        create table ngo (
+          id serial primary key,
+          name varchar not null
+        )""".update.run
 
-    drop *>
-      createPoliticianTable *>
-      createMotionTable *>
-      createVoteTable *>
-      insertVote.map(_ => Unit)
+    val createRatingTable =
+      sql"""
+        create table rating (
+          politicianid serial not null,
+          ngoid serial not null,
+          value double not null
+        )
+         """.update.run
+
+    val createPartyTable =
+      sql"""
+        create table party (
+          id serial primary key,
+          name varchar not null
+        )
+         """.update.run
+
+    val script =
+      drop *>
+        createPoliticianTable *>
+        createMotionTable *>
+        createVoteTable *>
+        createNgoTable *>
+        createRatingTable *>
+        createPartyTable
+
+    script.map(_ => Unit)
   }
 }

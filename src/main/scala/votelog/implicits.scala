@@ -1,7 +1,6 @@
 package votelog
 
 object implicits
-  extends syntax.IdentifiedSyntax
-    with encoders.IdentityEncoders
+  extends encoders.IdentityEncoders
     with syntax.EncoderSyntax
     with encoders.VotumEncoder

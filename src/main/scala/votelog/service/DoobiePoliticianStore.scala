@@ -9,9 +9,9 @@ import votelog.persistence.PoliticianStore
 import votelog.persistence.PoliticianStore.Recipe
 
 
-abstract class DoobiePoliticianStore[F[_]: Monad] extends PoliticianStore[F] {
-
-  val transactor: doobie.util.transactor.Transactor[F]
+class DoobiePoliticianStore[F[_]: Monad](
+  transactor: doobie.util.transactor.Transactor[F]
+) extends PoliticianStore[F] {
 
   def readQuery(id: Politician.Id): ConnectionIO[Politician]
   = sql"select id, name from politician where id=${id}".query[Politician].unique

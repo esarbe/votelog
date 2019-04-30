@@ -3,9 +3,11 @@ package votelog.circe
 import io.circe
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder
-import votelog.domain.model.{Motion, Politician}
+import votelog.domain.model.{Motion, Party, Politician}
 
 trait ModelDecoders {
+  implicit val partyIdCirceDecoder: circe.Decoder[Party.Id] = Decoder.decodeLong.map(Party.Id)
+
   implicit val motionIdCirceDecoder: circe.Decoder[Motion.Id] = Decoder.decodeLong.map(Motion.Id)
   implicit val motionCirceDecoder: circe.Decoder[Motion] = deriveDecoder[Motion]
 

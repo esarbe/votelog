@@ -10,9 +10,9 @@ import votelog.persistence.MotionStore
 import votelog.persistence.MotionStore.Recipe
 
 
-abstract class DoobieMotionStore[F[_]: Monad] extends MotionStore[F] {
-
-  val transactor: doobie.util.transactor.Transactor[F]
+class DoobieMotionStore[F[_]: Monad](
+  transactor: doobie.util.transactor.Transactor[F]
+) extends MotionStore[F] {
 
   def readQuery(id: Motion.Id): ConnectionIO[Motion]
     = sql"select id, name, submitter from motion where id=${id}".query[Motion].unique

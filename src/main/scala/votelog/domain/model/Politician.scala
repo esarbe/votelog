@@ -5,7 +5,7 @@ import votelog.infrastructure.Identified
 
 import scala.util.Try
 
-case class Politician(id: Id, name: String)
+case class Politician(id: Id, name: String, partyId: Party.Id)
 
 object Politician {
   case class Id(value: Long)

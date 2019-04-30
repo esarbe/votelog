@@ -10,17 +10,21 @@ import org.http4s.HttpRoutes
 import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
+import pureconfig.ConfigReader.Result
 import votelog.domain.model.{Motion, Politician, Votum}
 import votelog.implementation.Log4SLogger
-import votelog.infrastructure.StoreAlg
+import votelog.infrastructure.{StoreAlg, VoteAlg}
 import votelog.persistence.{MotionStore, PoliticianStore}
 import votelog.persistence.doobie.{DoobieSchema, DoobieVoteStore}
 import votelog.service.{DoobieMotionStore, DoobiePoliticianStore, MotionStoreService, PoliticianService}
-
-import scala.util.Try
+import pureconfig.generic.auto._
+import pureconfig.generic.auto._
+import pureconfig.module.catseffect._
 
 object Webserver extends IOApp {
+
   val log = new Log4SLogger[IO](org.log4s.getLogger)
+  val loadConfiguration: IO[Configuration] = loadConfigF[IO, Configuration]("votelog.webapp")
 
   val transactor: Resource[IO, H2Transactor[IO]] =
     for {
@@ -35,80 +39,109 @@ object Webserver extends IOApp {
       )
     } yield xa
 
-
   def run(args: List[String]): IO[ExitCode] =
     transactor.use { xa: H2Transactor[IO] =>
 
-      val pt: DoobieSchema = new DoobieSchema
-      val ps = new DoobiePoliticianStore[IO] { val transactor: H2Transactor[IO] = xa }
-      val vs =
-        new DoobieVoteStore[IO] {
-          val transactor: H2Transactor[IO] = xa
-          val fMonad: Monad[IO] = implicitly[Monad[IO]]
-        }
+      val schema: DoobieSchema = new DoobieSchema
 
-      val ms: StoreAlg[IO, Motion, Motion.Id, MotionStore.Recipe] =
-        new DoobieMotionStore[IO] { val transactor: H2Transactor[IO] = xa }
-
-      val init: IO[ExitCode] =
-        for {
-          _ <- log.info("Deleting and re-creating database")
-          _ <- pt.initialize.transact(xa)
-          _ <- log.info("Deleting and re-creating database successful")
-          fooId <- ps.create(PoliticianStore.Recipe("foo"))
-          barId <- ps.create(PoliticianStore.Recipe("bar"))
-          _ <- log.info(s"foo has id '$fooId'")
-          _ <- log.info(s"bar has id '$barId'")
-          bar <- ps.read(fooId)
-          ids <- ps.index
-          _ <- ids.map(id => log.info(id.toString)).sequence
-          _ <-
-            ids
-              .headOption
-              .map(ps.read)
-              .map(_.flatMap(p => log.info(s"found politician '$p'")))
-              .getOrElse(log.warn("unable to find any politician"))
-          //_ <- ps.delete(Politician.Id(4))
-          _ <- ms.create(MotionStore.Recipe("eat the rich 2", Politician.Id(1)))
-          // motions
-          motions <- ms.index.flatMap(_.map(ms.read).sequence)
-          _ <- motions.map(m => log.info(s"found motion: $m")).sequence
-          _ <- vs.voteFor(Politician.Id(1), Motion.Id(1), Votum.Yes)
-          _ <- log.info("end of run")
-        } yield ExitCode.Success
-
-      val q: IO[Unit] =
-        init.attempt.flatMap {
-          case Right(a) => log.info("all went well")
-          case Left(error) => log.info(s"something went wrong: $error")
-        }
-
-      q *> {
-
-        val pws = new PoliticianService(ps, vs, log)
-        val mws = new MotionStoreService(ms)
-
-        val httpRoutes: HttpRoutes[IO] =
-          Router(
-            "/api/politician" -> pws.service,
-            "/api/motion" -> mws.service
-          )
-
-        val server = for {
-          port <- IO(sys.env("PORT"))
-          _ <- log.info(s"attempting to bind to port $port")
-          server <-
-            BlazeServerBuilder[IO]
-              .bindHttp(port.toInt, "0.0.0.0")
-              .withHttpApp(httpRoutes.orNotFound)
-              .serve
-              .compile
-              .drain
-
-        } yield server
-
-        server.as(ExitCode.Success)
+      val votelog: VoteLog[IO] = new VoteLog[IO] {
+        val politician = new DoobiePoliticianStore[IO](xa)
+        val vote = new DoobieVoteStore[IO](xa)
+        val motion = new DoobieMotionStore[IO](xa)
       }
+
+      val pws = new PoliticianService(votelog.politician, votelog.vote, log)
+      val mws = new MotionStoreService(votelog.motion)
+
+
+      setupEnvironment(xa, schema) *>
+        createTestData(votelog)
+          .attempt
+          .flatMap {
+            case Left(error) =>
+              log.error(error)(s"something went wrong while initialising data: ${error.getMessage}")
+            case Right(code) => log.info("ol korrekt")
+          } *>
+        startVotlogWebserver(pws, mws)
     }
 
+
+  private def startVotlogWebserver(
+    pws: PoliticianService,
+    mws: MotionStoreService
+  ): IO[ExitCode] = {
+
+    val httpRoutes: HttpRoutes[IO] =
+      Router(
+        "/api/politician" -> pws.service,
+        "/api/motion" -> mws.service
+      )
+
+    val server = for {
+      configuration <- loadConfiguration
+      _ <- log.info(s"attempting to bind to port ${configuration.httpPort}")
+      server <-
+      BlazeServerBuilder[IO]
+        .bindHttp(configuration.httpPort, configuration.httpInterface)
+        .withHttpApp(httpRoutes.orNotFound)
+        .serve
+        .compile
+        .drain
+
+    } yield server
+
+    server.as(ExitCode.Success)
+  }
+
+  private def setupEnvironment(
+    xa: H2Transactor[IO],
+    pt: DoobieSchema,
+  ): IO[ExitCode] = {
+
+    for {
+      _ <- log.info("Deleting and re-creating database")
+      _ <- pt.initialize.transact(xa)
+      _ <- log.info("Deleting and re-creating database successful")
+
+    } yield ExitCode.Success
+  }
+
+  private def createTestData(
+    votelog: VoteLog[IO],
+  ): IO[ExitCode] = {
+
+    for {
+      fooId <- votelog.politician.create(PoliticianStore.Recipe("foo"))
+      barId <- votelog.politician.create(PoliticianStore.Recipe("bar"))
+      _ <- log.info(s"foo has id '$fooId'")
+      _ <- log.info(s"bar has id '$barId'")
+      _ <- votelog.politician.read(fooId)
+      ids <- votelog.politician.index
+      _ <- ids.map(id => log.info(id.toString)).sequence
+      _ <-
+      ids
+        .headOption
+        .map(votelog.politician.read)
+        .map(_.flatMap(p => log.info(s"found politician '$p'")))
+        .getOrElse(log.warn("unable to find any politician"))
+      //_ <- ps.delete(Politician.Id(4))
+
+      _ <- votelog.motion.create(MotionStore.Recipe("eat the rich 2", Politician.Id(1)))
+
+      // motions
+      motions <- votelog.motion.index.flatMap(_.map(votelog.motion.read).sequence)
+      _ <- motions.map(m => log.info(s"found motion: $m")).sequence
+      _ <- votelog.vote.voteFor(Politician.Id(1), Motion.Id(1), Votum.Yes)
+    } yield ExitCode.Success
+  }
+
+
+  trait VoteLog[F[_]] {
+    val vote: VoteAlg[F]
+    val politician: PoliticianStore[F]
+    val motion: MotionStore[F]
+  }
+
+
+  case class Configuration(httpPort: Int, httpInterface: String)
 }

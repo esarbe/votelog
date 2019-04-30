@@ -10,6 +10,8 @@ object Dependencies {
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       "com.beachape" %% "enumeratum" % "1.5.12",
       "com.monovore" %% "decline" % "0.5.0",
+      "com.github.pureconfig" %% "pureconfig" % "0.10.2",
+      "com.github.pureconfig" %% "pureconfig-cats-effect" % "0.10.2",
     )
   
   lazy val circe =

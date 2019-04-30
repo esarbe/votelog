@@ -7,11 +7,11 @@ import votelog.infrastructure.VoteAlg
 import doobie.implicits._
 import cats.implicits._
 
-abstract class DoobieVoteStore[F[_]: Monad] extends VoteAlg[F] {
+class DoobieVoteStore[F[_]: Monad](
+  transactor:  doobie.util.transactor.Transactor[F]
+) extends VoteAlg[F] {
 
   import Mappings._
-
-  val transactor: doobie.util.transactor.Transactor[F]
 
   def insertQuery(pid: Politician.Id, mid: Motion.Id, v: Votum) =
     sql"insert into vote (politicianid, motionid, votum) values ($pid, $mid, 'yes')"
