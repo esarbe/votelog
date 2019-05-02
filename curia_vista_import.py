@@ -99,6 +99,18 @@ def fetch_all(entity, fetcher, languages=None):
         # Yield insert-into statement for first fetched slice only
         if done == 0:
             yield from _result_to_sql_statement_header(entity)
+
+        # As of 2019-05-02, the "__count" for MemberCouncilHistory is 6163, but when fetching all entities, only 6162
+        # get submitted.
+        if not url:
+            done_final = done + len(results)
+            if done_final != total:
+                logger.warning(
+                    "Unexpected number of entities of type {}: Expected {} but got {} instead".format(entity.name,
+                                                                                                      total,
+                                                                                                      done_final))
+                total = done_final
+
         for result in results:
             done += 1
             yield from _results_to_sql_value_statements(entity, result, done == total)
