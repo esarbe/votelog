@@ -90,6 +90,7 @@ def fetch_all(entity, fetcher, languages=None):
 
     done = 0
     while url:
+        logger.debug("Fetching from URL {}".format(url))
         results, total, url = _split_response(fetcher(url))
 
         if total == 0:
