@@ -6,23 +6,7 @@ from curia_vista_import import fetch_all
 from test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
 
 
-class TestResults_to_sql_statement(TestCase):
-    # def test_results_to_sql_statement(self):
-    #     json_data = {
-    #         'results': [
-    #             {'ColumnA': 'value a1', 'ColumnB': 'value b1', '__metadata': {"Key": "Do-Not-Use-Me"}},
-    #             {'ColumnA': 'value a2', 'ColumnB': None},
-    #         ],
-    #         '__count': '69415',
-    #         '__next': 'loong-string...',
-    #     }
-    #     self.assertEqual(
-    #         "INSERT INTO table (column_b, column_a) VALUES\n"
-    #         " (E'value b1', E'value a1'),\n"
-    #         " (NULL, E'value a2')\n"
-    #         ";",
-    #         "\n".join(results_to_sql(json_data['results'], 'table')))
-
+class TestImport(TestCase):
     def test_fetch_all_multipage(self):
         xml = XML_SCHEMA_PRE + """
             <EntityType Name="Table">
