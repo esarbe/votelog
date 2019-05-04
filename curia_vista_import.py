@@ -100,7 +100,7 @@ def fetch_all(entity, fetcher, languages=None):
     :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
     :param entity: An OData entity object
     :param languages: List of languages to fetch, None to fetch all
-    :return: json object, url
+    :return: Generator object yielding SQL lines
     """
 
     url = '{}/{}?$inlinecount=allpages&$select=*'.format(URL, entity.name)
