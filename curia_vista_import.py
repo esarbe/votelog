@@ -11,6 +11,25 @@ URL = 'https://ws.parlament.ch/odata.svc'
 
 EPOCH = datetime.datetime.utcfromtimestamp(0)
 
+FIXUP = {
+    'MemberCouncil': [
+        {'ID': 830, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 831, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 832, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 833, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 1309, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 3990, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 3991, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4010, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4043, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4127, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4133, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4211, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4231, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+        {'ID': 4232, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
+    ],
+}
+
 
 def _parse_date(datestring):
     """
@@ -33,10 +52,13 @@ def _result_to_sql_statement_header(entity):
     yield "INSERT INTO {} ({}) VALUES".format(entity.table_name, ", ".join(column_names))
 
 
-def _results_to_sql_value_statements(entity, result, last):
+def _results_to_sql_value_statements(entity, result, last, accept_degenerated=False):
     values = []
     for p in entity.properties:
-        value = result[p.name]
+        if accept_degenerated:
+            value = result[p.name] if p.name in result else None
+        else:
+            value = result[p.name]
         # Parse dates
         if isinstance(value, str) and value.startswith('/Date('):
             value = _parse_date(value)
@@ -96,9 +118,6 @@ def fetch_all(entity, fetcher, languages=None):
         if total == 0:
             logger.warning("Entity {} has zero values".format(entity.name))
             return
-        # Yield insert-into statement for first fetched slice only
-        if done == 0:
-            yield from _result_to_sql_statement_header(entity)
 
         # As of 2019-05-02, the "__count" for MemberCouncilHistory is 6163, but when fetching all entities, only 6162
         # get submitted.
@@ -110,6 +129,17 @@ def fetch_all(entity, fetcher, languages=None):
                                                                                                       total,
                                                                                                       done_final))
                 total = done_final
+
+        # As of 2019-05-02, some entities in MemberCouncil get referred to, but do not exist.
+        # Workaround: Adding dummy entries
+        if done == 0 and entity.name in FIXUP:
+            yield from _result_to_sql_statement_header(entity)
+            for fixup in FIXUP[entity.name]:
+                yield from _results_to_sql_value_statements(entity, fixup, fixup == FIXUP[entity.name][-1], True)
+
+        # Yield insert-into statement for first fetched slice only
+        if done == 0:
+            yield from _result_to_sql_statement_header(entity)
 
         for result in results:
             done += 1
