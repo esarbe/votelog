@@ -147,16 +147,16 @@ def fetch_all(entity, fetcher, languages=None):
         logger.info("Progress for {}: {}/{}".format(entity.name, done, total))
 
 
-def _build_dependencies(parser, entities, m):
+def _build_dependencies(parser, entities, map_of_dependencies):
     for entity in entities:
-        m[entity] = parser.get_dependencies(entity, recursive=False)
-        _build_dependencies(parser, m[entity], m)
+        map_of_dependencies[entity] = parser.get_dependencies(entity, recursive=False)
+        _build_dependencies(parser, map_of_dependencies[entity], map_of_dependencies)
 
 
 def _create_ranks(parser, entities):
-    m = {}
-    _build_dependencies(parser, entities, m)
-    return list(toposort(m))
+    map_of_dependencies = {}
+    _build_dependencies(parser, entities, map_of_dependencies)
+    return list(toposort(map_of_dependencies))
 
 
 def main():
