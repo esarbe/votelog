@@ -4,6 +4,8 @@ import sys
 import re
 import xml.etree.ElementTree as ET
 
+from toposort import toposort
+
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stderr)
 logger.setLevel(logging.INFO)
@@ -266,6 +268,16 @@ class OData:
             sections.append('\n\n'.join(a.to_schema() for a in self.associations if a.to_schema()))
 
         return "\n\n".join(sections)
+
+    def _build_dependencies(self, entity_types, map_of_dependencies):
+        for entity_type in entity_types:
+            map_of_dependencies[entity_type] = self.get_dependencies(entity_type, recursive=False)
+            self._build_dependencies(map_of_dependencies[entity_type], map_of_dependencies)
+
+    def get_topology(self, root_entity_types):
+        map_of_dependencies = {}
+        self._build_dependencies(root_entity_types, map_of_dependencies)
+        return list(toposort(map_of_dependencies))
 
 
 def create_parser(metadata: str):

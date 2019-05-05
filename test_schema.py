@@ -310,6 +310,15 @@ class TestSchemaToSQL(TestCase):
 
 class TestOData(TestCase):
     XML = XML_SCHEMA_PRE + """
+        <EntityType Name="Person">
+            <Key>
+                <PropertyRef Name="ID"/>
+                <PropertyRef Name="Language"/>
+            </Key>
+            <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+            <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+            <Property Name="LastName" Type="Edm.String" MaxLength="60" FixedLength="false" Unicode="true"/>
+        </EntityType>
         <EntityType Name="Session">
             <Key>
                 <PropertyRef Name="ID"/>
@@ -343,6 +352,15 @@ class TestOData(TestCase):
           <Property Name="ID" Type="Edm.Int64" Nullable="false"/>
           <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
           <Property Name="IdSession" Type="Edm.Int32"/>
+        </EntityType>
+        <EntityType Name="MeetingNotes">
+          <Key>
+            <PropertyRef Name="ID"/>
+            <PropertyRef Name="Language"/>
+          </Key>
+          <Property Name="ID" Type="Edm.Int64" Nullable="false"/>
+          <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
+          <Property Name="Text" Type="Edm.String"/>
         </EntityType>
         <Association Name="SessionBusiness">
             <End Type="itsystems.Pd.DataServices.DataModel.Session" Role="Session" Multiplicity="1"/>
@@ -386,13 +404,41 @@ class TestOData(TestCase):
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="PersonMeetingNotes">
+          <End Type="itsystems.Pd.DataServices.DataModel.Person" Role="Person" Multiplicity="1"/>
+          <End Type="itsystems.Pd.DataServices.DataModel.MeetingNotes" Role="MeetingNotes" Multiplicity="*"/>
+          <ReferentialConstraint>
+           <Principal Role="Person">
+             <PropertyRef Name="ID"/>
+             <PropertyRef Name="Language"/>
+           </Principal>
+           <Dependent Role="MeetingNotes">
+              <PropertyRef Name="Language"/>
+              <PropertyRef Name="IdSession"/>
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MeetingMeetingNotes">
+          <End Type="itsystems.Pd.DataServices.DataModel.Person" Role="Meeting" Multiplicity="1"/>
+          <End Type="itsystems.Pd.DataServices.DataModel.MeetingNotes" Role="MeetingNotes" Multiplicity="*"/>
+          <ReferentialConstraint>
+           <Principal Role="Meeting">
+             <PropertyRef Name="ID"/>
+             <PropertyRef Name="Language"/>
+           </Principal>
+           <Dependent Role="MeetingNotes">
+              <PropertyRef Name="Language"/>
+              <PropertyRef Name="IdSession"/>
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
     """ + XML_SCHEMA_POST
 
     def test_str(self):
         o = create_parser(TestOData.XML)
         self.assertEqual("itsystems.Pd.DataServices.DataModel", str(o))
-        self.assertEqual("Session", str(o.entity_types[0]))
-        self.assertEqual("ID", str(o.entity_types[0].properties[0]))
+        self.assertEqual("Session", str(o.entity_types[1]))
+        self.assertEqual("ID", str(o.entity_types[1].properties[0]))
         self.assertEqual("SessionBusiness", str(o.associations[0]))
         self.assertEqual("Session", str(o.associations[0].principal))
 
@@ -403,9 +449,28 @@ class TestOData(TestCase):
 
     def test_get_dependants(self):
         o = create_parser(TestOData.XML)
-        entity_type_session = o.entity_types[0]
-        entity_type_business = o.entity_types[1]
-        entity_type_vote = o.entity_types[2]
-        entity_type_meeting = o.entity_types[3]
-        self.assertEqual({entity_type_business, entity_type_vote, entity_type_meeting},
+        entity_type_session = o.get_entity_type_by_name("Session")
+        entity_type_business = o.get_entity_type_by_name("Business")
+        entity_type_vote = o.get_entity_type_by_name("Vote")
+        entity_type_meeting = o.get_entity_type_by_name("Meeting")
+        entity_type_meeting_notes = o.get_entity_type_by_name("MeetingNotes")
+        self.assertEqual({entity_type_business, entity_type_vote, entity_type_meeting, entity_type_meeting_notes},
                          o.get_dependants(entity_type_session))
+
+    def test_topology(self):
+        p = create_parser(TestOData.XML)
+        t = p.get_topology(p.entity_types)
+        self.assertEqual(3, len(t))
+        self.assertSetEqual(set([p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")]), t[0])
+        self.assertSetEqual(set([p.get_entity_type_by_name("Vote"),
+                                 p.get_entity_type_by_name("Business"),
+                                 p.get_entity_type_by_name("Meeting")]), t[1])
+        self.assertSetEqual(set([p.get_entity_type_by_name("MeetingNotes")]), t[2])
+
+    def test_topology2(self):
+        p = create_parser(TestOData.XML)
+        t = p.get_topology([p.get_entity_type_by_name("MeetingNotes")])
+        self.assertEqual(3, len(t))
+        self.assertSetEqual(set([p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")]), t[0])
+        self.assertSetEqual(set([p.get_entity_type_by_name("Meeting")]), t[1])
+        self.assertSetEqual(set([p.get_entity_type_by_name("MeetingNotes")]), t[2])

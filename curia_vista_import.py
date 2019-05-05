@@ -180,18 +180,6 @@ def fetch_all_with_workaround(entity, fetcher, languages):
     return fetch_all(entity, fetcher, languages, False)
 
 
-def _build_dependencies(parser, entities, map_of_dependencies):
-    for entity in entities:
-        map_of_dependencies[entity] = parser.get_dependencies(entity, recursive=False)
-        _build_dependencies(parser, map_of_dependencies[entity], map_of_dependencies)
-
-
-def _create_ranks(parser, entities):
-    map_of_dependencies = {}
-    _build_dependencies(parser, entities, map_of_dependencies)
-    return list(toposort(map_of_dependencies))
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--schema", type=argparse.FileType('r'), required=True)
@@ -229,7 +217,7 @@ def main():
     entity_types_to_import -= {parser.get_entity_type_by_name('PersonCommunication'),
                                parser.get_entity_type_by_name('BusinessResponsibility')}
 
-    ranks = _create_ranks(parser, entity_types_to_import)
+    ranks = parser.get_topology(entity_types_to_import)
     rank_number = 1
     for rank in ranks:
         logger.info(

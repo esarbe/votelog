@@ -21,6 +21,12 @@ This tool converts the [OData 3.0](https://www.odata.org/documentation/odata-ver
 python3 curia_vista_schema.py --schema doc/metadata.xml > schema.sql
 ```
 
+## Mirroring: Dependency Checking
+
+```console
+python3 curia_vista_dot.py --schema doc/metadata.xml > out.dot && dotty out.dot
+```
+
 ## Mirroring: Data Import
 
 ```console
