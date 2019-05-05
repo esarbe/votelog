@@ -30,6 +30,8 @@ FIXUP = {
     ],
 }
 
+LANGUAGES = ['DE', 'EN', 'FR', 'IT', 'RM']
+
 
 def _parse_date(datestring):
     """
@@ -73,14 +75,15 @@ def _results_to_sql_value_statements(entity, result, last, accept_degenerated=Fa
     yield " ({}){}".format(", ".join(sql_values), ';' if last else ',')
 
 
-def _fetch(url=None):
+def _fetch(url):
     """
     :param url: URL to fetch
     :return: JSON data with the entries results
     """
+    logger.debug("Fetching from URL {}".format(url))
     # Using header instead of URL to request JSON because __next forgets about it.
     r = requests.get(url, headers={'Accept': 'application/json'})
-    logger.debug("HTTP code {} for URL {} after {} seconds".format(r.status_code, url, r.elapsed.total_seconds()))
+    logger.debug("HTTP code {} after {} seconds".format(r.status_code, url, r.elapsed.total_seconds()))
     return r.json()
 
 
@@ -93,7 +96,18 @@ def _split_response(json):
     )
 
 
-def fetch_all(entity, fetcher, languages=None):
+def craft_url(entity, done, batch_size, languages=None):
+    url = '{}/{}?$inlinecount=allpages&$select=*'.format(URL, entity.name)
+
+    # Note: Every single Entity in the Curia Vista schema has a Language property
+    if languages:
+        url += '&$filter='
+        url += " or ".join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages])
+
+    return "{}&$skip={}&$top={}".format(url, done, batch_size)
+
+
+def fetch_all(entity, fetcher, languages=None, batch_size=1000):
     """
     Generator for JSON objects
 
@@ -103,32 +117,17 @@ def fetch_all(entity, fetcher, languages=None):
     :return: Generator object yielding SQL lines
     """
 
-    url = '{}/{}?$inlinecount=allpages&$select=*'.format(URL, entity.name)
-
-    # Note: Every single Entity in the Curia Vista schema has a Language property
-    if languages:
-        url += '&$filter='
-        url += " or ".join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages])
-
     done = 0
-    while url:
-        logger.debug("Fetching from URL {}".format(url))
-        results, total, url = _split_response(fetcher(url))
+    while done == 0 or done != total:
+        url = craft_url(entity, done, batch_size, languages)
+        results, total, next_url = _split_response(fetcher(url))
 
         if total == 0:
             logger.warning("Entity {} has zero values".format(entity.name))
             return
 
-        # As of 2019-05-02, the "__count" for MemberCouncilHistory is 6163, but when fetching all entities, only 6162
-        # get submitted.
-        if not url:
-            done_final = done + len(results)
-            if done_final != total:
-                logger.warning(
-                    "Unexpected number of entities of type {}: Expected {} but got {} instead".format(entity.name,
-                                                                                                      total,
-                                                                                                      done_final))
-                total = done_final
+        if next_url:
+            raise RuntimeError("Handling of __next not implemented")
 
         # As of 2019-05-02, some entities in MemberCouncil get referred to, but do not exist.
         # Workaround: Adding dummy entries
@@ -164,8 +163,7 @@ def main():
     parser.add_argument("--schema", type=argparse.FileType('r'), required=True)
     parser.add_argument("--include", type=str, nargs='*', help="Limit to given entities")
     parser.add_argument("--skip", type=str, nargs='*', help="Skip given entities")
-    languages = ['DE', 'EN', 'FR', 'IT', 'RM']
-    parser.add_argument("--languages", choices=languages, nargs='*', help="Limit to given entities", default=languages)
+    parser.add_argument("--languages", choices=LANGUAGES, nargs='+', help="Limit to given entities", default=LANGUAGES)
     args = parser.parse_args()
 
     logger.info("Languages to be imported: {}".format(", ".join(args.languages)))

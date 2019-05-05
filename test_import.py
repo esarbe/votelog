@@ -2,7 +2,7 @@ from collections import OrderedDict
 from unittest import TestCase
 
 from curia_vista import create_parser
-from curia_vista_import import fetch_all
+from curia_vista_import import fetch_all, LANGUAGES
 from test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
 
 
@@ -27,7 +27,7 @@ class TestImport(TestCase):
             :param url:
             :return: JSON
             """
-            if url == 'https://ws.parlament.ch/odata.svc/Table?$inlinecount=allpages&$select=*':
+            if url == 'https://ws.parlament.ch/odata.svc/Table?$inlinecount=allpages&$select=*&$skip=0&$top=3':
                 return {
                     'd': {
                         'results': [
@@ -35,14 +35,13 @@ class TestImport(TestCase):
                             {'ID': '1', 'Language': 'FR', 'Data': 'Data 2'},
                         ],
                         '__count': '3',
-                        '__next': 'Session Page #2',
                     }
                 }
-            if url == 'Session Page #2':
+            if url == 'https://ws.parlament.ch/odata.svc/Table?$inlinecount=allpages&$select=*&$skip=2&$top=3':
                 return {
                     'd': {
                         'results': [
-                            {'ID': '1', 'Language': 'IT', 'Data': None},
+                            {'ID': '1', 'Language': 'RM', 'Data': None},
                         ],
                         '__count': '3',
                     }
@@ -50,11 +49,11 @@ class TestImport(TestCase):
             raise RuntimeError("Unknown URL")
 
         self.assertEqual(1, len(parser.entity_types))
-        result = list(fetch_all(parser.entity_types[0], fetcher))
+        result = list(fetch_all(parser.entity_types[0], fetcher, batch_size=3))
         result_str = "\n".join(result)
         self.assertEqual(
             "INSERT INTO table (id, language, data) VALUES\n"
             " (E'1', E'DE', E'Data 1'),\n"
             " (E'1', E'FR', E'Data 2'),\n"
-            " (E'1', E'IT', NULL);",
+            " (E'1', E'RM', NULL);",
             result_str)
