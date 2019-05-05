@@ -3,7 +3,9 @@ import argparse
 import datetime
 
 import requests
-from toposort import toposort, toposort_flatten
+import requests_cache
+
+from toposort import toposort
 
 from curia_vista import create_parser, logger, _to_snake_case
 
@@ -83,12 +85,19 @@ def _fetch(url):
     logger.debug("Fetching from URL {}".format(url))
     # Using header instead of URL to request JSON because __next forgets about it.
     r = requests.get(url, headers={'Accept': 'application/json'})
-    logger.debug("HTTP code {} after {} seconds".format(r.status_code, url, r.elapsed.total_seconds()))
+    if hasattr(r, 'from_cache') and r.from_cache:
+        logger.debug("Found {} in cache".format(url))
+    else:
+        logger.debug("HTTP code {} after {} seconds".format(r.status_code, url, r.elapsed.total_seconds()))
     return r.json()
 
 
 def _split_response(json):
-    json_data = json['d']
+    try:
+        json_data = json['d']
+    except KeyError as e:
+        logger.error("Could no find element 'd' in {}".format(json))
+        raise e
     return (
         json_data if 'results' not in json_data else json_data['results'],
         int(json_data['__count']),
@@ -111,6 +120,7 @@ def fetch_all(entity, fetcher, languages=None, batch_size=1000):
     """
     Generator for JSON objects
 
+    :param batch_size: Number of entities to be fetched at once
     :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
     :param entity: An OData entity object
     :param languages: List of languages to fetch, None to fetch all
@@ -180,6 +190,8 @@ def main():
         entity_types_to_skip = set(parser.get_entity_type_by_name(et) for et in args.skip)
     else:
         entity_types_to_skip = []
+
+    requests_cache.install_cache('curia_vista_import.py')
 
     # Requesting certain entity types causes a server side error
     entity_types_to_import -= {parser.get_entity_type_by_name('PersonCommunication'),
