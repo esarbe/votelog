@@ -32,6 +32,10 @@ FIXUP = {
     ],
 }
 
+SKIP_WORKAROUNDS = {
+    'Voting': 10000  # For the Voting table, the limit is at 1M. Only 50k however can still be served in less than 30s.
+}
+
 LANGUAGES = ['DE', 'EN', 'FR', 'IT', 'RM']
 
 
@@ -86,9 +90,9 @@ def _fetch(url):
     # Using header instead of URL to request JSON because __next forgets about it.
     r = requests.get(url, headers={'Accept': 'application/json'})
     if hasattr(r, 'from_cache') and r.from_cache:
-        logger.debug("Found {} in cache".format(url))
+        logger.debug("Found URL {} in cache".format(url))
     else:
-        logger.debug("HTTP code {} after {} seconds".format(r.status_code, url, r.elapsed.total_seconds()))
+        logger.debug("HTTP code {} after {} seconds".format(r.status_code, r.elapsed.total_seconds()))
     return r.json()
 
 
@@ -105,21 +109,27 @@ def _split_response(json):
     )
 
 
-def craft_url(entity, done, batch_size, languages=None):
-    url = '{}/{}?$inlinecount=allpages&$select=*'.format(URL, entity.name)
+def create_entity_type_url(entity):
+    return '{}/{}?$inlinecount=allpages'.format(URL, entity.name)
 
+
+def create_language_filter_url(entity, languages=None):
     # Note: Every single Entity in the Curia Vista schema has a Language property
     if languages:
-        url += '&$filter='
-        url += " or ".join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages])
+        return '{}&$filter={}'.format(create_entity_type_url(entity),
+                                      ' or '.join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages]))
+    return create_entity_type_url(entity)
 
-    return "{}&$skip={}&$top={}".format(url, done, batch_size)
+
+def create_skip_url(entity, done, batch_size, languages=None):
+    return '{}&$skip={}&$top={}'.format(create_language_filter_url(entity, languages), done, batch_size)
 
 
-def fetch_all(entity, fetcher, languages=None, batch_size=1000):
+def fetch_all(entity, fetcher, languages=None, skip_workaround=False, batch_size=1000):
     """
     Generator for JSON objects
 
+    :param skip_workaround:
     :param batch_size: Number of entities to be fetched at once
     :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
     :param entity: An OData entity object
@@ -129,15 +139,23 @@ def fetch_all(entity, fetcher, languages=None, batch_size=1000):
 
     done = 0
     while done == 0 or done != total:
-        url = craft_url(entity, done, batch_size, languages)
+        if skip_workaround:
+            url = create_skip_url(entity, done, batch_size, languages)
+        elif done == 0:
+            url = create_language_filter_url(entity, languages)
+        elif next_url:
+            url = next_url
+        else:
+            return
+
         results, total, next_url = _split_response(fetcher(url))
 
         if total == 0:
             logger.warning("Entity {} has zero values".format(entity.name))
             return
 
-        if next_url:
-            raise RuntimeError("Handling of __next not implemented")
+        if next_url and skip_workaround:
+            raise RuntimeError("Handling of __next combined with skipping not implemented")
 
         # As of 2019-05-02, some entities in MemberCouncil get referred to, but do not exist.
         # Workaround: Adding dummy entries
@@ -154,6 +172,12 @@ def fetch_all(entity, fetcher, languages=None, batch_size=1000):
             done += 1
             yield from _results_to_sql_value_statements(entity, result, done == total)
         logger.info("Progress for {}: {}/{}".format(entity.name, done, total))
+
+
+def fetch_all_with_workaround(entity, fetcher, languages):
+    if entity.name in SKIP_WORKAROUNDS:
+        return fetch_all(entity, fetcher, languages, True, SKIP_WORKAROUNDS[entity.name])
+    return fetch_all(entity, fetcher, languages, False)
 
 
 def _build_dependencies(parser, entities, map_of_dependencies):
@@ -174,7 +198,15 @@ def main():
     parser.add_argument("--include", type=str, nargs='*', help="Limit to given entities")
     parser.add_argument("--skip", type=str, nargs='*', help="Skip given entities")
     parser.add_argument("--languages", choices=LANGUAGES, nargs='+', help="Limit to given entities", default=LANGUAGES)
+    parser.add_argument("-v", "--verbose",
+                        dest="verbose_count",
+                        action="count",
+                        default=0,
+                        help="Increase log verbosity for each occurrence.")
     args = parser.parse_args()
+    log_level = max(3 - args.verbose_count, 0) * 10
+    logger.info("Setting loglevel to {}".format(log_level))
+    logger.setLevel(log_level)
 
     logger.info("Languages to be imported: {}".format(", ".join(args.languages)))
 
@@ -191,7 +223,7 @@ def main():
     else:
         entity_types_to_skip = []
 
-    requests_cache.install_cache('curia_vista_import.py')
+    requests_cache.install_cache('curia_vista_import')
 
     # Requesting certain entity types causes a server side error
     entity_types_to_import -= {parser.get_entity_type_by_name('PersonCommunication'),
@@ -214,7 +246,7 @@ def main():
             if entity in entity_types_to_skip:
                 logger.warning("Skipping entity type {}".format(entity.name))
                 continue
-            for line in fetch_all(entity, _fetch, args.languages):
+            for line in fetch_all_with_workaround(entity, _fetch, args.languages):
                 print(line)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import argparse
 import logging
 import sys
 import re
@@ -8,7 +7,7 @@ import xml.etree.ElementTree as ET
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stderr)
 logger.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
