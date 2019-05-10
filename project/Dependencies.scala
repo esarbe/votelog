@@ -7,7 +7,6 @@ object Dependencies {
 
   lazy val common =
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       "com.beachape" %% "enumeratum" % "1.5.12",
       "com.monovore" %% "decline" % "0.5.0",
       "com.github.pureconfig" %% "pureconfig" % "0.10.2",
@@ -30,10 +29,11 @@ object Dependencies {
 
   lazy val doobie =
     libraryDependencies ++= Seq(
-      "org.tpolecat" %% "doobie-core",
-      "org.tpolecat" %% "doobie-h2",
-      "org.tpolecat" %% "doobie-postgres",
-    ).map(_ % doobieVersion)
+      "org.tpolecat" %% "doobie-core" % doobieVersion,
+      "org.tpolecat" %% "doobie-h2" % doobieVersion,
+      "org.tpolecat" %% "doobie-postgres" % doobieVersion,
+      "org.tpolecat" %% "doobie-scalatest" % doobieVersion % Test,
+    )
 
   lazy val cats =
     libraryDependencies ++= Seq(
@@ -47,4 +47,12 @@ object Dependencies {
       "org.http4s" %% "http4s-circe" % httpsVersion,
       "org.http4s" %% "http4s-dsl" % httpsVersion
     )
+
+  val test =
+    libraryDependencies ++= Seq(
+      "org.scalatest" %% "scalatest" % "3.0.5" % Test,
+      "org.scalacheck" %% "scalacheck" % "1.13.4" % Test,
+    )
+
+
 }

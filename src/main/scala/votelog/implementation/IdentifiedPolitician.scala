@@ -1,7 +1,7 @@
 package votelog.implementation
 
 import doobie.util.Meta
-import votelog.domain.model.Politician
+import votelog.domain.politics.Politician
 import votelog.infrastructure.Identified
 
 object IdentifiedPolitician extends Identified[Politician] {

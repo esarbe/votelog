@@ -15,6 +15,7 @@ class DoobieSchema extends Schema[ConnectionIO] {
         drop table if exists motion;
         drop table if exists vote;
         drop table if exists rating;
+        drop table if exists ngo;
          """.update.run
 
     val createPoliticianTable =
@@ -49,7 +50,8 @@ class DoobieSchema extends Schema[ConnectionIO] {
       sql"""
         create table ngo (
           id serial primary key,
-          name varchar not null
+          name varchar not null,
+          password varchar not null
         )""".update.run
 
     val createRatingTable =
@@ -69,6 +71,26 @@ class DoobieSchema extends Schema[ConnectionIO] {
         )
          """.update.run
 
+    val createUserTable =
+      sql"""
+        create table user (
+          id serial primary key,
+          name varchar not null,
+          hashedPassword varchar not null
+        )
+      """.update.run
+
+    val createPermissionTable =
+      sql"""
+        create table permission (
+          userid serial not null,
+          capability varchar not null,
+          component varchar not null,
+          foreign key (userid) references user (id),
+          primary key (userid, capability, component)
+        )
+      """.update.run
+
     val script =
       drop *>
         createPoliticianTable *>
@@ -76,7 +98,9 @@ class DoobieSchema extends Schema[ConnectionIO] {
         createVoteTable *>
         createNgoTable *>
         createRatingTable *>
-        createPartyTable
+        createPartyTable *>
+        createUserTable *>
+        createPermissionTable
 
     script.map(_ => Unit)
   }

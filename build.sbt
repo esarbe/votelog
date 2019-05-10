@@ -15,5 +15,6 @@ val root =
       Dependencies.doobie,
       Dependencies.logging,
       Dependencies.web,
+      Dependencies.test,
     )
     .enablePlugins(JavaAppPackaging)

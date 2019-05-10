@@ -1,7 +1,7 @@
 package votelog.persistence.doobie
 
 import doobie.util.{Put, Read}
-import votelog.domain.model.Votum
+import votelog.domain.politics.Votum
 
 object Mappings {
   implicit val votumPut: Put[Votum] =

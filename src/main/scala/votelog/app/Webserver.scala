@@ -11,12 +11,12 @@ import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import pureconfig.ConfigReader.Result
-import votelog.domain.model.{Motion, Politician, Votum}
+import votelog.domain.politics.{Motion, Politician, Votum}
 import votelog.implementation.Log4SLogger
 import votelog.infrastructure.{StoreAlg, VoteAlg}
 import votelog.persistence.{MotionStore, PoliticianStore}
-import votelog.persistence.doobie.{DoobieSchema, DoobieVoteStore}
-import votelog.service.{DoobieMotionStore, DoobiePoliticianStore, MotionStoreService, PoliticianService}
+import votelog.persistence.doobie.{DoobieMotionStore, DoobiePoliticianStore, DoobieSchema, DoobieVoteStore}
+import votelog.service.{MotionService, PoliticianService}
 import pureconfig.generic.auto._
 import pureconfig.generic.auto._
 import pureconfig.module.catseffect._
@@ -51,7 +51,7 @@ object Webserver extends IOApp {
       }
 
       val pws = new PoliticianService(votelog.politician, votelog.vote, log)
-      val mws = new MotionStoreService(votelog.motion)
+      val mws = new MotionService(votelog.motion)
 
 
       setupEnvironment(xa, schema) *>
@@ -68,7 +68,7 @@ object Webserver extends IOApp {
 
   private def startVotlogWebserver(
     pws: PoliticianService,
-    mws: MotionStoreService
+    mws: MotionService
   ): IO[ExitCode] = {
 
     val httpRoutes: HttpRoutes[IO] =

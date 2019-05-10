@@ -8,7 +8,7 @@ import org.http4s.HttpRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.circe.implicits._
-import votelog.domain.model.{Motion, Politician, Votum}
+import votelog.domain.politics.{Motion, Politician, Votum}
 import votelog.implicits._
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.{StoreAlg, StoreService, VoteAlg}

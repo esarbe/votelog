@@ -1,9 +1,6 @@
-package votelog.domain.model
+package votelog.domain.politics
 
-import votelog.domain.model.Motion.Id
 import votelog.infrastructure.Identified
-
-import scala.util.Try
 
 case class Vote(
   motionId: Motion.Id,

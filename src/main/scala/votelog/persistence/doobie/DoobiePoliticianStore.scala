@@ -1,10 +1,10 @@
-package votelog.service
+package votelog.persistence.doobie
 
 import cats.Monad
-import votelog.domain.model.Politician
 import cats.implicits._
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
+import votelog.domain.politics.Politician
 import votelog.persistence.PoliticianStore
 import votelog.persistence.PoliticianStore.Recipe
 
@@ -20,8 +20,8 @@ class DoobiePoliticianStore[F[_]: Monad](
     sql"delete from politician where id = ${id}"
       .update.run
 
-  def updateQuery(id: Politician.Id, entity: Politician) =
-    sql"update politician set name = ${entity.name} where id = ${entity.id}"
+  def updateQuery(id: Politician.Id, recipe: Recipe) =
+    sql"update politician set name = ${recipe.name} where id = $id"
 
   def insertQuery(recipe: Recipe): doobie.ConnectionIO[Politician.Id] =
     sql"insert into politician (name) values (${recipe.name})"
@@ -37,10 +37,10 @@ class DoobiePoliticianStore[F[_]: Monad](
   override def delete(id: Politician.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
 
-  override def update(id: Politician.Id, t: Politician): F[Politician] = {
+  override def update(id: Politician.Id, r: Recipe): F[Politician] = {
     for {
-      _ <- updateQuery(id,t).update.run
-      p <- readQuery(t.id)
+      _ <- updateQuery(id, r).update.run
+      p <- readQuery(id)
     } yield p
   }.transact(transactor)
 

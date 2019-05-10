@@ -1,4 +1,4 @@
-package votelog.domain.model
+package votelog.domain.politics
 
 case class Party(id: Party.Id, name: String)
 

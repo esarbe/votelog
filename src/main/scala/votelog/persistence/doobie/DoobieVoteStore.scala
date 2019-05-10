@@ -2,10 +2,11 @@ package votelog.persistence.doobie
 
 import cats.Monad
 import cats.data.NonEmptyList
-import votelog.domain.model.{Motion, Politician, Votum}
+import votelog.domain.politics.{Motion, Politician}
 import votelog.infrastructure.VoteAlg
 import doobie.implicits._
 import cats.implicits._
+import votelog.domain.politics.Votum
 
 class DoobieVoteStore[F[_]: Monad](
   transactor:  doobie.util.transactor.Transactor[F]

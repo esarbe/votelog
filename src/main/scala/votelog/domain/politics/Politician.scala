@@ -1,11 +1,8 @@
-package votelog.domain.model
+package votelog.domain.politics
 
-import votelog.domain.model.Politician.Id
 import votelog.infrastructure.Identified
 
-import scala.util.Try
-
-case class Politician(id: Id, name: String, partyId: Party.Id)
+case class Politician(id: Politician.Id, name: String, partyId: Party.Id)
 
 object Politician {
   case class Id(value: Long)

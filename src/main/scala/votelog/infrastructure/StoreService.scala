@@ -48,7 +48,7 @@ abstract class StoreService[
         }
 
     case req @ POST -> Root / Id(id) =>
-      req.as[T]
+      req.as[Recipe]
         .flatMap(t => store.update(id, t))
         .attempt
         .flatMap {

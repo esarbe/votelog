@@ -41,7 +41,26 @@ object Streaming extends App {
 
 
 
-  println(r.through(collectTens).take(4).toList)
+  //println(r.through(collectTens).take(4).toList)
+
+
+
+
+
+  var foo1 = 1
+  foo1 = 4
+
+
+  val list =
+    Stream(1)
+      .repeat
+      .scan(0)(_ + _)
+      .take(10)
+      .append(Stream(2).repeat.take(5))
+      .toList
+
+  val list2 = list.map(_ + 1)
+
 
 
 }

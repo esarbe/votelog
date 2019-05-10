@@ -1,6 +1,6 @@
 package votelog.encoders
 
-import votelog.domain.model.Votum
+import votelog.domain.politics.Votum
 import votelog.infrastructure.encoding.Encoder
 
 trait VotumEncoder {

@@ -1,4 +1,4 @@
-package votelog.domain.model
+package votelog.domain.politics
 
 import votelog.infrastructure.encoding.Encoder
 
