@@ -5,9 +5,8 @@ import datetime
 import requests
 import requests_cache
 
-from toposort import toposort
-
-from curia_vista import create_parser, logger, _to_snake_case
+from odata.odata import create_parser, logger, _to_snake_case
+from odata.topology import get_topology
 
 URL = 'https://ws.parlament.ch/odata.svc'
 
@@ -213,11 +212,11 @@ def main():
 
     requests_cache.install_cache('curia_vista_import')
 
-    # Requesting certain entity types causes a server side error
-    entity_types_to_import -= {parser.get_entity_type_by_name('PersonCommunication'),
-                               parser.get_entity_type_by_name('BusinessResponsibility')}
+    # # Requesting certain entity types causes a server side error
+    # entity_types_to_import -= {parser.get_entity_type_by_name('PersonCommunication'),
+    #                            parser.get_entity_type_by_name('BusinessResponsibility')}
 
-    ranks = parser.get_topology(entity_types_to_import)
+    ranks = get_topology(parser, entity_types_to_import)
     rank_number = 1
     for rank in ranks:
         logger.info(

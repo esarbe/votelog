@@ -4,8 +4,6 @@ import sys
 import re
 import xml.etree.ElementTree as ET
 
-from toposort import toposort
-
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stderr)
 logger.setLevel(logging.INFO)
@@ -52,9 +50,6 @@ class Key:
         self.root = root
         self.property_refs = [_to_snake_case(k.attrib['Name']) for k in self.root.iter(NS + 'PropertyRef')]
 
-    def to_schema(self):
-        return "PRIMARY KEY ({})".format(", ".join(self.property_refs))
-
 
 class Property:
     def __init__(self, root):
@@ -68,28 +63,6 @@ class Property:
 
     def __str__(self):
         return self.name
-
-    def to_schema(self):
-        res = _to_snake_case(self.name)
-
-        if self.type in EDM_TO_SQL_SIMPLE:
-            type_sql = EDM_TO_SQL_SIMPLE[self.type]
-        else:
-            if self.type == "Edm.String":
-                if isinstance(self.max_length, int):
-                    if self.fixed_length:
-                        type_sql = "char({})".format(self.max_length)
-                    else:
-                        type_sql = "varchar({})".format(self.max_length)
-                else:
-                    assert self.fixed_length is False
-                    type_sql = "TEXT"
-            else:
-                raise RuntimeError("Unknown type: " + self.type)
-        res += " {}".format(type_sql)
-        if not self.nullable:
-            res += " NOT NULL"
-        return res
 
     def _parse_facets(self):
         for attr in self.root.attrib:
@@ -126,13 +99,6 @@ class EntityType:
     def __str__(self):
         return self.name
 
-    def to_schema(self):
-        res = "CREATE TABLE {} (\n  ".format(self.table_name)
-        res += ",\n  ".join([p.to_schema() for p in self.properties]) + ","
-        res += "\n  {}".format(self.key.to_schema())
-        res += "\n);"
-        return res
-
 
 class End:
     def __init__(self, root):
@@ -153,18 +119,12 @@ class PrincipalOrDependent:
         self.table_name = root.attrib['Role']
         self.property_ref = [_to_snake_case(t.attrib['Name']) for t in self.root.iter(NS + 'PropertyRef')]
 
-    def to_schema(self):
-        return ", ".join(self.property_ref)
-
 
 class ReferentialConstraint:
     def __init__(self, root):
         self.root = root
         self.principal = PrincipalOrDependent(self.root.find(NS + 'Principal'))
         self.dependent = PrincipalOrDependent(self.root.find(NS + 'Dependent'))
-
-    def to_schema(self):
-        pass
 
 
 class Association:
@@ -187,22 +147,6 @@ class Association:
 
     def __str__(self):
         return self.name
-
-    def to_schema(self):
-        if self.principal.multiplicity == '0..1' and self.dependent.multiplicity == '*':
-            return None
-        elif self.principal.multiplicity == '1' and self.dependent.multiplicity == '*':
-            dependent = Association.BROKEN_REFERENTIAL_CONSTRAINTS[
-                self.constrain_name] if self.constrain_name in Association.BROKEN_REFERENTIAL_CONSTRAINTS else self.referential_constraint.dependent.to_schema()
-            return "ALTER TABLE {}\n".format(self.dependent.table_name) + \
-                   "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.constrain_name,
-                                                                                   dependent,
-                                                                                   self.principal.table_name,
-                                                                                   self.referential_constraint.principal.to_schema())
-        else:
-            raise RuntimeError(
-                "Not implemented Association: Principal='{}', Dependent='{}'".format(self.principal.multiplicity,
-                                                                                     self.dependent.multiplicity))
 
 
 class OData:
@@ -260,34 +204,7 @@ class OData:
                 return association
         raise RuntimeError("Could not find Association {}".format(name))
 
-    def to_schema(self):
-        sections = []
-        if self.entity_types:
-            sections.append('\n\n'.join([e.to_schema() for e in self.entity_types]))
-        if self.associations:
-            sections.append('\n\n'.join(a.to_schema() for a in self.associations if a.to_schema()))
-
-        return "\n\n".join(sections)
-
-    def _build_dependencies(self, entity_types, map_of_dependencies):
-        for entity_type in entity_types:
-            map_of_dependencies[entity_type] = self.get_dependencies(entity_type, recursive=False)
-            self._build_dependencies(map_of_dependencies[entity_type], map_of_dependencies)
-
-    def get_topology(self, root_entity_types):
-        map_of_dependencies = {}
-        self._build_dependencies(root_entity_types, map_of_dependencies)
-        return list(toposort(map_of_dependencies))
-
 
 def create_parser(metadata: str):
     root = ET.fromstring(metadata)
     return OData(root)
-
-
-def schema_to_sql(metadata: str):
-    """
-    Parse an XML string of an Open Data Protocol (OData) schema and return the SQL query to construct the respective
-    table in a SQL database.
-    """
-    return create_parser(metadata).to_schema()

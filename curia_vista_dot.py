@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 
-from curia_vista import schema_to_sql, create_parser
+from odata.odata import create_parser
+from odata.topology import get_topology
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
     print("digraph G {")
     print("  rankdir=LR;")
     rank_num = 0
-    ranks = parser.get_topology(entity_types_to_import)
+    ranks = get_topology(parser, entity_types_to_import)
     relevant_entities = []
     for rank in ranks:
         print("  subgraph rank_{} {{\n    rank=same; ".format(rank_num))

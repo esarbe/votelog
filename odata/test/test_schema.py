@@ -1,7 +1,8 @@
 from unittest import TestCase
 
-from curia_vista import OData, create_parser
-from curia_vista_schema import schema_to_sql
+from odata.odata import create_parser
+from odata.sql import to_schema
+from odata.topology import get_topology
 
 XML_SCHEMA_PRE = """<?xml version="1.0" encoding="utf-8"?>
     <edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
@@ -56,7 +57,7 @@ class TestSchemaToSQL(TestCase):
             "  party_abbreviation TEXT,\n"
             "  PRIMARY KEY (id, language)\n"
             ");",
-            schema_to_sql(xml))
+            to_schema(xml))
 
     def test_to_schema_replace_keywords(self):
         xml = XML_SCHEMA_PRE + """
@@ -79,7 +80,7 @@ class TestSchemaToSQL(TestCase):
             "  prefixed_start timestamp,\n"
             "  PRIMARY KEY (id)\n"
             ");",
-            schema_to_sql(xml))
+            to_schema(xml))
 
     def test_to_schema_cornercases(self):
         xml = XML_SCHEMA_PRE + """
@@ -104,7 +105,7 @@ class TestSchemaToSQL(TestCase):
             "  interval interval,\n"
             "  PRIMARY KEY (id)\n"
             ");",
-            schema_to_sql(xml))
+            to_schema(xml))
 
     def test_to_schema_real_world_member_party_to_party_association(self):
         xml = XML_SCHEMA_PRE + """
@@ -190,7 +191,7 @@ class TestSchemaToSQL(TestCase):
             "\nALTER TABLE member_party"
             "\nADD CONSTRAINT party_member_party FOREIGN KEY (party_number, language) REFERENCES party (id, language);"
             ,
-            schema_to_sql(xml))
+            to_schema(xml))
 
     def test_to_schema_real_world_broken_referential_association(self):
         xml = XML_SCHEMA_PRE + """
@@ -305,7 +306,7 @@ class TestSchemaToSQL(TestCase):
             "\n\nALTER TABLE meeting"
             "\nADD CONSTRAINT session_meeting FOREIGN KEY (id_session, language) REFERENCES session (id, language);"
             ,
-            schema_to_sql(xml))
+            to_schema(xml))
 
 
 class TestOData(TestCase):
@@ -459,7 +460,7 @@ class TestOData(TestCase):
 
     def test_topology(self):
         p = create_parser(TestOData.XML)
-        t = p.get_topology(p.entity_types)
+        t = get_topology(p, p.entity_types)
         self.assertEqual(3, len(t))
         self.assertSetEqual(set([p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")]), t[0])
         self.assertSetEqual(set([p.get_entity_type_by_name("Vote"),
@@ -469,7 +470,7 @@ class TestOData(TestCase):
 
     def test_topology2(self):
         p = create_parser(TestOData.XML)
-        t = p.get_topology([p.get_entity_type_by_name("MeetingNotes")])
+        t = get_topology(p, [p.get_entity_type_by_name("MeetingNotes")])
         self.assertEqual(3, len(t))
         self.assertSetEqual(set([p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")]), t[0])
         self.assertSetEqual(set([p.get_entity_type_by_name("Meeting")]), t[1])

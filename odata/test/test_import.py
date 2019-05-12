@@ -1,9 +1,8 @@
-from collections import OrderedDict
 from unittest import TestCase
 
-from curia_vista import create_parser
-from curia_vista_import import fetch_all, LANGUAGES
-from test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
+from odata.odata import create_parser
+from curia_vista_import import fetch_all
+from odata.test.test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
 
 
 class TestImport(TestCase):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 
-from curia_vista import schema_to_sql
+from odata.sql import to_schema
 
 
 def main():
@@ -10,7 +10,7 @@ def main():
     args = parser.parse_args()
 
     xml = "".join(args.schema.readlines())
-    print(schema_to_sql(xml))
+    print(to_schema(xml))
 
 
 if __name__ == '__main__':
