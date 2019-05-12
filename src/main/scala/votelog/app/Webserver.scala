@@ -1,6 +1,7 @@
 package votelog.app
 
 import cats.Monad
+import cats._
 import cats.effect._
 import cats.implicits._
 import doobie._
@@ -8,18 +9,19 @@ import doobie.h2._
 import doobie.implicits._
 import org.http4s.HttpRoutes
 import org.http4s.implicits._
-import org.http4s.server.Router
+import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.server.blaze.BlazeServerBuilder
 import pureconfig.ConfigReader.Result
 import votelog.domain.politics.{Motion, Politician, Votum}
 import votelog.implementation.Log4SLogger
 import votelog.infrastructure.{StoreAlg, VoteAlg}
-import votelog.persistence.{MotionStore, PoliticianStore}
-import votelog.persistence.doobie.{DoobieMotionStore, DoobiePoliticianStore, DoobieSchema, DoobieVoteStore}
-import votelog.service.{MotionService, PoliticianService}
+import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
+import votelog.persistence.doobie.{DoobieMotionStore, DoobiePoliticianStore, DoobieSchema, DoobieUserStore, DoobieVoteStore}
+import votelog.service.{AuthenticationService, MotionService, PoliticianService}
 import pureconfig.generic.auto._
 import pureconfig.generic.auto._
 import pureconfig.module.catseffect._
+import votelog.domain.authorization.User
 
 object Webserver extends IOApp {
 
@@ -40,7 +42,7 @@ object Webserver extends IOApp {
     } yield xa
 
   def run(args: List[String]): IO[ExitCode] =
-    transactor.use { xa: H2Transactor[IO] =>
+    transactor.use { xa: Transactor[IO] =>
 
       val schema: DoobieSchema = new DoobieSchema
 
@@ -53,7 +55,6 @@ object Webserver extends IOApp {
       val pws = new PoliticianService(votelog.politician, votelog.vote, log)
       val mws = new MotionService(votelog.motion)
 
-
       setupEnvironment(xa, schema) *>
         createTestData(votelog)
           .attempt
@@ -62,13 +63,14 @@ object Webserver extends IOApp {
               log.error(error)(s"something went wrong while initialising data: ${error.getMessage}")
             case Right(code) => log.info("ol korrekt")
           } *>
-        startVotlogWebserver(pws, mws)
+        startVotlogWebserver(pws, mws, transactor)
     }
 
 
   private def startVotlogWebserver(
     pws: PoliticianService,
-    mws: MotionService
+    mws: MotionService,
+    transactor: Transactor[IO],
   ): IO[ExitCode] = {
 
     val httpRoutes: HttpRoutes[IO] =
@@ -77,13 +79,18 @@ object Webserver extends IOApp {
         "/api/motion" -> mws.service
       )
 
+    val userStore: UserStore[IO] = new DoobieUserStore(transactor)
+    val authenticationService: AuthMiddleware[IO, User] = new AuthenticationService(userStore).middleware
+
+    val protectedRoutes = authenticationService(pws.service)
+
     val server = for {
       configuration <- loadConfiguration
       _ <- log.info(s"attempting to bind to port ${configuration.httpPort}")
       server <-
       BlazeServerBuilder[IO]
         .bindHttp(configuration.httpPort, configuration.httpInterface)
-        .withHttpApp(httpRoutes.orNotFound)
+        .withHttpApp(protectedRoutes.orNotFound)
         .serve
         .compile
         .drain

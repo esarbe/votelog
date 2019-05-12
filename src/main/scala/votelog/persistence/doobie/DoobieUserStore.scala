@@ -1,13 +1,13 @@
 package votelog.persistence.doobie
 
 import cats._
+import cats.free.Free
 import cats.implicits._
+import doobie.free.connection
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
-import doobie.util.{Meta, Read}
-import votelog.domain.authorization.Capability.Create
-import votelog.domain.authorization.{Capability, Component, User}
-import votelog.domain.authorization.User.Permission
+import doobie.util.Meta
+import votelog.domain.authorization.{Capability, User}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.Recipe
 
@@ -16,7 +16,6 @@ class DoobieUserStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends UserStore[F] {
 
-  val q = implicitly[Read[Component]]
   implicit val metaCapability =
     Meta[String]
       .imap {
@@ -24,9 +23,7 @@ class DoobieUserStore[F[_]: Monad](
         case "Create" => Capability.Create
         case "Update" => Capability.Update
         case "Delete" => Capability.Delete
-      }(Capability.showComponent.show)
-
-  //implicit def permissionMeta = implicitly[Read[Permission]]
+      }(Capability.showComponent.show) //I'm probably abusing 'Show' here.
 
 
   def readQuery(id: User.Id): ConnectionIO[User] =
@@ -45,6 +42,11 @@ class DoobieUserStore[F[_]: Monad](
     sql"insert into user (name) values (${recipe.name})"
       .update
       .withUniqueGeneratedKeys[User.Id]("id")
+
+  def findIdByNameQuery(name: String): doobie.ConnectionIO[Option[User.Id]] =
+    sql"select id from user where name = $name"
+      .query[User.Id]
+      .accumulate[Option]
 
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
     sql"select id from user".query[User.Id].accumulate[List]
@@ -68,5 +70,10 @@ class DoobieUserStore[F[_]: Monad](
 
   override def index: F[List[User.Id]] =
     indexQuery.transact(transactor)
+
+  override def findByName(name: String): F[Option[User]] =
+    findIdByNameQuery(name)
+      .flatMap(_.map(readQuery).sequence)
+      .transact(transactor)
 }
 

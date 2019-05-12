@@ -27,6 +27,7 @@ case class Component(name: String) extends AnyVal {
     name.length < other.name.length &&
       compared.forall(identity)
   }
+  def child(child: String): Component = Component(s"$name$Separator$child")
 }
 
 object Component {

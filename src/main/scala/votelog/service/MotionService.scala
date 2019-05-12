@@ -7,6 +7,6 @@ import votelog.circe.implicits._
 import votelog.domain.politics.Motion
 import votelog.implicits._
 
-class MotionService(
+abstract class MotionService(
   val store: StoreAlg[IO, Motion, Motion.Id, MotionStore.Recipe]
 ) extends StoreService[Motion, Motion.Id, MotionStore.Recipe]

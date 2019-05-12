@@ -27,6 +27,11 @@ object Dependencies {
       "org.slf4j" % "slf4j-simple" % "1.7.25"
     )
 
+  lazy val crypto =
+    libraryDependencies ++= Seq(
+      "org.reactormonk" %% "cryptobits" % "1.2"
+    )
+
   lazy val doobie =
     libraryDependencies ++= Seq(
       "org.tpolecat" %% "doobie-core" % doobieVersion,
