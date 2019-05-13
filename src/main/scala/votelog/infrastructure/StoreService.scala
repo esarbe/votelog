@@ -1,7 +1,6 @@
 package votelog
 package infrastructure
 
-import cats.data.{Kleisli, OptionT}
 import cats.effect._
 import io.circe.syntax._
 import org.http4s.EntityEncoder._
@@ -10,8 +9,8 @@ import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authorization.{AuthAlg, Capability, Component, User}
-import votelog.infrastructure.StoreService.StringEncoded
 import votelog.implicits._
+import votelog.infrastructure.StoreService.StringEncoded
 
 object StoreService {
   type StringEncoded[T] = encoding.Encoder[String, T]
@@ -45,7 +44,7 @@ abstract class StoreService[
     }
   }
 
-  val service: AuthedService[User, IO] = AuthedService {
+  def service: AuthedService[User, IO] = AuthedService {
     case GET -> Root / "index" as user =>
       checkAuthorization(user, Capability.Read, component) {
         store.index.flatMap(id => Ok(id.asJson))
@@ -83,7 +82,6 @@ abstract class StoreService[
             case Left(e) => InternalServerError(e.getMessage)
           }
       }
-
 
     case DELETE -> Root / Id(id) as user =>
       checkAuthorization(user, Capability.Delete, component.child(id.toString)) {

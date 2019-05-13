@@ -7,7 +7,7 @@ import doobie.free.connection
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.Meta
-import votelog.domain.authorization.{Capability, User}
+import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.Recipe
 
@@ -16,20 +16,43 @@ class DoobieUserStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends UserStore[F] {
 
-  implicit val metaCapability =
+  implicit val metaCapability: Meta[Capability] =
     Meta[String]
       .imap {
-        case "Read" => Capability.Read
-        case "Create" => Capability.Create
-        case "Update" => Capability.Update
-        case "Delete" => Capability.Delete
-      }(Capability.showComponent.show) //I'm probably abusing 'Show' here.
+        case "Read" => Capability.Read: Capability
+        case "Create" => Capability.Create: Capability
+        case "Update" => Capability.Update: Capability
+        case "Delete" => Capability.Delete: Capability
+      }{
+        case Capability.Read => "Read"
+        case Capability.Create => "Create"
+        case Capability.Update => "Update"
+        case Capability.Delete => "Delete"
+      } //I'm probably abusing 'Show' here.
 
+  implicit val readComponent: Meta[Component] =
+    Meta[String]
+      .imap(Component.apply)(_.name)
 
-  def readQuery(id: User.Id): ConnectionIO[User] =
+  def readQuery(id: User.Id): ConnectionIO[User] = {
+
+    val selectUser =
+      sql"select name, email, hashedPassword from user where id=$id"
+        .query[(String, String, String)]
+        .unique
+
+    val selectPermissions =
+      sql"select capability, component from permission where userid = $id"
+        .query[User.Permission]
+        .accumulate[List]
+
     for {
-      (name, email) <- sql"select name, email from user where id=${id}".query[(String, String)].unique
-    } yield User(name, User.Email(email), Set.empty)
+      (name, email, hashedPassword) <- selectUser
+      permissions <- selectPermissions
+    } yield User(name, User.Email(email), hashedPassword, permissions.toSet)
+
+  }
+
 
   def deleteQuery(id: User.Id): doobie.ConnectionIO[Int] =
     sql"delete from user where id = ${id}"

@@ -2,6 +2,7 @@ package votelog.service
 
 import cats.Monad
 import cats.data.{Kleisli, OptionT}
+import cats.effect.IO
 import cats.implicits._
 import org.http4s.dsl.io._
 import org.http4s.server.AuthMiddleware
@@ -10,15 +11,14 @@ import org.reactormonk.{CryptoBits, PrivateKey}
 import votelog.domain.authorization.User
 import votelog.persistence.UserStore
 
-class AuthenticationService[F[_]: Monad](
-  userStore: UserStore[F]
+class AuthenticationService(
+  userStore: UserStore[IO],
+  crypto: CryptoBits,
 ) {
-  val key = PrivateKey(scala.io.Codec.toUTF8(scala.util.Random.alphanumeric.take(20).mkString("")))
-  val crypto = CryptoBits(key)
 
-  def retrieveUser: Kleisli[F, User.Id, User] = Kleisli(userStore.read)
+  val retrieveUser: Kleisli[IO, User.Id, User] = Kleisli(userStore.read)
 
-  val authUser: Kleisli[F, Request[F], Either[String, User]] = Kleisli({ request =>
+  val authUser: Kleisli[IO, Request[IO], Either[String, User]] = Kleisli({ request =>
     val maybeId: Either[String, User.Id] = for {
       header <- headers.Cookie.from(request.headers).toRight("Cookie parsing error")
       cookie <- header.values.toList.find(_.name == "authcookie").toRight("Couldn't find the authcookie")
@@ -28,7 +28,7 @@ class AuthenticationService[F[_]: Monad](
     maybeId.traverse(retrieveUser.run)
   })
 
-  val onFailure: AuthedService[String, F] =
+  val onFailure: AuthedService[String, IO] =
     Kleisli(req => OptionT.liftF(Forbidden(req.authInfo)))
 
   val middleware = AuthMiddleware(authUser, onFailure)
