@@ -1,9 +1,16 @@
 package votelog.service
 
+import cats.effect.IO
 import votelog.circe.implicits._
-import votelog.domain.authorization.User
+import votelog.domain.authorization.{AuthorizationAlg, Component, User}
 import votelog.encoders.implicits._
-import votelog.infrastructure.StoreService
+import votelog.infrastructure.{StoreAlg, StoreService}
 import votelog.persistence.UserStore
 
-abstract class UserService extends StoreService[User, User.Id, UserStore.Recipe]
+class UserService(
+  val component: Component,
+  val store: UserStore[IO],
+  val authAlg: AuthorizationAlg[IO],
+) extends StoreService[User, User.Id, UserStore.Recipe] {
+
+}

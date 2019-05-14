@@ -1,123 +1,74 @@
 package votelog.app
 
-import cats.Monad
-import cats._
 import cats.effect._
 import cats.implicits._
 import doobie._
 import doobie.h2._
 import doobie.implicits._
-import org.http4s.{BasicCredentials, HttpRoutes}
 import org.http4s.implicits._
-import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware.authentication.BasicAuth
+import org.http4s.server.{AuthMiddleware, Router}
+import org.http4s.{BasicCredentials, HttpRoutes}
 import org.reactormonk.{CryptoBits, PrivateKey}
-import pureconfig.ConfigReader.Result
-import votelog.domain.politics.{Motion, Politician, Votum}
-import votelog.implementation.Log4SLogger
-import votelog.infrastructure.{StoreAlg, VoteAlg}
-import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
-import votelog.persistence.doobie.{DoobieMotionStore, DoobiePoliticianStore, DoobieSchema, DoobieUserStore, DoobieVoteStore}
-import votelog.service.{AuthenticationService, MotionService, PoliticianService, SessionService}
-import pureconfig.generic.auto._
 import pureconfig.generic.auto._
 import pureconfig.module.catseffect._
-import votelog.crypto.PasswordHasherJavaxCrypto
+import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.domain.authorization.Component.Root
-import votelog.domain.authorization.{AuthAlg, Capability, Component, User}
+import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
+import votelog.domain.politics.{Motion, Politician, Votum}
+import votelog.implementation.Log4SLogger
+import votelog.infrastructure.VoteAlg
+import votelog.persistence.doobie._
+import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
+import votelog.service._
 
 object Webserver extends IOApp {
 
-  val log = new Log4SLogger[IO](org.log4s.getLogger)
-  val loadConfiguration: IO[Configuration] = loadConfigF[IO, Configuration]("votelog.webapp")
-
-  val transactor: Resource[IO, H2Transactor[IO]] =
-    for {
-      ce <- ExecutionContexts.fixedThreadPool[IO](32) // our connect EC
-      te <- ExecutionContexts.cachedThreadPool[IO]    // our transaction EC
-      xa <- H2Transactor.newH2Transactor[IO](
-        "jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", // connect URL
-        "sa",                                   // username
-        "",                                     // password
-        ce,                                     // await connection here
-        te                                      // execute JDBC operations here
-      )
-    } yield xa
-
   def run(args: List[String]): IO[ExitCode] =
-    transactor.use { xa: Transactor[IO] =>
+    for {
+      configuration <- loadConfiguration
+      transactor = setupDatabase(configuration.database)
+      _ <- transactor.use(initializeDatabase(new DoobieSchema))
+      runServer <- transactor.use { xa =>
 
-      val schema: DoobieSchema = new DoobieSchema
+        val passwordHasher = new PasswordHasherJavaxCrypto[IO](Salt(configuration.security.passwordSalt))
+        val votelog = buildEnvironment(xa, passwordHasher)
+        val routes = setupHttpRoutes(configuration.security, passwordHasher, votelog)
 
-      val votelog: VoteLog[IO] = new VoteLog[IO] {
-        val politician = new DoobiePoliticianStore[IO](xa)
-        val vote = new DoobieVoteStore[IO](xa)
-        val motion = new DoobieMotionStore[IO](xa)
-      }
-      //val userStore = new DoobieUserStore[IO](xa)
-
-      val auth = new AuthAlg[IO] {
-        override def hasCapability[C](user: User, capability: Capability, component: Component): IO[Boolean] = {
-          IO(user.permissions.filter(_.component.contains(component)).map(_.capability).contains(capability))
-        }
+        setupAdmin(votelog.user).flatMap( _ =>
+          runVotelogWebserver(configuration.http, routes)
+        )
       }
 
-      val pws = new PoliticianService(Root.child("politician"), votelog.politician, votelog.vote, log, auth)
-      val mws = new MotionService(Root.child("motion"), votelog.motion, auth)
-
-      setupEnvironment(xa, schema) *>
-        createTestData(votelog)
-          .attempt
-          .flatMap {
-            case Left(error) =>
-              log.error(error)(s"something went wrong while initialising data: ${error.getMessage}")
-            case Right(_) => log.info("ol korrekt")
-          } *>
-        loadConfiguration.flatMap(config =>
-          startVotlogWebserver(config, pws, mws, xa))
-    }
+    } yield runServer
 
 
-  private def startVotlogWebserver(
-    configuration: Configuration,
-    pws: PoliticianService,
-    mws: MotionService,
-    transactor: Transactor[IO],
+  private def setupAdmin(user: UserStore[IO]) =
+    for {
+      _ <- log.info("setting up initial admin account")
+      id <- user.create(UserStore.Recipe("admin", User.Email("admin@votelog.ch"), "foo"))
+      _ <- user.grantPermission(id, Component.Root, Capability.Create)
+      _ <- user.grantPermission(id, Component.Root, Capability.Read)
+      _ <- user.grantPermission(id, Component.Root, Capability.Update)
+      _ <- user.grantPermission(id, Component.Root, Capability.Delete)
+      _ <- log.info("admin account created")
+      user <- user.findByName("admin")
+      _ <- log.info(s"user: $user")
+     } yield ()
+
+  private def runVotelogWebserver(
+    config: Configuration.Http,
+    routes: HttpRoutes[IO],
   ): IO[ExitCode] = {
 
-    val key = PrivateKey(configuration.security.secret.getBytes)
-    val crypto: CryptoBits = CryptoBits(key)
-    val passwordHasherAlg = new PasswordHasherJavaxCrypto[IO](Salt(configuration.security.salt))
-    val clock = Clock[IO]
-
-    val userStore: UserStore[IO] = new DoobieUserStore(transactor)
-    val auth = new AuthenticationService(userStore, crypto).middleware
-
-    val validateCredentials: BasicCredentials => IO[Option[User]] = {
-      creds =>
-        for {
-          maybeUser <- userStore.findByName(creds.username)
-          hashedPassword <- passwordHasherAlg.hashPassword(creds.password)
-        } yield maybeUser.filter(_.hashedPassword == hashedPassword)
-    }
-
-    val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
-
-    val httpRoutes: HttpRoutes[IO] =
-      Router(
-        "/api/v0/politician" -> auth(pws.service),
-        "/api/v0/motion" -> auth(mws.service),
-        "/api/v0/auth" -> basicAuth(new SessionService(crypto, clock).service)
-      )
-
     val server = for {
-      _ <- log.info(s"attempting to bind to port ${configuration.http.port}")
+      _ <- log.info(s"attempting to bind to port ${config.port}")
       server <-
       BlazeServerBuilder[IO]
-        .bindHttp(configuration.http.port, configuration.http.interface)
-        .withHttpApp(httpRoutes.orNotFound)
+        .bindHttp(config.port, config.interface)
+        .withHttpApp(routes.orNotFound)
         .serve
         .compile
         .drain
@@ -127,18 +78,19 @@ object Webserver extends IOApp {
     server.as(ExitCode.Success)
   }
 
-  private def setupEnvironment(
-    xa: Transactor[IO],
-    pt: DoobieSchema,
+
+  private def initializeDatabase(
+    pt: DoobieSchema)(
+    xa: Transactor[IO]
   ): IO[ExitCode] = {
 
     for {
       _ <- log.info("Deleting and re-creating database")
       _ <- pt.initialize.transact(xa)
       _ <- log.info("Deleting and re-creating database successful")
-
     } yield ExitCode.Success
   }
+
 
   private def createTestData(
     votelog: VoteLog[IO],
@@ -170,20 +122,100 @@ object Webserver extends IOApp {
   }
 
 
+  def buildEnvironment(
+    transactor: Transactor[IO],
+    passwordHasher: PasswordHasherAlg[IO]
+  ): VoteLog[IO] = {
+
+    new VoteLog[IO] {
+      val politician = new DoobiePoliticianStore(transactor)
+      val vote = new DoobieVoteStore(transactor)
+      val motion = new DoobieMotionStore(transactor)
+      val user = new DoobieUserStore(transactor, passwordHasher)
+      val ngo = new DoobieNgoStore(transactor)
+    }
+  }
+
+
+  def setupHttpRoutes(
+    configuration: Configuration.Security,
+    passwordHasher: PasswordHasherAlg[IO],
+    votelog: VoteLog[IO]
+  ): HttpRoutes[IO] = {
+
+    val authorization = new AuthorizationAlg[IO] {
+      override def hasCapability[C](user: User, capability: Capability, component: Component): IO[Boolean] = {
+        IO(user.permissions.filter(_.component.contains(component)).map(_.capability).contains(capability))
+      }
+    }
+
+    val pws = new PoliticianService(Root.child("politician"), votelog.politician, votelog.vote, log, authorization)
+    val mws = new MotionService(Root.child("motion"), votelog.motion, authorization)
+    val uws = new UserService(Root.child("user"), votelog.user, authorization)
+
+    val key = PrivateKey(configuration.secret.getBytes)
+    val crypto: CryptoBits = CryptoBits(key)
+
+    val clock = Clock[IO]
+
+    val auth = new AuthenticationService(votelog.user, crypto).middleware
+
+    val validateCredentials: BasicCredentials => IO[Option[User]] = {
+      creds =>
+        for {
+          maybeUser <- votelog.user.findByName(creds.username)
+          hashedPassword <- passwordHasher.hashPassword(creds.password)
+        } yield maybeUser.filter(_.hashedPassword == hashedPassword)
+    }
+
+    val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
+    val session = new SessionService(crypto, clock)
+
+    Router(
+      "/api/v0/politician" -> auth(pws.service),
+      "/api/v0/motion" -> auth(mws.service),
+      "/api/v0/auth" -> basicAuth(session.service),
+      "/api/v0/user" -> auth(uws.service),
+    )
+
+  }
+
+  def setupDatabase(config: Configuration.Database): Resource[IO, Transactor[IO]] = {
+    for {
+      ce <- ExecutionContexts.fixedThreadPool[IO](32) // our connect EC
+      te <- ExecutionContexts.cachedThreadPool[IO]    // our transaction EC
+      xa <- H2Transactor.newH2Transactor[IO](
+        url = config.url,
+        user = config.user,
+        pass = config.password,
+        connectEC = ce, // await connection here
+        transactEC = te, // execute JDBC operations here
+      )
+    } yield xa: Transactor[IO]
+  }
+
+
+  val log = new Log4SLogger[IO](org.log4s.getLogger)
+
+  val loadConfiguration: IO[Configuration] = loadConfigF[IO, Configuration]("votelog.webapp")
+
   trait VoteLog[F[_]] {
     val vote: VoteAlg[F]
     val politician: PoliticianStore[F]
     val motion: MotionStore[F]
+    val user: UserStore[F]
   }
 
 
   case class Configuration(
     http: Configuration.Http,
-    security: Configuration.Security
+    security: Configuration.Security,
+    database: Configuration.Database
   )
 
   object Configuration {
     case class Http(port: Int, interface: String)
-    case class Security(salt: String, secret: String)
+    case class Security(passwordSalt: String, secret: String)
+    case class Database(url: String, user: String, password: String)
   }
 }

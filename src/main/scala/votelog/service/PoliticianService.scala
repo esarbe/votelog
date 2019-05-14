@@ -8,7 +8,7 @@ import org.http4s.{AuthedService, HttpRoutes}
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.circe.implicits._
-import votelog.domain.authorization.{AuthAlg, Component, User}
+import votelog.domain.authorization.{AuthorizationAlg, Component, User}
 import votelog.domain.politics.{Motion, Politician, Votum}
 import votelog.implicits._
 import votelog.infrastructure.logging.Logger
@@ -20,7 +20,7 @@ class PoliticianService(
   val store: StoreAlg[IO, Politician, Politician.Id, PoliticianStore.Recipe],
   val voteAlg: VoteAlg[IO],
   val log: Logger[IO],
-  val authAlg: AuthAlg[IO],
+  val authAlg: AuthorizationAlg[IO],
 ) extends StoreService[Politician, Politician.Id, PoliticianStore.Recipe] {
 
   implicit val motionIdCirceKeyEncoder = KeyEncoder.instance[Motion.Id](_.value.toString)

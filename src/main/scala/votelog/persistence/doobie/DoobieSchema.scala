@@ -75,7 +75,8 @@ class DoobieSchema extends Schema[ConnectionIO] {
       sql"""
         create table user (
           id serial primary key,
-          name varchar not null,
+          name varchar not null unique,
+          email varchar not null unique,
           hashedPassword varchar not null
         )
       """.update.run

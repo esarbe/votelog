@@ -8,7 +8,7 @@ import org.http4s._
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.domain.authorization.{AuthAlg, Capability, Component, User}
+import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
 import votelog.implicits._
 import votelog.infrastructure.StoreService.StringEncoded
 
@@ -22,7 +22,7 @@ abstract class StoreService[
   Recipe: io.circe.Decoder
 ]
 {
-  val authAlg: AuthAlg[IO]
+  val authAlg: AuthorizationAlg[IO]
   val store: StoreAlg[IO, T, Identity, Recipe]
   val component: Component
 

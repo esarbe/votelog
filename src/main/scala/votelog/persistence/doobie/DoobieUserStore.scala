@@ -1,19 +1,19 @@
 package votelog.persistence.doobie
 
 import cats._
-import cats.free.Free
 import cats.implicits._
-import doobie.free.connection
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.Meta
+import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.Recipe
 
 
 class DoobieUserStore[F[_]: Monad](
-  transactor: doobie.util.transactor.Transactor[F]
+  transactor: doobie.util.transactor.Transactor[F],
+  passwordHasher: PasswordHasherAlg[F],
 ) extends UserStore[F] {
 
   implicit val metaCapability: Meta[Capability] =
@@ -28,14 +28,14 @@ class DoobieUserStore[F[_]: Monad](
         case Capability.Create => "Create"
         case Capability.Update => "Update"
         case Capability.Delete => "Delete"
-      } //I'm probably abusing 'Show' here.
+      }
 
   implicit val readComponent: Meta[Component] =
     Meta[String]
       .imap(Component.apply)(_.name)
 
-  def readQuery(id: User.Id): ConnectionIO[User] = {
 
+  def readQuery(id: User.Id): ConnectionIO[User] = {
     val selectUser =
       sql"select name, email, hashedPassword from user where id=$id"
         .query[(String, String, String)]
@@ -50,7 +50,6 @@ class DoobieUserStore[F[_]: Monad](
       (name, email, hashedPassword) <- selectUser
       permissions <- selectPermissions
     } yield User(name, User.Email(email), hashedPassword, permissions.toSet)
-
   }
 
 
@@ -62,7 +61,10 @@ class DoobieUserStore[F[_]: Monad](
     sql"update user set name = ${recipe.name} where id = $id"
 
   def insertQuery(recipe: Recipe): doobie.ConnectionIO[User.Id] =
-    sql"insert into user (name) values (${recipe.name})"
+    sql"""
+        insert into user (name, email, hashedPassword)
+          values (${recipe.name}, ${recipe.email}, ${recipe.password})
+    """
       .update
       .withUniqueGeneratedKeys[User.Id]("id")
 
@@ -75,7 +77,11 @@ class DoobieUserStore[F[_]: Monad](
     sql"select id from user".query[User.Id].accumulate[List]
 
   override def create(recipe: Recipe): F[User.Id] =
-    insertQuery(recipe).transact(transactor)
+    for {
+      hashedPassword <- passwordHasher.hashPassword(recipe.password)
+      updatedRecipe = recipe.copy(password = hashedPassword) // this could be typesafe
+      id <- insertQuery(updatedRecipe).transact(transactor)
+     } yield id
 
   override def delete(id: User.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
@@ -98,5 +104,23 @@ class DoobieUserStore[F[_]: Monad](
     findIdByNameQuery(name)
       .flatMap(_.map(readQuery).sequence)
       .transact(transactor)
+
+  override def grantPermission(
+    userId: User.Id,
+    component: Component,
+    capability: Capability
+  ): F[Unit] = {
+    sql"insert into permission (userid, component, capability) values ($userId, $component, $capability)"
+      .update.run.transact(transactor).map(_ => ())
+  }
+
+  override def revokePermission(
+    userId: User.Id,
+    component: Component,
+    capability: Capability
+  ): F[Unit] = {
+    sql"delete from permission where userid = $userId and component = $component and capability = $capability"
+      .update.run.transact(transactor).map(_ => ())
+  }
 }
 
