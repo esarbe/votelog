@@ -1,18 +1,16 @@
 package votelog.app
 
-import cats.Monad
-import cats.effect.{Async, ContextShift, ExitCode, IO, Resource, Sync}
-import doobie.implicits._
-import cats.implicits._
+import cats.effect._
 import doobie._
 import doobie.h2.H2Transactor
-import votelog.app.Webserver.{Configuration, log}
-import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
+import doobie.implicits._
+import votelog.app.Webserver.log
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
-import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
+import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
+import votelog.domain.authorization.AuthorizationAlg
 import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.VoteAlg
-import votelog.persistence.doobie.{DoobieMotionStore, DoobieNgoStore, DoobiePoliticianStore, DoobieSchema, DoobieUserStore, DoobieVoteStore}
+import votelog.persistence.doobie._
 import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
 
 trait VoteLog[F[_]] {
@@ -29,7 +27,7 @@ object VoteLog {
   def apply[F[_]: Async: ContextShift](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
-    setupDatabase(configuration.database).map {
+    setupDatabase[F](configuration.database).map {
       transactor =>
         new VoteLog[F] {
           val politician = new DoobiePoliticianStore(transactor)
@@ -72,6 +70,4 @@ object VoteLog {
       _ <- log.info("Deleting and re-creating database successful")
     } yield ExitCode.Success
   }
-
-
 }

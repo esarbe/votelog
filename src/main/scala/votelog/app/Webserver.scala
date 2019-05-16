@@ -8,6 +8,7 @@ import org.http4s.server.middleware.authentication.BasicAuth
 import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.{BasicCredentials, HttpRoutes}
 import org.reactormonk.{CryptoBits, PrivateKey}
+import pureconfig.generic.auto._
 import pureconfig.module.catseffect._
 import votelog.domain.authorization.Component.Root
 import votelog.domain.authorization.{Capability, Component, User}
@@ -52,28 +53,20 @@ object Webserver extends IOApp {
   private def runVotelogWebserver(
     config: Configuration.Http,
     routes: HttpRoutes[IO],
-  ): IO[ExitCode] = {
-
-    val server = for {
-      _ <- log.info(s"attempting to bind to port ${config.port}")
-      server <-
+  ): IO[ExitCode] =
+    log.info(s"attempting to bind to port ${config.port}") *>
       BlazeServerBuilder[IO]
         .bindHttp(config.port, config.interface)
         .withHttpApp(routes.orNotFound)
         .serve
         .compile
         .drain
-
-    } yield server
-
-    server.as(ExitCode.Success)
-  }
+        .as(ExitCode.Success)
 
 
   private def createTestData(
     services: VoteLog[IO],
-  ): IO[ExitCode] = {
-
+  ): IO[ExitCode] =
     for {
       fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
       barId <- services.politician.create(PoliticianStore.Recipe("bar"))
@@ -97,7 +90,6 @@ object Webserver extends IOApp {
       _ <- motions.map(m => log.info(s"found motion: $m")).sequence
       _ <- services.vote.voteFor(Politician.Id(1), Motion.Id(1), Votum.Yes)
     } yield ExitCode.Success
-  }
 
 
   def setupHttpRoutes(
@@ -119,9 +111,7 @@ object Webserver extends IOApp {
 
     val key = PrivateKey(configuration.secret.getBytes)
     val crypto: CryptoBits = CryptoBits(key)
-
     val clock = Clock[IO]
-
     val auth = new AuthenticationService(votelog.user, crypto).middleware
 
     val validateCredentials: BasicCredentials => IO[Option[User]] = {

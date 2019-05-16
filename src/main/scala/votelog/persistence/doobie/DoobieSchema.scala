@@ -1,7 +1,5 @@
 package votelog.persistence.doobie
 
-
-import cats._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
@@ -44,7 +42,6 @@ class DoobieSchema extends Schema[ConnectionIO] {
           foreign key (motionid) references motion (id),
           primary key (politicianid, motionid)
         )""".update.run
-
 
     val createNgoTable =
       sql"""
