@@ -30,7 +30,6 @@ object VoteLog {
   def apply[F[_]: Async: ContextShift: Logger](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
-
     connectToDatabase[F](configuration.database)
       .evalMap { transactor =>
         initializeDatabase(new DoobieSchema(transactor)) *>
@@ -71,12 +70,10 @@ object VoteLog {
   }
 
 
-  private def initializeDatabase[F[_]: ContextShift: Async: Logger](pt: Schema[F]): F[Unit] = {
-
+  private def initializeDatabase[F[_]: ContextShift: Async: Logger](pt: Schema[F]): F[Unit] =
     for {
       _ <- Logger[F].info("Deleting and re-creating database")
       _ <- pt.initialize
       _ <- Logger[F].info("Deleting and re-creating database successful")
     } yield ()
-  }
 }

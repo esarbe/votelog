@@ -30,7 +30,6 @@ object Webserver extends IOApp {
         voteLog.use { voteLog =>
           val routes = setupHttpRoutes(configuration.security, voteLog)
 
-
           setupAdmin(voteLog.user) *>
             runVotelogWebserver(configuration.http, routes)
         }
@@ -57,7 +56,7 @@ object Webserver extends IOApp {
   ): IO[ExitCode] =
     log.info(s"attempting to bind to port ${config.port}") *>
       BlazeServerBuilder[IO]
-        .bindHttp(config.port, config.interface)
+        .bindHttp(config.port)
         .withHttpApp(routes.orNotFound)
         .serve
         .compile
