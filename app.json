@@ -1,0 +1,27 @@
+{
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/scala"
+    }
+  ],
+  "env": {
+    "SECURITY_PASSWORD_SALT": {
+      "required": true
+    },
+    "SECURITY_SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "votelog",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
