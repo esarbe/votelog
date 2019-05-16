@@ -56,7 +56,7 @@ object Webserver extends IOApp {
   ): IO[ExitCode] =
     log.info(s"attempting to bind to port ${config.port}") *>
       BlazeServerBuilder[IO]
-        .bindHttp(config.port)
+        .bindHttp(config.port, config.interface)
         .withHttpApp(routes.orNotFound)
         .serve
         .compile
