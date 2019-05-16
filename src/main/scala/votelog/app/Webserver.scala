@@ -19,7 +19,7 @@ import votelog.service._
 
 object Webserver extends IOApp {
 
-  val log = new Log4SLogger[IO](org.log4s.getLogger)
+  implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
   val loadConfiguration: IO[Configuration] = loadConfigF[IO, Configuration]("votelog.webapp")
 
   def run(args: List[String]): IO[ExitCode] =
@@ -29,6 +29,7 @@ object Webserver extends IOApp {
       runServer <-
         voteLog.use { voteLog =>
           val routes = setupHttpRoutes(configuration.security, voteLog)
+
 
           setupAdmin(voteLog.user) *>
             runVotelogWebserver(configuration.http, routes)

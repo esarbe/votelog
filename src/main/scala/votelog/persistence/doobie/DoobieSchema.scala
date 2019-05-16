@@ -1,12 +1,14 @@
 package votelog.persistence.doobie
 
+import cats.Monad
 import cats.implicits._
 import doobie._
 import doobie.implicits._
 import votelog.persistence.Schema
 
-class DoobieSchema extends Schema[ConnectionIO] {
-  override def initialize: ConnectionIO[Unit] = {
+class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
+
+  override def initialize: F[Unit] = {
     val drop =
       sql"""
         drop table if exists politician;
@@ -100,6 +102,8 @@ class DoobieSchema extends Schema[ConnectionIO] {
         createUserTable *>
         createPermissionTable
 
-    script.map(_ => Unit)
+    script
+      .map(_ => ())
+      .transact(transactor)
   }
 }

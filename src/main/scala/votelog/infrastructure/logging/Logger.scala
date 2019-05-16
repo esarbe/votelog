@@ -8,3 +8,7 @@ trait Logger[F[_]] {
   def debug(t: Throwable)(message: String): F[Unit]
   def debug(message: String): F[Unit]
 }
+
+object Logger {
+  def apply[F[_]](implicit instance: Logger[F]): Logger[F] = instance
+}

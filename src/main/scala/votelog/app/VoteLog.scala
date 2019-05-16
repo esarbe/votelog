@@ -1,17 +1,20 @@
 package votelog.app
 
+import cats._
 import cats.effect._
+import cats.effect.implicits._
+import cats.implicits._
 import doobie._
 import doobie.h2.H2Transactor
 import doobie.implicits._
-import votelog.app.Webserver.log
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
 import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.VoteAlg
+import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
-import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
+import votelog.persistence.{MotionStore, PoliticianStore, Schema, UserStore}
 
 trait VoteLog[F[_]] {
   val vote: VoteAlg[F]
@@ -24,25 +27,34 @@ trait VoteLog[F[_]] {
 
 object VoteLog {
 
-  def apply[F[_]: Async: ContextShift](configuration: Configuration): Resource[F, VoteLog[F]] = {
+  def apply[F[_]: Async: ContextShift: Logger](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
-    setupDatabase[F](configuration.database).map {
-      transactor =>
-        new VoteLog[F] {
-          val politician = new DoobiePoliticianStore(transactor)
-          val vote = new DoobieVoteStore(transactor)
-          val motion = new DoobieMotionStore(transactor)
-          val user = new DoobieUserStore(transactor, hasher)
-          val ngo = new DoobieNgoStore(transactor)
-          val authorization = new UserCapabilityAuthorization
-          val passwordHasher = hasher
-        }
-    }
+
+    connectToDatabase[F](configuration.database)
+      .evalMap { transactor =>
+        initializeDatabase(new DoobieSchema(transactor)) *>
+          Async[F].delay(transactor)
+      }
+      .map(buildAppAlg(hasher))
   }
 
+  def buildAppAlg[F[_]: Monad](
+    hasher: PasswordHasherAlg[F])(
+    transactor: Transactor[F]
+  ): VoteLog[F] =
+    new VoteLog[F] {
+      val politician = new DoobiePoliticianStore(transactor)
+      val vote = new DoobieVoteStore(transactor)
+      val motion = new DoobieMotionStore(transactor)
+      val user = new DoobieUserStore(transactor, hasher)
+      val ngo = new DoobieNgoStore(transactor)
+      val authorization = new UserCapabilityAuthorization
+      val passwordHasher = hasher
+    }
 
-  def setupDatabase[F[_]: Async: ContextShift](
+
+  def connectToDatabase[F[_]: Async: ContextShift](
     config: Configuration.Database
   ): Resource[F, Transactor[F]] = {
     for {
@@ -59,15 +71,12 @@ object VoteLog {
   }
 
 
-  private def initializeDatabase(
-    pt: DoobieSchema)(
-    xa: Transactor[IO]
-  ): IO[ExitCode] = {
+  private def initializeDatabase[F[_]: ContextShift: Async: Logger](pt: Schema[F]): F[Unit] = {
 
     for {
-      _ <- log.info("Deleting and re-creating database")
-      _ <- pt.initialize.transact(xa)
-      _ <- log.info("Deleting and re-creating database successful")
-    } yield ExitCode.Success
+      _ <- Logger[F].info("Deleting and re-creating database")
+      _ <- pt.initialize
+      _ <- Logger[F].info("Deleting and re-creating database successful")
+    } yield ()
   }
 }
