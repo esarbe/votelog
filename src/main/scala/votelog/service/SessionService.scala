@@ -1,18 +1,12 @@
 package votelog.service
 
-import cats._
-import cats.implicits._
+import cats.effect.{Clock, IO}
+import org.http4s.dsl.io._
+import org.http4s.{AuthedService, ResponseCookie}
+import org.reactormonk.CryptoBits
+import votelog.domain.authorization.User
 
 import scala.concurrent.duration.MILLISECONDS
-import cats.effect.{Clock, IO, Sync}
-import org.http4s.{AuthedService, BasicCredentials, HttpRoutes, HttpService, ResponseCookie}
-import org.http4s.dsl.io._
-import org.http4s.server.AuthMiddleware
-import org.http4s.server.middleware.authentication.BasicAuth
-import org.reactormonk.CryptoBits
-import votelog.crypto.PasswordHasherAlg
-import votelog.domain.authorization.{Capability, User}
-import votelog.persistence.UserStore
 
 class SessionService(
   crypto: CryptoBits,

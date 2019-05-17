@@ -16,16 +16,18 @@ class AuthenticationService(
   crypto: CryptoBits,
 ) {
 
-  val retrieveUser: Kleisli[IO, User.Id, User] = Kleisli(userStore.read)
+  val retrieveUser: Kleisli[IO, String, Either[String, User]] =
+    Kleisli(userStore.findByName(_).map(_.toRight("unknown username")))
 
   val authUser: Kleisli[IO, Request[IO], Either[String, User]] = Kleisli({ request =>
-    val maybeId: Either[String, User.Id] = for {
+    val maybeUsername: Either[String, String] = for {
       header <- headers.Cookie.from(request.headers).toRight("Cookie parsing error")
       cookie <- header.values.toList.find(_.name == "authcookie").toRight("Couldn't find the authcookie")
       token <- crypto.validateSignedToken(cookie.content).toRight("Cookie invalid")
-      message <- Either.catchOnly[NumberFormatException](User.Id(token.toLong)).leftMap(_.toString)
-    } yield message
-    maybeId.traverse(retrieveUser.run)
+      username <- Either.catchOnly[NumberFormatException](token).leftMap(_.toString)
+    } yield username
+
+     maybeUsername.traverse(retrieveUser.run).map(_.flatten)
   })
 
   val onFailure: AuthedService[String, IO] =
