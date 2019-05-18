@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from odata.odata import create_parser
-from curia_vista_import import fetch_all
+from sync import fetch_all
 from odata.test.test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
 
 
