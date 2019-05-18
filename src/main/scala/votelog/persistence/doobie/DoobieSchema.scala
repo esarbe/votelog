@@ -86,7 +86,7 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
           userid serial not null,
           capability varchar not null,
           component varchar not null,
-          foreign key (userid) references user (id),
+          foreign key (userid) references user (id) on delete cascade,
           primary key (userid, capability, component)
         )
       """.update.run
