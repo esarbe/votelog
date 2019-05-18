@@ -1,6 +1,5 @@
 package votelog.domain.authorization
 
-import cats.Show
 import votelog.domain.authorization.Component.Separator
 
 /**
