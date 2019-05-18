@@ -16,6 +16,7 @@ class ComponentSpec extends WordSpec with Matchers {
       Component("a.b").contains(Component("a.b.c.d")) shouldBe true
       Component(".").contains(Component(".a")) shouldBe true
       Component(".").contains(Component(".foo.bar")) shouldBe true
+      Component("").contains(Component(".foo.bar")) shouldBe true
     }
 
     "name" in {
