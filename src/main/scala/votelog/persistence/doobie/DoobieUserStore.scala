@@ -1,7 +1,9 @@
 package votelog.persistence.doobie
 
 import cats._
+import cats.free.Free
 import cats.implicits._
+import doobie.free.connection
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.Meta
@@ -76,12 +78,24 @@ class DoobieUserStore[F[_]: Monad](
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
     sql"select id from user".query[User.Id].accumulate[List]
 
-  override def create(recipe: Recipe): F[User.Id] =
-    for {
-      hashedPassword <- passwordHasher.hashPassword(recipe.password)
-      updatedRecipe = recipe.copy(password = hashedPassword) // this could be typesafe
-      id <- insertQuery(updatedRecipe).transact(transactor)
-     } yield id
+  override def create(recipe: Recipe): F[User.Id] = {
+
+    val createUser =
+      for {
+        hashedPassword <- passwordHasher.hashPassword(recipe.password)
+        updatedRecipe = recipe.copy(password = hashedPassword) // this could be typesafe
+        id <- insertQuery(updatedRecipe).transact(transactor)
+      } yield id
+
+
+    val readOrCreate = // there must be a better way ...
+      findIdByNameQuery(recipe.name)
+        .map { maybeUser =>
+           maybeUser.map(userid => Monad[F].pure(userid)).getOrElse(createUser)
+        }
+
+    readOrCreate.transact(transactor).flatten
+  }
 
   override def delete(id: User.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
