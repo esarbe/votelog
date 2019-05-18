@@ -16,7 +16,7 @@ trait ModelEncoders {
   implicit val capabilityEncode: circe.Encoder[Capability] =
     Encoder.encodeString.contramap(Capability.showComponent.show)
 
-  implicit val componentCirceEncoder: circe.Encoder[Component] = Encoder.encodeString.contramap(_.name)
+  implicit val componentCirceEncoder: circe.Encoder[Component] = Encoder.encodeString.contramap(_.location)
 
   implicit val permissionEncoder: circe.Encoder[User.Permission] = deriveEncoder[User.Permission]
   implicit val userEmailCirceEncoder: circe.Encoder[User.Email] = deriveEncoder[User.Email]

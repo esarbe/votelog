@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, WordSpec}
 
 class ComponentSpec extends WordSpec with Matchers {
 
-  "ComponentSpec" should {
+  "Component" should {
 
     "contains" in {
       Component("a.b.c.").contains(Component("c")) shouldBe false
@@ -18,5 +18,12 @@ class ComponentSpec extends WordSpec with Matchers {
       Component(".").contains(Component(".foo.bar")) shouldBe true
     }
 
+    "name" in {
+      Component("a.b.c").name shouldBe "c"
+      Component("").name shouldBe ""
+      Component(".").name shouldBe ""
+    }
   }
+
+
 }

@@ -32,7 +32,7 @@ class DoobieUserStore[F[_]: Monad](
 
   implicit val readComponent: Meta[Component] =
     Meta[String]
-      .imap(Component.apply)(_.name)
+      .imap(Component.apply)(_.location)
 
 
   def readQuery(id: User.Id): ConnectionIO[User] = {

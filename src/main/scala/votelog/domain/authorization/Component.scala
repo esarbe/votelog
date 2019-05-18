@@ -15,18 +15,20 @@ import votelog.domain.authorization.Component.Separator
   *
   * elements are separated by dots (.).
   */
-case class Component(name: String) extends AnyVal {
+case class Component(location: String) extends AnyVal {
   def contains(other: Component): Boolean = {
     val top =
-      name.split(Separator)
-        .zip(other.name.split(Separator))
+      location.split(Separator)
+        .zip(other.location.split(Separator))
 
     val compared = top.map { case (a, b) => a == b }
 
-    name.length < other.name.length &&
+    location.length < other.location.length &&
       compared.forall(identity)
   }
-  def child(child: String): Component = Component(s"$name$Separator$child")
+
+  def child(child: String): Component = Component(s"$location$Separator$child")
+  def name: String = location.split(Separator).lastOption.getOrElse(s"")
 }
 
 object Component {
