@@ -24,7 +24,7 @@ EDM_TO_SQL_SIMPLE = {
     'Edm.Int64': 'bigint',
     'Edm.DateTime': 'timestamp',
     'Edm.Guid': 'uuid',
-    'Edm.DateTimeOffset': 'interval',
+    'Edm.DateTimeOffset': 'timestamp',
 }
 
 SQL_KEYWORDS = {

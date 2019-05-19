@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import datetime
+from collections import OrderedDict
 
 import psycopg2 as psycopg2
 import requests
@@ -12,25 +13,6 @@ from odata.topology import get_topology
 URL = 'https://ws.parlament.ch/odata.svc'
 
 EPOCH = datetime.datetime.utcfromtimestamp(0)
-
-FIXUP = {
-    'MemberCouncil': [
-        {'ID': 830, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 831, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 832, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 833, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 1309, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 3990, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 3991, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4010, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4043, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4127, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4133, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4211, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4231, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-        {'ID': 4232, 'Language': 'DE', 'PersonNumber': 1, 'GenderAsString': 'm'},
-    ],
-}
 
 LANGUAGES = ['DE', 'EN', 'FR', 'IT', 'RM']
 
@@ -56,7 +38,7 @@ def _result_to_sql_statement_header(entity_type):
     yield "INSERT INTO {} ({}) VALUES".format(entity_type.table_name, ", ".join(column_names))
 
 
-def _results_to_sql_value_statements(entity_type, result, last, accept_degenerated=False):
+def _results_to_sql_dict(entity_type, result, accept_degenerated=False):
     values = []
     for p in entity_type.properties:
         if accept_degenerated:
@@ -67,14 +49,7 @@ def _results_to_sql_value_statements(entity_type, result, last, accept_degenerat
         if isinstance(value, str) and value.startswith('/Date('):
             value = _parse_date(value)
         values.append(value)
-
-    sql_values = []
-    for v in values:
-        if v is None:
-            sql_values.append('NULL')
-        else:
-            sql_values.append("E'" + str(v).replace("'", "\\'") + "'")
-    yield " ({}){}".format(", ".join(sql_values), ';' if last else ',')
+    return values
 
 
 def _fetch(url):
@@ -121,7 +96,7 @@ def create_skip_url(entity_type, done, batch_size, languages=None):
     return '{}&$skip={}&$top={}'.format(create_language_filter_url(entity_type, languages), done, batch_size)
 
 
-def fetch_all(entity_type, fetcher, languages=None):
+def fetch_entity_type(entity_type, fetcher, languages=None):
     """
     Generator for JSON objects
 
@@ -143,24 +118,24 @@ def fetch_all(entity_type, fetcher, languages=None):
         results, total, next_url = _split_response(fetcher(url))
 
         if total == 0:
-            logger.warning("Entity type {} has zero values".format(entity_type.name))
+            logger.error("Entity type {} has zero values".format(entity_type.name))
             return
 
-        # As of 2019-05-02, some entities in MemberCouncil get referred to, but do not exist.
-        # Workaround: Adding dummy entries
-        if done == 0 and entity_type.name in FIXUP:
-            yield from _result_to_sql_statement_header(entity_type)
-            for fixup in FIXUP[entity_type.name]:
-                yield from _results_to_sql_value_statements(entity_type, fixup, fixup == FIXUP[entity_type.name][-1],
-                                                            True)
+        if len(results) == 0:
+            """
+            As of 2019-05-21, for the entity types BusinessResponsibility and XXX, the server does not return any
+            results.
+            """
+            logger.error("Server did not return any entities for entity type {}. Did {}/{} before this.".format(
+                entity_type.name, done, total))
+            return
 
-        # Yield insert-into statement for first fetched slice only
-        if done == 0:
-            yield from _result_to_sql_statement_header(entity_type)
-
+        header = [_to_snake_case(p.name) for p in entity_type.properties]
+        values = []
         for result in results:
-            done += 1
-            yield from _results_to_sql_value_statements(entity_type, result, done == total)
+            values.append(_results_to_sql_dict(entity_type, result))
+        done += len(results)
+        yield (header, values)
         logger.info("Progress for {}: {}/{}".format(entity_type.name, done, total))
 
 
@@ -197,10 +172,6 @@ def main():
 
     requests_cache.install_cache('curia_vista_import')
 
-    # # Requesting certain entity types causes a server side error
-    # entity_types_to_import -= {parser.get_entity_type_by_name('PersonCommunication'),
-    #                            parser.get_entity_type_by_name('BusinessResponsibility')}
-
     ranks = get_topology(parser, entity_types_to_import)
     rank_number = 1
     for rank in ranks:
@@ -208,8 +179,7 @@ def main():
             "Rank {}/{}: {}".format(rank_number, len(ranks), ", ".join(str(p) for p in rank)))
         rank_number += 1
 
-    conn = psycopg2.connect("host=localhost dbname=postgres user=postgres password=docker")
-    cur = conn.cursor()
+    connection = psycopg2.connect("host=localhost dbname=postgres user=postgres password=docker")
 
     rank_number = 1
     for rank in ranks:
@@ -221,9 +191,38 @@ def main():
             if entity_type in entity_types_to_skip:
                 logger.warning("Skipping entity type {}".format(entity_type.name))
                 continue
-            for line in fetch_all(entity_type, _fetch, args.languages):
-                cur.execute(line)
-                print(line)
+            for r in fetch_entity_type(entity_type, _fetch, args.languages):
+                (columns, rows) = r
+                statement = 'INSERT INTO {} ({}) VALUES ({}) on CONFLICT (id, language) DO NOTHING'.format(
+                    entity_type.table_name,
+                    ', '.join(columns),
+                    ', '.join(['%s'] * len(columns)))
+                with connection.cursor() as cur:
+                    def do_many(rows):
+                        try:
+                            cur.executemany(statement, rows)
+                            connection.commit()
+                            return
+                        except psycopg2.errors.ForeignKeyViolation as e:
+                            connection.rollback()
+                            if len(rows) == 1:
+                                logger.error(e)
+                                return
+                        except psycopg2.errors.IntervalFieldOverflow as e:
+                            connection.rollback()
+                            if len(rows) == 1:
+                                logger.error(e)
+                                return
+                        except psycopg2.errors.InvalidDatetimeFormat as e:
+                            connection.rollback()
+                            if len(rows) == 1:
+                                logger.error(e)
+                                return
+
+                        do_many(rows[len(rows) // 2:])
+                        do_many(rows[:len(rows) // 2])
+
+                    do_many(rows)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))
         rank_number += 1

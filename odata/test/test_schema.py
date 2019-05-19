@@ -102,7 +102,7 @@ class TestSchemaToSQL(TestCase):
             "  boolean boolean,\n"
             "  int16 smallint,\n"
             "  int64 bigint,\n"
-            "  interval interval,\n"
+            "  interval timestamp,\n"
             "  PRIMARY KEY (id)\n"
             ");",
             to_schema(xml))
