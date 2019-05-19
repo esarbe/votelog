@@ -50,14 +50,14 @@ def _parse_date(datestring):
     return dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def _result_to_sql_statement_header(entity):
-    column_names = [_to_snake_case(p.name) for p in entity.properties]
-    yield "INSERT INTO {} ({}) VALUES".format(entity.table_name, ", ".join(column_names))
+def _result_to_sql_statement_header(entity_type):
+    column_names = [_to_snake_case(p.name) for p in entity_type.properties]
+    yield "INSERT INTO {} ({}) VALUES".format(entity_type.table_name, ", ".join(column_names))
 
 
-def _results_to_sql_value_statements(entity, result, last, accept_degenerated=False):
+def _results_to_sql_value_statements(entity_type, result, last, accept_degenerated=False):
     values = []
-    for p in entity.properties:
+    for p in entity_type.properties:
         if accept_degenerated:
             value = result[p.name] if p.name in result else None
         else:
@@ -104,28 +104,28 @@ def _split_response(json):
     )
 
 
-def create_entity_type_url(entity):
-    return '{}/{}?$inlinecount=allpages'.format(URL, entity.name)
+def create_entity_type_url(entity_type):
+    return '{}/{}?$inlinecount=allpages'.format(URL, entity_type.name)
 
 
-def create_language_filter_url(entity, languages=None):
-    # Note: Every single Entity in the Curia Vista schema has a Language property
+def create_language_filter_url(entity_type, languages=None):
+    # Note: Every single entity type in the Curia Vista schema has a Language property
     if languages:
-        return '{}&$filter={}'.format(create_entity_type_url(entity),
+        return '{}&$filter={}'.format(create_entity_type_url(entity_type),
                                       ' or '.join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages]))
-    return create_entity_type_url(entity)
+    return create_entity_type_url(entity_type)
 
 
-def create_skip_url(entity, done, batch_size, languages=None):
-    return '{}&$skip={}&$top={}'.format(create_language_filter_url(entity, languages), done, batch_size)
+def create_skip_url(entity_type, done, batch_size, languages=None):
+    return '{}&$skip={}&$top={}'.format(create_language_filter_url(entity_type, languages), done, batch_size)
 
 
-def fetch_all(entity, fetcher, languages=None):
+def fetch_all(entity_type, fetcher, languages=None):
     """
     Generator for JSON objects
 
     :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
-    :param entity: An OData entity object
+    :param entity_type: An OData entity type object
     :param languages: List of languages to fetch, None to fetch all
     :return: Generator object yielding SQL lines
     """
@@ -133,7 +133,7 @@ def fetch_all(entity, fetcher, languages=None):
     done = 0
     while done == 0 or done != total:
         if done == 0:
-            url = create_language_filter_url(entity, languages)
+            url = create_language_filter_url(entity_type, languages)
         elif next_url:
             url = next_url
         else:
@@ -142,24 +142,25 @@ def fetch_all(entity, fetcher, languages=None):
         results, total, next_url = _split_response(fetcher(url))
 
         if total == 0:
-            logger.warning("Entity {} has zero values".format(entity.name))
+            logger.warning("Entity type {} has zero values".format(entity_type.name))
             return
 
         # As of 2019-05-02, some entities in MemberCouncil get referred to, but do not exist.
         # Workaround: Adding dummy entries
-        if done == 0 and entity.name in FIXUP:
-            yield from _result_to_sql_statement_header(entity)
-            for fixup in FIXUP[entity.name]:
-                yield from _results_to_sql_value_statements(entity, fixup, fixup == FIXUP[entity.name][-1], True)
+        if done == 0 and entity_type.name in FIXUP:
+            yield from _result_to_sql_statement_header(entity_type)
+            for fixup in FIXUP[entity_type.name]:
+                yield from _results_to_sql_value_statements(entity_type, fixup, fixup == FIXUP[entity_type.name][-1],
+                                                            True)
 
         # Yield insert-into statement for first fetched slice only
         if done == 0:
-            yield from _result_to_sql_statement_header(entity)
+            yield from _result_to_sql_statement_header(entity_type)
 
         for result in results:
             done += 1
-            yield from _results_to_sql_value_statements(entity, result, done == total)
-        logger.info("Progress for {}: {}/{}".format(entity.name, done, total))
+            yield from _results_to_sql_value_statements(entity_type, result, done == total)
+        logger.info("Progress for {}: {}/{}".format(entity_type.name, done, total))
 
 
 def main():
@@ -212,11 +213,11 @@ def main():
             "Starting work on rank {}/{}, containing {}".format(rank_number,
                                                                 len(ranks),
                                                                 ", ".join(str(p) for p in rank)))
-        for entity in rank:
-            if entity in entity_types_to_skip:
-                logger.warning("Skipping entity type {}".format(entity.name))
+        for entity_type in rank:
+            if entity_type in entity_types_to_skip:
+                logger.warning("Skipping entity type {}".format(entity_type.name))
                 continue
-            for line in fetch_all(entity, _fetch, args.languages):
+            for line in fetch_all(entity_type, _fetch, args.languages):
                 print(line)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))
