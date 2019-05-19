@@ -31,10 +31,6 @@ FIXUP = {
     ],
 }
 
-SKIP_WORKAROUNDS = {
-    'Voting': 10000  # For the Voting table, the limit is at 1M. Only 50k however can still be served in less than 30s.
-}
-
 LANGUAGES = ['DE', 'EN', 'FR', 'IT', 'RM']
 
 
@@ -124,12 +120,10 @@ def create_skip_url(entity, done, batch_size, languages=None):
     return '{}&$skip={}&$top={}'.format(create_language_filter_url(entity, languages), done, batch_size)
 
 
-def fetch_all(entity, fetcher, languages=None, skip_workaround=False, batch_size=1000):
+def fetch_all(entity, fetcher, languages=None):
     """
     Generator for JSON objects
 
-    :param skip_workaround:
-    :param batch_size: Number of entities to be fetched at once
     :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
     :param entity: An OData entity object
     :param languages: List of languages to fetch, None to fetch all
@@ -138,9 +132,7 @@ def fetch_all(entity, fetcher, languages=None, skip_workaround=False, batch_size
 
     done = 0
     while done == 0 or done != total:
-        if skip_workaround:
-            url = create_skip_url(entity, done, batch_size, languages)
-        elif done == 0:
+        if done == 0:
             url = create_language_filter_url(entity, languages)
         elif next_url:
             url = next_url
@@ -152,9 +144,6 @@ def fetch_all(entity, fetcher, languages=None, skip_workaround=False, batch_size
         if total == 0:
             logger.warning("Entity {} has zero values".format(entity.name))
             return
-
-        if next_url and skip_workaround:
-            raise RuntimeError("Handling of __next combined with skipping not implemented")
 
         # As of 2019-05-02, some entities in MemberCouncil get referred to, but do not exist.
         # Workaround: Adding dummy entries
@@ -171,12 +160,6 @@ def fetch_all(entity, fetcher, languages=None, skip_workaround=False, batch_size
             done += 1
             yield from _results_to_sql_value_statements(entity, result, done == total)
         logger.info("Progress for {}: {}/{}".format(entity.name, done, total))
-
-
-def fetch_all_with_workaround(entity, fetcher, languages):
-    if entity.name in SKIP_WORKAROUNDS:
-        return fetch_all(entity, fetcher, languages, True, SKIP_WORKAROUNDS[entity.name])
-    return fetch_all(entity, fetcher, languages, False)
 
 
 def main():
@@ -233,7 +216,7 @@ def main():
             if entity in entity_types_to_skip:
                 logger.warning("Skipping entity type {}".format(entity.name))
                 continue
-            for line in fetch_all_with_workaround(entity, _fetch, args.languages):
+            for line in fetch_all(entity, _fetch, args.languages):
                 print(line)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))
