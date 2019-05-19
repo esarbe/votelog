@@ -3,8 +3,8 @@ package votelog.circe
 import io.circe
 import io.circe.generic.semiauto.deriveDecoder
 import votelog.domain.authorization.User
-import votelog.domain.politics.{Motion, Politician}
-import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
+import votelog.domain.politics.{Motion, Ngo, Politician}
+import votelog.persistence.{MotionStore, NgoStore, PoliticianStore, UserStore}
 
 
 trait MotionStoreDecoders {
@@ -24,4 +24,11 @@ trait UserStoreDecoder {
   implicit val userEmailCirceDecoder: circe.Decoder[User.Email]
   implicit val userRecipeCirceDecoder: circe.Decoder[UserStore.Recipe] =
     deriveDecoder[UserStore.Recipe]
+}
+
+trait NgoStoreDecoder {
+  implicit val ngoIdCirceDecoder: circe.Decoder[Ngo.Id]
+  implicit val ngoRecipeCirceDecoder: circe.Decoder[NgoStore.Recipe] =
+    deriveDecoder[NgoStore.Recipe]
+
 }

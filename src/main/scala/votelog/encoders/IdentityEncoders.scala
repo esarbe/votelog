@@ -1,7 +1,7 @@
 package votelog.encoders
 
 import votelog.domain.authorization.User
-import votelog.domain.politics.{Motion, Politician}
+import votelog.domain.politics.{Motion, Ngo, Politician}
 import votelog.infrastructure.encoding.Encoder
 
 import scala.util.Try
@@ -15,4 +15,7 @@ trait IdentityEncoders {
 
   implicit val userIdFromStringEncoder: Encoder[String, User.Id] =
     (a: String) => Try(a.toLong).map(User.Id).toEither
+
+  implicit val ngoIdFromStringEncoder: Encoder[String, Ngo.Id] =
+    (a: String) => Try(a.toLong).map(Ngo.Id).toEither
 }

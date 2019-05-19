@@ -4,7 +4,7 @@ import io.circe
 import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
 import votelog.domain.authorization.{Capability, Component, User}
-import votelog.domain.politics.{Motion, Party, Politician, Votum}
+import votelog.domain.politics.{Motion, Ngo, Party, Politician, Votum}
 
 trait ModelEncoders {
   implicit val politicianIdCirceEncoder: circe.Encoder[Politician.Id] = Encoder.encodeLong.contramap(_.value)
@@ -22,6 +22,7 @@ trait ModelEncoders {
   implicit val userEmailCirceEncoder: circe.Encoder[User.Email] = deriveEncoder[User.Email]
   implicit val userCirceEncoder: circe.Encoder[User] = deriveEncoder[User]
 
+
   implicit val votumCirceEncoder: circe.Encoder[Votum] =
     Encoder.encodeString.contramap {
       case Votum.Yes => "yes"
@@ -29,5 +30,8 @@ trait ModelEncoders {
       case Votum.Abstain => "abstain"
       case Votum.Absent => "absent"
     }
+
+  implicit val ngoCirceEncoder: circe.Encoder[Ngo] = deriveEncoder[Ngo]
+  implicit val ngoIdCirceEncoder: circe.Encoder[Ngo.Id] = deriveEncoder[Ngo.Id]
 }
 

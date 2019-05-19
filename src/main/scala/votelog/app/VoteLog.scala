@@ -14,13 +14,14 @@ import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.VoteAlg
 import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
-import votelog.persistence.{MotionStore, PoliticianStore, Schema, UserStore}
+import votelog.persistence.{MotionStore, NgoStore, PoliticianStore, Schema, UserStore}
 
 trait VoteLog[F[_]] {
   val vote: VoteAlg[F]
   val politician: PoliticianStore[F]
   val motion: MotionStore[F]
   val user: UserStore[F]
+  val ngo: NgoStore[F]
   val authorization: AuthorizationAlg[F]
   val passwordHasher: PasswordHasherAlg[F]
 }

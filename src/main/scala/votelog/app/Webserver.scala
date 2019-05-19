@@ -12,9 +12,8 @@ import pureconfig.generic.auto._
 import pureconfig.module.catseffect._
 import votelog.domain.authorization.Component.Root
 import votelog.domain.authorization.{Capability, Component, User}
-import votelog.domain.politics.{Motion, Politician, Votum}
 import votelog.implementation.Log4SLogger
-import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
+import votelog.persistence.UserStore
 import votelog.service._
 
 object Webserver extends IOApp {
@@ -34,7 +33,6 @@ object Webserver extends IOApp {
             runVotelogWebserver(configuration.http, routes)
         }
     } yield runServer
-
 
   private def setupAdmin(user: UserStore[IO]) =
     for {
@@ -63,35 +61,6 @@ object Webserver extends IOApp {
         .drain
         .as(ExitCode.Success)
 
-
-  private def createTestData(
-    services: VoteLog[IO],
-  ): IO[ExitCode] =
-    for {
-      fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
-      barId <- services.politician.create(PoliticianStore.Recipe("bar"))
-      _ <- log.info(s"foo has id '$fooId'")
-      _ <- log.info(s"bar has id '$barId'")
-      _ <- services.politician.read(fooId)
-      ids <- services.politician.index
-      _ <- ids.map(id => log.info(id.toString)).sequence
-      _ <-
-      ids
-        .headOption
-        .map(services.politician.read)
-        .map(_.flatMap(p => log.info(s"found politician '$p'")))
-        .getOrElse(log.warn("unable to find any politician"))
-      //_ <- ps.delete(Politician.Id(4))
-
-      _ <- services.motion.create(MotionStore.Recipe("eat the rich 2", Politician.Id(1)))
-
-      // motions
-      motions <- services.motion.index.flatMap(_.map(services.motion.read).sequence)
-      _ <- motions.map(m => log.info(s"found motion: $m")).sequence
-      _ <- services.vote.voteFor(Politician.Id(1), Motion.Id(1), Votum.Yes)
-    } yield ExitCode.Success
-
-
   def setupHttpRoutes(
     configuration: Configuration.Security,
     votelog: VoteLog[IO]
@@ -108,6 +77,7 @@ object Webserver extends IOApp {
 
     val mws = new MotionService(Root.child("motion"), votelog.motion, votelog.authorization)
     val uws = new UserService(Root.child("user"), votelog.user, votelog.authorization)
+    val nws = new NgoService(Root.child("ngo"), votelog.ngo, votelog.authorization)
 
     val key = PrivateKey(configuration.secret.getBytes)
     val crypto: CryptoBits = CryptoBits(key)
@@ -124,12 +94,15 @@ object Webserver extends IOApp {
 
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
     val session = new SessionService(crypto, clock)
+    val apiRoot = "/api/v0"
+
 
     Router(
-      "/api/v0/politician" -> auth(pws.service),
-      "/api/v0/motion" -> auth(mws.service),
-      "/api/v0/auth" -> basicAuth(session.service),
-      "/api/v0/user" -> auth(uws.service),
+      s"$apiRoot/politician" -> auth(pws.service),
+      s"$apiRoot/motion" -> auth(mws.service),
+      s"$apiRoot/user" -> auth(uws.service),
+      s"$apiRoot/ngo" -> auth(nws.service),
+      s"$apiRoot/auth" -> basicAuth(session.service),
     )
   }
 }
