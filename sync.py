@@ -2,6 +2,7 @@
 import argparse
 import datetime
 
+import psycopg2 as psycopg2
 import requests
 import requests_cache
 
@@ -207,6 +208,9 @@ def main():
             "Rank {}/{}: {}".format(rank_number, len(ranks), ", ".join(str(p) for p in rank)))
         rank_number += 1
 
+    conn = psycopg2.connect("host=localhost dbname=postgres user=postgres password=docker")
+    cur = conn.cursor()
+
     rank_number = 1
     for rank in ranks:
         logger.info(
@@ -218,6 +222,7 @@ def main():
                 logger.warning("Skipping entity type {}".format(entity_type.name))
                 continue
             for line in fetch_all(entity_type, _fetch, args.languages):
+                cur.execute(line)
                 print(line)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))

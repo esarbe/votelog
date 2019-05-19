@@ -49,7 +49,7 @@ class TestImport(TestCase):
             raise RuntimeError("Unknown URL")
 
         self.assertEqual(1, len(parser.entity_types))
-        result = list(fetch_all(parser.entity_types[0], fetcher, skip_workaround=False))
+        result = list(fetch_all(parser.entity_types[0], fetcher))
         result_str = "\n".join(result)
         self.assertEqual(
             "INSERT INTO table (id, language, data) VALUES\n"
