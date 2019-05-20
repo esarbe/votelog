@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from odata.odata import create_parser
-from sync import fetch_entity_type
+from sync import fetch_all
 from odata.test.test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
 
 
@@ -49,7 +49,7 @@ class TestImport(TestCase):
             raise RuntimeError("Unknown URL")
 
         self.assertEqual(1, len(parser.entity_types))
-        results = list(fetch_entity_type(parser.entity_types[0], fetcher))
+        results = list(fetch_all(parser.entity_types[0], fetcher))
         self.assertEqual(results[0][0], ['id', 'language', 'data'])
         self.assertEqual(results[0][1][0], ['1', 'DE', 'Data 1'])
         self.assertEqual(results[0][1][1], ['1', 'FR', 'Data 2'])

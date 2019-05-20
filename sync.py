@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import datetime
-from collections import OrderedDict
 
 import psycopg2 as psycopg2
 import requests
@@ -15,6 +14,10 @@ URL = 'https://ws.parlament.ch/odata.svc'
 EPOCH = datetime.datetime.utcfromtimestamp(0)
 
 LANGUAGES = ['DE', 'EN', 'FR', 'IT', 'RM']
+
+SYNC_BY_FK = {
+    'Voting': 'Vote'
+}
 
 
 def _parse_date(datestring):
@@ -92,30 +95,32 @@ def create_language_filter_url(entity_type, languages=None):
     return create_entity_type_url(entity_type)
 
 
-def create_skip_url(entity_type, done, batch_size, languages=None):
-    return '{}&$skip={}&$top={}'.format(create_language_filter_url(entity_type, languages), done, batch_size)
+def create_filter_url(entity_type, languages=None, fk_value=None):
+    filters = []
+    # Note: Every single entity type in the Curia Vista schema has a Language property
+    if languages:
+        filters.append(' or '.join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages]))
+    if fk_value:
+        filters.append(' and '.join(['({}%20eq%20{})'.format(k, v) for k, v in fk_value.items()]))
+    return '{}&$filter={}'.format(create_entity_type_url(entity_type), " and ".join(filters))
 
 
-def fetch_entity_type(entity_type, fetcher, languages=None):
+def fetch_all(entity_type, fetcher, url):
     """
     Generator for JSON objects
 
+    :param url:
     :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
     :param entity_type: An OData entity type object
-    :param languages: List of languages to fetch, None to fetch all
     :return: Generator object yielding SQL lines
     """
 
     done = 0
     while done == 0 or done != total:
-        if done == 0:
-            url = create_language_filter_url(entity_type, languages)
-        elif next_url:
-            url = next_url
-        else:
+        if not url:
             return
 
-        results, total, next_url = _split_response(fetcher(url))
+        results, total, url = _split_response(fetcher(url))
 
         if total == 0:
             logger.error("Entity type {} has zero values".format(entity_type.name))
@@ -137,6 +142,50 @@ def fetch_entity_type(entity_type, fetcher, languages=None):
         done += len(results)
         yield (header, values)
         logger.info("Progress for {}: {}/{}".format(entity_type.name, done, total))
+
+
+def fetch_entity_type(entity_type, fetcher, languages=None):
+    url = create_language_filter_url(entity_type, languages)
+    yield from fetch_all(entity_type, fetcher, url)
+
+
+def fetch_foreign_key(entity_type_to_fetch, vote_id, fetcher, languages=None):
+    assert entity_type_to_fetch.name == 'Voting'
+    url = create_filter_url(entity_type_to_fetch, languages, {'IdVote': vote_id})
+    yield from fetch_all(entity_type_to_fetch, fetcher, url)
+
+
+def update_db(connection, table_name, columns, rows):
+    statement = 'INSERT INTO {} ({}) VALUES ({}) on CONFLICT (id, language) DO NOTHING'.format(
+        table_name,
+        ', '.join(columns),
+        ', '.join(['%s'] * len(columns)))
+    with connection.cursor() as cur:
+        def do_many(rows):
+            try:
+                cur.executemany(statement, rows)
+                connection.commit()
+                return
+            except psycopg2.errors.ForeignKeyViolation as e:
+                connection.rollback()
+                if len(rows) == 1:
+                    logger.error(e)
+                    return
+            except psycopg2.errors.IntervalFieldOverflow as e:
+                connection.rollback()
+                if len(rows) == 1:
+                    logger.error(e)
+                    return
+            except psycopg2.errors.InvalidDatetimeFormat as e:
+                connection.rollback()
+                if len(rows) == 1:
+                    logger.error(e)
+                    return
+
+            do_many(rows[len(rows) // 2:])
+            do_many(rows[:len(rows) // 2])
+
+        do_many(rows)
 
 
 def main():
@@ -191,38 +240,21 @@ def main():
             if entity_type in entity_types_to_skip:
                 logger.warning("Skipping entity type {}".format(entity_type.name))
                 continue
-            for r in fetch_entity_type(entity_type, _fetch, args.languages):
-                (columns, rows) = r
-                statement = 'INSERT INTO {} ({}) VALUES ({}) on CONFLICT (id, language) DO NOTHING'.format(
-                    entity_type.table_name,
-                    ', '.join(columns),
-                    ', '.join(['%s'] * len(columns)))
+            logger.info("Starting to import {}".format(entity_type.name))
+
+            if entity_type.name == 'Voting':
                 with connection.cursor() as cur:
-                    def do_many(rows):
-                        try:
-                            cur.executemany(statement, rows)
-                            connection.commit()
-                            return
-                        except psycopg2.errors.ForeignKeyViolation as e:
-                            connection.rollback()
-                            if len(rows) == 1:
-                                logger.error(e)
-                                return
-                        except psycopg2.errors.IntervalFieldOverflow as e:
-                            connection.rollback()
-                            if len(rows) == 1:
-                                logger.error(e)
-                                return
-                        except psycopg2.errors.InvalidDatetimeFormat as e:
-                            connection.rollback()
-                            if len(rows) == 1:
-                                logger.error(e)
-                                return
-
-                        do_many(rows[len(rows) // 2:])
-                        do_many(rows[:len(rows) // 2])
-
-                    do_many(rows)
+                    cur.execute('SELECT id FROM vote;')
+                    index = 0
+                    all_vote_ids = cur.fetchall()
+                    for row in all_vote_ids:
+                        logger.info('Voting by Vote: {}/{} done'.format(index, len(all_vote_ids)))
+                        for (columns, rows) in fetch_foreign_key(entity_type, row[0], _fetch, args.languages):
+                            update_db(connection, entity_type.table_name, columns, rows)
+                        index += 1
+            else:
+                for (columns, rows) in fetch_entity_type(entity_type, _fetch, args.languages):
+                    update_db(connection, entity_type.table_name, columns, rows)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))
         rank_number += 1
