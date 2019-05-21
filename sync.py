@@ -190,10 +190,15 @@ def update_db(connection, table_name, columns, rows):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--schema", type=argparse.FileType('r'), required=True)
-    parser.add_argument("--include", type=str, nargs='*', help="Limit to given entities")
-    parser.add_argument("--skip", type=str, nargs='*', help="Skip given entities")
-    parser.add_argument("--languages", choices=LANGUAGES, nargs='+', help="Limit to given entities", default=LANGUAGES)
-    parser.add_argument("--cache", type=str, help="File to cache HTTP requests. Useful to speed up development.")
+    parser.add_argument("--include",
+                        type=str,
+                        nargs='*',
+                        help="Entity types to sync, including relevant dependencies. If not given, sync all.")
+    parser.add_argument("--skip", type=str, nargs='*', help="Skip the listed entities")
+    parser.add_argument("--languages", choices=LANGUAGES, nargs='+', help="Limit syncing to given languages",
+                        default=LANGUAGES)
+    parser.add_argument("--cache", type=str,
+                        help="Cache HTTP requests in <cache>.sqlite. Useful to speed up development.")
     parser.add_argument("-v", "--verbose",
                         dest="verbose_count",
                         action="count",
