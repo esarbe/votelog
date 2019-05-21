@@ -155,10 +155,13 @@ def fetch_foreign_key(entity_type_to_fetch, vote_id, fetcher, languages=None):
 
 
 def update_db(connection, table_name, columns, rows):
-    statement = 'INSERT INTO {} ({}) VALUES ({}) on CONFLICT (id, language) DO NOTHING'.format(
+    statement = 'INSERT INTO {} ({}) VALUES ({}) on CONFLICT ON CONSTRAINT {}_pkey DO UPDATE SET ({}) = ({})'.format(
         table_name,
         ', '.join(columns),
-        ', '.join(['%s'] * len(columns)))
+        ', '.join(['%s'] * len(columns)),
+        table_name,
+        ', '.join(columns),
+        ', '.join(['EXCLUDED.' + c for c in columns]))
     with connection.cursor() as cur:
         def do_many(rows):
             try:
