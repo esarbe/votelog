@@ -27,7 +27,7 @@ class AuthenticationService(
       username <- Either.catchOnly[NumberFormatException](token).leftMap(_.toString)
     } yield username
 
-     maybeUsername.traverse(retrieveUser.run).map(_.flatten)
+     maybeUsername.flatTraverse(retrieveUser.run)
   })
 
   val onFailure: AuthedService[String, IO] =
