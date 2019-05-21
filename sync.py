@@ -4,7 +4,6 @@ import datetime
 
 import psycopg2 as psycopg2
 import requests
-import requests_cache
 
 from odata.odata import create_parser, logger, _to_snake_case
 from odata.topology import get_topology
@@ -194,6 +193,7 @@ def main():
     parser.add_argument("--include", type=str, nargs='*', help="Limit to given entities")
     parser.add_argument("--skip", type=str, nargs='*', help="Skip given entities")
     parser.add_argument("--languages", choices=LANGUAGES, nargs='+', help="Limit to given entities", default=LANGUAGES)
+    parser.add_argument("--cache", type=str, help="File to cache HTTP requests. Useful to speed up development.")
     parser.add_argument("-v", "--verbose",
                         dest="verbose_count",
                         action="count",
@@ -219,7 +219,9 @@ def main():
     else:
         entity_types_to_skip = []
 
-    requests_cache.install_cache('curia_vista_import')
+    if args.cache:
+        import requests_cache
+        requests_cache.install_cache(args.cache)
 
     ranks = get_topology(parser, entity_types_to_import)
     rank_number = 1
