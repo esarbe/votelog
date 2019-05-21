@@ -35,11 +35,6 @@ def _parse_date(datestring):
     return dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def _result_to_sql_statement_header(entity_type):
-    column_names = [_to_snake_case(p.name) for p in entity_type.properties]
-    yield "INSERT INTO {} ({}) VALUES".format(entity_type.table_name, ", ".join(column_names))
-
-
 def _results_to_sql_dict(entity_type, result, accept_degenerated=False):
     values = []
     for p in entity_type.properties:
