@@ -7,12 +7,12 @@ import votelog.domain.authorization.{Capability, Component, User}
 import votelog.domain.politics.{Motion, Ngo, Party, Politician, Votum}
 
 trait ModelEncoders {
-  implicit val politicianIdCirceEncoder: circe.Encoder[Politician.Id] = Encoder.encodeLong.contramap(_.value)
-  implicit val partyIdCirceEncoder: circe.Encoder[Party.Id] = Encoder.encodeLong.contramap(_.value)
+  implicit val politicianIdCirceEncoder: circe.Encoder[Politician.Id] = Encoder.encodeUUID.contramap(_.value)
+  implicit val partyIdCirceEncoder: circe.Encoder[Party.Id] = Encoder.encodeUUID.contramap(_.value)
   implicit val politicianCirceEncoder: circe.Encoder[Politician] = deriveEncoder[Politician]
-  implicit val motionIdCirceEncoder: circe.Encoder[Motion.Id] = Encoder.encodeLong.contramap(_.value)
+  implicit val motionIdCirceEncoder: circe.Encoder[Motion.Id] = Encoder.encodeUUID.contramap(_.value)
   implicit val motionCirceEncoder: circe.Encoder[Motion] = deriveEncoder[Motion]
-  implicit val userIdCirceEncoder: circe.Encoder[User.Id] = Encoder.encodeLong.contramap(_.value)
+  implicit val userIdCirceEncoder: circe.Encoder[User.Id] = Encoder.encodeUUID.contramap(_.value)
   implicit val capabilityEncode: circe.Encoder[Capability] =
     Encoder.encodeString.contramap(Capability.showComponent.show)
 

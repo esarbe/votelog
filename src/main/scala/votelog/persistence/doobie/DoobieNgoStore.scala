@@ -7,7 +7,7 @@ import doobie.implicits._
 import votelog.domain.politics.Ngo
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
-
+import votelog.persistence.doobie.Mappings._
 
 class DoobieNgoStore[F[_]: Monad](
   transactor: Transactor[F],

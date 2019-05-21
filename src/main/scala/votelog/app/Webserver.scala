@@ -12,9 +12,11 @@ import pureconfig.generic.auto._
 import pureconfig.module.catseffect._
 import votelog.domain.authorization.Component.Root
 import votelog.domain.authorization.{Capability, Component, User}
+import votelog.domain.politics.Votum
 import votelog.implementation.Log4SLogger
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.Password
+import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
 import votelog.service._
 
 object Webserver extends IOApp {

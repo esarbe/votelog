@@ -7,8 +7,8 @@ import doobie.implicits._
 import votelog.domain.politics.Motion
 import votelog.persistence.MotionStore
 import votelog.persistence.MotionStore.Recipe
-
-
+import votelog.persistence.doobie.Mappings._
+import doobie.postgres.implicits._
 class DoobieMotionStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends MotionStore[F] {

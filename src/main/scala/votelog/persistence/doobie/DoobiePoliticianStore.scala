@@ -7,7 +7,7 @@ import doobie.implicits._
 import votelog.domain.politics.Politician
 import votelog.persistence.PoliticianStore
 import votelog.persistence.PoliticianStore.Recipe
-
+import votelog.persistence.doobie.Mappings._
 
 class DoobiePoliticianStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F]

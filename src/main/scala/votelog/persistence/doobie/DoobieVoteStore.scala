@@ -6,6 +6,7 @@ import votelog.infrastructure.VoteAlg
 import doobie.implicits._
 import cats.implicits._
 import votelog.domain.politics.Votum
+import doobie.postgres.implicits._
 
 class DoobieVoteStore[F[_]: Monad](
   transactor:  doobie.util.transactor.Transactor[F]

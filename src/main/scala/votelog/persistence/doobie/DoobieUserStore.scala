@@ -11,7 +11,7 @@ import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
-
+import votelog.persistence.doobie.Mappings._
 
 class DoobieUserStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F],
