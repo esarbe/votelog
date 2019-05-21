@@ -49,7 +49,7 @@ def _results_to_sql_dict(entity_type, result, accept_degenerated=False):
     return values
 
 
-def _fetch(url):
+def _get_json(url):
     """
     :param url: URL to fetch
     :return: JSON data with the entries results
@@ -99,14 +99,15 @@ def create_filter_url(entity_type, languages=None, fk_value=None):
     return '{}&$filter={}'.format(create_entity_type_url(entity_type), " and ".join(filters))
 
 
-def fetch_all(entity_type, fetcher, url):
+def fetch_all_entities(entity_type, fetcher, url):
     """
-    Generator for JSON objects
+    Generator which yields tuples in the form of (list of column names, list of rows).
 
-    :param url:
-    :param fetcher: Callable taking a single argument (URL) pointing to the resource to be fetched
-    :param entity_type: An OData entity type object
-    :return: Generator object yielding SQL lines
+    :param url: Location where to fetch the entities from, most likely via HTTP. Must be understood by fetcher.
+    :param fetcher: Callable taking a single argument, URL, returning the data it points to.
+    :param entity_type: An OData entity type object. Mainly used to make us independent of the ordering of the elements
+                        in the JSON response the fetcher will deliver us.
+    :return: Generator object yielding tuples in the form of (list of column names, list of rows) for the.
     """
 
     done = 0
@@ -122,8 +123,8 @@ def fetch_all(entity_type, fetcher, url):
 
         if len(results) == 0:
             """
-            As of 2019-05-21, for the entity types BusinessResponsibility and XXX, the server does not return any
-            results.
+            As of 2019-05-21, for the entity types BusinessResponsibility and PersonCommunication, the server does not
+            return any results.
             """
             logger.error("Server did not return any entities for entity type {}. Did {}/{} before this.".format(
                 entity_type.name, done, total))
@@ -140,13 +141,13 @@ def fetch_all(entity_type, fetcher, url):
 
 def fetch_entity_type(entity_type, fetcher, languages=None):
     url = create_language_filter_url(entity_type, languages)
-    yield from fetch_all(entity_type, fetcher, url)
+    yield from fetch_all_entities(entity_type, fetcher, url)
 
 
-def fetch_foreign_key(entity_type_to_fetch, vote_id, fetcher, languages=None):
+def fetch_entities_by_fk(entity_type_to_fetch, fk, fetcher, languages=None):
     assert entity_type_to_fetch.name == 'Voting'
-    url = create_filter_url(entity_type_to_fetch, languages, {'IdVote': vote_id})
-    yield from fetch_all(entity_type_to_fetch, fetcher, url)
+    url = create_filter_url(entity_type_to_fetch, languages, fk)
+    yield from fetch_all_entities(entity_type_to_fetch, fetcher, url)
 
 
 def update_db(connection, table_name, columns, rows):
@@ -254,11 +255,12 @@ def main():
                     all_vote_ids = cur.fetchall()
                     for row in all_vote_ids:
                         logger.info('Voting by Vote: {}/{} done'.format(index, len(all_vote_ids)))
-                        for (columns, rows) in fetch_foreign_key(entity_type, row[0], _fetch, args.languages):
+                        for (columns, rows) in fetch_entities_by_fk(entity_type, {'IdVote': row[0]}, _get_json,
+                                                                    args.languages):
                             update_db(connection, entity_type.table_name, columns, rows)
                         index += 1
             else:
-                for (columns, rows) in fetch_entity_type(entity_type, _fetch, args.languages):
+                for (columns, rows) in fetch_entity_type(entity_type, _get_json, args.languages):
                     update_db(connection, entity_type.table_name, columns, rows)
 
         logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))
