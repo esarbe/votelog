@@ -1,7 +1,5 @@
 package votelog.domain.politics
 
-import votelog.infrastructure.encoding.Encoder
-
 sealed trait Votum
 
 object Votum {
@@ -10,13 +8,20 @@ object Votum {
   case object Abstain extends Votum
   case object Absent extends Votum
 
-
-  implicit val votumEncoder: Encoder[String, Votum] = {
-    case "yes"=> Right(Votum.Yes)
-    case "no"=> Right(Votum.No)
-    case "absent"=> Right(Votum.Absent)
-    case "abstain"=> Right(Votum.Abstain)
-    case unknown => Left(new RuntimeException(s"unknown value '$unknown'"))
+  val fromString: String => Option[Votum] = {
+    case "Yes" => Some(Yes)
+    case "No" => Some(No)
+    case "Abstain" => Some(Abstain)
+    case "Absent" => Some(Absent)
+    case _ => None
   }
+
+  val asString: Votum => String = {
+    case Yes => "Yes"
+    case No => "No"
+    case Abstain => "Abstain"
+    case Absent => "Absent"
+  }
+
 
 }

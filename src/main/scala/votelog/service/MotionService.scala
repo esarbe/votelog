@@ -6,7 +6,6 @@ import votelog.persistence.MotionStore
 import votelog.circe.implicits._
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.Motion
-import votelog.implicits._
 
 class MotionService(
   val component: Component,

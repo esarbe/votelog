@@ -1,6 +1,5 @@
 package votelog
 
-import votelog.implicits._
 import fs2._
 import cats._
 import cats.effect._

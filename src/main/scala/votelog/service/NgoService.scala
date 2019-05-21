@@ -3,7 +3,6 @@ package votelog.service
 import cats.effect.IO
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.Ngo
-import votelog.implicits._
 import votelog.infrastructure.{StoreAlg, StoreService}
 import votelog.persistence.NgoStore
 import votelog.circe.implicits._

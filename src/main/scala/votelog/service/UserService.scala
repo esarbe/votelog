@@ -3,8 +3,7 @@ package votelog.service
 import cats.effect.IO
 import votelog.circe.implicits._
 import votelog.domain.authorization.{AuthorizationAlg, Component, User}
-import votelog.encoders.implicits._
-import votelog.infrastructure.{StoreAlg, StoreService}
+import votelog.infrastructure.StoreService
 import votelog.persistence.UserStore
 
 class UserService(

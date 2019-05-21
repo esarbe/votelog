@@ -2,6 +2,7 @@ package votelog
 package infrastructure
 
 import cats.effect._
+import io.circe.{Decoder, Encoder, KeyDecoder}
 import io.circe.syntax._
 import org.http4s.EntityEncoder._
 import org.http4s._
@@ -9,17 +10,12 @@ import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
-import votelog.implicits._
-import votelog.infrastructure.StoreService.StringEncoded
 
-object StoreService {
-  type StringEncoded[T] = encoding.Encoder[String, T]
-}
 
 abstract class StoreService[
-  T: io.circe.Encoder: io.circe.Decoder,
-  Identity: io.circe.Encoder: StringEncoded,
-  Recipe: io.circe.Decoder
+  T: Encoder: Decoder,
+  Identity: Encoder: KeyDecoder,
+  Recipe: Decoder
 ]
 {
   val authAlg: AuthorizationAlg[IO]
@@ -28,7 +24,7 @@ abstract class StoreService[
 
   object Id {
     def unapply(str: String): Option[Identity] =
-      str.encodeAs[Identity].toOption
+      KeyDecoder[Identity].apply(str)
   }
 
   def checkAuthorization(
@@ -69,7 +65,6 @@ abstract class StoreService[
             case Left(e) => InternalServerError(e.getMessage)
           }
       }
-
 
     case req @ PUT -> Root / Id(id) as user =>
       checkAuthorization(user, Capability.Update, component.child(id.toString)) {
