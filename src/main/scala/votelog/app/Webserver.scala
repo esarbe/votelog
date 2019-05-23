@@ -14,6 +14,7 @@ import votelog.domain.authorization.Component.Root
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.implementation.Log4SLogger
 import votelog.persistence.UserStore
+import votelog.persistence.UserStore.Password
 import votelog.service._
 
 object Webserver extends IOApp {
@@ -37,7 +38,7 @@ object Webserver extends IOApp {
   private def setupAdmin(user: UserStore[IO]) =
     for {
       _ <- log.info("setting up initial admin account")
-      id <- user.create(UserStore.Recipe("admin", User.Email("admin@votelog.ch"), "foo"))
+      id <- user.create(UserStore.Recipe("admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
       _ <- user.grantPermission(id, Component.Root, Capability.Create)
       _ <- user.grantPermission(id, Component.Root, Capability.Read)
       _ <- user.grantPermission(id, Component.Root, Capability.Update)
@@ -89,7 +90,7 @@ object Webserver extends IOApp {
         for {
           maybeUser <- votelog.user.findByName(creds.username)
           hashedPassword <- votelog.passwordHasher.hashPassword(creds.password)
-        } yield maybeUser.filter(_.hashedPassword == hashedPassword)
+        } yield maybeUser.filter(_.passwordHash === hashedPassword)
     }
 
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)

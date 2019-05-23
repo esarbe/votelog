@@ -76,7 +76,7 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
           id serial primary key,
           name varchar not null unique,
           email varchar not null unique,
-          hashedPassword varchar not null
+          passwordhash varchar not null
         )
       """.update.run
 

@@ -10,7 +10,7 @@ import doobie.util.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore
-import votelog.persistence.UserStore.Recipe
+import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 
 
 class DoobieUserStore[F[_]: Monad](
@@ -39,7 +39,7 @@ class DoobieUserStore[F[_]: Monad](
 
   def readQuery(id: User.Id): ConnectionIO[User] = {
     val selectUser =
-      sql"select name, email, hashedPassword from user where id=$id"
+      sql"select name, email, passwordhash from user where id=$id"
         .query[(String, String, String)]
         .unique
 
@@ -59,12 +59,19 @@ class DoobieUserStore[F[_]: Monad](
     sql"delete from user where id = ${id}"
       .update.run
 
-  def updateQuery(id: User.Id, recipe: Recipe) =
-    sql"update user set name = ${recipe.name} where id = $id"
-
-  def insertQuery(recipe: Recipe): doobie.ConnectionIO[User.Id] =
+  def updateQuery(id: User.Id, recipe: PreparedRecipe) =
     sql"""
-        insert into user (name, email, hashedPassword)
+         |update user set
+         |name = ${recipe.name},
+         |email = ${recipe.email},
+         |passwordhash = ${recipe.password}
+         |where id = $id
+         |"""
+      .stripMargin.update.run
+
+  def insertQuery(recipe: PreparedRecipe): doobie.ConnectionIO[User.Id] =
+    sql"""
+        insert into user (name, email, passwordhash)
           values (${recipe.name}, ${recipe.email}, ${recipe.password})
     """
       .update
@@ -82,8 +89,8 @@ class DoobieUserStore[F[_]: Monad](
 
     val createUser =
       for {
-        hashedPassword <- passwordHasher.hashPassword(recipe.password)
-        updatedRecipe = recipe.copy(password = hashedPassword) // this could be typesafe
+        hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
+        updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword)) // this is typesafe
         id <- insertQuery(updatedRecipe).transact(transactor)
       } yield id
 
@@ -100,12 +107,21 @@ class DoobieUserStore[F[_]: Monad](
   override def delete(id: User.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
 
-  override def update(id: User.Id, r: Recipe): F[User] = {
+  override def update(id: User.Id, recipe: Recipe): F[User] = {
+
+    def updateWithHashedPassword(preparedRecipe: PreparedRecipe): F[User] = {
+      for {
+        _ <- updateQuery(id, preparedRecipe)
+        p <- readQuery(id)
+      } yield p
+    }.transact(transactor)
+
     for {
-      _ <- updateQuery(id, r).update.run
-      p <- readQuery(id)
+      passwordHash <- passwordHasher.hashPassword(recipe.password.value)
+      preparedRecipe = recipe.prepare(Password.Hashed(passwordHash))
+      p <- updateWithHashedPassword(preparedRecipe)
     } yield p
-  }.transact(transactor)
+  }
 
   override def read(id: User.Id): F[User] =
     readQuery(id).transact(transactor)

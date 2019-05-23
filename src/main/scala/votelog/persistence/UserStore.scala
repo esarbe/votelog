@@ -10,6 +10,21 @@ trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
 }
 
 object UserStore {
-  case class Recipe(name: String, email: User.Email, password: String)
+  case class Recipe(name: String, email: User.Email, password: Password.Clear) {
+    def prepare(passwordHash: Password.Hashed): PreparedRecipe =
+      PreparedRecipe(name, email, passwordHash)
+  }
+
+  case class PreparedRecipe(name: String, email: User.Email, password: Password.Hashed)
+
+  trait Password {
+    val value: String
+    override def toString: String = value
+  }
+
+  object Password {
+    case class Clear(value: String) extends Password
+    case class Hashed(value: String) extends Password
+  }
 }
 

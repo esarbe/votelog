@@ -22,6 +22,8 @@ trait PoliticianStoreDecoders {
 trait UserStoreDecoder {
   implicit val userIdCirceDecoder: circe.Decoder[User.Id]
   implicit val userEmailCirceDecoder: circe.Decoder[User.Email]
+  implicit val userStorePasswordClearCirceDecoder: circe.Decoder[UserStore.Password.Clear] =
+    deriveDecoder[UserStore.Password.Clear]
   implicit val userRecipeCirceDecoder: circe.Decoder[UserStore.Recipe] =
     deriveDecoder[UserStore.Recipe]
 }
