@@ -33,7 +33,7 @@ class DoobieMotionStoreSpec extends WordSpec with ScalaFutures with Matchers wit
 
     val recipe = MotionStore.Recipe("foo-motion", pid1)
 
-    "create" in {
+    "be able to store an entity" in {
       val check =
         for {
           indexBefore <- store.index
@@ -48,7 +48,7 @@ class DoobieMotionStoreSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
 
-    "read" in {
+    "be able to read a stored entity" in {
       val entities = store.index.unsafeRunSync()
 
       inside(entities) { case List(id) =>
@@ -58,10 +58,9 @@ class DoobieMotionStoreSpec extends WordSpec with ScalaFutures with Matchers wit
       }
     }
 
-    "update" in {
+    "be able to update stored entity" in {
       val entities = store.index.unsafeRunSync()
       inside(entities) { case List(id) =>
-        val entity = store.read(id).unsafeRunSync()
         store.update(id, Recipe("updated-name", pid2)).unsafeRunSync()
 
         val updatedEntity = store.read(id).unsafeRunSync()
@@ -72,7 +71,7 @@ class DoobieMotionStoreSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
 
-    "delete" in {
+    "be able to delete stored entity" in {
       val entities = store.index.unsafeRunSync()
 
       inside(entities) { case List(id) =>
