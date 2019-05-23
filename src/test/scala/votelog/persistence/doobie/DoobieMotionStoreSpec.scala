@@ -1,82 +1,89 @@
 package votelog.persistence.doobie
 
 
-import cats._
-import cats.implicits._
-import cats.effect.{Async, ContextShift, IO}
-import doobie.scalatest.IOChecker
+import cats.effect.IO
 import doobie.util.transactor.Transactor
-import org.scalatest.{Matchers, WordSpec}
-import doobie.implicits._
-import doobie._
-import doobie.scalatest._
-import doobie.util.transactor.Transactor.Aux
 import org.scalatest.concurrent.ScalaFutures
-import votelog.domain.authorization.User
-import votelog.domain.politics.{Motion, Politician}
+import org.scalatest.{Inside, Matchers, WordSpec}
+import votelog.persistence.MotionStore.Recipe
 import votelog.persistence.{MotionStore, PoliticianStore}
-import votelog.persistence.doobie.DoobieMotionStoreSpec.Scope
 
 import scala.concurrent.ExecutionContext
 
-class DoobieMotionStoreSpec extends WordSpec with ScalaFutures with Matchers {
+class DoobieMotionStoreSpec extends WordSpec with ScalaFutures with Matchers with Inside {
 
   implicit val cs = IO.contextShift(ExecutionContext.global)
+  implicit val transactor =
+    Transactor.fromDriverManager[IO](
+      "org.h2.Driver",
+      "jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
+      "sa",
+      "",
+    )
 
-  "DoobieMotionStoreSpec" should {
+  val store = new DoobieMotionStore(transactor)
+  val politician = new DoobiePoliticianStore(transactor)
+  val schema = new DoobieSchema(transactor)
 
-    "read" in new Scope {
+  schema.initialize.unsafeRunSync()
 
-      val entity =
+  "DoobieMotionStore" should {
+    val pid1 = politician.create(PoliticianStore.Recipe("foo")).unsafeRunSync()
+    val pid2 = politician.create(PoliticianStore.Recipe("bar")).unsafeRunSync()
+
+    val recipe = MotionStore.Recipe("foo-motion", pid1)
+
+    "create" in {
+      val check =
         for {
-          recipe <- recipe
-          id <- store.create(recipe)
-          entity <- store.read(id)
-        } yield entity
+          indexBefore <- store.index
+          _ <- store.create(recipe)
+          indexAfter <- store.index
+        } yield {
+          indexBefore shouldBe empty
+          indexAfter.length shouldBe 1
+        }
 
-      entity.unsafeRunSync() shouldBe Motion(Motion.Id(1),"foo-motion", Politician.Id(1))
+      check.unsafeRunSync()
+    }
+
+
+    "read" in {
+      val entities = store.index.unsafeRunSync()
+
+      inside(entities) { case List(id) =>
+        val entity = store.read(id).unsafeRunSync()
+        entity.submitter shouldBe recipe.submitter
+        entity.name shouldBe recipe.name
+      }
     }
 
     "update" in {
+      val entities = store.index.unsafeRunSync()
+      inside(entities) { case List(id) =>
+        val entity = store.read(id).unsafeRunSync()
+        store.update(id, Recipe("updated-name", pid2)).unsafeRunSync()
 
+        val updatedEntity = store.read(id).unsafeRunSync()
+
+        updatedEntity.name shouldBe "updated-name"
+        updatedEntity.submitter shouldBe pid2
+      }
     }
 
-    "index" in {
-
-    }
 
     "delete" in {
+      val entities = store.index.unsafeRunSync()
 
-    }
+      inside(entities) { case List(id) =>
+        val check =
+          for {
+            _ <- store.delete(id)
+            entities <- store.index
+          } yield entities shouldBe empty
 
-    "create" in {
-
-    }
-
-  }
-}
-
-object DoobieMotionStoreSpec {
-  class Scope(implicit cs: ContextShift[IO]){
-
-    val transactor =
-      Transactor.fromDriverManager[IO](
-        "org.h2.Driver",
-        "jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
-        "sa",
-        "",
-      )
-
-    val store = new DoobieMotionStore(transactor)
-
-    val recipe: IO[MotionStore.Recipe] = {
-      val schema = new DoobieSchema(transactor)
-      val politician = new DoobiePoliticianStore(transactor)
-
-      for {
-        _ <- schema.initialize
-        pid <- politician.create(PoliticianStore.Recipe("foo"))
-      } yield MotionStore.Recipe("foo-motion", pid)
+        check.unsafeRunSync()
+      }
     }
   }
 }
