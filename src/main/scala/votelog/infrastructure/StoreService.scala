@@ -11,7 +11,8 @@ import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
 
-
+// TODO: it would be nice for testing if StoreService had a type parameter for the
+// effect type
 abstract class StoreService[
   T: Encoder: Decoder,
   Identity: Encoder: KeyDecoder,
