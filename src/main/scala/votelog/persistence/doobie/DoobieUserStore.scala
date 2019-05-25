@@ -39,7 +39,7 @@ class DoobieUserStore[F[_]: Monad](
 
   def readQuery(id: User.Id): ConnectionIO[User] = {
     val selectUser =
-      sql"select name, email, passwordhash from user where id=$id"
+      sql"select name, email, passwordhash from users where id=$id"
         .query[(String, String, String)]
         .unique
 
@@ -56,7 +56,7 @@ class DoobieUserStore[F[_]: Monad](
 
 
   def deleteQuery(id: User.Id): doobie.ConnectionIO[Int] =
-    sql"delete from user where id = ${id}"
+    sql"delete from users where id = ${id}"
       .update.run
 
   def updateQuery(id: User.Id, recipe: PreparedRecipe) =
@@ -71,19 +71,19 @@ class DoobieUserStore[F[_]: Monad](
 
   def insertQuery(recipe: PreparedRecipe): doobie.ConnectionIO[User.Id] =
     sql"""
-        insert into user (name, email, passwordhash)
-          values (${recipe.name}, ${recipe.email}, ${recipe.password})
+        insert into "user" (id, name, email, passwordhash)
+          values (${recipe.id}, ${recipe.name}, ${recipe.email}, ${recipe.password})
     """
       .update
       .withUniqueGeneratedKeys[User.Id]("id")
 
   def findIdByNameQuery(name: String): doobie.ConnectionIO[Option[User.Id]] =
-    sql"select id from user where name = $name"
+    sql"select id from users where name = $name"
       .query[User.Id]
       .accumulate[Option]
 
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
-    sql"select id from user".query[User.Id].accumulate[List]
+    sql"select id from users".query[User.Id].accumulate[List]
 
   override def create(recipe: Recipe): F[User.Id] = {
 

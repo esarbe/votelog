@@ -11,69 +11,69 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
   override def initialize: F[Unit] = {
     val drop =
       sql"""
-        drop table if exists politician;
-        drop table if exists motion;
-        drop table if exists vote;
-        drop table if exists rating;
-        drop table if exists ngo;
+        drop table if exists politicians;
+        drop table if exists motions;
+        drop table if exists votes;
+        drop table if exists ratings;
+        drop table if exists ngos;
          """.update.run
 
     val createPoliticianTable =
       sql"""
-        create table politician (
-          id serial primary key,
+        create table politicians (
+          id uuid primary key,
           name varchar not null unique
         )""".update.run
 
     val createMotionTable =
       sql"""
-        create table motion (
-          id serial primary key,
+        create table motions (
+          id uuid primary key,
           name varchar not null unique,
-          submitter serial not null,
-          foreign key (submitter) references politician (id)
+          submitter uuid not null,
+          foreign key (submitter) references politicians (id)
         )""".update.run
 
     val createVoteTable =
       sql"""
-        create table vote (
-          politicianid serial not null,
-          motionid serial not null,
+        create table votes (
+          politicianid uuid not null,
+          motionid uuid not null,
           votum varchar not null,
-          foreign key (politicianid) references politician (id),
-          foreign key (motionid) references motion (id),
+          foreign key (politicianid) references politicians (id),
+          foreign key (motionid) references motions (id),
           primary key (politicianid, motionid)
         )""".update.run
 
     val createNgoTable =
       sql"""
-        create table ngo (
-          id serial primary key,
+        create table ngos (
+          id uuid primary key,
           name varchar not null,
           password varchar not null
         )""".update.run
 
     val createRatingTable =
       sql"""
-        create table rating (
-          politicianid serial not null,
-          ngoid serial not null,
-          value double not null
+        create table ratings (
+          politicianid uuid not null,
+          ngoid uuid not null,
+          value real not null
         )
          """.update.run
 
     val createPartyTable =
       sql"""
-        create table party (
-          id serial primary key,
+        create table parties (
+          id uuid primary key,
           name varchar not null
         )
          """.update.run
 
     val createUserTable =
       sql"""
-        create table user (
-          id serial primary key,
+        create table users (
+          id uuid primary key,
           name varchar not null unique,
           email varchar not null unique,
           passwordhash varchar not null
@@ -82,11 +82,11 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
 
     val createPermissionTable =
       sql"""
-        create table permission (
-          userid serial not null,
+        create table permissions (
+          userid uuid not null,
           capability varchar not null,
           component varchar not null,
-          foreign key (userid) references user (id) on delete cascade,
+          foreign key (userid) references users (id) on delete cascade,
           primary key (userid, capability, component)
         )
       """.update.run

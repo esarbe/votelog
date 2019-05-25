@@ -1,5 +1,7 @@
 package votelog.persistence
 
+import java.util.UUID
+
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.infrastructure.StoreAlg
 
@@ -10,12 +12,14 @@ trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
 }
 
 object UserStore {
-  case class Recipe(name: String, email: User.Email, password: Password.Clear) {
+  def newId: User.Id = User.Id(UUID.randomUUID())
+
+  case class Recipe(id: User.Id, name: String, email: User.Email, password: Password.Clear) {
     def prepare(passwordHash: Password.Hashed): PreparedRecipe =
-      PreparedRecipe(name, email, passwordHash)
+      PreparedRecipe(id, name, email, passwordHash)
   }
 
-  case class PreparedRecipe(name: String, email: User.Email, password: Password.Hashed)
+  case class PreparedRecipe(id: User.Id, name: String, email: User.Email, password: Password.Hashed)
 
   trait Password {
     val value: String
@@ -23,8 +27,14 @@ object UserStore {
   }
 
   object Password {
-    case class Clear(value: String) extends Password
-    case class Hashed(value: String) extends Password
+
+    case class Clear(value: String) extends Password {
+      override def toString: String = "[password in clear]"
+    }
+
+    case class Hashed(value: String) extends Password {
+
+    }
   }
 }
 

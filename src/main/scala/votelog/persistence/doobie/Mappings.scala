@@ -5,6 +5,8 @@ import java.util.UUID
 import doobie.util.{Put, Read}
 import votelog.domain.authorization.User
 import votelog.domain.politics.{Motion, Ngo, Party, Politician, Vote, Votum}
+import doobie.postgres._
+import doobie.postgres.implicits._
 
 object Mappings {
   implicit val votumPut: Put[Votum] =
@@ -17,19 +19,18 @@ object Mappings {
       // postgresql (https://github.com/esarbe/votelog/issues/3)
       Votum.fromString(s).getOrElse(sys.error(s"invalid string representation for votum: $s")))
 
-  implicit val MotionIdPut: Put[Motion.Id] = Put[String].contramap(_.value.toString)
-  implicit val MotionIdRead: Read[Motion.Id] = Read[String].map(v => Motion.Id(UUID.fromString(v)))
+  implicit val MotionIdPut: Put[Motion.Id] = Put[UUID].contramap(_.value)
+  implicit val MotionIdRead: Read[Motion.Id] = Read[UUID].map(v => Motion.Id(v))
 
-  implicit val NgoIdPut: Put[Ngo.Id] = Put[String].contramap(_.value.toString)
-  implicit val NgoIdRead: Read[Ngo.Id] = Read[String].map(v => Ngo.Id(UUID.fromString(v)))
+  implicit val NgoIdPut: Put[Ngo.Id] = Put[UUID].contramap(_.value)
+  implicit val NgoIdRead: Read[Ngo.Id] = Read[UUID].map(v => Ngo.Id(v))
 
-  implicit val PoliticianIdPut: Put[Politician.Id] = Put[String].contramap(_.value.toString)
-  implicit val PoliticianIdRead: Read[Politician.Id] = Read[String].map(v => Politician.Id(UUID.fromString(v)))
+  implicit val PoliticianIdPut: Put[Politician.Id] = Put[UUID].contramap(_.value)
+  implicit val PoliticianIdRead: Read[Politician.Id] = Read[UUID].map(v => Politician.Id(v))
 
-  implicit val UserIdPut: Put[User.Id] = Put[String].contramap(_.value.toString)
-  implicit val UserIdRead: Read[User.Id] = Read[String].map(v => User.Id(UUID.fromString(v)))
+  implicit val UserIdPut: Put[User.Id] = Put[UUID].contramap(_.value)
+  implicit val UserIdRead: Read[User.Id] = Read[UUID].map(v => User.Id(v))
 
-  implicit val PartIdPut: Put[Party.Id] = Put[String].contramap(_.value.toString)
-  implicit val PartyIdRead: Read[Party.Id] = Read[String].map(v => Party.Id(UUID.fromString(v)))
-
+  implicit val PartIdPut: Put[Party.Id] = Put[UUID].contramap(_.value)
+  implicit val PartyIdRead: Read[Party.Id] = Read[UUID].map(v => Party.Id(v))
 }

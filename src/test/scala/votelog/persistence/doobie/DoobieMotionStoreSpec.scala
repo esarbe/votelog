@@ -19,7 +19,13 @@ class DoobieMotionStoreSpec
     with Inside {
 
   implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
+  implicit val transactor =
+    Transactor.fromDriverManager[IO](
+      "org.postgresql.Driver",
+      "jdbc:postgresql:postgres",
+      "postgres",
+      "raclette"
+    )
 
   val store = new DoobieMotionStore(transactor)
   val politician = new DoobiePoliticianStore(transactor)
@@ -27,12 +33,12 @@ class DoobieMotionStoreSpec
 
   schema.initialize.unsafeRunSync()
 
-  val pid1 = politician.create(PoliticianStore.Recipe("foo")).unsafeRunSync()
-  val pid2 = politician.create(PoliticianStore.Recipe("bar")).unsafeRunSync()
+  val pid1 = politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "foo")).unsafeRunSync()
+  val pid2 = politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "bar")).unsafeRunSync()
 
-  val creationRecipe: Recipe = MotionStore.Recipe("foo-motion", pid1)
+  val creationRecipe: Recipe = MotionStore.Recipe(MotionStore.newId, "foo-motion", pid1)
   val createdEntity: Motion.Id => Motion = Motion(_, "foo-motion", pid1)
-  val updatedRecipe: Recipe = Recipe("updated-name", pid2)
+  val updatedRecipe: Recipe = Recipe(MotionStore.newId, "updated-name", pid2)
   val updatedEntity: Motion.Id => Motion = Motion(_, "updated-name", pid2)
 
   it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)

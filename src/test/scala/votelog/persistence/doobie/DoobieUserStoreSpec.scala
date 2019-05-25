@@ -19,7 +19,13 @@ class DoobieUserStoreSpec extends FlatSpec
     with Inside {
 
   implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
+  implicit val transactor =
+    Transactor.fromDriverManager[IO](
+      "org.postgresql.Driver",
+      "jdbc:postgresql:postgres",
+      "postgres",
+      "raclette"
+    )
 
   val hasher = new PasswordHasherAlg[IO] {
     override def hashPassword(password: String): IO[String] = IO.pure(s"hashed$password")
@@ -30,9 +36,9 @@ class DoobieUserStoreSpec extends FlatSpec
 
   schema.initialize.unsafeRunSync()
 
-  val creationRecipe: Recipe = UserStore.Recipe("name", User.Email("email"), Password.Clear("password"))
+  val creationRecipe: Recipe = UserStore.Recipe(UserStore.newId, "name", User.Email("email"), Password.Clear("password"))
   val createdEntity: User.Id => User = _ => User("name", User.Email("email"), "hashedpassword", Set.empty)
-  val updatedRecipe: Recipe = Recipe("new name", User.Email("new email"), Password.Clear("new password"))
+  val updatedRecipe: Recipe = Recipe(UserStore.newId, "new name", User.Email("new email"), Password.Clear("new password"))
   val updatedEntity: User.Id => User = _ => User("new name", User.Email("new email"), "hashednew password", Set.empty)
 
   it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)

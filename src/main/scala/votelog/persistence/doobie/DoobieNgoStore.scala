@@ -17,7 +17,7 @@ class DoobieNgoStore[F[_]: Monad](
     sql"select id from ngo".query[Ngo.Id].accumulate[List]
 
   private def createQuery(recipe: Recipe): doobie.ConnectionIO[Ngo.Id] =
-    sql"insert into ngo (name) values (${recipe.name})"
+    sql"insert into ngo (id, name) values (${recipe.id}, ${recipe.name})"
       .update
       .withUniqueGeneratedKeys[Ngo.Id]("id")
 

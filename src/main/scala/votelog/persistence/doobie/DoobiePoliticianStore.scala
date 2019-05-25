@@ -14,22 +14,21 @@ class DoobiePoliticianStore[F[_]: Monad](
 ) extends PoliticianStore[F] {
 
   def readQuery(id: Politician.Id): ConnectionIO[Politician]
-  = sql"select id, name from politician where id=${id}".query[Politician].unique
+  = sql"select id, name from politicians where id=${id}".query[Politician].unique
 
   def deleteQuery(id: Politician.Id): doobie.ConnectionIO[Int] =
-    sql"delete from politician where id = ${id}"
+    sql"delete from politicians where id = ${id}"
       .update.run
 
   def updateQuery(id: Politician.Id, recipe: Recipe) =
-    sql"update politician set name = ${recipe.name} where id = $id"
+    sql"update politicians set name = ${recipe.name} where id = $id"
 
   def insertQuery(recipe: Recipe): doobie.ConnectionIO[Politician.Id] =
-    sql"insert into politician (name) values (${recipe.name})"
-      .update
-      .withUniqueGeneratedKeys[Politician.Id]("id")
+    sql"insert into politicians (id, name) values (${recipe.id}, ${recipe.name}) RETURNING id"
+      .query[Politician.Id].unique
 
   val indexQuery: doobie.ConnectionIO[List[Politician.Id]] =
-    sql"select id from politician".query[Politician.Id].accumulate[List]
+    sql"select id from politicians".query[Politician.Id].accumulate[List]
 
   override def create(recipe: Recipe): F[Politician.Id] =
     insertQuery(recipe).transact(transactor)

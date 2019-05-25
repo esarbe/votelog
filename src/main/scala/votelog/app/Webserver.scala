@@ -40,7 +40,7 @@ object Webserver extends IOApp {
   private def setupAdmin(user: UserStore[IO]) =
     for {
       _ <- log.info("setting up initial admin account")
-      id <- user.create(UserStore.Recipe("admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
+      id <- user.create(UserStore.Recipe(UserStore.newId, "admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
       _ <- user.grantPermission(id, Component.Root, Capability.Create)
       _ <- user.grantPermission(id, Component.Root, Capability.Read)
       _ <- user.grantPermission(id, Component.Root, Capability.Update)
@@ -63,6 +63,35 @@ object Webserver extends IOApp {
         .compile
         .drain
         .as(ExitCode.Success)
+
+
+  private def createTestData(
+                              services: VoteLog[IO],
+                            ): IO[ExitCode] =
+    for {
+      fooId <- services.politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "foo"))
+      barId <- services.politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "bar"))
+      _ <- log.info(s"foo has id '$fooId'")
+      _ <- log.info(s"bar has id '$barId'")
+      _ <- services.politician.read(fooId)
+      ids <- services.politician.index
+      _ <- ids.map(id => log.info(id.toString)).sequence
+      _ <-
+      ids
+        .headOption
+        .map(services.politician.read)
+        .map(_.flatMap(p => log.info(s"found politician '$p'")))
+        .getOrElse(log.warn("unable to find any politician"))
+      //_ <- ps.delete(Politician.Id(4))
+
+      _ <- services.motion.create(MotionStore.Recipe(MotionStore.newId, "eat the rich 2", fooId))
+
+      // motions
+      motions <- services.motion.index.flatMap(_.map(services.motion.read).sequence)
+      _ <- motions.map(m => log.info(s"found motion: $m")).sequence
+      _ <- services.vote.voteFor(fooId, motions.head.id, Votum.Yes)
+    } yield ExitCode.Success
+
 
   def setupHttpRoutes(
     configuration: Configuration.Security,

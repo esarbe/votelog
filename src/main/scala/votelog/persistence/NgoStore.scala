@@ -7,5 +7,6 @@ import votelog.persistence.NgoStore.Recipe
 trait NgoStore[F[_]] extends StoreAlg[F, Ngo, Ngo.Id, Recipe]
 
 object NgoStore {
-  case class Recipe(name: String)
+
+  case class Recipe(id: Ngo.Id, name: String)
 }
