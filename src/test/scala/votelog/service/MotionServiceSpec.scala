@@ -33,6 +33,7 @@ class MotionServiceSpec extends FlatSpec with Matchers {
     val request = AuthedRequest(user, Request[IO](method = Method.GET, uri = Uri.uri("index")))
     val result = service.run(request).value
 
+    // TODO: find a way to use matchers better
     check(result, Ok, Some(List.empty[Motion.Id].asJson)) shouldBe true
   }
 }
