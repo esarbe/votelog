@@ -1,7 +1,6 @@
 package votelog.persistence.doobie
 
 import cats.Monad
-import cats.data.NonEmptyList
 import votelog.domain.politics.{Motion, Politician}
 import votelog.infrastructure.VoteAlg
 import doobie.implicits._

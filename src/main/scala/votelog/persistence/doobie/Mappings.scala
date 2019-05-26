@@ -5,20 +5,12 @@ import votelog.domain.politics.Votum
 
 object Mappings {
   implicit val votumPut: Put[Votum] =
-    Put[String]
-      .contramap {
-        case Votum.Yes => "yes"
-        case Votum.No => "no"
-        case Votum.Abstain => "abstrain"
-        case Votum.Absent => "absent"
-      }
+    Put[String].contramap(Votum.asString)
 
   implicit val votumRead: Read[Votum] =
-    Read[String].map {
-      case "yes" => Votum.Yes
-      case "no" => Votum.No
-      case "abstrain" => Votum.Abstain
-      case "absent" => Votum.Absent
-    }
-
+    Read[String].map(s =>
+      // yes, this is unsafe. but I don't know a better way to deal with invalid
+      // values from the DB. Votum could be represented as an Enum in
+      // postgresql (https://github.com/esarbe/votelog/issues/3)
+      Votum.fromString(s).getOrElse(sys.error(s"invalid string representation for votum: $s")))
 }
