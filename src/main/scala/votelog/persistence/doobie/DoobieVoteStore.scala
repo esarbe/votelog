@@ -15,7 +15,7 @@ class DoobieVoteStore[F[_]: Monad](
   import Mappings._
 
   def insertQuery(pid: Politician.Id, mid: Motion.Id, v: Votum) =
-    sql"insert into vote (politicianid, motionid, votum) values ($pid, $mid, 'yes')"
+    sql"insert into vote (politicianid, motionid, votum) values ($pid, $mid, $v)"
 
   override def voteFor(p: Politician.Id, m: Motion.Id, v: Votum): F[Unit] =
     insertQuery(p, m, v)
