@@ -8,7 +8,7 @@ import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.domain.politics.Motion
 import votelog.persistence.MotionStore.Recipe
 import votelog.persistence.{MotionStore, PoliticianStore, StoreSpec}
-
+import cats.implicits._
 import scala.concurrent.ExecutionContext
 
 class DoobieMotionStoreSpec
@@ -18,28 +18,21 @@ class DoobieMotionStoreSpec
     with Matchers
     with Inside {
 
-  implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor =
-    Transactor.fromDriverManager[IO](
-      "org.postgresql.Driver",
-      "jdbc:postgresql:postgres",
-      "postgres",
-      "raclette"
-    )
-
   val store = new DoobieMotionStore(transactor)
   val politician = new DoobiePoliticianStore(transactor)
-  val schema = new DoobieSchema(transactor)
 
-  schema.initialize.unsafeRunSync()
-
-  val pid1 = politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "foo")).unsafeRunSync()
-  val pid2 = politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "bar")).unsafeRunSync()
+  val pid1 = PoliticianStore.newId
+  val pid2 = PoliticianStore.newId
 
   val creationRecipe: Recipe = MotionStore.Recipe(MotionStore.newId, "foo-motion", pid1)
   val createdEntity: Motion.Id => Motion = Motion(_, "foo-motion", pid1)
   val updatedRecipe: Recipe = Recipe(MotionStore.newId, "updated-name", pid2)
   val updatedEntity: Motion.Id => Motion = Motion(_, "updated-name", pid2)
 
-  it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
+  val setup: IO[Unit] = IO {
+    politician.create(PoliticianStore.Recipe(pid1, "foo")) *>
+      politician.create(PoliticianStore.Recipe(pid2, "bar"))
+  }
+
+  it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity, setup)
 }

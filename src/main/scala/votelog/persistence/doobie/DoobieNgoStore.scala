@@ -14,21 +14,21 @@ class DoobieNgoStore[F[_]: Monad](
 ) extends NgoStore[F] {
 
   private val indexQuery =
-    sql"select id from ngo".query[Ngo.Id].accumulate[List]
+    sql"select id from ngos".query[Ngo.Id].accumulate[List]
 
   private def createQuery(recipe: Recipe): doobie.ConnectionIO[Ngo.Id] =
-    sql"insert into ngo (id, name) values (${recipe.id}, ${recipe.name})"
+    sql"insert into ngos (id, name) values (${recipe.id}, ${recipe.name})"
       .update
       .withUniqueGeneratedKeys[Ngo.Id]("id")
 
   private def updateQuery(id: Ngo.Id, recipe: Recipe) =
-    sql"update ngo set name = ${recipe.name} where id = $id".update.run
+    sql"update ngos set name = ${recipe.name} where id = $id".update.run
 
   private def deleteQuery(id: Ngo.Id) =
-    sql"delete from ngo where id = $id".update.run
+    sql"delete from ngos where id = $id".update.run
 
   private def readQuery(id: Ngo.Id) =
-    sql"select * from ngo where id = $id".query[Ngo].unique
+    sql"select * from ngos where id = $id".query[Ngo].unique
 
   override def index: F[List[Ngo.Id]] =
     indexQuery.transact(transactor)

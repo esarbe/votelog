@@ -11,11 +11,14 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
   override def initialize: F[Unit] = {
     val drop =
       sql"""
-        drop table if exists politicians;
-        drop table if exists motions;
         drop table if exists votes;
+        drop table if exists motions;
+        drop table if exists politicians;
         drop table if exists ratings;
         drop table if exists ngos;
+        drop table if exists parties;
+        drop table if exists permissions;
+        drop table if exists users;
          """.update.run
 
     val createPoliticianTable =

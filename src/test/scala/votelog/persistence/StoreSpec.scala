@@ -1,21 +1,38 @@
 package votelog.persistence
 
 import cats.effect.IO
-import org.scalatest.{FlatSpec, Inside, Matchers, WordSpec}
+import _root_.doobie.util.transactor.Transactor
+import org.scalatest.{BeforeAndAfterAll, FlatSpec, Inside, Matchers, WordSpec}
 import votelog.infrastructure.StoreAlg
+import votelog.persistence.doobie.DoobieSchema
+import cats.effect.syntax._
+import scala.concurrent.ExecutionContext
+import cats.implicits._
 
 trait StoreSpec
   extends FlatSpec
     with Matchers
-    with Inside {
+    with Inside
+    with BeforeAndAfterAll {
+  implicit val cs = IO.contextShift(ExecutionContext.global)
+  implicit val transactor =
+    Transactor.fromDriverManager[IO](
+      "org.postgresql.Driver",
+      "jdbc:postgresql:postgres",
+      "postgres",
+      "raclette"
+    )
 
   def aStore[Entity, Id, Recipe](
-    store: StoreAlg[IO, Entity, Id, Recipe],
-    creationRecipe: Recipe,
-    createdEntity: Id => Entity,
-    updatedRecipe: Recipe,
-    updatedEntity: Id => Entity,
+                                        store: StoreAlg[IO, Entity, Id, Recipe],
+                                        creationRecipe: Recipe,
+                                        createdEntity: Id => Entity,
+                                        updatedRecipe: Recipe,
+                                        updatedEntity: Id => Entity,
+                                        setup: IO[Unit] = IO.unit,
+                                        teardown: IO[Unit] = IO.unit
   ){
+    (new DoobieSchema(transactor).initialize *> setup).unsafeRunSync()
 
     it should "be able to store an entity" in {
       val check =
@@ -68,5 +85,7 @@ trait StoreSpec
         check.unsafeRunSync()
       }
     }
+
+    teardown.unsafeRunSync()
   }
 }

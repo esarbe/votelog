@@ -17,19 +17,19 @@ class DoobieMotionStore[F[_]: Monad](
     sql"select id, name, submitter from motions where id=${id}".query[Motion].unique
 
   def deleteQuery(id: Motion.Id): doobie.ConnectionIO[Int] =
-    sql"delete from motion where id = ${id}"
+    sql"delete from motions where id = ${id}"
       .update.run
 
   def updateQuery(id: Motion.Id, recipe: Recipe) =
-    sql"update motion set name = ${recipe.name}, submitter = ${recipe.submitter} where id = $id"
+    sql"update motions set name = ${recipe.name}, submitter = ${recipe.submitter} where id = $id"
 
   def insertQuery(recipe: Recipe): doobie.ConnectionIO[Motion.Id] =
-    sql"insert into motion (id, name, submitter) values (${recipe.id}, ${recipe.name}, ${recipe.submitter.value})"
+    sql"insert into motions (id, name, submitter) values (${recipe.id}, ${recipe.name}, ${recipe.submitter.value})"
       .update
       .withUniqueGeneratedKeys[Motion.Id]("id")
 
   val indexQuery: doobie.ConnectionIO[List[Motion.Id]] =
-    sql"select id from motion".query[Motion.Id].accumulate[List]
+    sql"select id from motions".query[Motion.Id].accumulate[List]
 
   override def create(recipe: Recipe): F[Motion.Id] =
     insertQuery(recipe).transact(transactor)

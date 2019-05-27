@@ -1,8 +1,6 @@
 package votelog.persistence.doobie
 
 
-import cats.effect.IO
-import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.domain.politics.Politician
@@ -18,24 +16,12 @@ class DoobiePoliticianStoreSpec
     with Matchers
     with Inside {
 
-  implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor =
-    Transactor.fromDriverManager[IO](
-      "org.postgresql.Driver",
-      "jdbc:postgresql:postgres",
-      "postgres",
-      "raclette"
-    )
-
   val store = new DoobiePoliticianStore(transactor)
-  val schema = new DoobieSchema(transactor)
 
-  schema.initialize.unsafeRunSync()
-
-  val creationRecipe: Recipe = PoliticianStore.Recipe(PoliticianStore.newId, "foo")
-  val createdEntity: Politician.Id => Politician = Politician(_, "foo")
-  val updatedRecipe: Recipe = Recipe(PoliticianStore.newId, "bar")
-  val updatedEntity: Politician.Id => Politician = Politician(_, "bar")
+  val creationRecipe: Recipe = PoliticianStore.Recipe(PoliticianStore.newId, "Francois Fondue")
+  val createdEntity: Politician.Id => Politician = Politician(_, "Francois Fondue")
+  val updatedRecipe: Recipe = Recipe(PoliticianStore.newId, "Herman Rösti")
+  val updatedEntity: Politician.Id => Politician = Politician(_, "Herman Rösti")
 
   it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
 }

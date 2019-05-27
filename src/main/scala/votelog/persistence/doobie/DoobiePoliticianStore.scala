@@ -25,7 +25,8 @@ class DoobiePoliticianStore[F[_]: Monad](
 
   def insertQuery(recipe: Recipe): doobie.ConnectionIO[Politician.Id] =
     sql"insert into politicians (id, name) values (${recipe.id}, ${recipe.name}) RETURNING id"
-      .query[Politician.Id].unique
+      .update
+      .withUniqueGeneratedKeys[Politician.Id]("id")
 
   val indexQuery: doobie.ConnectionIO[List[Politician.Id]] =
     sql"select id from politicians".query[Politician.Id].accumulate[List]

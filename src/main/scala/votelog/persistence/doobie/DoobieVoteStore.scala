@@ -15,7 +15,7 @@ class DoobieVoteStore[F[_]: Monad](
   import Mappings._
 
   def insertQuery(pid: Politician.Id, mid: Motion.Id, v: Votum) =
-    sql"insert into vote (politicianid, motionid, votum) values ($pid, $mid, $v)"
+    sql"insert into votes (politicianid, motionid, votum) values ($pid, $mid, $v)"
 
   override def voteFor(p: Politician.Id, m: Motion.Id, v: Votum): F[Unit] =
     insertQuery(p, m, v)
@@ -25,7 +25,7 @@ class DoobieVoteStore[F[_]: Monad](
       .map(_ => Unit)
 
   override def getVotes(p: Politician.Id): F[List[(Motion.Id, Votum)]] =
-    sql"select motionid, votum from vote where politicianid = ${p.value}".query[(Motion.Id, Votum)]
+    sql"select motionid, votum from votes where politicianid = ${p.value}".query[(Motion.Id, Votum)]
       .stream
       .compile
       .toList

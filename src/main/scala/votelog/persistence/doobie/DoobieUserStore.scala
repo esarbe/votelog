@@ -44,7 +44,7 @@ class DoobieUserStore[F[_]: Monad](
         .unique
 
     val selectPermissions =
-      sql"select capability, component from permission where userid = $id"
+      sql"select capability, component from permissions where userid = $id"
         .query[User.Permission]
         .accumulate[List]
 
@@ -61,7 +61,7 @@ class DoobieUserStore[F[_]: Monad](
 
   def updateQuery(id: User.Id, recipe: PreparedRecipe) =
     sql"""
-         |update user set
+         |update users set
          |name = ${recipe.name},
          |email = ${recipe.email},
          |passwordhash = ${recipe.password}
@@ -71,7 +71,7 @@ class DoobieUserStore[F[_]: Monad](
 
   def insertQuery(recipe: PreparedRecipe): doobie.ConnectionIO[User.Id] =
     sql"""
-        insert into "user" (id, name, email, passwordhash)
+        insert into users (id, name, email, passwordhash)
           values (${recipe.id}, ${recipe.name}, ${recipe.email}, ${recipe.password})
     """
       .update
@@ -140,7 +140,7 @@ class DoobieUserStore[F[_]: Monad](
     component: Component,
     capability: Capability
   ): F[Unit] = {
-    sql"insert into permission (userid, component, capability) values ($userId, $component, $capability)"
+    sql"insert into permissions (userid, component, capability) values ($userId, $component, $capability)"
       .update.run.transact(transactor).map(_ => ())
   }
 
@@ -149,7 +149,7 @@ class DoobieUserStore[F[_]: Monad](
     component: Component,
     capability: Capability
   ): F[Unit] = {
-    sql"delete from permission where userid = $userId and component = $component and capability = $capability"
+    sql"delete from permissions where userid = $userId and component = $component and capability = $capability"
       .update.run.transact(transactor).map(_ => ())
   }
 }
