@@ -42,3 +42,9 @@ overwritten by setting the corresponding environment variables.
 |`GET` | `/api/politican/index` | get politician ids |
 | `POST` | `/api/politician/{id}` | get politician identified by `id`
 ...
+
+## Starting local docker for testing
+```bash
+docker-compose -f testing/docker-compose.yml up postgres
+
+```
