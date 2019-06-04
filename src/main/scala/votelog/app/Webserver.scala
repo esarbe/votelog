@@ -28,19 +28,19 @@ object Webserver extends IOApp {
     for {
       configuration <- loadConfiguration
       voteLog = VoteLog[IO](configuration)
-      runServer <-
-        voteLog.use { voteLog =>
-          val routes = setupHttpRoutes(configuration.security, voteLog)
+      runServer <- voteLog.use { voteLog =>
+        val routes = setupHttpRoutes(configuration.security, voteLog)
 
-          setupAdmin(voteLog.user) *>
-            runVotelogWebserver(configuration.http, routes)
-        }
+        setupAdmin(voteLog.user) *>
+          runVotelogWebserver(configuration.http, routes)
+      }
     } yield runServer
 
   private def setupAdmin(user: UserStore[IO]) =
     for {
       _ <- log.info("setting up initial admin account")
-      id <- user.create(UserStore.Recipe(UserStore.newId, "admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
+      id <- user.create(
+          UserStore.Recipe(UserStore.newId, "admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
       _ <- user.grantPermission(id, Component.Root, Capability.Create)
       _ <- user.grantPermission(id, Component.Root, Capability.Read)
       _ <- user.grantPermission(id, Component.Root, Capability.Update)
@@ -48,12 +48,11 @@ object Webserver extends IOApp {
       _ <- log.info("admin account created")
       user <- user.findByName("admin")
       _ <- log.info(s"user: $user")
-     } yield ()
-
+    } yield ()
 
   private def runVotelogWebserver(
-    config: Configuration.Http,
-    routes: HttpRoutes[IO],
+      config: Configuration.Http,
+      routes: HttpRoutes[IO],
   ): IO[ExitCode] =
     log.info(s"attempting to bind to port ${config.port}") *>
       BlazeServerBuilder[IO]
@@ -64,10 +63,9 @@ object Webserver extends IOApp {
         .drain
         .as(ExitCode.Success)
 
-
   private def createTestData(
-                              services: VoteLog[IO],
-                            ): IO[ExitCode] =
+      services: VoteLog[IO],
+  ): IO[ExitCode] =
     for {
       fooId <- services.politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "foo"))
       barId <- services.politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "bar"))
@@ -76,9 +74,7 @@ object Webserver extends IOApp {
       _ <- services.politician.read(fooId)
       ids <- services.politician.index
       _ <- ids.map(id => log.info(id.toString)).sequence
-      _ <-
-      ids
-        .headOption
+      _ <- ids.headOption
         .map(services.politician.read)
         .map(_.flatMap(p => log.info(s"found politician '$p'")))
         .getOrElse(log.warn("unable to find any politician"))
@@ -92,19 +88,18 @@ object Webserver extends IOApp {
       _ <- services.vote.voteFor(fooId, motions.head.id, Votum.Yes)
     } yield ExitCode.Success
 
-
   def setupHttpRoutes(
-    configuration: Configuration.Security,
-    votelog: VoteLog[IO]
+      configuration: Configuration.Security,
+      votelog: VoteLog[IO]
   ): HttpRoutes[IO] = {
 
     val pws =
       new PoliticianService(
-        component = Root.child("politician"),
-        store = votelog.politician,
-        voteAlg = votelog.vote,
-        log = log,
-        authAlg = votelog.authorization
+          component = Root.child("politician"),
+          store = votelog.politician,
+          voteAlg = votelog.vote,
+          log = log,
+          authAlg = votelog.authorization
       )
 
     val mws = new MotionService(Root.child("motion"), votelog.motion, votelog.authorization)
@@ -116,25 +111,23 @@ object Webserver extends IOApp {
     val clock = Clock[IO]
     val auth = new AuthenticationService(votelog.user, crypto).middleware
 
-    val validateCredentials: BasicCredentials => IO[Option[User]] = {
-      creds =>
-        for {
-          maybeUser <- votelog.user.findByName(creds.username)
-          hashedPassword <- votelog.passwordHasher.hashPassword(creds.password)
-        } yield maybeUser.filter(_.passwordHash === hashedPassword)
+    val validateCredentials: BasicCredentials => IO[Option[User]] = { creds =>
+      for {
+        maybeUser <- votelog.user.findByName(creds.username)
+        hashedPassword <- votelog.passwordHasher.hashPassword(creds.password)
+      } yield maybeUser.filter(_.passwordHash === hashedPassword)
     }
 
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
     val session = new SessionService(crypto, clock)
     val apiRoot = "/api/v0"
 
-
     Router(
-      s"$apiRoot/politician" -> auth(pws.service),
-      s"$apiRoot/motion" -> auth(mws.service),
-      s"$apiRoot/user" -> auth(uws.service),
-      s"$apiRoot/ngo" -> auth(nws.service),
-      s"$apiRoot/auth" -> basicAuth(session.service),
+        s"$apiRoot/politician" -> auth(pws.service),
+        s"$apiRoot/motion" -> auth(mws.service),
+        s"$apiRoot/user" -> auth(uws.service),
+        s"$apiRoot/ngo" -> auth(nws.service),
+        s"$apiRoot/auth" -> basicAuth(session.service),
     )
   }
 }
