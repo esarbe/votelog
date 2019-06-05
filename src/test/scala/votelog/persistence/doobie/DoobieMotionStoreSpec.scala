@@ -19,13 +19,7 @@ class DoobieMotionStoreSpec
     with Inside {
 
   implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor =
-    Transactor.fromDriverManager[IO](
-      "org.h2.Driver",
-      s"jdbc:h2:mem:${getClass.getName};MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
-      "sa",
-      "",
-    )
+  implicit val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
 
   val store = new DoobieMotionStore(transactor)
   val politician = new DoobiePoliticianStore(transactor)

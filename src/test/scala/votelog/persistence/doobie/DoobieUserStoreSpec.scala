@@ -1,15 +1,13 @@
 package votelog.persistence.doobie
 
-import org.scalatest.FlatSpec
 import cats.effect.IO
 import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authorization.User
-import votelog.domain.politics.Politician
 import votelog.persistence.UserStore.{Password, Recipe}
-import votelog.persistence.{PoliticianStore, StoreSpec, UserStore}
+import votelog.persistence.{StoreSpec, UserStore}
 
 import scala.concurrent.ExecutionContext
 
@@ -21,13 +19,7 @@ class DoobieUserStoreSpec extends FlatSpec
     with Inside {
 
   implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor =
-    Transactor.fromDriverManager[IO](
-      "org.h2.Driver",
-      s"jdbc:h2:mem:${getClass.getName};MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
-      "sa",
-      "",
-    )
+  implicit val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
 
   val hasher = new PasswordHasherAlg[IO] {
     override def hashPassword(password: String): IO[String] = IO.pure(s"hashed$password")
