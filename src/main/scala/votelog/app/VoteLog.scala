@@ -7,6 +7,8 @@ import cats.implicits._
 import doobie._
 import doobie.h2.H2Transactor
 import doobie.implicits._
+import doobie.util.transactor.Transactor
+import doobie.util.transactor.Transactor.Aux
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
@@ -31,7 +33,7 @@ object VoteLog {
   def apply[F[_]: Async: ContextShift: Logger](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
-    connectToDatabase[F](configuration.database)
+    Resource.pure[F, Transactor[F]](connectToDatabase[F](configuration.database))
       .evalMap { transactor =>
         initializeDatabase(new DoobieSchema(transactor)) *>
           Async[F].delay(transactor)
@@ -56,19 +58,13 @@ object VoteLog {
 
   def connectToDatabase[F[_]: Async: ContextShift](
     config: Configuration.Database
-  ): Resource[F, Transactor[F]] = {
-    for {
-      ce <- ExecutionContexts.fixedThreadPool[F](32) // connection EC
-      te <- ExecutionContexts.cachedThreadPool[F]    // transaction EC
-      xa <- H2Transactor.newH2Transactor[F](
-        url = config.url,
-        user = config.user,
-        pass = config.password,
-        connectEC = ce, // await connection here
-        transactEC = te, // execute JDBC operations here
-      )
-    } yield xa: Transactor[F]
-  }
+  ): Transactor[F] =
+    Transactor.fromDriverManager[F](
+      driver = config.driver.name,
+      url = config.url,
+      user = config.user,
+      pass = config.password,
+    )
 
 
   private def initializeDatabase[F[_]: ContextShift: Async: Logger](pt: Schema[F]): F[Unit] =
