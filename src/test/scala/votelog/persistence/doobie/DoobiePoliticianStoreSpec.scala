@@ -37,5 +37,5 @@ class DoobiePoliticianStoreSpec
   val updatedRecipe: Recipe = Recipe("bar")
   val updatedEntity: Politician.Id => Politician = Politician(_, "bar")
 
-  it should behave like aRegualStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
+  it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
 }

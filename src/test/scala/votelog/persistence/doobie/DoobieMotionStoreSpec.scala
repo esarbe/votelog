@@ -41,5 +41,5 @@ class DoobieMotionStoreSpec
   val updatedRecipe: Recipe = Recipe("updated-name", pid2)
   val updatedEntity: Motion.Id => Motion = Motion(_, "updated-name", pid2)
 
-  it should behave like aRegualStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
+  it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
 }

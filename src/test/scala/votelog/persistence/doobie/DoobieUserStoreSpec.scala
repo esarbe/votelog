@@ -43,5 +43,5 @@ class DoobieUserStoreSpec extends FlatSpec
   val updatedRecipe: Recipe = Recipe("new name", User.Email("new email"), Password.Clear("new password"))
   val updatedEntity: User.Id => User = _ => User("new name", User.Email("new email"), "hashednew password", Set.empty)
 
-  it should behave like aRegualStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
+  it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
 }

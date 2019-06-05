@@ -9,7 +9,7 @@ trait StoreSpec
     with Matchers
     with Inside {
 
-  def aRegualStore[Entity, Id, Recipe](
+  def aStore[Entity, Id, Recipe](
     store: StoreAlg[IO, Entity, Id, Recipe],
     creationRecipe: Recipe,
     createdEntity: Id => Entity,
