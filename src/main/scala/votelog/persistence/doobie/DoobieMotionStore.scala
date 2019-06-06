@@ -13,18 +13,18 @@ class DoobieMotionStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends MotionStore[F] {
 
-  def readQuery(id: Motion.Id): ConnectionIO[Motion] =
+  private def readQuery(id: Motion.Id): ConnectionIO[Motion] =
     sql"select id, name, submitter from motions where id=${id}".query[Motion].unique
 
-  def deleteQuery(id: Motion.Id): doobie.ConnectionIO[Int] =
+  private def deleteQuery(id: Motion.Id): doobie.ConnectionIO[Int] =
     sql"delete from motions where id = ${id}"
       .update.run
 
-  def updateQuery(id: Motion.Id, recipe: Recipe) =
+  private def updateQuery(id: Motion.Id, recipe: Recipe) =
     sql"update motions set name = ${recipe.name}, submitter = ${recipe.submitter} where id = $id"
 
-  def insertQuery(recipe: Recipe): doobie.ConnectionIO[Motion.Id] =
-    sql"insert into motions (id, name, submitter) values (${recipe.id}, ${recipe.name}, ${recipe.submitter.value})"
+  private def insertQuery(recipe: Recipe, id: Motion.Id): doobie.ConnectionIO[Motion.Id] =
+    sql"insert into motions (id, name, submitter) values (${id}, ${recipe.name}, ${recipe.submitter.value})"
       .update
       .withUniqueGeneratedKeys[Motion.Id]("id")
 
@@ -32,8 +32,10 @@ class DoobieMotionStore[F[_]: Monad](
     sql"select id from motions".query[Motion.Id].accumulate[List]
 
   override def create(recipe: Recipe): F[Motion.Id] =
-    insertQuery(recipe).transact(transactor)
+    create(recipe, MotionStore.newId)
 
+  override def create(r: Recipe, id: Motion.Id): F[Motion.Id] =
+    insertQuery(r, id).transact(transactor)
 
   override def delete(id: Motion.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
@@ -51,5 +53,4 @@ class DoobieMotionStore[F[_]: Monad](
   override def index: F[List[Motion.Id]] =
     indexQuery.transact(transactor)
 
-  override def create(r: Recipe, id: Motion.Id): F[Motion.Id] = ???
 }

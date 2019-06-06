@@ -80,7 +80,7 @@ object Webserver extends IOApp {
         .getOrElse(log.warn("unable to find any politician"))
       //_ <- ps.delete(Politician.Id(4))
 
-      _ <- services.motion.create(MotionStore.Recipe(MotionStore.newId, "eat the rich 2", fooId))
+      _ <- services.motion.create(MotionStore.Recipe("eat the rich 2", fooId))
 
       // motions
       motions <- services.motion.index.flatMap(_.map(services.motion.read).sequence)

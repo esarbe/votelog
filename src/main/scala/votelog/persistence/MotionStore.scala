@@ -10,7 +10,7 @@ trait MotionStore[F[_]] extends StoreAlg[F, Motion, Motion.Id, MotionStore.Recip
 
 object MotionStore {
 
-  case class Recipe(id: Motion.Id, name: String, submitter: Politician.Id)
+  case class Recipe(name: String, submitter: Politician.Id)
 
   def newId: Motion.Id = Motion.Id(UUID.randomUUID())
 }
