@@ -19,18 +19,7 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
         "raclette"
     )
 
-<<<<<<< HEAD
   def aStore[Entity, Id, Recipe](
-                                        store: StoreAlg[IO, Entity, Id, Recipe],
-                                        creationRecipe: Recipe,
-                                        createdEntity: Id => Entity,
-                                        updatedRecipe: Recipe,
-                                        updatedEntity: Id => Entity,
-                                        setup: IO[Unit] = IO.unit,
-                                        teardown: IO[Unit] = IO.unit
-  ){
-=======
-  def aRegualStore[Entity, Id, Recipe](
       store: StoreAlg[IO, Entity, Id, Recipe],
       creationRecipe: Recipe,
       createdEntity: Id => Entity,
@@ -39,7 +28,7 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
       setup: IO[Unit] = IO.unit,
       teardown: IO[Unit] = IO.unit
   ) {
->>>>>>> Fixed formating
+
     (new DoobieSchema(transactor).initialize *> setup).unsafeRunSync()
 
     it should "be able to store an entity" in {
