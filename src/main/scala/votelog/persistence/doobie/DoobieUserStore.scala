@@ -152,5 +152,7 @@ class DoobieUserStore[F[_]: Monad](
     sql"delete from permissions where userid = $userId and component = $component and capability = $capability"
       .update.run.transact(transactor).map(_ => ())
   }
+
+  override def create(r: Recipe, id: User.Id): F[User.Id] = ???
 }
 

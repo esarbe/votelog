@@ -30,8 +30,8 @@ class DoobieMotionStoreSpec
   val updatedEntity: Motion.Id => Motion = Motion(_, "updated-name", pid2)
 
   val setup: IO[Unit] = IO {
-    politician.create(PoliticianStore.Recipe(pid1, "foo")) *>
-      politician.create(PoliticianStore.Recipe(pid2, "bar"))
+    politician.create(PoliticianStore.Recipe("foo"), pid1) *>
+      politician.create(PoliticianStore.Recipe("bar"), pid2)
   }
 
   it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity, setup)

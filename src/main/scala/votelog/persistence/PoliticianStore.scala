@@ -9,7 +9,7 @@ trait PoliticianStore[F[_]] extends StoreAlg[F, Politician, Politician.Id, Polit
 
 object PoliticianStore {
 
-  case class Recipe(id: Politician.Id, name: String)
+  case class Recipe(name: String)
 
   def newId: Politician.Id = Politician.Id(UUID.randomUUID())
 }

@@ -67,8 +67,8 @@ object Webserver extends IOApp {
       services: VoteLog[IO],
   ): IO[ExitCode] =
     for {
-      fooId <- services.politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "foo"))
-      barId <- services.politician.create(PoliticianStore.Recipe(PoliticianStore.newId, "bar"))
+      fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
+      barId <- services.politician.create(PoliticianStore.Recipe("bar"))
       _ <- log.info(s"foo has id '$fooId'")
       _ <- log.info(s"bar has id '$barId'")
       _ <- services.politician.read(fooId)

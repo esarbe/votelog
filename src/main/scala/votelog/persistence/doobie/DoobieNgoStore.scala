@@ -16,8 +16,8 @@ class DoobieNgoStore[F[_]: Monad](
   private val indexQuery =
     sql"select id from ngos".query[Ngo.Id].accumulate[List]
 
-  private def createQuery(recipe: Recipe): doobie.ConnectionIO[Ngo.Id] =
-    sql"insert into ngos (id, name) values (${recipe.id}, ${recipe.name})"
+  private def createQuery(recipe: Recipe, id: Ngo.Id): doobie.ConnectionIO[Ngo.Id] =
+    sql"insert into ngos (id, name) values ($id, ${recipe.name})"
       .update
       .withUniqueGeneratedKeys[Ngo.Id]("id")
 
@@ -34,8 +34,7 @@ class DoobieNgoStore[F[_]: Monad](
     indexQuery.transact(transactor)
 
   override def create(r: Recipe): F[Ngo.Id] =
-    createQuery(r)
-      .transact(transactor)
+    create(r, NgoStore.newId)
 
   override def delete(id: Ngo.Id): F[Unit] =
     deleteQuery(id)
@@ -49,4 +48,8 @@ class DoobieNgoStore[F[_]: Monad](
 
   override def read(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
+
+  override def create(r: Recipe, id: Ngo.Id): F[Ngo.Id] =
+    createQuery(r, id)
+      .transact(transactor)
 }

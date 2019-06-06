@@ -18,9 +18,9 @@ class DoobiePoliticianStoreSpec
 
   val store = new DoobiePoliticianStore(transactor)
 
-  val creationRecipe: Recipe = PoliticianStore.Recipe(PoliticianStore.newId, "Francois Fondue")
+  val creationRecipe: Recipe = PoliticianStore.Recipe("Francois Fondue")
   val createdEntity: Politician.Id => Politician = Politician(_, "Francois Fondue")
-  val updatedRecipe: Recipe = Recipe(PoliticianStore.newId, "Herman Rösti")
+  val updatedRecipe: Recipe = Recipe("Herman Rösti")
   val updatedEntity: Politician.Id => Politician = Politician(_, "Herman Rösti")
 
   it should behave like aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)

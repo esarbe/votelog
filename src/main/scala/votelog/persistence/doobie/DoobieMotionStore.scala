@@ -34,6 +34,7 @@ class DoobieMotionStore[F[_]: Monad](
   override def create(recipe: Recipe): F[Motion.Id] =
     insertQuery(recipe).transact(transactor)
 
+
   override def delete(id: Motion.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
 
@@ -49,4 +50,6 @@ class DoobieMotionStore[F[_]: Monad](
 
   override def index: F[List[Motion.Id]] =
     indexQuery.transact(transactor)
+
+  override def create(r: Recipe, id: Motion.Id): F[Motion.Id] = ???
 }
