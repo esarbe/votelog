@@ -15,6 +15,7 @@ trait MotionStoreDecoders {
 }
 
 trait PoliticianStoreDecoders {
+  implicit val politicianIdCirceDecoder: circe.Decoder[Politician.Id]
   implicit val politicianRecipeCirceDecoder: circe.Decoder[PoliticianStore.Recipe] =
     deriveDecoder[PoliticianStore.Recipe]
 }

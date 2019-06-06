@@ -7,35 +7,34 @@ import doobie.implicits._
 import votelog.domain.politics.Ngo
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
-
+import votelog.persistence.doobie.Mappings._
 
 class DoobieNgoStore[F[_]: Monad](
   transactor: Transactor[F],
 ) extends NgoStore[F] {
 
   private val indexQuery =
-    sql"select id from ngo".query[Ngo.Id].accumulate[List]
+    sql"select id from ngos".query[Ngo.Id].accumulate[List]
 
-  private def createQuery(recipe: Recipe): doobie.ConnectionIO[Ngo.Id] =
-    sql"insert into ngo (name) values (${recipe.name})"
+  private def createQuery(recipe: Recipe, id: Ngo.Id): doobie.ConnectionIO[Ngo.Id] =
+    sql"insert into ngos (id, name) values ($id, ${recipe.name})"
       .update
       .withUniqueGeneratedKeys[Ngo.Id]("id")
 
   private def updateQuery(id: Ngo.Id, recipe: Recipe) =
-    sql"update ngo set name = ${recipe.name} where id = $id".update.run
+    sql"update ngos set name = ${recipe.name} where id = $id".update.run
 
   private def deleteQuery(id: Ngo.Id) =
-    sql"delete from ngo where id = $id".update.run
+    sql"delete from ngos where id = $id".update.run
 
   private def readQuery(id: Ngo.Id) =
-    sql"select * from ngo where id = $id".query[Ngo].unique
+    sql"select * from ngos where id = $id".query[Ngo].unique
 
   override def index: F[List[Ngo.Id]] =
     indexQuery.transact(transactor)
 
   override def create(r: Recipe): F[Ngo.Id] =
-    createQuery(r)
-      .transact(transactor)
+    create(r, NgoStore.newId)
 
   override def delete(id: Ngo.Id): F[Unit] =
     deleteQuery(id)
@@ -49,4 +48,8 @@ class DoobieNgoStore[F[_]: Monad](
 
   override def read(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
+
+  override def create(r: Recipe, id: Ngo.Id): F[Ngo.Id] =
+    createQuery(r, id)
+      .transact(transactor)
 }

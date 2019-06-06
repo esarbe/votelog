@@ -15,9 +15,6 @@ class DoobieVoteStoreSpec extends FlatSpec
   with Matchers
   with Inside {
 
-  implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
-
   val store = new DoobieVoteStore(transactor)
   val politician = new DoobiePoliticianStore(transactor)
   val motion = new DoobieMotionStore(transactor)

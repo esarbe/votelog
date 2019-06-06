@@ -11,7 +11,7 @@ import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
-
+import votelog.persistence.doobie.Mappings._
 
 class DoobieUserStore[F[_]: Monad](
   transactor: doobie.util.transactor.Transactor[F],
@@ -37,14 +37,14 @@ class DoobieUserStore[F[_]: Monad](
       .imap(Component.apply)(_.location)
 
 
-  def readQuery(id: User.Id): ConnectionIO[User] = {
+  private def readQuery(id: User.Id): ConnectionIO[User] = {
     val selectUser =
-      sql"select name, email, passwordhash from user where id=$id"
+      sql"select name, email, passwordhash from users where id=$id"
         .query[(String, String, String)]
         .unique
 
     val selectPermissions =
-      sql"select capability, component from permission where userid = $id"
+      sql"select capability, component from permissions where userid = $id"
         .query[User.Permission]
         .accumulate[List]
 
@@ -55,13 +55,13 @@ class DoobieUserStore[F[_]: Monad](
   }
 
 
-  def deleteQuery(id: User.Id): doobie.ConnectionIO[Int] =
-    sql"delete from user where id = ${id}"
+  private def deleteQuery(id: User.Id): doobie.ConnectionIO[Int] =
+    sql"delete from users where id = ${id}"
       .update.run
 
-  def updateQuery(id: User.Id, recipe: PreparedRecipe) =
+  private def updateQuery(id: User.Id, recipe: PreparedRecipe) =
     sql"""
-         |update user set
+         |update users set
          |name = ${recipe.name},
          |email = ${recipe.email},
          |passwordhash = ${recipe.password}
@@ -69,29 +69,29 @@ class DoobieUserStore[F[_]: Monad](
          |"""
       .stripMargin.update.run
 
-  def insertQuery(recipe: PreparedRecipe): doobie.ConnectionIO[User.Id] =
+  private def insertQuery(recipe: PreparedRecipe, id: User.Id): doobie.ConnectionIO[User.Id] =
     sql"""
-        insert into user (name, email, passwordhash)
-          values (${recipe.name}, ${recipe.email}, ${recipe.password})
+        insert into users (id, name, email, passwordhash)
+          values (${id}, ${recipe.name}, ${recipe.email}, ${recipe.password})
     """
       .update
       .withUniqueGeneratedKeys[User.Id]("id")
 
   def findIdByNameQuery(name: String): doobie.ConnectionIO[Option[User.Id]] =
-    sql"select id from user where name = $name"
+    sql"select id from users where name = $name"
       .query[User.Id]
       .accumulate[Option]
 
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
-    sql"select id from user".query[User.Id].accumulate[List]
+    sql"select id from users".query[User.Id].accumulate[List]
 
-  override def create(recipe: Recipe): F[User.Id] = {
+  override def create(recipe: Recipe, id: User.Id): F[User.Id] = {
 
     val createUser =
       for {
         hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
         updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword)) // this is typesafe
-        id <- insertQuery(updatedRecipe).transact(transactor)
+        id <- insertQuery(updatedRecipe, id).transact(transactor)
       } yield id
 
 
@@ -103,6 +103,9 @@ class DoobieUserStore[F[_]: Monad](
 
     readOrCreate.transact(transactor).flatten
   }
+
+  override def create(r: Recipe): F[User.Id] =
+    create(r, UserStore.newId)
 
   override def delete(id: User.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
@@ -140,7 +143,7 @@ class DoobieUserStore[F[_]: Monad](
     component: Component,
     capability: Capability
   ): F[Unit] = {
-    sql"insert into permission (userid, component, capability) values ($userId, $component, $capability)"
+    sql"insert into permissions (userid, component, capability) values ($userId, $component, $capability)"
       .update.run.transact(transactor).map(_ => ())
   }
 
@@ -149,8 +152,9 @@ class DoobieUserStore[F[_]: Monad](
     component: Component,
     capability: Capability
   ): F[Unit] = {
-    sql"delete from permission where userid = $userId and component = $component and capability = $capability"
+    sql"delete from permissions where userid = $userId and component = $component and capability = $capability"
       .update.run.transact(transactor).map(_ => ())
   }
+
 }
 

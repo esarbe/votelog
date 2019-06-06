@@ -1,1 +1,8 @@
 language: scala
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "CREATE DATABASE postgress;" -U postgres
+  - psql -c "CREATE USER foo WITH PASSWORD 'raclette';" -U postgres

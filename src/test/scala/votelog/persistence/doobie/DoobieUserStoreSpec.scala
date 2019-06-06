@@ -18,17 +18,11 @@ class DoobieUserStoreSpec extends FlatSpec
     with Matchers
     with Inside {
 
-  implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
-
   val hasher = new PasswordHasherAlg[IO] {
     override def hashPassword(password: String): IO[String] = IO.pure(s"hashed$password")
   }
 
   val store = new DoobieUserStore(transactor, hasher)
-  val schema = new DoobieSchema(transactor)
-
-  schema.initialize.unsafeRunSync()
 
   val creationRecipe: Recipe = UserStore.Recipe("name", User.Email("email"), Password.Clear("password"))
   val createdEntity: User.Id => User = _ => User("name", User.Email("email"), "hashedpassword", Set.empty)
