@@ -37,7 +37,7 @@ class DoobieUserStore[F[_]: Monad](
       .imap(Component.apply)(_.location)
 
 
-  def readQuery(id: User.Id): ConnectionIO[User] = {
+  private def readQuery(id: User.Id): ConnectionIO[User] = {
     val selectUser =
       sql"select name, email, passwordhash from users where id=$id"
         .query[(String, String, String)]
@@ -55,11 +55,11 @@ class DoobieUserStore[F[_]: Monad](
   }
 
 
-  def deleteQuery(id: User.Id): doobie.ConnectionIO[Int] =
+  private def deleteQuery(id: User.Id): doobie.ConnectionIO[Int] =
     sql"delete from users where id = ${id}"
       .update.run
 
-  def updateQuery(id: User.Id, recipe: PreparedRecipe) =
+  private def updateQuery(id: User.Id, recipe: PreparedRecipe) =
     sql"""
          |update users set
          |name = ${recipe.name},
@@ -69,10 +69,10 @@ class DoobieUserStore[F[_]: Monad](
          |"""
       .stripMargin.update.run
 
-  def insertQuery(recipe: PreparedRecipe): doobie.ConnectionIO[User.Id] =
+  private def insertQuery(recipe: PreparedRecipe, id: User.Id): doobie.ConnectionIO[User.Id] =
     sql"""
         insert into users (id, name, email, passwordhash)
-          values (${recipe.id}, ${recipe.name}, ${recipe.email}, ${recipe.password})
+          values (${id}, ${recipe.name}, ${recipe.email}, ${recipe.password})
     """
       .update
       .withUniqueGeneratedKeys[User.Id]("id")
@@ -85,13 +85,13 @@ class DoobieUserStore[F[_]: Monad](
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
     sql"select id from users".query[User.Id].accumulate[List]
 
-  override def create(recipe: Recipe): F[User.Id] = {
+  override def create(recipe: Recipe, id: User.Id): F[User.Id] = {
 
     val createUser =
       for {
         hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
         updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword)) // this is typesafe
-        id <- insertQuery(updatedRecipe).transact(transactor)
+        id <- insertQuery(updatedRecipe, id).transact(transactor)
       } yield id
 
 
@@ -103,6 +103,9 @@ class DoobieUserStore[F[_]: Monad](
 
     readOrCreate.transact(transactor).flatten
   }
+
+  override def create(r: Recipe): F[User.Id] =
+    create(r, UserStore.newId)
 
   override def delete(id: User.Id): F[Unit] =
     deleteQuery(id).map(_ => ()).transact(transactor)
@@ -153,6 +156,5 @@ class DoobieUserStore[F[_]: Monad](
       .update.run.transact(transactor).map(_ => ())
   }
 
-  override def create(r: Recipe, id: User.Id): F[User.Id] = ???
 }
 

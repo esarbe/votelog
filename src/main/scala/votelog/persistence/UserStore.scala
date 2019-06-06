@@ -14,12 +14,12 @@ trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
 object UserStore {
   def newId: User.Id = User.Id(UUID.randomUUID())
 
-  case class Recipe(id: User.Id, name: String, email: User.Email, password: Password.Clear) {
+  case class Recipe(name: String, email: User.Email, password: Password.Clear) {
     def prepare(passwordHash: Password.Hashed): PreparedRecipe =
-      PreparedRecipe(id, name, email, passwordHash)
+      PreparedRecipe(name, email, passwordHash)
   }
 
-  case class PreparedRecipe(id: User.Id, name: String, email: User.Email, password: Password.Hashed)
+  case class PreparedRecipe(name: String, email: User.Email, password: Password.Hashed)
 
   trait Password {
     val value: String

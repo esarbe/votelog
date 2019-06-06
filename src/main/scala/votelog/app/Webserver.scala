@@ -40,7 +40,7 @@ object Webserver extends IOApp {
     for {
       _ <- log.info("setting up initial admin account")
       id <- user.create(
-          UserStore.Recipe(UserStore.newId, "admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
+          UserStore.Recipe("admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
       _ <- user.grantPermission(id, Component.Root, Capability.Create)
       _ <- user.grantPermission(id, Component.Root, Capability.Read)
       _ <- user.grantPermission(id, Component.Root, Capability.Update)
