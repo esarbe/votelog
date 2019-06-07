@@ -33,8 +33,8 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
         create table motions (
           id uuid primary key,
           name varchar not null unique,
-          submitter uuid not null,
-          foreign key (submitter) references politicians (id)
+          submitter uuid not null--,
+          --foreign key (submitter) references politicians (id)
         )""".update.run
 
     val createVoteTable =
@@ -106,7 +106,7 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
         createPermissionTable
 
     script
-      .map(_ => ())
+      .void
       .transact(transactor)
   }
 }

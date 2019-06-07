@@ -85,13 +85,13 @@ class DoobieUserStore[F[_]: Monad](
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
     sql"select id from users".query[User.Id].accumulate[List]
 
-  override def create(recipe: Recipe, id: User.Id): F[User.Id] = {
+  override def create(recipe: Recipe): F[User.Id] = {
 
     val createUser =
       for {
         hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
-        updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword)) // this is typesafe
-        id <- insertQuery(updatedRecipe, id).transact(transactor)
+        updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword))
+        id <- insertQuery(updatedRecipe, UserStore.newId).transact(transactor)
       } yield id
 
 
@@ -104,11 +104,8 @@ class DoobieUserStore[F[_]: Monad](
     readOrCreate.transact(transactor).flatten
   }
 
-  override def create(r: Recipe): F[User.Id] =
-    create(r, UserStore.newId)
-
   override def delete(id: User.Id): F[Unit] =
-    deleteQuery(id).map(_ => ()).transact(transactor)
+    deleteQuery(id).void.transact(transactor)
 
   override def update(id: User.Id, recipe: Recipe): F[User] = {
 
@@ -144,7 +141,7 @@ class DoobieUserStore[F[_]: Monad](
     capability: Capability
   ): F[Unit] = {
     sql"insert into permissions (userid, component, capability) values ($userId, $component, $capability)"
-      .update.run.transact(transactor).map(_ => ())
+      .update.run.transact(transactor).void
   }
 
   override def revokePermission(
@@ -153,7 +150,7 @@ class DoobieUserStore[F[_]: Monad](
     capability: Capability
   ): F[Unit] = {
     sql"delete from permissions where userid = $userId and component = $component and capability = $capability"
-      .update.run.transact(transactor).map(_ => ())
+      .update.run.transact(transactor).void
   }
 
 }

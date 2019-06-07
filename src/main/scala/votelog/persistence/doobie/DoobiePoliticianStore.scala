@@ -24,18 +24,18 @@ class DoobiePoliticianStore[F[_]: Monad](
     sql"update politicians set name = ${recipe.name} where id = $id"
 
   def insertQuery(recipe: Recipe, id: Politician.Id): doobie.ConnectionIO[Politician.Id] =
-    sql"insert into politicians (id, name) values ($id, ${recipe.name}) RETURNING id"
+    sql"insert into politicians (id, name) values ($id, ${recipe.name})"
       .update
       .withUniqueGeneratedKeys[Politician.Id]("id")
 
   val indexQuery: doobie.ConnectionIO[List[Politician.Id]] =
     sql"select id from politicians".query[Politician.Id].accumulate[List]
 
-  override def create(recipe: Recipe, id: Politician.Id = PoliticianStore.newId): F[Politician.Id] =
-    insertQuery(recipe, id).transact(transactor)
+  override def create(recipe: Recipe): F[Politician.Id] =
+    insertQuery(recipe, PoliticianStore.newId).transact(transactor)
 
   override def delete(id: Politician.Id): F[Unit] =
-    deleteQuery(id).map(_ => ()).transact(transactor)
+    deleteQuery(id).void.transact(transactor)
 
   override def update(id: Politician.Id, r: Recipe): F[Politician] = {
     for {
@@ -50,7 +50,4 @@ class DoobiePoliticianStore[F[_]: Monad](
 
   override def index: F[List[Politician.Id]] =
     indexQuery.transact(transactor)
-
-  override def create(r: Recipe): F[Politician.Id] =
-    create(r, PoliticianStore.newId)
 }

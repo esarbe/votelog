@@ -32,13 +32,10 @@ class DoobieMotionStore[F[_]: Monad](
     sql"select id from motions".query[Motion.Id].accumulate[List]
 
   override def create(recipe: Recipe): F[Motion.Id] =
-    create(recipe, MotionStore.newId)
-
-  override def create(r: Recipe, id: Motion.Id): F[Motion.Id] =
-    insertQuery(r, id).transact(transactor)
+    insertQuery(recipe, MotionStore.newId).transact(transactor)
 
   override def delete(id: Motion.Id): F[Unit] =
-    deleteQuery(id).map(_ => ()).transact(transactor)
+    deleteQuery(id).void.transact(transactor)
 
   override def update(id: Motion.Id, r: Recipe): F[Motion] = {
     for {
