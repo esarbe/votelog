@@ -32,10 +32,7 @@ object VoteLog {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
     Resource.pure[F, Transactor[F]](buildTransactor[F](configuration.database))
-      .evalMap { transactor =>
-        initializeDatabase(new DoobieSchema(transactor)) *>
-          Async[F].delay(transactor)
-      }
+      .evalMap(Async[F].delay)
       .map(buildAppAlg(hasher))
   }
 
@@ -52,15 +49,6 @@ object VoteLog {
       val authorization = new UserCapabilityAuthorization
       val passwordHasher = hasher
     }
-
-
-  private def initializeDatabase[F[_]: ContextShift: Async: Logger](schema: Schema[F]): F[Unit] =
-    for {
-      _ <- Logger[F].info("Deleting and re-creating database")
-      _ <- schema.initialize
-      _ <- Logger[F].info("Deleting and re-creating database successful")
-    } yield ()
-
 
   private def createTestData[F[_]: ContextShift: Async: Logger](
     services: VoteLog[F],
