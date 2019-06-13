@@ -32,7 +32,7 @@ object VoteLog {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
     Resource.pure[F, Transactor[F]](buildTransactor[F](configuration.database))
-      .evalMap(Async[F].delay)
+      .evalMap(Async[F].delay(_))
       .map(buildAppAlg(hasher))
   }
 
