@@ -2,7 +2,7 @@ package votelog.domain.politics
 
 import java.util.UUID
 
-case class Motion(id: Motion.Id, name: String, submitter: Politician.Id)
+case class Motion(name: String, submitter: Politician.Id)
 
 object Motion {
 

@@ -63,31 +63,6 @@ object Webserver extends IOApp {
         .drain
         .as(ExitCode.Success)
 
-  private def createTestData(
-      services: VoteLog[IO],
-  ): IO[ExitCode] =
-    for {
-      fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
-      barId <- services.politician.create(PoliticianStore.Recipe("bar"))
-      _ <- log.info(s"foo has id '$fooId'")
-      _ <- log.info(s"bar has id '$barId'")
-      _ <- services.politician.read(fooId)
-      ids <- services.politician.index
-      _ <- ids.map(id => log.info(id.toString)).sequence
-      _ <- ids.headOption
-        .map(services.politician.read)
-        .map(_.flatMap(p => log.info(s"found politician '$p'")))
-        .getOrElse(log.warn("unable to find any politician"))
-      //_ <- ps.delete(Politician.Id(4))
-
-      _ <- services.motion.create(MotionStore.Recipe("eat the rich 2", fooId))
-
-      // motions
-      motions <- services.motion.index.flatMap(_.map(services.motion.read).sequence)
-      _ <- motions.map(m => log.info(s"found motion: $m")).sequence
-      _ <- services.vote.voteFor(fooId, motions.head.id, Votum.Yes)
-    } yield ExitCode.Success
-
   def setupHttpRoutes(
       configuration: Configuration.Security,
       votelog: VoteLog[IO]

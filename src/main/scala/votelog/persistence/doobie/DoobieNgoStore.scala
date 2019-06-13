@@ -34,7 +34,7 @@ class DoobieNgoStore[F[_]: Monad](
     indexQuery.transact(transactor)
 
   override def create(r: Recipe): F[Ngo.Id] =
-    create(r, NgoStore.newId)
+    createQuery(r, NgoStore.newId).transact(transactor)
 
   override def delete(id: Ngo.Id): F[Unit] =
     deleteQuery(id)
@@ -49,7 +49,4 @@ class DoobieNgoStore[F[_]: Monad](
   override def read(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
-  override def create(r: Recipe, id: Ngo.Id): F[Ngo.Id] =
-    createQuery(r, id)
-      .transact(transactor)
 }

@@ -19,7 +19,6 @@ class MotionServiceSpec extends FlatSpec with Matchers {
     new MotionStore[IO] {
       override def index: IO[List[Motion.Id]] =IO.pure(Nil)
       override def create(r: MotionStore.Recipe): IO[Motion.Id] = ???
-      override def create(r: MotionStore.Recipe, id: Motion.Id): IO[Motion.Id] = ???
       override def delete(id: Motion.Id): IO[Unit] = ???
       override def update(id: Motion.Id, r: MotionStore.Recipe): IO[Motion] = ???
       override def read(id: Motion.Id): IO[Motion] = ???

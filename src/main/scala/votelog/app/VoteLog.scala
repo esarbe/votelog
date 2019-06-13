@@ -2,21 +2,19 @@ package votelog.app
 
 import cats._
 import cats.effect._
-import cats.effect.implicits._
 import cats.implicits._
-import doobie._
-import doobie.h2.H2Transactor
-import doobie.implicits._
 import doobie.util.transactor.Transactor
-import doobie.util.transactor.Transactor.Aux
+import votelog.app.Database.buildTransactor
+import votelog.app.Webserver.log
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
+import votelog.domain.politics.Votum
 import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.VoteAlg
 import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
-import votelog.persistence.{MotionStore, NgoStore, PoliticianStore, Schema, UserStore}
+import votelog.persistence._
 
 trait VoteLog[F[_]] {
   val vote: VoteAlg[F]
@@ -33,7 +31,7 @@ object VoteLog {
   def apply[F[_]: Async: ContextShift: Logger](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
 
-    Resource.pure[F, Transactor[F]](connectToDatabase[F](configuration.database))
+    Resource.pure[F, Transactor[F]](buildTransactor[F](configuration.database))
       .evalMap { transactor =>
         initializeDatabase(new DoobieSchema(transactor)) *>
           Async[F].delay(transactor)
@@ -56,21 +54,37 @@ object VoteLog {
     }
 
 
-  def connectToDatabase[F[_]: Async: ContextShift](
-    config: Configuration.Database
-  ): Transactor[F] =
-    Transactor.fromDriverManager[F](
-      driver = config.driver.name,
-      url = config.url,
-      user = config.user,
-      pass = config.password,
-    )
-
-
-  private def initializeDatabase[F[_]: ContextShift: Async: Logger](pt: Schema[F]): F[Unit] =
+  private def initializeDatabase[F[_]: ContextShift: Async: Logger](schema: Schema[F]): F[Unit] =
     for {
       _ <- Logger[F].info("Deleting and re-creating database")
-      _ <- pt.initialize
+      _ <- schema.initialize
       _ <- Logger[F].info("Deleting and re-creating database successful")
     } yield ()
+
+
+  private def createTestData[F[_]: ContextShift: Async: Logger](
+    services: VoteLog[F],
+  ) =
+    for {
+      fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
+      barId <- services.politician.create(PoliticianStore.Recipe("bar"))
+      _ <- Logger[F].info(s"foo has id '$fooId'")
+      _ <- Logger[F].info(s"bar has id '$barId'")
+      _ <- services.politician.read(fooId)
+      ids <- services.politician.index
+      _ <- ids.map(id => Logger[F].info(id.toString)).sequence
+      _ <- ids.headOption
+        .map(services.politician.read)
+        .map(_.flatMap(p => Logger[F].info(s"found politician '$p'")))
+        .getOrElse(Logger[F].warn("unable to find any politician"))
+      //_ <- ps.delete(Politician.Id(4))
+
+      _ <- services.motion.create(MotionStore.Recipe("eat the rich 2", fooId))
+
+      // motions
+      motionIds <- services.motion.index
+      motions <- motionIds.map(services.motion.read).sequence
+      _ <- motions.map(m => Logger[F].info(s"found motion: $m")).sequence
+      _ <- services.vote.voteFor(fooId, motionIds.head, Votum.Yes)
+    } yield services
 }

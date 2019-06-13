@@ -2,7 +2,7 @@ package votelog.domain.politics
 
 import java.util.UUID
 
-case class Politician(id: Politician.Id, name: String)
+case class Politician(name: String)
 
 object Politician {
 
