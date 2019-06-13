@@ -27,28 +27,14 @@ object Webserver extends IOApp {
   def run(args: List[String]): IO[ExitCode] =
     for {
       configuration <- loadConfiguration
+      _ <- log.info(s"configuration: $configuration")
       voteLog = VoteLog[IO](configuration)
       runServer <- voteLog.use { voteLog =>
         val routes = setupHttpRoutes(configuration.security, voteLog)
 
-        setupAdmin(voteLog.user) *>
-          runVotelogWebserver(configuration.http, routes)
+        runVotelogWebserver(configuration.http, routes)
       }
     } yield runServer
-
-  private def setupAdmin(user: UserStore[IO]) =
-    for {
-      _ <- log.info("setting up initial admin account")
-      id <- user.create(
-          UserStore.Recipe("admin", User.Email("admin@votelog.ch"), Password.Clear("foo")))
-      _ <- user.grantPermission(id, Component.Root, Capability.Create)
-      _ <- user.grantPermission(id, Component.Root, Capability.Read)
-      _ <- user.grantPermission(id, Component.Root, Capability.Update)
-      _ <- user.grantPermission(id, Component.Root, Capability.Delete)
-      _ <- log.info("admin account created")
-      user <- user.findByName("admin")
-      _ <- log.info(s"user: $user")
-    } yield ()
 
   private def runVotelogWebserver(
       config: Configuration.Http,
