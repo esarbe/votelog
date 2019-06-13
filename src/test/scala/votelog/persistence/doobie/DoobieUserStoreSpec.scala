@@ -22,7 +22,7 @@ class DoobieUserStoreSpec
     with Inside {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
-  val transactor: Transactor[IO] = Database.buildTransactor(TransactorBuilder.buildDatabaseConfig)
+  val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
 
   val hasher = new PasswordHasherAlg[IO] {
     override def hashPassword(password: String): IO[String] = IO.pure(s"hashed$password")
