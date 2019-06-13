@@ -1,23 +1,10 @@
 package votelog.persistence
 
 import cats.effect.IO
-import _root_.doobie.util.transactor.Transactor
-import org.scalatest.{BeforeAndAfterAll, FlatSpec, Inside, Matchers, WordSpec}
+import org.scalatest.{BeforeAndAfterAll, FlatSpec, Inside, Matchers}
 import votelog.infrastructure.StoreAlg
-import votelog.persistence.doobie.DoobieSchema
-import cats.effect.syntax._
-import scala.concurrent.ExecutionContext
-import cats.implicits._
 
 trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAll {
-  implicit val cs = IO.contextShift(ExecutionContext.global)
-  implicit val transactor =
-    Transactor.fromDriverManager[IO](
-        "org.postgresql.Driver",
-        "jdbc:postgresql:postgres",
-        "postgres",
-        "raclette"
-    )
 
   def aStore[Entity, Id, Recipe](
     store: StoreAlg[IO, Entity, Id, Recipe],
@@ -25,19 +12,18 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
     createdEntity: Id => Entity,
     updatedRecipe: Recipe,
     updatedEntity: Id => Entity,
-  ) {
-
-    (new DoobieSchema(transactor).initialize).unsafeRunSync()
+  ): IO[Unit] = IO {
 
     it should "be able to store an entity" in {
       val check =
         for {
           indexBefore <- store.index
-          _ <- store.create(creationRecipe)
+          id <- store.create(creationRecipe)
           indexAfter <- store.index
         } yield {
           indexBefore shouldBe empty
           indexAfter.length shouldBe 1
+          indexAfter shouldBe List(id)
         }
 
       check.unsafeRunSync()
@@ -49,13 +35,6 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
       inside(entities) {
         case List(id) =>
           val entity = store.read(id).unsafeRunSync()
-
-          import _root_.doobie.implicits._
-
-          sql"select * from motions".query
-
-          println(entity)
-
           entity shouldBe createdEntity(id)
       }
     }
@@ -72,7 +51,7 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
       }
     }
 
-    ignore should "be able to delete stored entity" in {
+    it should "be able to delete stored entity" in {
       val entities = store.index.unsafeRunSync()
 
       inside(entities) {

@@ -1,5 +1,7 @@
 package votelog.persistence.doobie
 
+import java.util.UUID
+
 import cats._
 import cats.free.Free
 import cats.implicits._
@@ -69,13 +71,15 @@ class DoobieUserStore[F[_]: Monad](
          |"""
       .stripMargin.update.run
 
-  private def insertQuery(recipe: PreparedRecipe, id: User.Id): doobie.ConnectionIO[User.Id] =
+  private def insertQuery(recipe: PreparedRecipe, id: User.Id) = {
     sql"""
-        insert into users (id, name, email, passwordhash)
-          values (${id}, ${recipe.name}, ${recipe.email}, ${recipe.password})
-    """
+         |insert into users (id, name, email, passwordhash)
+         |values (${id}, ${recipe.name}, ${recipe.email}, ${recipe.password})"""
+      .stripMargin
       .update
-      .withUniqueGeneratedKeys[User.Id]("id")
+      .run
+  }
+
 
   def findIdByNameQuery(name: String): doobie.ConnectionIO[Option[User.Id]] =
     sql"select id from users where name = $name"
@@ -85,24 +89,13 @@ class DoobieUserStore[F[_]: Monad](
   val indexQuery: doobie.ConnectionIO[List[User.Id]] =
     sql"select id from users".query[User.Id].accumulate[List]
 
-  override def create(recipe: Recipe): F[User.Id] = {
-
-    val createUser =
-      for {
-        hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
-        updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword))
-        id <- insertQuery(updatedRecipe, UserStore.newId).transact(transactor)
-      } yield id
-
-
-    val readOrCreate = // there must be a better way ...
-      findIdByNameQuery(recipe.name)
-        .map { maybeUser =>
-           maybeUser.map(userid => Monad[F].pure(userid)).getOrElse(createUser)
-        }
-
-    readOrCreate.transact(transactor).flatten
-  }
+  override def create(recipe: Recipe): F[User.Id] =
+    for {
+      hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
+      updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword))
+      id = UserStore.newId
+      _ <- insertQuery(updatedRecipe, id).transact(transactor)
+    } yield id
 
   override def delete(id: User.Id): F[Unit] =
     deleteQuery(id).void.transact(transactor)

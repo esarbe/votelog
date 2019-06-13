@@ -1,12 +1,13 @@
 package votelog.persistence.doobie
 
 import cats.Monad
+import cats.effect.Sync
 import cats.implicits._
 import doobie._
 import doobie.implicits._
 import votelog.persistence.Schema
 
-class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
+class DoobieSchema[F[_]: Sync](transactor: Transactor[F]) extends Schema[F] {
 
   override def initialize: F[Unit] = {
     val drop =
@@ -25,7 +26,9 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
       sql"""
         create table politicians (
           id uuid primary key,
-          name varchar not null unique
+          partyid uuid,
+          name varchar not null unique,
+          foreign key (partyid) references parties (id)
         )""".update.run
 
     val createMotionTable =
@@ -33,8 +36,8 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
         create table motions (
           id uuid primary key,
           name varchar not null unique,
-          submitter uuid not null--,
-          --foreign key (submitter) references politicians (id)
+          submitter uuid not null,
+          foreign key (submitter) references politicians (id)
         )""".update.run
 
     val createVoteTable =
@@ -52,8 +55,7 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
       sql"""
         create table ngos (
           id uuid primary key,
-          name varchar not null,
-          password varchar not null
+          name varchar not null
         )""".update.run
 
     val createRatingTable =
@@ -61,7 +63,9 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
         create table ratings (
           politicianid uuid not null,
           ngoid uuid not null,
-          value real not null
+          value real not null,
+          foreign key (politicianid) references politicians (id),
+          foreign key (ngoid) references ngos (id)
         )
          """.update.run
 
@@ -96,12 +100,12 @@ class DoobieSchema[F[_]: Monad](transactor: Transactor[F]) extends Schema[F] {
 
     val script =
       drop *>
+        createPartyTable *>
         createPoliticianTable *>
         createMotionTable *>
         createVoteTable *>
         createNgoTable *>
         createRatingTable *>
-        createPartyTable *>
         createUserTable *>
         createPermissionTable
 

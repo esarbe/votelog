@@ -5,9 +5,11 @@ import cats.effect._
 import cats.implicits._
 import doobie.util.transactor.Transactor
 import votelog.app.Database.buildTransactor
+import votelog.app.Webserver.log
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
+import votelog.domain.politics.Votum
 import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.VoteAlg
 import votelog.infrastructure.logging.Logger
@@ -52,10 +54,37 @@ object VoteLog {
     }
 
 
-  private def initializeDatabase[F[_]: ContextShift: Async: Logger](pt: Schema[F]): F[Unit] =
+  private def initializeDatabase[F[_]: ContextShift: Async: Logger](schema: Schema[F]): F[Unit] =
     for {
       _ <- Logger[F].info("Deleting and re-creating database")
-      _ <- pt.initialize
+      _ <- schema.initialize
       _ <- Logger[F].info("Deleting and re-creating database successful")
     } yield ()
+
+
+  private def createTestData[F[_]: ContextShift: Async: Logger](
+    services: VoteLog[F],
+  ) =
+    for {
+      fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
+      barId <- services.politician.create(PoliticianStore.Recipe("bar"))
+      _ <- Logger[F].info(s"foo has id '$fooId'")
+      _ <- Logger[F].info(s"bar has id '$barId'")
+      _ <- services.politician.read(fooId)
+      ids <- services.politician.index
+      _ <- ids.map(id => Logger[F].info(id.toString)).sequence
+      _ <- ids.headOption
+        .map(services.politician.read)
+        .map(_.flatMap(p => Logger[F].info(s"found politician '$p'")))
+        .getOrElse(Logger[F].warn("unable to find any politician"))
+      //_ <- ps.delete(Politician.Id(4))
+
+      _ <- services.motion.create(MotionStore.Recipe("eat the rich 2", fooId))
+
+      // motions
+      motionIds <- services.motion.index
+      motions <- motionIds.map(services.motion.read).sequence
+      _ <- motions.map(m => Logger[F].info(s"found motion: $m")).sequence
+      _ <- services.vote.voteFor(fooId, motionIds.head, Votum.Yes)
+    } yield services
 }
