@@ -4,7 +4,7 @@ import cats._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
-import votelog.domain.politics.Ngo
+import votelog.domain.politics.{Motion, Ngo, Politician, Scoring}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 import votelog.persistence.doobie.Mappings._
@@ -49,4 +49,11 @@ class DoobieNgoStore[F[_]: Monad](
   override def read(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
+  override def politiciansScoredBy(ngo: Ngo.Id): F[List[(Politician.Id, Scoring.Score)]] = ???
+
+  override def motionsScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Scoring.Score)]] = ???
+
+  override def scorePolitician(ngo: Ngo.Id, politician: Politician.Id, score: Scoring.Score): F[Unit] = ???
+
+  override def scoreMotion(ngo: Ngo.Id, motion: Motion.Id, score: Scoring.Score): F[Unit] = ???
 }
