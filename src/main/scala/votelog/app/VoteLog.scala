@@ -49,30 +49,4 @@ object VoteLog {
       val authorization = new UserCapabilityAuthorization
       val passwordHasher = hasher
     }
-
-  private def createTestData[F[_]: ContextShift: Async: Logger](
-    services: VoteLog[F],
-  ) =
-    for {
-      fooId <- services.politician.create(PoliticianStore.Recipe("foo"))
-      barId <- services.politician.create(PoliticianStore.Recipe("bar"))
-      _ <- Logger[F].info(s"foo has id '$fooId'")
-      _ <- Logger[F].info(s"bar has id '$barId'")
-      _ <- services.politician.read(fooId)
-      ids <- services.politician.index
-      _ <- ids.map(id => Logger[F].info(id.toString)).sequence
-      _ <- ids.headOption
-        .map(services.politician.read)
-        .map(_.flatMap(p => Logger[F].info(s"found politician '$p'")))
-        .getOrElse(Logger[F].warn("unable to find any politician"))
-      //_ <- ps.delete(Politician.Id(4))
-
-      _ <- services.motion.create(MotionStore.Recipe("eat the rich 2", fooId))
-
-      // motions
-      motionIds <- services.motion.index
-      motions <- motionIds.map(services.motion.read).sequence
-      _ <- motions.map(m => Logger[F].info(s"found motion: $m")).sequence
-      _ <- services.vote.voteFor(fooId, motionIds.head, Votum.Yes)
-    } yield services
 }
