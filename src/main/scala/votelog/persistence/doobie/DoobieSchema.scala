@@ -58,16 +58,18 @@ class DoobieSchema[F[_]: Sync](transactor: Transactor[F]) extends Schema[F] {
           name varchar not null
         )""".update.run
 
-    val createRatingTable =
+    val createMotionsScoresTable =
       sql"""
-        create table ratings (
-          politicianid uuid not null,
+        create table motions_scores (
           ngoid uuid not null,
-          value real not null,
-          foreign key (politicianid) references politicians (id),
-          foreign key (ngoid) references ngos (id)
+          motionid uuid not null,
+          score real not null,
+          foreign key (ngoid) references ngos (id),
+          foreign key (motionid) references motions (id),
+          primary key (ngoid, motionid)
         )
          """.update.run
+
 
     val createPartyTable =
       sql"""
@@ -105,7 +107,7 @@ class DoobieSchema[F[_]: Sync](transactor: Transactor[F]) extends Schema[F] {
         createMotionTable *>
         createVoteTable *>
         createNgoTable *>
-        createRatingTable *>
+        createMotionsScoresTable *>
         createUserTable *>
         createPermissionTable
 
