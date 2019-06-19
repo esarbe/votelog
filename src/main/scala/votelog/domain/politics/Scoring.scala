@@ -6,6 +6,7 @@ trait Scoring[F[_]] {
   def motionsScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Score)]]
   def politiciansScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Score)]]
   def scoreMotion(ngo: Ngo.Id, motion: Motion.Id, score: Score): F[Unit]
+  def removeMotionScore(ngo: Ngo.Id, motion: Motion.Id): F[Unit]
 }
 
 object Scoring {

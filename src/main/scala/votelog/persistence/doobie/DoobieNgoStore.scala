@@ -45,6 +45,9 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
           sql"insert into motions_scores values ($ngoId, $motionId, $score)".update.run
     } yield ()
 
+  def deleteMotionScoreQuery(ngoId: Ngo.Id, motionId: Motion.Id) =
+    sql"delete from motions_scores where ngoid = $ngoId and motionid = $motionId".update.run
+
 
   private def selectMotionScore(ngoId: Ngo.Id): doobie.ConnectionIO[List[(Motion.Id, Score)]] =
     sql"select motionid, score from motions_scores where ngoid = $ngoId"
@@ -82,5 +85,8 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
   override def politiciansScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Scoring.Score)]] = ???
 
   override def scoreMotion(ngo: Ngo.Id, motion: Motion.Id, score: Scoring.Score): F[Unit] =
-    upsertMotionScoreQuery(ngo, motion, score).transact(transactor).void
+    upsertMotionScoreQuery(ngo, motion, score).transact(transactor)
+
+  override def removeMotionScore(ngo: Ngo.Id, motion: Motion.Id): F[Unit] =
+    deleteMotionScoreQuery(ngo, motion).transact(transactor).void
 }
