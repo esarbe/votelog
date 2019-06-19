@@ -12,6 +12,7 @@ class DoobieSchema[F[_]: Sync](transactor: Transactor[F]) extends Schema[F] {
   override def initialize: F[Unit] = {
     val drop =
       sql"""
+        drop table if exists motions_scores;
         drop table if exists votes;
         drop table if exists motions;
         drop table if exists politicians;
