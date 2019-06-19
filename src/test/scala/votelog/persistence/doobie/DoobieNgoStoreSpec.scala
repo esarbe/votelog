@@ -82,6 +82,7 @@ class DoobieNgoStoreSpec
         afterUpdate shouldBe Nil
       }
 
+    check.unsafeRunSync()
   }
 
 }
