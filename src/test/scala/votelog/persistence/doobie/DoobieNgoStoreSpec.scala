@@ -2,8 +2,8 @@ package votelog.persistence.doobie
 
 import cats.effect.{ContextShift, IO}
 import doobie.util.transactor.Transactor
-import org.scalatest.{FlatSpec, Inside, Matchers}
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.{FlatSpec, Matchers}
 import votelog.domain.politics.Ngo
 import votelog.domain.politics.Scoring.Score
 import votelog.persistence.NgoStore.Recipe
@@ -15,8 +15,7 @@ class DoobieNgoStoreSpec
   extends FlatSpec
     with StoreSpec
     with ScalaFutures
-    with Matchers
-    with Inside {
+    with Matchers {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
   val transactor: Transactor[IO] = TransactorBuilder.buildTransactor(getClass.getName)
@@ -31,12 +30,10 @@ class DoobieNgoStoreSpec
   val updatedRecipe: Recipe = Recipe("Pink Panther")
   val updatedEntity: Ngo.Id => Ngo = _ => Ngo("Pink Panther")
 
-  override def beforeAll(): Unit = {
-    schema.initialize.unsafeRunSync()
-  }
 
   val ngoStore =
     for {
+      _ <- schema.initialize
       ngoStore <- aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
     } yield ngoStore
 
@@ -47,6 +44,7 @@ class DoobieNgoStoreSpec
 
     val check =
       for {
+        _ <- schema.initialize
         pid <- politicians.create(PoliticianStore.Recipe("Freddy"))
         mid <- motions.create(MotionStore.Recipe("Move To Mars", pid))
         nid <- store.create(NgoStore.Recipe("Earthicans"))
@@ -68,6 +66,7 @@ class DoobieNgoStoreSpec
   it should "remove an existing record" in {
     val check =
       for {
+        _ <- schema.initialize
         pid <- politicians.create(PoliticianStore.Recipe("Freddy"))
         mid <- motions.create(MotionStore.Recipe("Move To Mars", pid))
         nid <- store.create(NgoStore.Recipe("Earthicans"))
