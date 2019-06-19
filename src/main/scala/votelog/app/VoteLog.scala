@@ -9,14 +9,15 @@ import votelog.app.Webserver.log
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
-import votelog.domain.politics.Votum
+import votelog.domain.politics.Scoring.{Score, Weight}
+import votelog.domain.politics.{Motion, Ngo, Votum}
 import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.VoteAlg
 import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
 import votelog.persistence._
 
-trait VoteLog[F[_]] {
+abstract class VoteLog[F[_]: Applicative] {
   val vote: VoteAlg[F]
   val politician: PoliticianStore[F]
   val motion: MotionStore[F]
@@ -24,6 +25,22 @@ trait VoteLog[F[_]] {
   val ngo: NgoStore[F]
   val authorization: AuthorizationAlg[F]
   val passwordHasher: PasswordHasherAlg[F]
+
+
+  // TODO: this should not be part of the store. extract into separate
+  // service/alg and use stores from there
+  def politiciansScoredBy(ngos: Map[Ngo.Id, Weight]): F[List[(Motion.Id, Score)]] = {
+
+    ngos
+      .toList
+      .traverse { case (id, weight) =>
+        ngo.motionsScoredBy(id)
+      }
+
+
+    ???
+  }
+
 }
 
 object VoteLog {

@@ -4,8 +4,8 @@ import cats._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
-import votelog.domain.politics.Scoring.Score
-import votelog.domain.politics.{Motion, Ngo, Politician, Scoring}
+import votelog.domain.politics.Scoring.{Score, Weight}
+import votelog.domain.politics.{Motion, Ngo}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 import votelog.persistence.doobie.Mappings._
@@ -51,7 +51,7 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
 
   private def selectMotionScore(ngoId: Ngo.Id): doobie.ConnectionIO[List[(Motion.Id, Score)]] =
     sql"select motionid, score from motions_scores where ngoid = $ngoId"
-      .query[(Motion.Id, Scoring.Score)]
+      .query[(Motion.Id, Score)]
       .accumulate[List]
 
 
@@ -79,14 +79,13 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
   override def read(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
-  override def motionsScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Scoring.Score)]] =
+  override def motionsScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Score)]] =
     selectMotionScore(ngo).transact(transactor)
 
-  override def politiciansScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Scoring.Score)]] = ???
-
-  override def scoreMotion(ngo: Ngo.Id, motion: Motion.Id, score: Scoring.Score): F[Unit] =
+  override def scoreMotion(ngo: Ngo.Id, motion: Motion.Id, score: Score): F[Unit] =
     upsertMotionScoreQuery(ngo, motion, score).transact(transactor)
 
   override def removeMotionScore(ngo: Ngo.Id, motion: Motion.Id): F[Unit] =
     deleteMotionScoreQuery(ngo, motion).transact(transactor).void
+
 }

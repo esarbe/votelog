@@ -16,9 +16,11 @@ object Console extends IOApp {
     for {
       configuration <- loadConfiguration
       transactor = Database.buildTransactor[IO](configuration.database)
+      _ <- log.info(s"configuration: $configuration")
       voteLog = VoteLog[IO](configuration)
-      runServer <- voteLog.use(setup)
-    } yield runServer
+      _ <- new DoobieSchema[IO](transactor).initialize
+      _ <- voteLog.use(v => setupAdmin(v.user))
+    } yield ExitCode.Success
 
 
   private def setupAdmin(user: UserStore[IO]) =

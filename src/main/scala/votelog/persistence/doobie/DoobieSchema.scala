@@ -1,6 +1,5 @@
 package votelog.persistence.doobie
 
-import cats.Monad
 import cats.effect.Sync
 import cats.implicits._
 import doobie._
