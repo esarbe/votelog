@@ -7,10 +7,9 @@ object Dependencies {
 
   lazy val common =
     libraryDependencies ++= Seq(
-      "com.beachape" %% "enumeratum" % "1.5.12",
-      "com.monovore" %% "decline" % "0.5.0",
-      "com.github.pureconfig" %% "pureconfig" % "0.10.2",
-      "com.github.pureconfig" %% "pureconfig-cats-effect" % "0.10.2",
+      "com.beachape" %% "enumeratum" % "1.5.13",
+      "com.github.pureconfig" %% "pureconfig" % "0.11.1",
+//      "com.github.pureconfig" %% "pureconfig-cats-effect" % "0.10.2",
     )
   
   lazy val circe =
@@ -22,14 +21,14 @@ object Dependencies {
 
   lazy val logging =
     libraryDependencies ++= Seq(
-      "org.log4s" %% "log4s" % "1.7.0",
+      "org.log4s" %% "log4s" % "1.8.2",
       "ch.qos.logback" % "logback-classic" % "1.1.2",
       "org.slf4j" % "slf4j-simple" % "1.7.25"
     )
 
   lazy val crypto =
     libraryDependencies ++= Seq(
-      "org.reactormonk" %% "cryptobits" % "1.2"
+      "org.reactormonk" %% "cryptobits" % "1.3"
     )
 
   lazy val doobie =
@@ -42,8 +41,8 @@ object Dependencies {
 
   lazy val cats =
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-core" % "1.6.0" withSources(),
-      "org.typelevel" %% "cats-effect" % "1.2.0" withSources(),
+      "org.typelevel" %% "cats-core" % "2.0.0-M4" withSources(),
+      "org.typelevel" %% "cats-effect" % "2.0.0-M4" withSources(),
     )
 
   val web =
@@ -56,7 +55,7 @@ object Dependencies {
   val test =
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.0.5" % Test,
-      "org.scalacheck" %% "scalacheck" % "1.13.4" % Test,
+      "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
     )
 
 
