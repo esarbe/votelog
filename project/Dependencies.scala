@@ -9,7 +9,6 @@ object Dependencies {
     libraryDependencies ++= Seq(
       "com.beachape" %% "enumeratum" % "1.5.13",
       "com.github.pureconfig" %% "pureconfig" % "0.11.1",
-//      "com.github.pureconfig" %% "pureconfig-cats-effect" % "0.10.2",
     )
   
   lazy val circe =
