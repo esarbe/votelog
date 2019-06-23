@@ -2,8 +2,10 @@
 import argparse
 import datetime
 
-import psycopg2 as psycopg2
+import pymysql.cursors
+import pymysql
 import requests
+from pymysql import ProgrammingError
 
 from odata.odata import create_parser, logger, _to_snake_case
 from odata.topology import get_topology
@@ -21,7 +23,7 @@ SYNC_BY_FK = {
 
 def _parse_date(datestring):
     """
-    Convert  "ASP.Net JSON Date" (e.g. '/Date(1293368772797)/') to a timestamp string understood by PostgreSQL.
+    Convert  "ASP.Net JSON Date" (e.g. '/Date(1293368772797)/') to a timestamp string understood by the SQL driver.
     :param datestring: A "ASP.Net JSON Date" string
     :return:
     """
@@ -151,33 +153,25 @@ def fetch_entities_by_fk(entity_type_to_fetch, fk, fetcher, languages=None):
 
 
 def update_db(connection, table_name, columns, rows):
-    statement = 'INSERT INTO {} ({}) VALUES ({}) on CONFLICT ON CONSTRAINT {}_pkey DO UPDATE SET ({}) = ({})'.format(
+    statement = 'INSERT INTO {} ({}) VALUES ({}) ON DUPLICATE KEY UPDATE {};'.format(
         table_name,
         ', '.join(columns),
         ', '.join(['%s'] * len(columns)),
-        table_name,
-        ', '.join(columns),
-        ', '.join(['EXCLUDED.' + c for c in columns]))
+        ', '.join(["{}=VALUES({})".format(c, c) for c in columns]))
     with connection.cursor() as cur:
         def do_many(rows):
             try:
                 cur.executemany(statement, rows)
                 connection.commit()
                 return
-            except psycopg2.errors.ForeignKeyViolation as e:
+            except ProgrammingError as e:
+                connection.rollback()
+                logger.fatal(e)
+                exit(-1)
+            except Exception as e:
                 connection.rollback()
                 if len(rows) == 1:
-                    logger.error(e)
-                    return
-            except psycopg2.errors.IntervalFieldOverflow as e:
-                connection.rollback()
-                if len(rows) == 1:
-                    logger.error(e)
-                    return
-            except psycopg2.errors.InvalidDatetimeFormat as e:
-                connection.rollback()
-                if len(rows) == 1:
-                    logger.error(e)
+                    logger.error("{}: {}".format(str(rows[0]), e))
                     return
 
             do_many(rows[len(rows) // 2:])
@@ -203,6 +197,11 @@ def main():
                         action="count",
                         default=0,
                         help="Increase log verbosity for each occurrence.")
+    parser.add_argument("-u", "--user", type=str, required=True)
+    parser.add_argument("-p", "--password", type=str, required=True)
+    parser.add_argument("-H", "--host", type=str, default="localhost")
+    parser.add_argument("-P", "--port", type=int, default=3306)
+    parser.add_argument("-d", "--database", type=str, default=3306)
     args = parser.parse_args()
     log_level = max(3 - args.verbose_count, 0) * 10
     logger.info("Setting loglevel to {}".format(log_level))
@@ -234,7 +233,8 @@ def main():
             "Rank {}/{}: {}".format(rank_number, len(ranks), ", ".join(str(p) for p in rank)))
         rank_number += 1
 
-    connection = psycopg2.connect("host=localhost dbname=postgres user=postgres password=docker")
+    connection = pymysql.connect(user=args.user, password=args.password, database=args.database, host=args.host,
+                                 port=args.port)
 
     rank_number = 1
     for rank in ranks:

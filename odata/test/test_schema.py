@@ -74,7 +74,7 @@ class TestSchemaToSQL(TestCase):
 
         self.assertEqual(
             "CREATE TABLE keywords (\n"
-            "  id uuid,\n"
+            "  id BINARY(16),\n"
             "  start_ timestamp,\n"
             "  end_ timestamp,\n"
             "  prefixed_start timestamp,\n"
@@ -98,7 +98,7 @@ class TestSchemaToSQL(TestCase):
 
         self.assertEqual(
             "CREATE TABLE keywords (\n"
-            "  id uuid,\n"
+            "  id BINARY(16),\n"
             "  boolean boolean,\n"
             "  int16 smallint,\n"
             "  int64 bigint,\n"
