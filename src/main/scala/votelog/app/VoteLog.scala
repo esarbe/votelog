@@ -36,7 +36,7 @@ object VoteLog {
       .map(buildAppAlg(hasher))
   }
 
-  def buildAppAlg[F[_]: Monad](
+  def buildAppAlg[F[_]: Monad: ThrowableBracket](
     hasher: PasswordHasherAlg[F])(
     transactor: Transactor[F]
   ): VoteLog[F] =

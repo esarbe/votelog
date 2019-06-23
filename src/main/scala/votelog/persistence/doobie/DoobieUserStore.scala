@@ -15,7 +15,7 @@ import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 import votelog.persistence.doobie.Mappings._
 
-class DoobieUserStore[F[_]: Monad](
+class DoobieUserStore[F[_]: Monad: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F],
   passwordHasher: PasswordHasherAlg[F],
 ) extends UserStore[F] {

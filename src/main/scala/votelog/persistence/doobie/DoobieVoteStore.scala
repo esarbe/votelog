@@ -8,7 +8,7 @@ import cats.implicits._
 import votelog.domain.politics.Votum
 import doobie.postgres.implicits._
 
-class DoobieVoteStore[F[_]: Monad](
+class DoobieVoteStore[F[_]: Monad: ThrowableBracket](
   transactor:  doobie.util.transactor.Transactor[F]
 ) extends VoteAlg[F] {
 

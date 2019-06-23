@@ -9,7 +9,7 @@ import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 import votelog.persistence.doobie.Mappings._
 
-class DoobieNgoStore[F[_]: Monad](
+class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
   transactor: Transactor[F],
 ) extends NgoStore[F] {
 
