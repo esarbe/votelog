@@ -22,7 +22,7 @@ class DoobieVoteStore[F[_]: Monad: ThrowableBracket](
       .update
       .run
       .transact(transactor)
-      .map(_ => Unit)
+      .void
 
   override def getVotes(p: Politician.Id): F[List[(Motion.Id, Votum)]] =
     sql"select motionid, votum from votes where politicianid = ${p.value}".query[(Motion.Id, Votum)]

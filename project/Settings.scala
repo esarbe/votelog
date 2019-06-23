@@ -10,7 +10,6 @@ object Settings {
   val common =
     Seq(
       scalaVersion := "2.13.0",
-//      addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
       addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"),
       addCompilerPlugin("com.olegpy" %% "better-monadic-for"  % "0.3.0"),
     )
