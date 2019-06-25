@@ -5,7 +5,7 @@ import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{FlatSpec, Matchers}
 import votelog.domain.politics.Ngo
-import votelog.domain.politics.ScoringStore.Score
+import votelog.domain.politics.Scoring.Score
 import votelog.persistence.NgoStore.Recipe
 import votelog.persistence.{MotionStore, NgoStore, PoliticianStore, StoreSpec}
 
