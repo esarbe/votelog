@@ -32,14 +32,13 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
 
   private def upsertMotionScoreQuery(ngoId: Ngo.Id, motionId: Motion.Id, score: Score) =
     for {
-      // TODO: return a boolean instead of the score
-      maybeScore <-
-        sql"select score from motions_scores where ngoid = $ngoId and motionid = $motionId"
-          .query[Score]
-          .accumulate[List]
+      scored <-
+        sql"select count(*) > 0 from motions_scores where ngoid = $ngoId and motionid = $motionId"
+          .query[Boolean]
+          .unique
 
       _ <-
-        if (maybeScore.nonEmpty)
+        if (scored)
           sql"update motions_scores set score = $score where ngoid = $ngoId and motionid = $motionId".update.run
         else
           sql"insert into motions_scores values ($ngoId, $motionId, $score)".update.run
