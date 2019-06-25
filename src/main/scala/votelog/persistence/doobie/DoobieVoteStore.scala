@@ -8,7 +8,7 @@ import cats.implicits._
 import votelog.domain.politics.Votum
 import doobie.postgres.implicits._
 
-class DoobieVoteStore[F[_]: Monad](
+class DoobieVoteStore[F[_]: Monad: ThrowableBracket](
   transactor:  doobie.util.transactor.Transactor[F]
 ) extends VoteAlg[F] {
 
@@ -22,7 +22,7 @@ class DoobieVoteStore[F[_]: Monad](
       .update
       .run
       .transact(transactor)
-      .map(_ => Unit)
+      .void
 
   override def getVotes(p: Politician.Id): F[List[(Motion.Id, Votum)]] =
     sql"select motionid, votum from votes where politicianid = ${p.value}".query[(Motion.Id, Votum)]

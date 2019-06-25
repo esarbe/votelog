@@ -9,7 +9,6 @@ import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.{BasicCredentials, HttpRoutes}
 import org.reactormonk.{CryptoBits, PrivateKey}
 import pureconfig.generic.auto._
-import pureconfig.module.catseffect._
 import votelog.domain.authorization.Component.Root
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.domain.politics.Votum
@@ -22,7 +21,7 @@ import votelog.service._
 object Webserver extends IOApp {
 
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
-  val loadConfiguration: IO[Configuration] = loadConfigF[IO, Configuration]("votelog.webapp")
+  val loadConfiguration: IO[Configuration] = IO(pureconfig.loadConfigOrThrow[Configuration]("votelog.webapp"))
 
   def run(args: List[String]): IO[ExitCode] =
     for {

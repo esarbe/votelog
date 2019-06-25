@@ -1,19 +1,16 @@
 package votelog.app
 
 import cats.effect.{ExitCode, IO, IOApp}
-import pureconfig.module.catseffect.loadConfigF
 import votelog.implementation.Log4SLogger
 import votelog.persistence.{PoliticianStore, UserStore}
-import pureconfig.generic.auto._
-import pureconfig.generic.auto._
 import votelog.app.Webserver.log
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore.Password
 import votelog.persistence.doobie.DoobieSchema
-
+import pureconfig.generic.auto._
 object Console extends IOApp {
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
-  val loadConfiguration: IO[Configuration] = loadConfigF[IO, Configuration]("votelog.webapp")
+  val loadConfiguration: IO[Configuration] =  IO(pureconfig.loadConfigOrThrow[Configuration]("votelog.webapp"))
 
   def run(args: List[String]): IO[ExitCode] =
     for {

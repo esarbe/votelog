@@ -10,7 +10,7 @@ import votelog.persistence.PoliticianStore
 import votelog.persistence.PoliticianStore.Recipe
 import votelog.persistence.doobie.Mappings._
 
-class DoobiePoliticianStore[F[_]: Monad](
+class DoobiePoliticianStore[F[_]: Monad: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends PoliticianStore[F] {
 
