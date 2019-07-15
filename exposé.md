@@ -1,8 +1,6 @@
 ## Name, Claim
 
-Favorit: **polit-sicht.ch**
-
-(alle Namensideen finden sich [hier](https://github.com/blank-tree/op-konzept/wiki/Ideen-Projektnamen-und--domain))
+**VoteLog** – Wer stimmt wie?
 
 ## Kurzbeschreibung
 
@@ -32,4 +30,4 @@ Damit leisten wir einen wesentlichen Beitrag zu mehr Transparenz in der Schweize
 
 ## Vorstellung des Projektteams
 
-Die Gruppe von 'insert-name' besteht aus einem Kernteam von fünf Personen, die jeweils unterschiedliche Kompetenzbereiche des Projektes abdecken. Vereint werden die Mitglieder durch ihr gemeinsames Interesse am Schweizer Politikgeschehen und dem Bestreben, dieses für die einzelnen StimmbürgerInnen transparenter zu gestalten.
+Die Gruppe von VoteLog besteht aus einem Kernteam von fünf Personen, die jeweils unterschiedliche Kompetenzbereiche des Projektes abdecken. Vereint werden die Mitglieder durch ihr gemeinsames Interesse am Schweizer Politikgeschehen und dem Bestreben, dieses für die einzelnen StimmbürgerInnen transparenter zu gestalten.
