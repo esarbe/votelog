@@ -38,6 +38,9 @@ object Dependencies {
       "org.tpolecat" %% "doobie-scalatest" % doobieVersion % Test,
     )
 
+  lazy val decline =
+    libraryDependencies += "com.monovore" %% "decline" % "0.6.2"
+
   lazy val cats =
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.0.0-M4" withSources(),
@@ -57,5 +60,6 @@ object Dependencies {
       "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
     )
 
+  val mariaDb = libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "2.4.2"
 
 }

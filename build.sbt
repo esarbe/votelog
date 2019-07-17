@@ -17,5 +17,7 @@ val root =
       Dependencies.logging,
       Dependencies.web,
       Dependencies.test,
+      Dependencies.mariaDb,
+      Dependencies.decline,
     )
     .enablePlugins(JavaAppPackaging)
