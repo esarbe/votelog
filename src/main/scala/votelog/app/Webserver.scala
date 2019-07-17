@@ -9,27 +9,23 @@ import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.{BasicCredentials, HttpRoutes}
 import org.reactormonk.{CryptoBits, PrivateKey}
 import pureconfig.generic.auto._
+import votelog.app
 import votelog.domain.authorization.Component.Root
-import votelog.domain.authorization.{Capability, Component, User}
-import votelog.domain.politics.Votum
+import votelog.domain.authorization.User
 import votelog.implementation.Log4SLogger
-import votelog.persistence.UserStore
-import votelog.persistence.UserStore.Password
-import votelog.persistence.{MotionStore, PoliticianStore, UserStore}
 import votelog.service._
 
 object Webserver extends IOApp {
 
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
-  val loadConfiguration: IO[Configuration] = IO(pureconfig.loadConfigOrThrow[Configuration]("votelog.webapp"))
 
   def run(args: List[String]): IO[ExitCode] =
     for {
       configuration <- loadConfiguration
       _ <- log.info(s"configuration: $configuration")
-      voteLog = VoteLog[IO](configuration)
+      voteLog = VoteLog[IO](configuration.votelog)
       runServer <- voteLog.use { voteLog =>
-        val routes = setupHttpRoutes(configuration.security, voteLog)
+        val routes = setupHttpRoutes(configuration.votelog.security, voteLog)
 
         runVotelogWebserver(configuration.http, routes)
       }
@@ -49,7 +45,7 @@ object Webserver extends IOApp {
         .as(ExitCode.Success)
 
   def setupHttpRoutes(
-      configuration: Configuration.Security,
+      configuration: app.Configuration.Security,
       votelog: VoteLog[IO]
   ): HttpRoutes[IO] = {
 
@@ -89,5 +85,17 @@ object Webserver extends IOApp {
         s"$apiRoot/ngo" -> auth(nws.service),
         s"$apiRoot/auth" -> basicAuth(session.service),
     )
+  }
+
+  lazy val loadConfiguration =
+    for {
+      votelog <- IO(pureconfig.loadConfigOrThrow[app.Configuration]("votelog"))
+      http <- IO(pureconfig.loadConfigOrThrow[Configuration.Http]("webapp.http"))
+    } yield Configuration(votelog, http)
+
+  case class Configuration(votelog: app.Configuration, http: Configuration.Http)
+
+  object Configuration {
+    case class Http(port: Int, interface: String)
   }
 }

@@ -1,25 +1,38 @@
-package votelog.app
+package votelog
+package app
+
 
 import cats.effect.{ExitCode, IO, IOApp}
+import cats.effect.implicits._
+import doobie.util.transactor.Transactor
 import votelog.implementation.Log4SLogger
 import votelog.persistence.{PoliticianStore, UserStore}
-import votelog.app.Webserver.log
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore.Password
 import votelog.persistence.doobie.DoobieSchema
 import pureconfig.generic.auto._
+import votelog.infrastructure.StoreAlg
 object Console extends IOApp {
+
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
-  val loadConfiguration: IO[Configuration] =  IO(pureconfig.loadConfigOrThrow[Configuration]("votelog.webapp"))
+
+  case class Configuration(votelog: app.Configuration, curiaVista: Configuration.CuriaVista)
+  object Configuration {
+    case class CuriaVista(database: app.Database.Configuration)
+  }
+
+  val loadConfiguration: IO[Configuration] =  IO(pureconfig.loadConfigOrThrow[Configuration]("console"))
 
   def run(args: List[String]): IO[ExitCode] =
     for {
       configuration <- loadConfiguration
-      transactor = Database.buildTransactor[IO](configuration.database)
+      votelogTransactor = Database.buildTransactor[IO](configuration.votelog.database)
+      curaVistaTransactor = Database.buildTransactor[IO](configuration.curiaVista.database)
       _ <- log.info(s"configuration: $configuration")
-      voteLog = VoteLog[IO](configuration)
-      _ <- new DoobieSchema[IO](transactor).initialize
-      _ <- voteLog.use(v => setupAdmin(v.user))
+      voteLog = VoteLog[IO](configuration.votelog)
+      _ <- readCVPoliticians(curaVistaTransactor)
+      //_ <- new DoobieSchema[IO](votelogTransactor).initialize
+      //_ <- voteLog.use(v => setupAdmin(v.user))
     } yield ExitCode.Success
 
 
@@ -36,6 +49,19 @@ object Console extends IOApp {
       user <- user.findByName("admin")
       _ <- log.info(s"user: $user")
     } yield ()
+
+  def readCVPoliticians(transactor: Transactor[IO]) = {
+    import doobie.implicits._
+    sql"select first_name, last_name from person"
+      .query[(String, String)]
+      .stream.compile.toList.transact(transactor).map(_.foreach(println))
+  }
+
+
+
+  def importEntity[Entity, EntityId, Recipe](
+    store: StoreAlg[IO, Entity, EntityId, Recipe]
+  ): Recipe => IO[EntityId] = store.create
 
   def setup(votelog: VoteLog[IO]) =
     for {
