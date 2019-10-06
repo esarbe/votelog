@@ -11,16 +11,16 @@ import votelog.circe.implicits._
 import votelog.domain.authorization.{AuthorizationAlg, Component, User}
 import votelog.domain.politics.{Motion, Politician, Votum}
 import votelog.infrastructure.logging.Logger
-import votelog.infrastructure.{StoreAlg, StoreService, VoteAlg}
+import votelog.infrastructure.{ReadOnlyStoreAlg, ReadOnlyStoreService, StoreAlg, VoteAlg}
 import votelog.persistence.PoliticianStore
 
 class PoliticianService(
   val component: Component,
-  val store: StoreAlg[IO, Politician, Politician.Id, PoliticianStore.Recipe],
+  val store: ReadOnlyStoreAlg[IO, Politician, Politician.Id],
   val voteAlg: VoteAlg[IO],
   val log: Logger[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends StoreService[Politician, Politician.Id, PoliticianStore.Recipe] {
+) extends ReadOnlyStoreService[Politician, Politician.Id] {
 
   implicit val motionIdCirceKeyEncoder = KeyEncoder.instance[Motion.Id](_.value.toString)
   implicit val votesByMotionIdCirceEncoder: Encoder[Map[Motion.Id, Votum]] = Encoder.encodeMap[Motion.Id, Votum]

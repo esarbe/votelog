@@ -30,7 +30,6 @@ object Console extends IOApp {
       curaVistaTransactor = Database.buildTransactor[IO](configuration.curiaVista.database)
       _ <- log.info(s"configuration: $configuration")
       voteLog = VoteLog[IO](configuration.votelog)
-      _ <- readCVPoliticians(curaVistaTransactor)
       //_ <- new DoobieSchema[IO](votelogTransactor).initialize
       //_ <- voteLog.use(v => setupAdmin(v.user))
     } yield ExitCode.Success
@@ -50,27 +49,4 @@ object Console extends IOApp {
       _ <- log.info(s"user: $user")
     } yield ()
 
-  def readCVPoliticians(transactor: Transactor[IO]) = {
-    import doobie.implicits._
-    sql"select first_name, last_name from person"
-      .query[(String, String)]
-      .stream.compile.toList.transact(transactor).map(_.foreach(println))
-  }
-
-
-
-  def importEntity[Entity, EntityId, Recipe](
-    store: StoreAlg[IO, Entity, EntityId, Recipe]
-  ): Recipe => IO[EntityId] = store.create
-
-  def setup(votelog: VoteLog[IO]) =
-    for {
-      _ <- log.info("creating politician foo")
-      id <- votelog.politician.create(PoliticianStore.Recipe("foo"))
-      _ <- log.info(s"id got back id: $id")
-      ids <- votelog.politician.index
-      _ <- log.info(s"ids: ${ids.mkString(",")}")
-      p <- votelog.politician.read(id)
-      _ <- log.info(s"got back politician: $p")
-    } yield ExitCode.Success
 }

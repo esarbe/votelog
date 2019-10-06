@@ -20,17 +20,16 @@ object Mappings {
       Votum.fromString(s).getOrElse(sys.error(s"invalid string representation for votum: $s")))
 
   implicit val MotionIdPut: Put[Motion.Id] = Put[UUID].contramap(_.value)
-  implicit val MotionIdRead: Read[Motion.Id] = Read[UUID].map(v => Motion.Id(v))
+  implicit val MotionIdRead: Read[Motion.Id] = Read[Int].map(v => Motion.Id(v))
 
   implicit val NgoIdPut: Put[Ngo.Id] = Put[UUID].contramap(_.value)
   implicit val NgoIdRead: Read[Ngo.Id] = Read[UUID].map(v => Ngo.Id(v))
 
-  implicit val PoliticianIdPut: Put[Politician.Id] = Put[UUID].contramap(_.value)
-  implicit val PoliticianIdRead: Read[Politician.Id] = Read[UUID].map(v => Politician.Id(v))
+  implicit val PoliticianIdPut: Put[Politician.Id] = Put[Int].contramap(_.value)
+  implicit val PoliticianIdRead: Read[Politician.Id] = Read[Int].map(v => Politician.Id(v))
 
   implicit val UserIdPut: Put[User.Id] = Put[UUID].contramap(_.value)
   implicit val UserIdRead: Read[User.Id] = Read[UUID].map(v => User.Id(v))
 
-  implicit val PartIdPut: Put[Party.Id] = Put[UUID].contramap(_.value)
-  implicit val PartyIdRead: Read[Party.Id] = Read[UUID].map(v => Party.Id(v))
+  implicit val PartyIdRead: Read[Party.Id] = Read[Int].map(v => Party.Id(v))
 }

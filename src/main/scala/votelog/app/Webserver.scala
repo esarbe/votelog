@@ -51,11 +51,11 @@ object Webserver extends IOApp {
 
     val pws =
       new PoliticianService(
-          component = Root.child("politician"),
-          store = votelog.politician,
-          voteAlg = votelog.vote,
-          log = log,
-          authAlg = votelog.authorization
+        component = Root.child("politician"),
+        store = votelog.politician,
+        voteAlg = votelog.vote,
+        log = log,
+        authAlg = votelog.authorization
       )
 
     val mws = new MotionService(Root.child("motion"), votelog.motion, votelog.authorization)

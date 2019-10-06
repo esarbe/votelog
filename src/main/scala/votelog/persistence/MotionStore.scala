@@ -1,16 +1,8 @@
 package votelog.persistence
 
-import java.util.UUID
-
-import votelog.domain.politics.Politician
 import votelog.domain.politics.Motion
-import votelog.infrastructure.StoreAlg
+import votelog.infrastructure.ReadOnlyStoreAlg
 
-trait MotionStore[F[_]] extends StoreAlg[F, Motion, Motion.Id, MotionStore.Recipe]
+trait MotionStore[F[_]] extends ReadOnlyStoreAlg[F, Motion, Motion.Id]
 
-object MotionStore {
-
-  case class Recipe(name: String, submitter: Politician.Id)
-
-  def newId: Motion.Id = Motion.Id(UUID.randomUUID())
-}
+object MotionStore {}
