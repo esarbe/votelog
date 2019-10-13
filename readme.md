@@ -27,7 +27,7 @@ Start webserver application
 sbt:votelog> run
 ```
 ## Http server configuration
-The `votlog` http server application configuration is located at `src/main/resources/application.conf`. It
+The `votelog` http server application configuration is located at `src/main/resources/application.conf`. It
 allows configuration of port and interface the http server listens to. The configuration settings can be
 overwritten by setting the corresponding environment variables.
 
