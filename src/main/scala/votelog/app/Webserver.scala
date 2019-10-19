@@ -50,7 +50,7 @@ object Webserver extends IOApp {
   ): HttpRoutes[IO] = {
 
     val pws =
-      new PoliticianService(
+      new PersonService(
         component = Root.child("politician"),
         store = votelog.politician,
         voteAlg = votelog.vote,

@@ -1,9 +1,9 @@
 package votelog.infrastructure
 
 import votelog.domain.politics.Votum
-import votelog.domain.politics.{Motion, Politician}
+import votelog.domain.politics.{Motion, Person}
 
 trait VoteAlg[F[_]] {
-  def voteFor(p: Politician.Id, m: Motion.Id, v: Votum): F[Unit]
-  def getVotes(p: Politician.Id): F[List[(Motion.Id, Votum)]]
+  def getVotesForMotion(m: Motion.Id): F[List[(Person.Id, Votum)]]
+  def getVotesForPerson(p: Person.Id): F[List[(Motion.Id, Votum)]]
 }

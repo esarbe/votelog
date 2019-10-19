@@ -8,6 +8,7 @@ import votelog.domain.politics.Motion
 import votelog.persistence.MotionStore
 import votelog.persistence.doobie.Mappings._
 import doobie.postgres.implicits._
+import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 
 class DoobieMotionStore[F[_]: Monad: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
@@ -19,10 +20,10 @@ class DoobieMotionStore[F[_]: Monad: ThrowableBracket](
   val indexQuery: doobie.ConnectionIO[List[Motion.Id]] =
     sql"select id from motions".query[Motion.Id].accumulate[List]
 
-  override def read(id: Motion.Id): F[Motion] =
+  override def read(queryParameters: QueryParameters)(id: Motion.Id): F[Motion] =
     selectQuery(id).transact(transactor)
 
-  override def index: F[List[Motion.Id]] =
+  override def index(indexQueryParameters: IndexQueryParameters): F[List[Motion.Id]] =
     indexQuery.transact(transactor)
 
 }

@@ -1,7 +1,7 @@
 package votelog.persistence.doobie
 
 import cats.Monad
-import votelog.domain.politics.{Motion, Politician}
+import votelog.domain.politics.{Motion, Person}
 import votelog.infrastructure.VoteAlg
 import doobie.implicits._
 import cats.implicits._
@@ -14,18 +14,15 @@ class DoobieVoteStore[F[_]: Monad: ThrowableBracket](
 
   import Mappings._
 
-  def insertQuery(pid: Politician.Id, mid: Motion.Id, v: Votum) =
-    sql"insert into votes (politicianid, motionid, votum) values ($pid, $mid, $v)"
-
-  override def voteFor(p: Politician.Id, m: Motion.Id, v: Votum): F[Unit] =
-    insertQuery(p, m, v)
-      .update
-      .run
+  override def getVotesForMotion(m: Motion.Id): F[List[(Person.Id, Votum)]] =
+    sql"select motionid, votum from votes where businessid = ${m.value}".query[(Person.Id, Votum)]
+      .stream
+      .compile
+      .toList
       .transact(transactor)
-      .void
 
-  override def getVotes(p: Politician.Id): F[List[(Motion.Id, Votum)]] =
-    sql"select motionid, votum from votes where politicianid = ${p.value}".query[(Motion.Id, Votum)]
+  override def getVotesForPerson(p: Person.Id): F[List[(Motion.Id, Votum)]] =
+    sql"select motionid, votum from votes where personid = ${p.value}".query[(Motion.Id, Votum)]
       .stream
       .compile
       .toList

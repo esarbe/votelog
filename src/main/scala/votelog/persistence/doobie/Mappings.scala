@@ -4,7 +4,7 @@ import java.util.UUID
 
 import doobie.util.{Put, Read}
 import votelog.domain.authorization.User
-import votelog.domain.politics.{Motion, Ngo, Party, Politician, Vote, Votum}
+import votelog.domain.politics.{Motion, Ngo, Party, Person, Vote, Votum}
 import doobie.postgres._
 import doobie.postgres.implicits._
 
@@ -19,14 +19,14 @@ object Mappings {
       // postgresql (https://github.com/esarbe/votelog/issues/3)
       Votum.fromString(s).getOrElse(sys.error(s"invalid string representation for votum: $s")))
 
-  implicit val MotionIdPut: Put[Motion.Id] = Put[UUID].contramap(_.value)
+  implicit val MotionIdPut: Put[Motion.Id] = Put[Int].contramap(_.value)
   implicit val MotionIdRead: Read[Motion.Id] = Read[Int].map(v => Motion.Id(v))
 
   implicit val NgoIdPut: Put[Ngo.Id] = Put[UUID].contramap(_.value)
   implicit val NgoIdRead: Read[Ngo.Id] = Read[UUID].map(v => Ngo.Id(v))
 
-  implicit val PoliticianIdPut: Put[Politician.Id] = Put[Int].contramap(_.value)
-  implicit val PoliticianIdRead: Read[Politician.Id] = Read[Int].map(v => Politician.Id(v))
+  implicit val PoliticianIdPut: Put[Person.Id] = Put[Int].contramap(_.value)
+  implicit val PoliticianIdRead: Read[Person.Id] = Read[Int].map(v => Person.Id(v))
 
   implicit val UserIdPut: Put[User.Id] = Put[UUID].contramap(_.value)
   implicit val UserIdRead: Read[User.Id] = Read[UUID].map(v => User.Id(v))

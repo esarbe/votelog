@@ -19,7 +19,7 @@ import votelog.persistence._
 
 abstract class VoteLog[F[_]: Applicative] {
   val vote: VoteAlg[F]
-  val politician: PoliticianStore[F]
+  val politician: PersonStore[F]
   val motion: MotionStore[F]
   val user: UserStore[F]
   val ngo: NgoStore[F]
@@ -58,7 +58,7 @@ object VoteLog {
     transactor: Transactor[F]
   ): VoteLog[F] =
     new VoteLog[F] {
-      val politician = new DoobiePoliticianStore(transactor)
+      val politician = new DoobiePersonStore(transactor)
       val vote = new DoobieVoteStore(transactor)
       val motion = new DoobieMotionStore(transactor)
       val user = new DoobieUserStore(transactor, hasher)

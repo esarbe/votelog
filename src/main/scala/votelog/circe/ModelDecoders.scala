@@ -4,19 +4,19 @@ import io.circe
 import io.circe.{Decoder, KeyDecoder}
 import io.circe.generic.semiauto.deriveDecoder
 import votelog.domain.authorization.{Capability, Component, User}
-import votelog.domain.politics.{Motion, Ngo, Party, Politician, Votum}
+import votelog.domain.politics.{Motion, Ngo, Party, Person, Votum}
 
 trait ModelDecoders {
-  implicit val partyIdCirceDecoder: circe.Decoder[Party.Id] = Decoder.decodeUUID.map(Party.Id)
-  implicit val partyIdCirceKeyDecoder: circe.KeyDecoder[Party.Id] = KeyDecoder.decodeKeyUUID.map(Party.Id)
+  implicit val partyIdCirceDecoder: circe.Decoder[Party.Id] = Decoder.decodeInt.map(Party.Id)
+  implicit val partyIdCirceKeyDecoder: circe.KeyDecoder[Party.Id] = KeyDecoder.decodeKeyInt.map(Party.Id)
 
-  implicit val motionIdCirceDecoder: circe.Decoder[Motion.Id] = Decoder.decodeUUID.map(Motion.Id)
-  implicit val motionIdCirceKeyDecoder: circe.KeyDecoder[Motion.Id] = KeyDecoder.decodeKeyUUID.map(Motion.Id)
+  implicit val motionIdCirceDecoder: circe.Decoder[Motion.Id] = Decoder.decodeInt.map(Motion.Id)
+  implicit val motionIdCirceKeyDecoder: circe.KeyDecoder[Motion.Id] = KeyDecoder.decodeKeyInt.map(Motion.Id)
   implicit val motionCirceDecoder: circe.Decoder[Motion] = deriveDecoder[Motion]
 
-  implicit val politicianIdCirceDecoder: circe.Decoder[Politician.Id] = Decoder.decodeUUID.map(Politician.Id)
-  implicit val politicianIdCirceKeyDecoder: circe.KeyDecoder[Politician.Id] = KeyDecoder.decodeKeyUUID.map(Politician.Id)
-  implicit val politicianCirceDecoder: circe.Decoder[Politician] = deriveDecoder[Politician]
+  implicit val personIdCirceDecoder: circe.Decoder[Person.Id] = Decoder.decodeInt.map(Person.Id)
+  implicit val personIdCirceKeyDecoder: circe.KeyDecoder[Person.Id] = KeyDecoder.decodeKeyInt.map(Person.Id)
+  implicit val personCirceDecoder: circe.Decoder[Person] = deriveDecoder[Person]
 
   implicit val userIdCirceDecoder: circe.Decoder[User.Id] = deriveDecoder[User.Id]
   implicit val userIdCirceKeyDecoder: circe.KeyDecoder[User.Id] = KeyDecoder.decodeKeyUUID.map(User.Id)

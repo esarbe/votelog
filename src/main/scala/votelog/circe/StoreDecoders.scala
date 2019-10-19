@@ -3,21 +3,17 @@ package votelog.circe
 import io.circe
 import io.circe.generic.semiauto.deriveDecoder
 import votelog.domain.authorization.User
-import votelog.domain.politics.{Motion, Ngo, Politician}
-import votelog.persistence.{MotionStore, NgoStore, PoliticianStore, UserStore}
+import votelog.domain.politics.{Motion, Ngo, Person}
+import votelog.persistence.{NgoStore, UserStore}
 
 
 trait MotionStoreDecoders {
   implicit val motionIdCirceDecoder: circe.Decoder[Motion.Id]
-  implicit val politicianIdCirceDecoder: circe.Decoder[Politician.Id]
-  implicit val motionRecipeCirceDecoder: circe.Decoder[MotionStore.Recipe] =
-    deriveDecoder[MotionStore.Recipe]
+  implicit val personIdCirceDecoder: circe.Decoder[Person.Id]
 }
 
-trait PoliticianStoreDecoders {
-  implicit val politicianIdCirceDecoder: circe.Decoder[Politician.Id]
-  implicit val politicianRecipeCirceDecoder: circe.Decoder[PoliticianStore.Recipe] =
-    deriveDecoder[PoliticianStore.Recipe]
+trait PersonStoreDecoders {
+  implicit val personIdCirceDecoder: circe.Decoder[Person.Id]
 }
 
 trait UserStoreDecoder {

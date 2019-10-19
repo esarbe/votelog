@@ -6,7 +6,7 @@ import cats.effect.{ExitCode, IO, IOApp}
 import cats.effect.implicits._
 import doobie.util.transactor.Transactor
 import votelog.implementation.Log4SLogger
-import votelog.persistence.{PoliticianStore, UserStore}
+import votelog.persistence.{PersonStore, UserStore}
 import votelog.domain.authorization.{Capability, Component, User}
 import votelog.persistence.UserStore.Password
 import votelog.persistence.doobie.DoobieSchema
@@ -27,11 +27,11 @@ object Console extends IOApp {
     for {
       configuration <- loadConfiguration
       votelogTransactor = Database.buildTransactor[IO](configuration.votelog.database)
-      curaVistaTransactor = Database.buildTransactor[IO](configuration.curiaVista.database)
+      //curaVistaTransactor = Database.buildTransactor[IO](configuration.curiaVista.database)
       _ <- log.info(s"configuration: $configuration")
       voteLog = VoteLog[IO](configuration.votelog)
-      //_ <- new DoobieSchema[IO](votelogTransactor).initialize
-      //_ <- voteLog.use(v => setupAdmin(v.user))
+      _ <- new DoobieSchema[IO](votelogTransactor).initialize
+      _ <- voteLog.use(v => setupAdmin(v.user))
     } yield ExitCode.Success
 
 

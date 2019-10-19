@@ -1,7 +1,7 @@
 package votelog.domain.politics
 
-case class Politician(name: String)
+case class Person(name: String)
 
-object Politician {
+object Person {
   case class Id(value: Int)
 }

@@ -10,6 +10,8 @@ import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
+import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.infrastructure.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the
 // effect type
@@ -44,12 +46,14 @@ abstract class StoreService[
   def service: AuthedService[User, IO] = AuthedService {
     case GET -> Root / "index" as user =>
       checkAuthorization(user, Capability.Read, component) {
-        store.index.flatMap(id => Ok(id.asJson))
+        val indexQueryParams =
+          IndexQueryParameters(PageSize(0), Offset(0), QueryParameters("en"))
+        store.index(indexQueryParams).flatMap(id => Ok(id.asJson))
       }
 
     case GET -> Root / Id(id) as user =>
       checkAuthorization(user, Capability.Read, component.child(id.toString)) {
-        store.read(id).attempt.flatMap {
+        store.read(QueryParameters("en"))(id).attempt.flatMap {
           case Right(e) => Ok(e.asJson)
           case Left(e) => NotFound(e.getMessage)
         }
