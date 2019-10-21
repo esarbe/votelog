@@ -16,10 +16,7 @@ object Console extends IOApp {
 
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
 
-  case class Configuration(votelog: app.Configuration, curiaVista: Configuration.CuriaVista)
-  object Configuration {
-    case class CuriaVista(database: app.Database.Configuration)
-  }
+  case class Configuration(votelog: app.Configuration)
 
   val loadConfiguration: IO[Configuration] =  IO(pureconfig.loadConfigOrThrow[Configuration]("console"))
 
@@ -27,7 +24,6 @@ object Console extends IOApp {
     for {
       configuration <- loadConfiguration
       votelogTransactor = Database.buildTransactor[IO](configuration.votelog.database)
-      //curaVistaTransactor = Database.buildTransactor[IO](configuration.curiaVista.database)
       _ <- log.info(s"configuration: $configuration")
       voteLog = VoteLog[IO](configuration.votelog)
       _ <- new DoobieSchema[IO](votelogTransactor).initialize

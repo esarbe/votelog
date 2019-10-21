@@ -47,22 +47,23 @@ object VoteLog {
 
   def apply[F[_]: Async: ContextShift: Logger](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
+    val db = buildTransactor(configuration.database)
+    val cv = buildTransactor(configuration.curiaVista)
 
-    Resource.pure[F, Transactor[F]](buildTransactor[F](configuration.database))
-      .evalMap(Async[F].delay(_))
-      .map(buildAppAlg(hasher))
+    Resource.pure(buildAppAlg(hasher, db, cv))
   }
 
   def buildAppAlg[F[_]: Monad: ThrowableBracket](
-    hasher: PasswordHasherAlg[F])(
-    transactor: Transactor[F]
+    hasher: PasswordHasherAlg[F],
+    votelogDatabase: Transactor[F],
+    curiaVistaDatabase: Transactor[F]
   ): VoteLog[F] =
     new VoteLog[F] {
-      val politician = new DoobiePersonStore(transactor)
-      val vote = new DoobieVoteStore(transactor)
-      val motion = new DoobieMotionStore(transactor)
-      val user = new DoobieUserStore(transactor, hasher)
-      val ngo = new DoobieNgoStore(transactor)
+      val politician = new DoobiePersonStore(curiaVistaDatabase)
+      val vote = new DoobieVoteStore(curiaVistaDatabase)
+      val motion = new DoobieMotionStore(curiaVistaDatabase)
+      val user = new DoobieUserStore(votelogDatabase, hasher)
+      val ngo = new DoobieNgoStore(votelogDatabase)
       val authorization = new UserCapabilityAuthorization
       val passwordHasher = hasher
     }
