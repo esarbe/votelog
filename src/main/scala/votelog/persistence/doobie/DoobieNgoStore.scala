@@ -6,6 +6,7 @@ import doobie._
 import doobie.implicits._
 import votelog.domain.politics.Scoring.{Score, Weight}
 import votelog.domain.politics.{Motion, Ngo}
+import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 import votelog.persistence.doobie.Mappings._
@@ -44,7 +45,7 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
           sql"insert into motions_scores values ($ngoId, $motionId, $score)".update.run
     } yield ()
 
-  def deleteMotionScoreQuery(ngoId: Ngo.Id, motionId: Motion.Id) =
+  private def deleteMotionScoreQuery(ngoId: Ngo.Id, motionId: Motion.Id) =
     sql"delete from motions_scores where ngoid = $ngoId and motionid = $motionId".update.run
 
 
@@ -54,7 +55,7 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
       .accumulate[List]
 
 
-  override def index: F[List[Ngo.Id]] =
+  override def index(params: IndexQueryParameters): F[List[Ngo.Id]] =
     indexQuery.transact(transactor)
 
 
@@ -75,7 +76,7 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
       .flatMap(_ => readQuery(id))
       .transact(transactor)
 
-  override def read(id: Ngo.Id): F[Ngo] =
+  override def read(p: QueryParameters)(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
   override def motionsScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Score)]] =

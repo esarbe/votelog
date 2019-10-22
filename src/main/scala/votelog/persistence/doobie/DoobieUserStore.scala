@@ -11,6 +11,7 @@ import doobie.implicits._
 import doobie.util.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authorization.{Capability, Component, User}
+import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 import votelog.persistence.doobie.Mappings._
@@ -116,11 +117,11 @@ class DoobieUserStore[F[_]: Monad: ThrowableBracket](
     } yield p
   }
 
-  override def read(id: User.Id): F[User] =
+  override def read(q: QueryParameters)(id: User.Id): F[User] =
     readQuery(id).transact(transactor)
 
 
-  override def index: F[List[User.Id]] =
+  override def index(q: IndexQueryParameters): F[List[User.Id]] =
     indexQuery.transact(transactor)
 
   override def findByName(name: String): F[Option[User]] =

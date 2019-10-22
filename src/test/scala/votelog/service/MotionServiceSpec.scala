@@ -9,6 +9,7 @@ import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.circe.implicits._
 import votelog.domain.authorization.{AuthorizationAlg, Component, User}
 import votelog.domain.politics.Motion
+import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.MotionStore
 import votelog.service.MotionServiceSpec.check
 
@@ -17,11 +18,8 @@ class MotionServiceSpec extends FlatSpec with Matchers {
 
   val store =
     new MotionStore[IO] {
-      override def index: IO[List[Motion.Id]] =IO.pure(Nil)
-      override def create(r: MotionStore.Recipe): IO[Motion.Id] = ???
-      override def delete(id: Motion.Id): IO[Unit] = ???
-      override def update(id: Motion.Id, r: MotionStore.Recipe): IO[Motion] = ???
-      override def read(id: Motion.Id): IO[Motion] = ???
+      override def index(queryParameters: IndexQueryParameters): IO[List[Motion.Id]] = IO.pure(Nil)
+      override def read(queryParameters: QueryParameters)(id: Motion.Id): IO[Motion] = ???
     }
 
   val auth: AuthorizationAlg[IO] = (_, _, _) => IO.pure(true)

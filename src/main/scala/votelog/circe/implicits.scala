@@ -2,7 +2,7 @@ package votelog.circe
 
 object implicits
   extends MotionStoreDecoders
-  with PoliticianStoreDecoders
+  with PersonStoreDecoders
   with UserStoreDecoder
   with NgoStoreDecoder
   with ModelDecoders

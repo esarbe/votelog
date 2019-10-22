@@ -33,7 +33,6 @@ class DoobieSchema[F[_]: Sync](transactor: Transactor[F]) extends Schema[F] {
           motionid uuid not null,
           score real not null,
           foreign key (ngoid) references ngos (id),
-          foreign key (motionid) references motions (id),
           primary key (ngoid, motionid)
         )
          """.update.run
