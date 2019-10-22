@@ -14,16 +14,18 @@ class DoobieMotionStore[F[_]: Monad: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends MotionStore[F] {
 
-  private def selectQuery(id: Motion.Id): ConnectionIO[Motion] =
-    sql"select name, submitter from motions where id=${id}".query[Motion].unique
+  private def selectQuery(qp: QueryParameters)(id: Motion.Id): ConnectionIO[Motion] =
+    sql"select title, submitter from business where id=${id} and language=${qp.language}"
+      .query[Motion].unique
 
-  val indexQuery: doobie.ConnectionIO[List[Motion.Id]] =
-    sql"select id from motions".query[Motion.Id].accumulate[List]
+  def indexQuery(qp: IndexQueryParameters): doobie.ConnectionIO[List[Motion.Id]] =
+    sql"select id from business where business_type in (3, 4) LIMIT ${qp.pageSize}"
+      .query[Motion.Id].accumulate[List]
 
   override def read(queryParameters: QueryParameters)(id: Motion.Id): F[Motion] =
-    selectQuery(id).transact(transactor)
+    selectQuery(queryParameters)(id).transact(transactor)
 
   override def index(indexQueryParameters: IndexQueryParameters): F[List[Motion.Id]] =
-    indexQuery.transact(transactor)
+    indexQuery(indexQueryParameters).transact(transactor)
 
 }
