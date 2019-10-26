@@ -49,9 +49,19 @@ object Webserver extends IOApp {
       votelog: VoteLog[IO]
   ): HttpRoutes[IO] = {
 
+    object component {
+      val root = Root.child("api").child("v0")
+      val politician = root.child("politician")
+      val motion = root.child("motion")
+      val user = root.child("user")
+      val ngo = root.child("ngo")
+      val auth = root.child("auth")
+    }
+
+
     val pws =
       new PersonService(
-        component = Root.child("politician"),
+        component = component.politician,
         store = votelog.politician,
         voteAlg = votelog.vote,
         log = log,
@@ -75,15 +85,14 @@ object Webserver extends IOApp {
     }
 
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
-    val session = new SessionService(crypto, clock)
-    val apiRoot = "/api/v0"
+    val session = new SessionService(crypto, clock, component.root)
 
     Router(
-        s"$apiRoot/politician" -> auth(pws.service),
-        s"$apiRoot/motion" -> auth(mws.service),
-        s"$apiRoot/user" -> auth(uws.service),
-        s"$apiRoot/ngo" -> auth(nws.service),
-        s"$apiRoot/auth" -> basicAuth(session.service),
+        component.politician.location -> auth(pws.service),
+        component.motion.location -> auth(mws.service),
+        component.user.location -> auth(uws.service),
+        component.ngo.location -> auth(nws.service),
+        component.auth.location -> basicAuth(session.service),
     )
   }
 

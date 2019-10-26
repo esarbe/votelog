@@ -33,5 +33,5 @@ case class Component(location: String) extends AnyVal {
 
 object Component {
   val Root = Component("")
-  private val Separator: Char = '.'
+  private val Separator: Char = '/'
 }
