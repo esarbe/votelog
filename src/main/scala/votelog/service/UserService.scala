@@ -10,6 +10,4 @@ class UserService(
   val component: Component,
   val store: UserStore[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends StoreService[User, User.Id, UserStore.Recipe] {
-
-}
+) extends StoreService[User, User.Id, UserStore.Recipe]
