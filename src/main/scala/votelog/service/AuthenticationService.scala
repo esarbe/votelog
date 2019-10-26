@@ -1,13 +1,12 @@
 package votelog.service
 
-import cats.Monad
 import cats.data.{Kleisli, OptionT}
 import cats.effect.IO
 import cats.implicits._
 import org.http4s.dsl.io._
 import org.http4s.server.AuthMiddleware
 import org.http4s.{AuthedService, Request, headers}
-import org.reactormonk.{CryptoBits, PrivateKey}
+import org.reactormonk.CryptoBits
 import votelog.domain.authorization.User
 import votelog.persistence.UserStore
 
