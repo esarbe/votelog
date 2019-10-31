@@ -41,6 +41,9 @@ object Dependencies {
   lazy val decline =
     libraryDependencies += "com.monovore" %% "decline" % "1.0.0"
 
+  lazy val html =
+    libraryDependencies ++= Seq( )
+
   lazy val cats =
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.0.0" withSources(),

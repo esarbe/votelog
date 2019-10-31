@@ -1,14 +1,36 @@
-name := "votelog"
+import sbt.Keys.libraryDependencies
 
+val core =
+  (project in file("core"))
+    .settings(
+      Settings.compiler,
+      Settings.common,
+      Dependencies.cats,
+    )
+
+val webapp =
+  (project in file("webapp"))
+    .settings(
+      Settings.common,
+      Settings.compiler,
+      scalaJSUseMainModuleInitializer := true,
+      libraryDependencies ++=
+        Seq(
+          "org.scala-js" %%% "scalajs-dom" % "0.9.7",
+          "com.lihaoyi" %% "scalatags" % "0.7.0",
+          "com.lihaoyi" %% "scalarx" % "0.4.0"
+        )
+      )
+    .enablePlugins(ScalaJSPlugin)
+    .dependsOn(core)
 
 val root =
   (project in file("."))
     .settings(
-      organization := "org.esarbe",
-      version := "0.0.1-SNAPSHOT",
-      name := "votelog",
+      name := "application",
       mainClass in Compile := Some("votelog.app.Webserver"),
       Settings.common,
+      Settings.compiler,
       Dependencies.cats,
       Dependencies.common,
       Dependencies.circe,
@@ -21,3 +43,5 @@ val root =
       Dependencies.decline,
     )
     .enablePlugins(JavaAppPackaging)
+    .dependsOn(core)
+    .aggregate(webapp)

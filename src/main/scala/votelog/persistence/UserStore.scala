@@ -32,9 +32,7 @@ object UserStore {
       override def toString: String = "[password in clear]"
     }
 
-    case class Hashed(value: String) extends Password {
-
-    }
+    case class Hashed(value: String) extends Password
   }
 }
 

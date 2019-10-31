@@ -2,7 +2,7 @@ package votelog.service
 
 import cats.effect.{Clock, IO}
 import org.http4s.dsl.io._
-import org.http4s.{AuthedService, ResponseCookie}
+import org.http4s.{AuthedRoutes, AuthedService, ResponseCookie}
 import org.reactormonk.CryptoBits
 import votelog.domain.authorization.{Component, User}
 import votelog.service.SessionService.CookieName
@@ -15,7 +15,7 @@ class SessionService(
   component: Component
 ) {
 
-  val service: AuthedService[User, IO] = AuthedService {
+  val service: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case POST -> Root / "login" as user =>
       clock
         .realTime(MILLISECONDS)
@@ -30,7 +30,7 @@ class SessionService(
           )
         }
 
-    case req @ POST -> Root / "logout" as _ =>
+    case POST -> Root / "logout" as _ =>
       Ok("Logged out.").map(_.removeCookie(CookieName))
   }
 }

@@ -4,7 +4,7 @@ import cats.effect._
 import io.circe.{Decoder, Encoder, KeyDecoder}
 import io.circe.syntax._
 import org.http4s.EntityEncoder._
-import org.http4s._
+import org.http4s.{AuthedRoutes, _}
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
@@ -41,7 +41,7 @@ abstract class ReadOnlyStoreService[
   }
 
 
-  def service: AuthedService[User, IO] = AuthedService {
+  def service: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root / "index" as user =>
       checkAuthorization(user, Capability.Read, component) {
         val indexQueryParams =

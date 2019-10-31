@@ -4,7 +4,7 @@ import cats.effect.IO
 import cats.implicits._
 import io.circe.syntax._
 import io.circe.{Encoder, KeyDecoder, KeyEncoder}
-import org.http4s.{AuthedService, HttpRoutes}
+import org.http4s.{AuthedRoutes, AuthedService, HttpRoutes}
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.circe.implicits._
@@ -34,7 +34,7 @@ class PersonService(
       KeyDecoder[Option[Votum]].apply(str).flatten
   }
 
-  lazy val voting: AuthedService[User, IO] =  AuthedService {
+  lazy val voting: AuthedRoutes[User, IO] =  AuthedRoutes.of {
 
     case GET -> Root / Id(id) / "votes" as user =>
       voteAlg.getVotesForPerson(id).attempt.flatMap {
@@ -43,5 +43,5 @@ class PersonService(
       }
   }
 
-  override def service: AuthedService[User, IO] = super.service <+> voting
+  override def service: AuthedRoutes[User, IO] = super.service <+> voting
 }
