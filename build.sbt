@@ -1,22 +1,24 @@
 import sbt.Keys.libraryDependencies
+import sbtcrossproject.CrossPlugin.autoImport.crossProject
+import sbtcrossproject.CrossType
 
 val core =
-  crossProject.in(file("core"))
+  crossProject(JSPlatform, JVMPlatform)
+    .crossType(CrossType.Pure)
     .settings(
       Settings.compiler,
       Settings.common,
       libraryDependencies ++=
         Seq(
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
-          "org.typelevel" %%% "cats-effect" % "2.0.0" withSources(),
         )
     )
 
 val coreJvm = core.jvm
 val coreJs = core.js
 
-val webapp =
-  (project in file("webapp"))
+val webclient =
+  (project in file("webclient"))
     .settings(
       Settings.common,
       Settings.compiler,
@@ -26,19 +28,17 @@ val webapp =
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
           "org.typelevel" %%% "cats-effect" % "2.0.0" withSources(),
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
-          "com.lihaoyi" %% "scalatags" % "0.7.0",
-          "com.lihaoyi" %% "scalarx" % "0.4.0",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1"
         )
     )
     .dependsOn(core.js)
+    .enablePlugins(ScalaJSPlugin)
 
-
-val root =
-  (project in file("."))
+val webserver =
+  (project in file("webserver"))
     .settings(
-      name := "application",
+      name := "webserver",
       mainClass in Compile := Some("votelog.app.Webserver"),
       Settings.common,
       Settings.compiler,
@@ -55,4 +55,14 @@ val root =
     )
     .enablePlugins(JavaAppPackaging)
     .dependsOn(coreJvm)
+
+
+val root =
+  (project in file("."))
+    .settings(
+      Settings.compiler,
+      ThisBuild / useSuperShell := false
+    )
+    .aggregate(webserver, webclient)
+
 
