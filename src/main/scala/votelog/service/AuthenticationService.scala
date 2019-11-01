@@ -8,7 +8,7 @@ import org.http4s.dsl.io._
 import org.http4s.server.AuthMiddleware
 import org.http4s.{AuthedRequest, AuthedRoutes, AuthedService, Request, Response, headers}
 import org.reactormonk.CryptoBits
-import votelog.domain.authorization.User
+import votelog.domain.authentication.User
 import votelog.persistence.UserStore
 
 class AuthenticationService(

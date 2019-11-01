@@ -9,7 +9,8 @@ import org.http4s.{AuthedRoutes, _}
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
+import votelog.domain.authentication.User
+import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.infrastructure.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 

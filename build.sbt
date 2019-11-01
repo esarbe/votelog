@@ -1,12 +1,19 @@
 import sbt.Keys.libraryDependencies
 
 val core =
-  (project in file("core"))
+  crossProject.in(file("core"))
     .settings(
       Settings.compiler,
       Settings.common,
-      Dependencies.cats,
+      libraryDependencies ++=
+        Seq(
+          "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
+          "org.typelevel" %%% "cats-effect" % "2.0.0" withSources(),
+        )
     )
+
+val coreJvm = core.jvm
+val coreJs = core.js
 
 val webapp =
   (project in file("webapp"))
@@ -16,13 +23,17 @@ val webapp =
       scalaJSUseMainModuleInitializer := true,
       libraryDependencies ++=
         Seq(
+          "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
+          "org.typelevel" %%% "cats-effect" % "2.0.0" withSources(),
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
           "com.lihaoyi" %% "scalatags" % "0.7.0",
-          "com.lihaoyi" %% "scalarx" % "0.4.0"
+          "com.lihaoyi" %% "scalarx" % "0.4.0",
+          "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
+          "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1"
         )
-      )
-    .enablePlugins(ScalaJSPlugin)
-    .dependsOn(core)
+    )
+    .dependsOn(core.js)
+
 
 val root =
   (project in file("."))
@@ -43,5 +54,5 @@ val root =
       Dependencies.decline,
     )
     .enablePlugins(JavaAppPackaging)
-    .dependsOn(core)
-    .aggregate(webapp)
+    .dependsOn(coreJvm)
+

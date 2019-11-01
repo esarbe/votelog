@@ -3,7 +3,8 @@ package votelog.circe
 import io.circe
 import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
-import votelog.domain.authorization.{Capability, Component, User}
+import votelog.domain.authentication.User
+import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.politics.{Motion, Ngo, Party, Person, Votum}
 
 trait ModelEncoders {

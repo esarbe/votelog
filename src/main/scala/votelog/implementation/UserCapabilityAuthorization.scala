@@ -1,7 +1,8 @@
 package votelog.implementation
 
 import cats.Applicative
-import votelog.domain.authorization.{AuthorizationAlg, Capability, Component, User}
+import votelog.domain.authentication.User
+import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 
 class UserCapabilityAuthorization[F[_]: Applicative] extends AuthorizationAlg[F] {
   def hasCapability(user: User, capability: Capability, component: Component): F[Boolean] =

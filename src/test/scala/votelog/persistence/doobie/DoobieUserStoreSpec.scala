@@ -7,7 +7,7 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.app.Database
 import votelog.crypto.PasswordHasherAlg
-import votelog.domain.authorization.User
+import votelog.domain.authentication.User
 import votelog.persistence.UserStore.{Password, Recipe}
 import votelog.persistence.{StoreSpec, UserStore}
 

@@ -7,10 +7,11 @@ import cats.effect.implicits._
 import doobie.util.transactor.Transactor
 import votelog.implementation.Log4SLogger
 import votelog.persistence.{PersonStore, UserStore}
-import votelog.domain.authorization.{Capability, Component, User}
+import votelog.domain.authorization.{Capability, Component}
 import votelog.persistence.UserStore.Password
 import votelog.persistence.doobie.DoobieSchema
 import pureconfig.generic.auto._
+import votelog.domain.authentication.User
 import votelog.infrastructure.StoreAlg
 object Console extends IOApp {
 

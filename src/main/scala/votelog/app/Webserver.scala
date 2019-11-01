@@ -10,8 +10,8 @@ import org.http4s.{BasicCredentials, HttpRoutes}
 import org.reactormonk.{CryptoBits, PrivateKey}
 import pureconfig.generic.auto._
 import votelog.app
+import votelog.domain.authentication.User
 import votelog.domain.authorization.Component.Root
-import votelog.domain.authorization.User
 import votelog.implementation.Log4SLogger
 import votelog.service._
 

@@ -2,7 +2,7 @@ package votelog.circe
 
 import io.circe
 import io.circe.generic.semiauto.deriveDecoder
-import votelog.domain.authorization.User
+import votelog.domain.authentication.User
 import votelog.domain.politics.{Motion, Ngo, Person}
 import votelog.persistence.{NgoStore, UserStore}
 

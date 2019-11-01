@@ -9,7 +9,7 @@ object Settings {
 
   val compiler =
     scalacOptions ++= Seq(
-      "-Xfatal-warnings",
+      //"-Xfatal-warnings",
       "-deprecation",
       "-feature",
       "-unchecked",

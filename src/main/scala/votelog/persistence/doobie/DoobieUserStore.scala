@@ -10,7 +10,8 @@ import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.Meta
 import votelog.crypto.PasswordHasherAlg
-import votelog.domain.authorization.{Capability, Component, User}
+import votelog.domain.authentication.User
+import votelog.domain.authorization.{Capability, Component}
 import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}

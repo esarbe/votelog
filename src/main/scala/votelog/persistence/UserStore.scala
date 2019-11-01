@@ -2,7 +2,8 @@ package votelog.persistence
 
 import java.util.UUID
 
-import votelog.domain.authorization.{Capability, Component, User}
+import votelog.domain.authentication.User
+import votelog.domain.authorization.{Capability, Component}
 import votelog.infrastructure.StoreAlg
 
 trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {

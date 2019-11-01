@@ -8,7 +8,8 @@ import org.http4s.{AuthedRoutes, AuthedService, HttpRoutes}
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.circe.implicits._
-import votelog.domain.authorization.{AuthorizationAlg, Component, User}
+import votelog.domain.authentication.User
+import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.{Motion, Person, Votum}
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.{ReadOnlyStoreAlg, ReadOnlyStoreService, StoreAlg, VoteAlg}

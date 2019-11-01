@@ -3,10 +3,10 @@ package votelog.persistence.doobie
 import java.util.UUID
 
 import doobie.util.{Put, Read}
-import votelog.domain.authorization.User
 import votelog.domain.politics.{Motion, Ngo, Party, Person, Vote, Votum}
 import doobie.postgres._
 import doobie.postgres.implicits._
+import votelog.domain.authentication.User
 
 object Mappings {
   implicit val votumPut: Put[Votum] =

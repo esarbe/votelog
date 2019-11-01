@@ -1,8 +1,9 @@
-package votelog.domain.authorization
+package votelog.domain.authentication
 
 import java.util.UUID
 
-import votelog.domain.authorization.User.Permission
+import votelog.domain.authentication.User.Permission
+import votelog.domain.authorization.{Capability, Component}
 
 case class User(name: String, email: User.Email, passwordHash: String, permissions: Set[Permission])
 
