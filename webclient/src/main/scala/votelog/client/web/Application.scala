@@ -1,19 +1,17 @@
 package votelog.client.web
 
+import cats._
+import cats.Invariant
 import mhtml.implicits.cats._
 import cats.implicits._
-import cats.effect.IO
 
 import org.scalajs.dom
 import dom.document
-
 import mhtml.future.syntax._
 import mhtml._
 import org.scalajs.dom
 import org.scalajs.dom.ext.Ajax
 import org.scalajs.dom.raw.Element
-import scalatags.Text
-import scalatags.Text.all._
 import votelog.client.web.State.Authenticated
 import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
 import votelog.domain.authentication.{Authentication, User}
@@ -28,6 +26,7 @@ import votelog.client.web.State.Authenticated.Unauthenticated
 import votelog.domain.authentication.{AuthenticationAlg, User}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.xml.Node
 
 object State {
   trait Authenticated
@@ -41,6 +40,7 @@ object State {
 
 object Application {
   def main(args: Array[String]): Unit = {
+
 
     println("hello, worlds!")
     val (authenticated, authView) = authenticatedState(auth)
@@ -99,15 +99,27 @@ object Application {
 
   def authenticatedState(authenticationAlg: AuthenticationAlg[Future]) = {
 
-    val request: Var[Option[UserPassword]] = Var(None)
+    val username: Var[String] = Var("")
+    val password: Var[String] = Var("")
+    val submit: Var[Unit] = Var(())
 
-    /*
-    val authenticated =
+    val request: Rx[Option[UserPassword]] =
+      username.flatMap { username =>
+        password.map { password =>
+          (username, password)
+        }
+      }
+        .sampleOn(submit)
+        .map { case (username, password) =>
+        Some(UserPassword(username, password))
+      }
+
+    val authenticated: Rx[Authenticated] =
       request.flatMap {
         case None => Rx(Unauthenticated)
         case Some(UserPassword(username, password)) =>
           authenticationAlg
-            .login(UserPassword(username, password))
+            .login(UserPassword(username,password))
             .toRx
             .map {
               case Some(Success(Right(user))) =>
@@ -121,76 +133,70 @@ object Application {
               case None =>
                 Unauthenticated
             }
-      }*/
-
-    val username: Var[String] = Var("")
-    val password: Var[String] = Var("")
-
-    def updateUsername(event: js.Dynamic): Unit =
-      username := event.target.value.asInstanceOf[String]
-
-    def updatePassword(event: js.Dynamic): Unit = {
-      println("updating password")
-      password := event.target.value.asInstanceOf[String]
-    }
+      }
 
 
-    def submit(event: js.Dynamic): Unit = {
-      println("foo, clicked!")
-      username := "Bernie"
-      ()
+    def set[T](value: Var[T])(event: js.Dynamic): Unit =
+      value.update(_ => event.target.value.asInstanceOf[T])
+
+    def setRequest(
+      request: Var[Option[UserPassword]],
+      password: Var[String])(
+      e: js.Dynamic) = {
+
+      request.update(_ => Some(UserPassword("", "")))
 
     }
 
-    /*val view =
-      (authenticated, username, password).mapN { case (auth, username, password) =>
-        auth match {
-          case Unauthenticated =>
-            <fieldset>
-              <legend>Login</legend>
-              <dl>
-                <dt><label for="name">Username</label></dt>
-                <dd>
-                  <input id="username"  type="text" oninput={debounce(200)(updateUsername)} />
-                </dd>
-              </dl>
-              <dl>
-                <dt><label for="password">Password</label></dt>
-                <dd>
-                  <input id="password" type="password" oninput={debounce(200)(updatePassword)}/>
-                </dd>
-              </dl>
+    def view(
+      request: Rx[Option[UserPassword]],
+      authenticated: Rx[Authenticated],
+      submit: Var[Unit],
+      password: Var[String],
+      username: Var[String]
+    ) = {
 
-              <input type="button" text="submit" />
-            </fieldset>
+      authenticated.map {
+        case Unauthenticated =>
+          <fieldset>
+            <legend>Login</legend>
+            <dl>
+              <dt>
+                <label for="username">Username</label>
+              </dt>
+              <dd>
+                <input id="username" type="text" value={username} oninput={debounce(200)(set(username))}/>
+              </dd>
+            </dl>
+            <dl>
+              <dt>
+                <label for="password">Password</label>
+              </dt>
+              <dd>
+                <input id="password" type="password" value={password} oninput={debounce(200)(set(password))}/>
+              </dd>
+            </dl>
 
-          case UserAuthenticated(user) =>
-            <span>logged in</span>
+            <input
+              type="button"
+              text="submit"
+              onclick={ set(submit) _ }
+            />
+
+            {username}
+            <br/>
+            {password}
+          </fieldset>
+
+        case UserAuthenticated(user) =>
+          <span>logged in</span>
         }
       }
-    */
 
-    val view =
-      (username: Rx[String], password: Rx[String]).mapN { case (username, password) =>
-        <fieldset>
-          <legend>Login</legend>
-          <dl>
-            <dt><label for="name">Username</label></dt>
-            <dd>
-              <input id="username"  type="text" oninput={debounce(200)(updateUsername)} />
-            </dd>
-          </dl>
-          <dl>
-            <dt><label for="password">Password</label></dt>
-            <dd>
-              <input id="password" type="password" oninput={debounce(200)(updatePassword)}/>
-            </dd>
-          </dl>
-        </fieldset>
-      }
+    def rView =
+      <div>{view(request, authenticated, submit, password, username)}</div>
 
-
-    (password, view)
+    (password, rView)
   }
 
 
