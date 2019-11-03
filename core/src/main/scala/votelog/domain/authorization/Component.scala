@@ -13,7 +13,7 @@ import votelog.domain.authorization.Component.Separator
   * The name consists of the full component path with the
   * simple name of the simple name as last element.
   *
-  * elements are separated by dots (.).
+  * elements are separated by slashes (`/`).
   */
 case class Component(location: String) extends AnyVal {
   def contains(other: Component): Boolean = {
