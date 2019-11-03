@@ -63,7 +63,7 @@ object Application {
 
   case class Context(url: String, lang: String, year: Int)
 
-  val context = Context("http://localhost:8000", "en", 2019)
+  val context = Context("http://localhost:8080/api/v0", "en", 2019)
 
   object auth extends AuthenticationAlg[Future] {
     override def login(cred: Authentication.Credentials): Future[Either[String, User]] = {
@@ -104,15 +104,16 @@ object Application {
     val submit: Var[Unit] = Var(())
 
     val request: Rx[Option[UserPassword]] =
-      username.flatMap { username =>
-        password.map { password =>
-          (username, password)
+      username
+        .flatMap { username =>
+          password.map { password =>
+            (username, password)
+          }
         }
-      }
         .sampleOn(submit)
         .map { case (username, password) =>
-        Some(UserPassword(username, password))
-      }
+          Some(UserPassword(username, password))
+        }
 
     val authenticated: Rx[Authenticated] =
       request.flatMap {
@@ -177,9 +178,7 @@ object Application {
               </dd>
             </dl>
 
-            <input
-              type="button"
-              text="submit"
+            <input type="button" text="submit"
               onclick={ set(submit) _ }
             />
 
