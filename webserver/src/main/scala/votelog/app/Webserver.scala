@@ -4,6 +4,7 @@ import cats.effect._
 import cats.implicits._
 import org.http4s.implicits._
 import org.http4s.server.blaze.BlazeServerBuilder
+import org.http4s.server.middleware.CORS
 import org.http4s.server.middleware.authentication.BasicAuth
 import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.{BasicCredentials, HttpRoutes}
@@ -75,7 +76,7 @@ object Webserver extends IOApp {
     val key = PrivateKey(configuration.secret.getBytes)
     val crypto: CryptoBits = CryptoBits(key)
     val clock = Clock[IO]
-    val auth = new AuthenticationService(votelog.user, crypto).middleware
+    val auth: AuthMiddleware[IO, User] = new AuthenticationService(votelog.user, crypto).middleware
 
     val validateCredentials: BasicCredentials => IO[Option[User]] = { creds =>
       for {
@@ -88,11 +89,11 @@ object Webserver extends IOApp {
     val session = new SessionService(crypto, clock, component.root)
 
     Router(
-        component.politician.location -> auth(pws.service),
-        component.motion.location -> auth(mws.service),
-        component.user.location -> auth(uws.service),
-        component.ngo.location -> auth(nws.service),
-        component.auth.location -> basicAuth(session.service),
+      component.politician.location -> auth(pws.service),
+      component.motion.location -> auth(mws.service),
+      component.user.location -> auth(uws.service),
+      component.ngo.location -> auth(nws.service),
+      component.auth.location -> CORS(basicAuth(session.service)),
     )
   }
 
