@@ -23,10 +23,10 @@ val webclient =
       Settings.common,
       Settings.compiler,
       scalaJSUseMainModuleInitializer := true,
+      mainClass in Compile := Some("votelog.client.web.Application"),
       libraryDependencies ++=
         Seq(
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
-          "org.typelevel" %%% "cats-effect" % "2.0.0" withSources(),
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1"
