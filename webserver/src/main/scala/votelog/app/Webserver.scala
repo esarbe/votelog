@@ -88,13 +88,16 @@ object Webserver extends IOApp {
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
     val session = new SessionService(crypto, clock, component.root)
 
-    Router(
-      component.politician.location -> auth(pws.service),
-      component.motion.location -> auth(mws.service),
-      component.user.location -> auth(uws.service),
-      component.ngo.location -> auth(nws.service),
-      component.auth.location -> CORS(basicAuth(session.service)),
-    )
+    val service =
+      Router(
+        component.politician.location -> auth(pws.service),
+        component.motion.location -> auth(mws.service),
+        component.user.location -> auth(uws.service),
+        component.ngo.location -> auth(nws.service),
+        component.auth.location -> basicAuth(session.service),
+      )
+
+    CORS(service)
   }
 
   lazy val loadConfiguration =
