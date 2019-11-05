@@ -12,7 +12,7 @@ import doobie.util.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 import votelog.persistence.doobie.Mappings._

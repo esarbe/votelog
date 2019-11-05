@@ -1,6 +1,7 @@
 import sbt.Keys.libraryDependencies
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossType
+import Settings.circeVersion
 
 val core =
   crossProject(JSPlatform, JVMPlatform)
@@ -11,6 +12,9 @@ val core =
       libraryDependencies ++=
         Seq(
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
+          "io.circe" %%% "circe-core" % circeVersion,
+          "io.circe" %%% "circe-generic" % circeVersion,
+          "io.circe" %%% "circe-parser" % circeVersion,
         )
     )
 
@@ -29,7 +33,7 @@ val webclient =
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
-          "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1"
+          "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1",
         )
     )
     .dependsOn(core.js)
@@ -64,5 +68,3 @@ val root =
       ThisBuild / useSuperShell := false
     )
     .aggregate(webserver, webclient)
-
-

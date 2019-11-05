@@ -6,11 +6,11 @@ import org.http4s.circe._
 import org.http4s.dsl.io._
 import org.http4s.{AuthedRequest, EntityDecoder, Method, Request, Response, Status, Uri}
 import org.scalatest.{FlatSpec, Inside, Matchers}
-import votelog.circe.implicits._
+import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.Motion
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.MotionStore
 import votelog.service.MotionServiceSpec.check
 

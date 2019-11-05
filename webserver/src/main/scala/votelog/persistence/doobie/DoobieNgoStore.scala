@@ -6,7 +6,7 @@ import doobie._
 import doobie.implicits._
 import votelog.domain.politics.Scoring.{Score, Weight}
 import votelog.domain.politics.{Motion, Ngo}
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 import votelog.persistence.doobie.Mappings._

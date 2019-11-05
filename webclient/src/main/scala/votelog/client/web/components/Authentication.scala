@@ -10,7 +10,7 @@ import votelog.client.web.State
 import votelog.client.web.State.Authenticated
 import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
 import votelog.domain.authentication.Authentication.Credentials.UserPassword
-import votelog.domain.authentication.AuthenticationAlg
+import votelog.domain.authentication.SessionService
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,27 +20,28 @@ import scala.xml.{Elem, Node}
 
 
 class Authentication(
-  auth: AuthenticationAlg[Future],
+  auth: SessionService[Future],
 ) extends Component[State.Authenticated] {
 
   val username: Var[String] = Var("")
   val password: Var[String] = Var("")
-  val submit: Var[Unit] = Var(())
+  val submitLogin: Var[Unit] = Var(())
+  val submitSignup: Var[Unit] = Var(())
 
-  val request: Rx[Option[UserPassword]] =
+  val loginRequest: Rx[Option[UserPassword]] =
     username
       .flatMap { username =>
         password.map { password =>
           (username, password)
         }
       }
-      .sampleOn(submit)
+      .sampleOn(submitLogin)
       .map { case (username, password) =>
         Some(UserPassword(username, password))
       }
 
   val state: Rx[Authenticated] =
-    request.flatMap {
+    loginRequest.flatMap {
       case None => Rx(Unauthenticated)
       case Some(UserPassword(username, password)) =>
         auth
@@ -49,11 +50,11 @@ class Authentication(
           .map {
             case Some(Success(Right(user))) =>
               UserAuthenticated(user)
-            case Some(Success(Left(message))) =>
-              println(s"login failed: $message")
+            case Some(Success(Left(error))) =>
+              println(s"login failed: $error")
               Unauthenticated
             case Some(Failure(error)) =>
-              println(s"error occured: $error")
+              println(s"error occurred: $error")
               Unauthenticated
             case None =>
               Unauthenticated
@@ -66,11 +67,9 @@ class Authentication(
       value.update(_ => event.target.value.asInstanceOf[T])
   }
 
-
-  def setupView(
-    authenticated: Rx[Authenticated],
+  def loginView( authenticated: Rx[Authenticated],
     request: Rx[Option[UserPassword]],
-    submit: Var[Unit],
+    submitLogin: Var[Unit],
     password: Var[String],
     username: Var[String],
   ): Rx[Elem] = {
@@ -96,7 +95,7 @@ class Authentication(
             </dd>
           </dl>
 
-          <input type="button" text="submit" onclick={ set(submit) } />
+      <input type="button" text="login" onclick={ set(submitLogin) } />
 
         </fieldset>
 
@@ -106,6 +105,6 @@ class Authentication(
   }
 
   val view: Node =
-    <div>{setupView(state, request, submit, password, username)}</div>
+    <section id="authentication">{loginView(state, loginRequest, submitLogin, password, username)}</section>
 
 }

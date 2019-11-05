@@ -2,8 +2,8 @@ package votelog.persistence
 
 import java.util.UUID
 
+import votelog.domain.crudi.StoreAlg
 import votelog.domain.politics.{Ngo, Scoring}
-import votelog.infrastructure.StoreAlg
 import votelog.persistence.NgoStore.Recipe
 
 //TODO: Scoring should be it's own store

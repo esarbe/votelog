@@ -1,4 +1,4 @@
-package votelog.circe
+package votelog.orphans.circe
 
 import io.circe
 import io.circe.{Decoder, KeyDecoder}

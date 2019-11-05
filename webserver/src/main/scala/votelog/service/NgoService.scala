@@ -3,9 +3,10 @@ package votelog.service
 import cats.effect.IO
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.Ngo
-import votelog.infrastructure.{StoreAlg, StoreService}
+import votelog.infrastructure.StoreService
 import votelog.persistence.NgoStore
-import votelog.circe.implicits._
+import votelog.orphans.circe.implicits._
+import votelog.domain.crudi.StoreAlg
 
 class NgoService(
   val component: Component,

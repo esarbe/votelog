@@ -7,12 +7,13 @@ import io.circe.{Encoder, KeyDecoder, KeyEncoder}
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.circe.implicits._
+import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
+import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.politics.{Motion, Person, Votum}
 import votelog.infrastructure.logging.Logger
-import votelog.infrastructure.{ReadOnlyStoreAlg, ReadOnlyStoreService, VoteAlg}
+import votelog.infrastructure.{ReadOnlyStoreService, VoteAlg}
 
 class PersonService(
   val component: Component,

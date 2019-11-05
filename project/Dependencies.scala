@@ -13,10 +13,10 @@ object Dependencies {
   
   lazy val circe =
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core",
-      "io.circe" %% "circe-generic",
-      "io.circe" %% "circe-parser"
-    ).map(_ % circeVersion)
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
+    )
 
   lazy val logging =
     libraryDependencies ++= Seq(

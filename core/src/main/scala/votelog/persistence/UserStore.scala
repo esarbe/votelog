@@ -4,7 +4,7 @@ import java.util.UUID
 
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.infrastructure.StoreAlg
+import votelog.domain.crudi.StoreAlg
 
 trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
   def findByName(name: String): F[Option[User]]

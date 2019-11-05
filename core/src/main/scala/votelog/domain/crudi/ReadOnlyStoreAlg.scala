@@ -1,7 +1,7 @@
-package votelog.infrastructure
+package votelog.domain.crudi
 
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.infrastructure.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 
 trait ReadOnlyStoreAlg[F[_], T, Identity] {
   def index(queryParameters: IndexQueryParameters): F[List[Identity]]

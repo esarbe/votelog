@@ -1,10 +1,11 @@
 package votelog.service
 
 import cats.effect.IO
-import votelog.circe.implicits._
+import votelog.orphans.circe.implicits._
 import votelog.domain.authorization.{AuthorizationAlg, Component}
+import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.politics.Motion
-import votelog.infrastructure.{ReadOnlyStoreAlg, ReadOnlyStoreService, StoreAlg}
+import votelog.infrastructure.ReadOnlyStoreService
 
 class MotionService(
   val component: Component,

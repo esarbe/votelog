@@ -5,7 +5,7 @@ import cats.implicits._
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import votelog.domain.politics.Person
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.PersonStore
 import votelog.persistence.doobie.Mappings._
 

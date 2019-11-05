@@ -94,10 +94,10 @@ object Webserver extends IOApp {
         component.motion.location -> auth(mws.service),
         component.user.location -> auth(uws.service),
         component.ngo.location -> auth(nws.service),
-        component.auth.location -> basicAuth(session.service),
+        component.auth.location -> CORS(basicAuth(session.service)),
       )
 
-    CORS(service)
+    service
   }
 
   lazy val loadConfiguration =

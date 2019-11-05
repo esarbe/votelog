@@ -21,7 +21,7 @@ object Application {
 
   val context = Context("http://localhost:8080/api/v0", "en", 2019)
 
-  val authService = new service.AuthenticationAjax(context)
+  val authService = new service.SessionServiceRest(context)
   val authComponent = new components.Authentication(authService)
 
   def main(args: Array[String]): Unit = {

@@ -9,8 +9,9 @@ import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.infrastructure.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the
 // effect type

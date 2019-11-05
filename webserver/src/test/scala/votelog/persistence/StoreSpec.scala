@@ -2,9 +2,9 @@ package votelog.persistence
 
 import cats.effect.IO
 import org.scalatest.{BeforeAndAfterAll, FlatSpec, Inside, Matchers}
-import votelog.infrastructure.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.infrastructure.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.infrastructure.StoreAlg
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.StoreAlg
 
 trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAll {
 

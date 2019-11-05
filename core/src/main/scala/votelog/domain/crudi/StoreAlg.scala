@@ -1,5 +1,4 @@
-package votelog
-package infrastructure
+package votelog.domain.crudi
 
 // TODO: try to make Identity and Recipe inner types
 trait StoreAlg[F[_], T, Identity, Recipe]

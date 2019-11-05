@@ -2,6 +2,9 @@ package votelog.service
 
 import cats.effect.{Clock, IO}
 import org.http4s.dsl.io._
+import org.http4s.circe._
+import votelog.orphans.circe.implicits.userCirceEncoder
+import io.circe.syntax._
 import org.http4s.{AuthedRoutes, ResponseCookie}
 import org.reactormonk.CryptoBits
 import votelog.domain.authentication.User
@@ -22,7 +25,7 @@ class SessionService(
         .realTime(MILLISECONDS)
         .flatMap { millis =>
           val message = crypto.signToken(user.name, millis.toString)
-          Ok("Logged in.").map(_.addCookie(
+          Ok(user.asJson).map(_.addCookie(
             ResponseCookie(
               name = CookieName,
               content = message,

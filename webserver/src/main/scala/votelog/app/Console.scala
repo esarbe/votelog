@@ -12,7 +12,7 @@ import votelog.persistence.UserStore.Password
 import votelog.persistence.doobie.DoobieSchema
 import pureconfig.generic.auto._
 import votelog.domain.authentication.User
-import votelog.infrastructure.StoreAlg
+import votelog.domain.crudi.StoreAlg
 object Console extends IOApp {
 
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
