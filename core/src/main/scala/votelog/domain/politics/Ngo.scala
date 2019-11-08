@@ -1,10 +1,10 @@
 package votelog.domain.politics
 
-import java.util.UUID
+import io.chrisdavenport.fuuid.FUUID
 
 case class Ngo(name: String)
 
 object Ngo {
 
-  case class Id(value: UUID)
+  case class Id(value: FUUID)
 }

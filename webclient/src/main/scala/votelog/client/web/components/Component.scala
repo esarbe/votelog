@@ -6,5 +6,5 @@ import scala.xml.Node
 
 trait Component[T] {
   def view: Node
-  def state: Rx[T]
+  def model: Rx[T]
 }

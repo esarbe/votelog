@@ -11,6 +11,6 @@ class Signup(
 
 
 
-  val state = Rx(())
+  val model = Rx(())
   val view = ???
 }

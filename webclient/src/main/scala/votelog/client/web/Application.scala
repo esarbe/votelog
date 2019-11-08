@@ -29,9 +29,8 @@ object Application {
     val div: Element = dom.document.createElement("div")
     dom.document.body.appendChild(div)
     mount(div, authComponent.view)
+    println("ready")
   }
-
-
 
   object debounce {
     var timeoutHandler: js.UndefOr[SetTimeoutHandle] = js.undefined

@@ -26,7 +26,6 @@ class Authentication(
   val username: Var[String] = Var("")
   val password: Var[String] = Var("")
   val submitLogin: Var[Unit] = Var(())
-  val submitSignup: Var[Unit] = Var(())
 
   val loginRequest: Rx[Option[UserPassword]] =
     username
@@ -40,10 +39,11 @@ class Authentication(
         Some(UserPassword(username, password))
       }
 
-  val state: Rx[Authenticated] =
+  val model: Rx[Authenticated] =
     loginRequest.flatMap {
       case None => Rx(Unauthenticated)
       case Some(UserPassword(username, password)) =>
+        println("foo")
         auth
           .login(UserPassword(username,password))
           .toRx
@@ -57,6 +57,7 @@ class Authentication(
               println(s"error occurred: $error")
               Unauthenticated
             case None =>
+              println(s"unknown error occurred")
               Unauthenticated
           }
     }
@@ -64,47 +65,48 @@ class Authentication(
 
   def set[T](value: Var[T]): js.Dynamic => Unit = {
     event =>
+      println(event)
       value.update(_ => event.target.value.asInstanceOf[T])
   }
 
-  def loginView( authenticated: Rx[Authenticated],
+  def loginView(
     request: Rx[Option[UserPassword]],
     submitLogin: Var[Unit],
+    model: Rx[Authenticated],
     password: Var[String],
     username: Var[String],
-  ): Rx[Elem] = {
+  ): Elem = {
+    val cssClass =
+      model.map {
+        case UserAuthenticated(_) => "authenticated"
+        case Unauthenticated => "unauthenticated"
+      }
 
-    authenticated.map {
-      case Unauthenticated =>
-        <fieldset>
-          <legend>Login</legend>
-          <dl>
-            <dt>
-              <label for="username">Username</label>
-            </dt>
-            <dd>
-              <input id="username" type="text" value={username} oninput={debounce(200)(set(username))}/>
-            </dd>
-          </dl>
-          <dl>
-            <dt>
-              <label for="password">Password</label>
-            </dt>
-            <dd>
-              <input id="password" type="password" value={password} oninput={debounce(200)(set(password))}/>
-            </dd>
-          </dl>
+    <fieldset id="authentication" class={cssClass} >
+      <legend>Login</legend>
+      <dl>
+        <dt>
+          <label for="username">Username</label>
+        </dt>
+        <dd>
+          <input id="username" type="text" value={ username } oninput={ debounce(200)(set(username)) } />
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <label for="password">Password</label>
+        </dt>
+        <dd>
+          <input id="password" type="password" value={ password } oninput={ debounce(200)(set(password)) } />
+        </dd>
+      </dl>
 
-      <input type="button" text="login" onclick={ set(submitLogin) } />
+     <input type="button" text="login" onclick={ set(submitLogin) } />
 
-        </fieldset>
-
-      case UserAuthenticated(user) =>
-        <span>logged in</span>
-    }
+    </fieldset>
   }
 
   val view: Node =
-    <section id="authentication">{loginView(state, loginRequest, submitLogin, password, username)}</section>
+    loginView(loginRequest, submitLogin, model, password, username)
 
 }

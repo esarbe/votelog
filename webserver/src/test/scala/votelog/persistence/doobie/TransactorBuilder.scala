@@ -1,9 +1,8 @@
 package votelog.persistence.doobie
 
-import java.util.UUID
-
-import cats.effect.{Async, ContextShift}
+import cats.effect.{Async, ContextShift, IO}
 import doobie.util.transactor.Transactor
+import io.chrisdavenport.fuuid.FUUID
 import votelog.app.{Configuration, Database}
 
 object TransactorBuilder {
@@ -21,6 +20,6 @@ object TransactorBuilder {
   }
 
   def buildTransactor[F[_]: Async: ContextShift]: Transactor[F] = {
-    Database.buildTransactor(buildDatabaseConfig(UUID.randomUUID().toString))
+    Database.buildTransactor(buildDatabaseConfig(FUUID.randomFUUID[IO].unsafeRunSync().toString))
   }
 }

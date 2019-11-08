@@ -3,6 +3,7 @@ package votelog.persistence.doobie
 import java.util.UUID
 
 import cats._
+import cats.effect.Sync
 import cats.free.Free
 import cats.implicits._
 import doobie.free.connection
@@ -17,7 +18,7 @@ import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 import votelog.persistence.doobie.Mappings._
 
-class DoobieUserStore[F[_]: Monad: ThrowableBracket](
+class DoobieUserStore[F[_]: Sync](
   transactor: doobie.util.transactor.Transactor[F],
   passwordHasher: PasswordHasherAlg[F],
 ) extends UserStore[F] {
@@ -95,7 +96,7 @@ class DoobieUserStore[F[_]: Monad: ThrowableBracket](
     for {
       hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
       updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword))
-      id = UserStore.newId
+      id <- UserStore.newId[F]
       _ <- insertQuery(updatedRecipe, id).transact(transactor)
     } yield id
 

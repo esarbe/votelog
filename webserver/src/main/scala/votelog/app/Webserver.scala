@@ -52,26 +52,25 @@ object Webserver extends IOApp {
 
     object component {
       val root = Root.child("api").child("v0")
-      val politician = root.child("politician")
+      val person = root.child("person")
       val motion = root.child("motion")
       val user = root.child("user")
       val ngo = root.child("ngo")
       val auth = root.child("auth")
     }
 
-
     val pws =
       new PersonService(
-        component = component.politician,
+        component = component.person,
         store = votelog.politician,
         voteAlg = votelog.vote,
         log = log,
         authAlg = votelog.authorization
       )
 
-    val mws = new MotionService(Root.child("motion"), votelog.motion, votelog.authorization)
-    val uws = new UserService(Root.child("user"), votelog.user, votelog.authorization)
-    val nws = new NgoService(Root.child("ngo"), votelog.ngo, votelog.authorization)
+    val mws = new MotionService(component.motion, votelog.motion, votelog.authorization)
+    val uws = new UserService(component.user, votelog.user, votelog.authorization)
+    val nws = new NgoService(component.ngo, votelog.ngo, votelog.authorization)
 
     val key = PrivateKey(configuration.secret.getBytes)
     val crypto: CryptoBits = CryptoBits(key)
@@ -90,7 +89,7 @@ object Webserver extends IOApp {
 
     val service =
       Router(
-        component.politician.location -> auth(pws.service),
+        component.person.location -> auth(pws.service),
         component.motion.location -> auth(mws.service),
         component.user.location -> auth(uws.service),
         component.ngo.location -> auth(nws.service),

@@ -2,6 +2,8 @@ package votelog.persistence
 
 import java.util.UUID
 
+import cats.effect.IO
+import io.chrisdavenport.fuuid.FUUID
 import votelog.domain.crudi.StoreAlg
 import votelog.domain.politics.{Ngo, Scoring}
 import votelog.persistence.NgoStore.Recipe
@@ -13,5 +15,6 @@ object NgoStore {
 
   case class Recipe(name: String)
 
-  def newId: Ngo.Id = Ngo.Id(UUID.randomUUID())
+  // TODO: remove unsafeRunSync
+  def newId: Ngo.Id = FUUID.randomFUUID[IO].map(Ngo.Id).unsafeRunSync()
 }
