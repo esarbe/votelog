@@ -53,7 +53,7 @@ object VoteLog {
     Resource.pure(buildAppAlg(hasher, db, cv))
   }
 
-  def buildAppAlg[F[_]: Monad: ThrowableBracket](
+  def buildAppAlg[F[_]: Sync: ThrowableBracket](
     hasher: PasswordHasherAlg[F],
     votelogDatabase: Transactor[F],
     curiaVistaDatabase: Transactor[F]

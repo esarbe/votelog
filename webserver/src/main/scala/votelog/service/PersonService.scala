@@ -3,17 +3,17 @@ package votelog.service
 import cats.effect.IO
 import cats.implicits._
 import io.circe.syntax._
-import io.circe.{Encoder, KeyDecoder, KeyEncoder}
+import io.circe.{KeyDecoder, KeyEncoder}
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.politics.{Motion, Person, Votum}
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.{ReadOnlyStoreService, VoteAlg}
+import votelog.orphans.circe.implicits._
 
 class PersonService(
   val component: Component,
@@ -29,11 +29,6 @@ class PersonService(
   object MotionId {
     def unapply(str: String): Option[Motion.Id] =
       KeyDecoder[Motion.Id].apply(str)
-  }
-
-  object Votum {
-    def unapply(str: String): Option[Votum] =
-      KeyDecoder[Option[Votum]].apply(str).flatten
   }
 
   lazy val voting: AuthedRoutes[User, IO] =  AuthedRoutes.of {

@@ -96,7 +96,7 @@ class DoobieUserStore[F[_]: Sync](
     for {
       hashedPassword <- passwordHasher.hashPassword(recipe.password.value)
       updatedRecipe = recipe.prepare(Password.Hashed(hashedPassword))
-      id <- UserStore.newId[F]
+      id = UserStore.newId
       _ <- insertQuery(updatedRecipe, id).transact(transactor)
     } yield id
 

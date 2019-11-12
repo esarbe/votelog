@@ -1,13 +1,11 @@
 package votelog.orphans.circe
 
-import io.chrisdavenport.fuuid.FUUID
-import io.chrisdavenport.fuuid.circe.fuuidDecoder
 import io.circe
 import io.circe.{Decoder, KeyDecoder}
 import io.circe.generic.semiauto.deriveDecoder
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.domain.politics.{Motion, Ngo, Party, Person, Votum}
+import votelog.domain.politics.{Motion, Ngo, Party, Person}
 
 trait ModelDecoders {
   implicit val partyIdCirceDecoder: circe.Decoder[Party.Id] = Decoder.decodeInt.map(Party.Id)
@@ -22,7 +20,7 @@ trait ModelDecoders {
   implicit val personCirceDecoder: circe.Decoder[Person] = deriveDecoder[Person]
 
   implicit val userIdCirceDecoder: circe.Decoder[User.Id] = deriveDecoder[User.Id]
-  implicit val userIdCirceKeyDecoder: circe.KeyDecoder[User.Id] = FUUID.fromString(_).toOption.map(User.Id)
+  implicit val userIdCirceKeyDecoder: circe.KeyDecoder[User.Id] = a => Some(User.Id(a))
 
   implicit val userEmailCirceDecoder: circe.Decoder[User.Email] = deriveDecoder[User.Email]
 
@@ -32,9 +30,7 @@ trait ModelDecoders {
   implicit val userCirceDecoder: circe.Decoder[User] = deriveDecoder[User]
 
   implicit val ngoIdCirceDecoder: circe.Decoder[Ngo.Id] = deriveDecoder[Ngo.Id]
-  implicit val ngoIdCirceKeyDecoder: circe.KeyDecoder[Ngo.Id] = FUUID.fromString(_).toOption.map(Ngo.Id)
+  implicit val ngoIdCirceKeyDecoder: circe.KeyDecoder[Ngo.Id] = a => Some(Ngo.Id(a))
   implicit val nvoCirceDecoder: circe.Decoder[Ngo] = deriveDecoder[Ngo]
-
-  implicit val votumCirceKeyDecoder: circe.KeyDecoder[Option[Votum]] = KeyDecoder.decodeKeyString.map(Votum.fromString)
 
 }

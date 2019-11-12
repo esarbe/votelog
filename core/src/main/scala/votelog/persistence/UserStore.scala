@@ -1,10 +1,8 @@
 package votelog.persistence
 
 
-import cats._
-import cats.effect.Sync
-import cats.implicits._
-import io.chrisdavenport.fuuid.FUUID
+import java.util.UUID
+
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.crudi.StoreAlg
@@ -16,7 +14,7 @@ trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
 }
 
 object UserStore {
-  def newId[F[_]: Sync: Functor]: F[User.Id] = FUUID.randomFUUID[F].map(User.Id)
+  def newId: User.Id = User.Id(UUID.randomUUID.toString)
 
   case class Recipe(name: String, email: User.Email, password: Password.Clear) {
     def prepare(passwordHash: Password.Hashed): PreparedRecipe =

@@ -11,6 +11,7 @@ import votelog.client.web.State.Authenticated
 import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
 import votelog.domain.authentication.Authentication.Credentials.UserPassword
 import votelog.domain.authentication.SessionService
+import votelog.domain.authentication.SessionService.Error.ServiceError
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -46,20 +47,19 @@ class Authentication(
         println("foo")
         auth
           .login(UserPassword(username,password))
-          .toRx
           .map {
-            case Some(Success(Right(user))) =>
+            case Right(user) =>
               UserAuthenticated(user)
-            case Some(Success(Left(error))) =>
-              println(s"login failed: $error")
+            case Left(ServiceError(source)) =>
+              source.printStackTrace
+              println(s"login failed: ${source.getStackTrace.mkString("\n")}")
               Unauthenticated
-            case Some(Failure(error)) =>
-              println(s"error occurred: $error")
-              Unauthenticated
-            case None =>
-              println(s"unknown error occurred")
+            case Left(error) =>
+              println(s"login failed: ${error.getMessage}")
               Unauthenticated
           }
+          .toRx
+        .collect{ case Some(Success(user)) => user }(Unauthenticated)
     }
 
 
