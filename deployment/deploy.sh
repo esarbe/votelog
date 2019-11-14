@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if [ ! -d "public" ]; then
 	mkdir public
 fi
@@ -10,10 +11,8 @@ if [ ! -d "public/js" ]; then
 	mkdir public/js
 fi
 
-
-# Generate .js files from Scala
 sbt fastOptJS
 
-cp webclient/src/main/resources/index.html public
+cp webclient/src/main/resources/index.html public/
 cp webclient/src/main/resources/css/* public/css/
-cp webclient/target/scala-*/*.js public/js/
+cp webclient/target/scala-*/*.js* public/js/
