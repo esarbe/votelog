@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/esarbe/votelog.svg?token=p1fS6synApAkBBqLu9y3&branch=master)](https://travis-ci.com/esarbe/votelog)
+[![Build Status](https://travis-ci.org/esarbe/votelog.svg?branch=master)](https://travis-ci.org/esarbe/votelog)
 
 # Votelog
 
