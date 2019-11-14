@@ -15,6 +15,7 @@ import votelog.domain.authentication.User
 import votelog.domain.authorization.Component.Root
 import votelog.implementation.Log4SLogger
 import votelog.service._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Webserver extends IOApp {
 
@@ -87,16 +88,16 @@ object Webserver extends IOApp {
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
     val session = new SessionService(crypto, clock, component.root)
 
-    val service =
-      Router(
+    val services =
+      Map(
         component.person.location -> auth(pws.service),
         component.motion.location -> auth(mws.service),
         component.user.location -> auth(uws.service),
         component.ngo.location -> auth(nws.service),
-        component.auth.location -> CORS(basicAuth(session.service)),
+        component.auth.location -> basicAuth(session.service),
       )
 
-    service
+    Router(services.mapValues(CORS(_)).toList:_*)
   }
 
   lazy val loadConfiguration =
