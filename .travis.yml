@@ -3,7 +3,7 @@ language: scala
 services:
   - postgresql
 
-deploy:
+script:
   - bash deployment/deploy.sh
 
 deploy:
