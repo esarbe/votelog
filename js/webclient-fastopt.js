@@ -5309,7 +5309,7 @@ function $h_Lvotelog_client_web_Application$() {
 $h_Lvotelog_client_web_Application$.prototype = $c_Lvotelog_client_web_Application$.prototype;
 $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   $n_Lvotelog_client_web_Application$ = this;
-  this.context$1 = new $c_Lvotelog_client_Context().init___T__T__I("http://localhost:8080/api/v0", "en", 2019);
+  this.context$1 = new $c_Lvotelog_client_Context().init___T__T__I("http://votelog.herokuapp.com/api/v0", "en", 2019);
   this.authService$1 = new $c_Lvotelog_client_service_SessionServiceRest().init___Lvotelog_client_Context(this.context$1);
   this.authComponent$1 = new $c_Lvotelog_client_web_components_Authentication().init___Lvotelog_domain_authentication_SessionService(this.authService$1);
   return this
@@ -5322,7 +5322,7 @@ $c_Lvotelog_client_web_Application$.prototype.main__AT__V = (function(args) {
   this$1.mountNode__p1__Lorg_scalajs_dom_raw_Node__s_xml_Node__s_Option__F0(div, child, $m_s_None$());
   var this$3 = $m_s_Console$();
   var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
-  this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V("ready\n")
+  this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V("ready.\n")
 });
 var $d_Lvotelog_client_web_Application$ = new $TypeData().initClass({
   Lvotelog_client_web_Application$: 0
