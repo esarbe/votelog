@@ -9,9 +9,9 @@ import votelog.domain.authorization.Component.Separator
   * it is said to be contained in that component
   *
   * the encoding of the tree-structure currently happens
-  * as part of the name.
-  * The name consists of the full component path with the
-  * simple name of the simple name as last element.
+  * as part of the location.
+  * The name consists of of the last element of the full
+  * component path.
   *
   * elements are separated by slashes (`/`).
   */
