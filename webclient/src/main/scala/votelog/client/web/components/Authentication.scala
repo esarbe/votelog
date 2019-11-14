@@ -11,7 +11,7 @@ import votelog.client.web.State.Authenticated
 import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
 import votelog.domain.authentication.Authentication.Credentials.UserPassword
 import votelog.domain.authentication.SessionService
-import votelog.domain.authentication.SessionService.Error.ServiceError
+import votelog.domain.authentication.SessionService.Error.{AuthenticationFailed, DecodingError, ServiceError}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -44,28 +44,33 @@ class Authentication(
     loginRequest.flatMap {
       case None => Rx(Unauthenticated)
       case Some(UserPassword(username, password)) =>
-        println("foo")
         auth
           .login(UserPassword(username,password))
           .map {
             case Right(user) =>
               UserAuthenticated(user)
             case Left(ServiceError(source)) =>
-              source.printStackTrace
-              println(s"login failed: ${source.getStackTrace.mkString("\n")}")
+              println(s"Error calling authentication service: $source")
               Unauthenticated
-            case Left(error) =>
-              println(s"login failed: ${error.getMessage}")
+            case Left(AuthenticationFailed) =>
+              println(s"Authentication failed")
+              Unauthenticated
+            case Left(DecodingError(source)) =>
+              println(s"Error decoding response: $source")
               Unauthenticated
           }
           .toRx
-        .collect{ case Some(Success(user)) => user }(Unauthenticated)
+          .collect { case Some(Success(user)) => user }(Unauthenticated)
     }
 
 
+  def ifEnter(run: js.Dynamic => Unit): js.Dynamic => Unit = {
+    event =>
+      if (event.keyCode == 13) run(event)
+  }
+
   def set[T](value: Var[T]): js.Dynamic => Unit = {
     event =>
-      println(event)
       value.update(_ => event.target.value.asInstanceOf[T])
   }
 
@@ -82,14 +87,14 @@ class Authentication(
         case Unauthenticated => "unauthenticated"
       }
 
-    <fieldset id="authentication" class={cssClass} >
+    <fieldset id="authentication" class={cssClass} onkeyup={ ifEnter(set(submitLogin)) }>
       <legend>Login</legend>
       <dl>
         <dt>
           <label for="username">Username</label>
         </dt>
         <dd>
-          <input id="username" type="text" value={ username } oninput={ debounce(200)(set(username)) } />
+          <input id="username" type="text" value={ username }  oninput={ debounce(200)(set(username)) } />
         </dd>
       </dl>
       <dl>
@@ -101,7 +106,7 @@ class Authentication(
         </dd>
       </dl>
 
-     <input type="button" text="login" onclick={ set(submitLogin) } />
+     <input type="button" value="login" onclick={ set(submitLogin) } />
 
     </fieldset>
   }
