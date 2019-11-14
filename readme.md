@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/esarbe/votelog.svg?token=p1fS6synApAkBBqLu9y3&branch=master)](https://travis-ci.com/esarbe/votelog)
+[![Build Status](https://travis-ci.org/esarbe/votelog.svg?token=p1fS6synApAkBBqLu9y3&branch=master)](https://travis-ci.com/esarbe/votelog)
 
 # Votelog
 
@@ -46,5 +46,7 @@ overwritten by setting the corresponding environment variables.
 ## Starting local docker for testing
 ```bash
 docker-compose -f testing/docker-compose.yml up postgres
-
 ```
+
+# License
+This project is licensed under the AGPL 3.0. See [LICENSE.md](LICENSE.md)
