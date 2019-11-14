@@ -1,11 +1,11 @@
 package votelog.orphans.circe
 
 import io.circe
-import io.circe.{Encoder, KeyEncoder}
+import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.domain.politics.{Motion, Ngo, Party, Person, Votum}
+import votelog.domain.politics._
 
 trait ModelEncoders {
 
