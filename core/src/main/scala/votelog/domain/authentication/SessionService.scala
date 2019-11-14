@@ -16,7 +16,7 @@ object SessionService {
     case class ServiceError(source: Throwable) extends Error {
       override def getMessage: String = source.getMessage
     }
-    case class AuthenticationFailed(response: String) extends Error
+    case object AuthenticationFailed extends Error
   }
 
 }
