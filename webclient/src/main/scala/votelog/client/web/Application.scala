@@ -19,7 +19,7 @@ object State {
 
 object Application {
 
-  val context = Context("http://localhost:8080/api/v0", "en", 2019)
+  val context = Context("http://votelog.herokuapp.com/api/v0", "en", 2019)
 
   val authService = new service.SessionServiceRest(context)
   val authComponent = new components.Authentication(authService)
@@ -29,7 +29,7 @@ object Application {
     val div: Element = dom.document.createElement("div")
     dom.document.body.appendChild(div)
     mount(div, authComponent.view)
-    println("ready")
+    println("ready.")
   }
 
   object debounce {
