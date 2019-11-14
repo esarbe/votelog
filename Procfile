@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/votelog
+web: webserver/target/universal/stage/bin/webserver
