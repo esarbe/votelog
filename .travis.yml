@@ -3,6 +3,18 @@ language: scala
 services:
   - postgresql
 
+deploy:
+  - bash deployment/deploy.sh
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GH_TOKEN
+  keep-history: true
+  on:
+    branch: master
+  local-dir: public
+
 before_script:
   - psql -c "CREATE DATABASE postgress;" -U postgres
   - psql -c "CREATE USER foo WITH PASSWORD 'raclette';" -U postgres
