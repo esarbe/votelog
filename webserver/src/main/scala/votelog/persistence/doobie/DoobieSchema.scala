@@ -30,7 +30,7 @@ class DoobieSchema[F[_]: Sync](transactor: Transactor[F]) extends Schema[F] {
       sql"""
         create table motions_scores (
           ngoid uuid not null,
-          motionid uuid not null,
+          motionid int not null,
           score real not null,
           foreign key (ngoid) references ngos (id),
           primary key (ngoid, motionid)

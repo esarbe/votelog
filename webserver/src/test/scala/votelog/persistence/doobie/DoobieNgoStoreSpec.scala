@@ -23,6 +23,8 @@ class DoobieNgoStoreSpec
   val schema = new DoobieSchema(transactor)
   val store = new DoobieNgoStore(transactor)
 
+  schema.initialize.unsafeRunSync()
+
   val creationRecipe: Recipe = NgoStore.Recipe("Die Iliberalen")
   val createdEntity: Ngo.Id => Ngo = _ => Ngo("Die Iliberalen")
   val updatedRecipe: Recipe = Recipe("Pink Panther")
@@ -31,7 +33,6 @@ class DoobieNgoStoreSpec
 
   val ngoStore =
     for {
-      _ <- schema.initialize
       ngoStore <- aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
     } yield ngoStore
 
@@ -42,10 +43,9 @@ class DoobieNgoStoreSpec
 
     val check =
       for {
-        _ <- schema.initialize
-        mid = Motion.Id(1)
         nid <- store.create(NgoStore.Recipe("Earthicans"))
         before <- store.motionsScoredBy(nid)
+        mid = Motion.Id(1)
         _ <- store.scoreMotion(nid, mid, Score(0.0))
         afterScoring <- store.motionsScoredBy(nid)
         _ <- store.scoreMotion(nid, mid, Score(0.5))
@@ -59,13 +59,13 @@ class DoobieNgoStoreSpec
     check.unsafeRunSync()
   }
 
+
   it should "remove an existing record" in {
     val check =
       for {
-        _ <- schema.initialize
-        mid = Motion.Id(1)
         nid <- store.create(NgoStore.Recipe("Earthicans"))
         before <- store.motionsScoredBy(nid)
+        mid = Motion.Id(1)
         _ <- store.scoreMotion(nid, mid, Score(0.0))
         afterScoring <- store.motionsScoredBy(nid)
         _ <- store.removeMotionScore(nid, mid)
