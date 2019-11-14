@@ -19,7 +19,7 @@ object State {
 
 object Application {
 
-  val context = Context("http://votelog.herokuapp.com/api/v0", "en", 2019)
+  val context = Context("https://votelog.herokuapp.com/api/v0", "en", 2019)
 
   val authService = new service.SessionServiceRest(context)
   val authComponent = new components.Authentication(authService)
