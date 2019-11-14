@@ -5309,7 +5309,7 @@ function $h_Lvotelog_client_web_Application$() {
 $h_Lvotelog_client_web_Application$.prototype = $c_Lvotelog_client_web_Application$.prototype;
 $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   $n_Lvotelog_client_web_Application$ = this;
-  this.context$1 = new $c_Lvotelog_client_Context().init___T__T__I("http://votelog.herokuapp.com/api/v0", "en", 2019);
+  this.context$1 = new $c_Lvotelog_client_Context().init___T__T__I("https://votelog.herokuapp.com/api/v0", "en", 2019);
   this.authService$1 = new $c_Lvotelog_client_service_SessionServiceRest().init___Lvotelog_client_Context(this.context$1);
   this.authComponent$1 = new $c_Lvotelog_client_web_components_Authentication().init___Lvotelog_domain_authentication_SessionService(this.authService$1);
   return this
