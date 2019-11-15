@@ -41,8 +41,8 @@ object Dependencies {
   lazy val decline =
     libraryDependencies += "com.monovore" %% "decline" % "1.0.0"
 
-  lazy val html =
-    libraryDependencies ++= Seq( )
+  lazy val postgres =
+    libraryDependencies += "postgresql" % "postgresql" % "9.1-901-1.jdbc4"
 
   lazy val cats =
     libraryDependencies ++= Seq(
