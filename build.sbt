@@ -56,7 +56,6 @@ val webserver =
       Dependencies.test,
       Dependencies.mariaDb,
       Dependencies.decline,
-      Dependencies.postgres,
     )
     .enablePlugins(JavaAppPackaging)
     .dependsOn(coreJvm)
