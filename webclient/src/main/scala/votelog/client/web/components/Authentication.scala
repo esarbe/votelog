@@ -16,7 +16,7 @@ import votelog.domain.authentication.SessionService.Error.{AuthenticationFailed,
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
-import scala.util.{Failure, Success}
+import scala.util.Success
 import scala.xml.{Elem, Node}
 
 

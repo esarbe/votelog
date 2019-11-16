@@ -9,11 +9,16 @@ trait ReadOnlyStoreAlg[F[_], T, Identity] {
 }
 
 object ReadOnlyStoreAlg {
-  case class QueryParameters(language: String)
-  case class IndexQueryParameters(pageSize: PageSize, offset: Offset, queryParameters: QueryParameters)
+  case class QueryParameters(language: String)  // this should be a type variable in the ReadOnlyStoreAlg
+  case class IndexQueryParameters(pageSize: PageSize, offset: Offset, queryParameters: QueryParameters) // this should be a type variable in the ReadOnlyStoreAlg
 
   object QueryParameters {
     case class PageSize(value: Int)
-    case class Offset(value: Int)
+    case class Offset(value: Long)
+  }
+
+  sealed trait Error extends Exception
+  object Error {
+    case class InvalidId[T](message: String, value: T) extends Error { override def toString: String = message }
   }
 }

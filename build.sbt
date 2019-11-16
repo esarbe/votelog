@@ -11,10 +11,13 @@ val core =
       Settings.common,
       libraryDependencies ++=
         Seq(
+          "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
           "io.circe" %%% "circe-core" % circeVersion,
           "io.circe" %%% "circe-generic" % circeVersion,
           "io.circe" %%% "circe-parser" % circeVersion,
+          "org.julienrf" %%% "endpoints-algebra" % "0.12.0",
+          "org.julienrf" %%% "endpoints-json-schema-generic" % "0.12.0"
         )
     )
 
@@ -31,9 +34,11 @@ val webclient =
       libraryDependencies ++=
         Seq(
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
+
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1",
+          "org.julienrf" %%% "endpoints-xhr-client-circe" % "0.12.0",
         )
     )
     .dependsOn(core.js)
