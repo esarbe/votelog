@@ -42,7 +42,9 @@ object Application {
 
     val pview: Node =
       <div>
-
+        <ul>
+          {personIndex.map { id => <li>id</li> }}
+        </ul>
       </div>
 
 
