@@ -2952,6 +2952,15 @@ $c_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint.prototype.init___Lendpoints
   };
   return this
 });
+function $as_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint(obj) {
+  return (((obj instanceof $c_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint) || (obj === null)) ? obj : $throwClassCastException(obj, "endpoints.xhr.EndpointsWithCustomErrors$Endpoint"))
+}
+function $isArrayOf_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint)))
+}
+function $asArrayOf_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint(obj, depth) {
+  return (($isArrayOf_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lendpoints.xhr.EndpointsWithCustomErrors$Endpoint;", depth))
+}
 function $is_Lendpoints_xhr_Urls$Path(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lendpoints_xhr_Urls$Path)))
 }
@@ -11024,9 +11033,10 @@ $c_Lvotelog_endpoint_client_PersonReadOnlyStoreService.prototype.init___Lvotelog
   return this
 });
 $c_Lvotelog_endpoint_client_PersonReadOnlyStoreService.prototype.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future = (function(params) {
-  var this$1 = this.endpoint$1.index__Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint();
+  var this$1 = this.endpoint$1;
+  var this$2 = this$1.index__Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint();
   var a = new $c_T2().init___O__O(new $c_Lvotelog_endpoint_ReadOnlyStoreEndpoint$Paging().init___J__I(params.offset$1.value$1, params.pageSize$1.value$1), new $c_Lvotelog_domain_politics_Context().init___I__Lvotelog_domain_politics_Language(2019, $m_Lvotelog_domain_politics_Language$English$()));
-  return this$1.apply__O__s_concurrent_Future(a)
+  return this$2.apply__O__s_concurrent_Future(a)
 });
 var $d_Lvotelog_endpoint_client_PersonReadOnlyStoreService = new $TypeData().initClass({
   Lvotelog_endpoint_client_PersonReadOnlyStoreService: 0
@@ -50180,6 +50190,62 @@ var $d_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5 = new $TypeData().in
   s_Equals: 1
 });
 $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.$classData = $d_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5;
+function $f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__contextualizedPagedQuery__O($thiz) {
+  var first = $thiz.pagingQuery__Lendpoints_xhr_Urls$QueryString();
+  var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O($thiz, first);
+  var jsx$1 = $thiz.contextQuery$1;
+  var this$1 = $m_Lendpoints_Tupler$();
+  return jsx$2.$$amp__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler1$$anon$1().init___Lendpoints_Tupler1(this$1))
+}
+function $f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__pagingQuery__O($thiz) {
+  var first = $thiz.offsetQuery$1;
+  var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O($thiz, first);
+  var jsx$1 = $thiz.pageSizeQuery$1;
+  var this$1 = $m_Lendpoints_Tupler$();
+  var fa = jsx$2.$$amp__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler1$$anon$1().init___Lendpoints_Tupler1(this$1));
+  var ev = $thiz.queryStringPartialInvFunctor__Lendpoints_PartialInvariantFunctor();
+  var jsx$3 = new $c_Lendpoints_InvariantFunctorSyntax$InvariantFunctorSyntax().init___Lendpoints_InvariantFunctorSyntax__O__Lendpoints_InvariantFunctor($thiz, fa, ev);
+  var this$2 = $m_Lvotelog_endpoint_ReadOnlyStoreEndpoint$Paging$();
+  return jsx$3.xmap__F1__F1__O($f_F2__tupled__F1(this$2), new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(p$2) {
+      var p = $as_Lvotelog_endpoint_ReadOnlyStoreEndpoint$Paging(p$2);
+      return new $c_s_Tuple2$mcJI$sp().init___J__I(p.offset$1, p.pageSize$1)
+    })
+  })($thiz)))
+}
+function $f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__$$init$__V($thiz) {
+  var value = $f_Lendpoints_algebra_Urls__longQueryString__O($thiz);
+  var param = $as_Lendpoints_xhr_Urls$QueryStringParam(value);
+  var x$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T($thiz, param, "offset");
+  $thiz.offsetQuery$1 = x$1;
+  var value$1 = $f_Lendpoints_algebra_Urls__intQueryString__O($thiz);
+  var param$1 = $as_Lendpoints_xhr_Urls$QueryStringParam(value$1);
+  var x$1$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T($thiz, param$1, "pageSize");
+  $thiz.pageSizeQuery$1 = x$1$1
+}
+function $f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__index__O($thiz) {
+  var first = $thiz.rootPath$1;
+  var first$1 = new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O($thiz, first).$$div__T__O("index");
+  var jsx$2 = new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O($thiz, first$1);
+  var jsx$1 = $thiz.contextualizedPagedQuery__Lendpoints_xhr_Urls$QueryString();
+  var this$1 = $m_Lendpoints_Tupler$();
+  var url = jsx$2.$$div$qmark__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler3$$anon$7().init___Lendpoints_Tupler3(this$1));
+  var docs = $m_s_None$();
+  var headers = $thiz.emptyHeaders__sjs_js_Function2();
+  var this$2 = $m_Lendpoints_Tupler$();
+  var tuplerUH = new $c_Lendpoints_Tupler4$$anon$8().init___Lendpoints_Tupler4(this$2);
+  var request = $f_Lendpoints_algebra_Requests__get__O__s_Option__O__Lendpoints_Tupler__O($thiz, url, docs, headers, tuplerUH);
+  var jsonSchema = $thiz.entityIdCodec__Lendpoints_circe_JsonSchemas$JsonSchema();
+  var this$3 = $m_sci_List$();
+  var factory = this$3.ReusableCBFInstance$2;
+  var evidence$2 = $f_Lendpoints_circe_JsonSchemas__arrayJsonSchema__Lendpoints_circe_JsonSchemas$JsonSchema__scg_CanBuildFrom__Lendpoints_circe_JsonSchemas$JsonSchema($thiz, jsonSchema, factory);
+  var entity = $f_Lendpoints_xhr_circe_JsonSchemaEntities__jsonResponse__Lendpoints_circe_JsonSchemas$JsonSchema__sjs_js_Function1($thiz, evidence$2);
+  var docs$1 = $m_s_None$();
+  var response = $f_Lendpoints_xhr_EndpointsWithCustomErrors__response__I__sjs_js_Function1__s_Option__sjs_js_Function1($thiz, 200, entity, docs$1);
+  $f_Lendpoints_xhr_future_EndpointsWithCustomErrors__endpoint$default$3__Lendpoints_algebra_EndpointsWithCustomErrors$EndpointDocs($thiz);
+  var request$1 = $as_Lendpoints_xhr_EndpointsWithCustomErrors$Request(request);
+  return new $c_Lendpoints_xhr_future_EndpointsWithCustomErrors$$anon$1().init___Lendpoints_xhr_future_EndpointsWithCustomErrors__Lendpoints_xhr_EndpointsWithCustomErrors$Request__sjs_js_Function1($thiz, request$1, response)
+}
 function $f_sci_StringLike__slice__I__I__O($thiz, from, until) {
   var start = ((from > 0) ? from : 0);
   var that = $thiz.length__I();
@@ -51544,21 +51610,27 @@ function $f_sci_DefaultMap__$$plus__T2__sci_Map($thiz, kv) {
   b.$$plus$eq__T2__scm_MapBuilder(elem);
   return $as_sci_Map(b.elems$1)
 }
+function $is_sci_SortedSet(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sci_SortedSet)))
+}
+function $as_sci_SortedSet(obj) {
+  return (($is_sci_SortedSet(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.collection.immutable.SortedSet"))
+}
+function $isArrayOf_sci_SortedSet(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.sci_SortedSet)))
+}
+function $asArrayOf_sci_SortedSet(obj, depth) {
+  return (($isArrayOf_sci_SortedSet(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.immutable.SortedSet;", depth))
+}
 /** @constructor */
 function $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint() {
   $c_O.call(this);
-  this.pagingQuery$1 = null;
-  this.contextualizedPagedQuery$1 = null;
-  this.idSegment$1 = null;
-  this.index$1 = null;
-  this.read$1 = null;
   this.entityCodec$1 = null;
   this.entityIdCodec$1 = null;
   this.id$1 = null;
-  this.contextQuery$1 = null;
-  this.offsetQuery$1 = null;
-  this.pageSizeQuery$1 = null;
+  this.rootPath$1 = null;
   this.queryStringParamLanguage$1 = null;
+  this.contextQuery$1 = null;
   this.JsonSchema$module$1 = null;
   this.Record$module$1 = null;
   this.emptyHeaders$1 = null;
@@ -51576,6 +51648,13 @@ function $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint() {
   this.pathPartialInvariantFunctor$1 = null;
   this.urlPartialInvFunctor$1 = null;
   this.GenericJsonSchema$module$1 = null;
+  this.offsetQuery$1 = null;
+  this.pageSizeQuery$1 = null;
+  this.pagingQuery$1 = null;
+  this.contextualizedPagedQuery$1 = null;
+  this.idSegment$1 = null;
+  this.index$1 = null;
+  this.read$1 = null;
   this.EndpointDocs$module$1 = null;
   this.CallbackDocs$module$1 = null;
   this.clientErrorsResponse$1 = null;
@@ -51612,55 +51691,70 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.votelog$endpoint$cl
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.init___ = (function() {
   $f_Lendpoints_algebra_Urls__$$init$__V(this);
-  var param = $as_Lendpoints_xhr_Urls$QueryStringParam($f_Lendpoints_algebra_Urls__longQueryString__O(this));
-  this.offsetQuery$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param, "offset");
-  var param$1 = $as_Lendpoints_xhr_Urls$QueryStringParam($f_Lendpoints_algebra_Urls__intQueryString__O(this));
-  this.pageSizeQuery$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param$1, "pageSize");
+  $f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__$$init$__V(this);
+  var first = this.path$1;
+  this.rootPath$1 = $as_Lendpoints_xhr_Urls$Path(new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O(this, first).$$div__T__O("api/v0/person"));
   this.queryStringParamLanguage$1 = new $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint$$anonfun$1().init___Lvotelog_endpoint_client_PersonStoreXhrEndpoint(this);
+  var param = $as_Lendpoints_xhr_Urls$QueryStringParam($f_Lendpoints_algebra_Urls__intQueryString__O(this));
+  var first$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param, "year");
+  var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O(this, first$1);
+  var param$1 = this.queryStringParamLanguage$1;
+  var jsx$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param$1, "lang");
+  var this$1 = $m_Lendpoints_Tupler$();
+  var fa = jsx$2.$$amp__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler1$$anon$1().init___Lendpoints_Tupler1(this$1));
+  var ev = this.queryStringPartialInvFunctor__Lendpoints_PartialInvariantFunctor();
+  var jsx$3 = new $c_Lendpoints_InvariantFunctorSyntax$InvariantFunctorSyntax().init___Lendpoints_InvariantFunctorSyntax__O__Lendpoints_InvariantFunctor(this, fa, ev);
+  var this$2 = $m_Lvotelog_domain_politics_Context$();
+  this.contextQuery$1 = $as_Lendpoints_xhr_Urls$QueryString(jsx$3.xmap__F1__F1__O($f_F2__tupled__F1(this$2), new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(c$2) {
+      var c = $as_Lvotelog_domain_politics_Context(c$2);
+      return new $c_T2().init___O__O(c.year$1, c.language$1)
+    })
+  })(this))));
   return this
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.serverErrorResponse__sjs_js_Function1 = (function() {
-  return (((16777216 & this.bitmap$0$1) === 0) ? this.serverErrorResponse$lzycompute__p1__sjs_js_Function1() : this.serverErrorResponse$1)
+  return (((8388608 & this.bitmap$0$1) === 0) ? this.serverErrorResponse$lzycompute__p1__sjs_js_Function1() : this.serverErrorResponse$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.emptyRequest$lzycompute__p1__sjs_js_Function2 = (function() {
-  if (((4096 & this.bitmap$0$1) === 0)) {
+  if (((64 & this.bitmap$0$1) === 0)) {
     this.emptyRequest$1 = $f_Lendpoints_xhr_EndpointsWithCustomErrors__emptyRequest__sjs_js_Function2(this);
-    this.bitmap$0$1 = (4096 | this.bitmap$0$1)
+    this.bitmap$0$1 = (64 | this.bitmap$0$1)
   };
   return this.emptyRequest$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.clientErrorsResponse__sjs_js_Function1 = (function() {
-  return (((8388608 & this.bitmap$0$1) === 0) ? this.clientErrorsResponse$lzycompute__p1__sjs_js_Function1() : this.clientErrorsResponse$1)
+  return (((4194304 & this.bitmap$0$1) === 0) ? this.clientErrorsResponse$lzycompute__p1__sjs_js_Function1() : this.clientErrorsResponse$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.queryStringParamPartialInvFunctor$lzycompute__p1__Lendpoints_PartialInvariantFunctor = (function() {
-  if (((524288 & this.bitmap$0$1) === 0)) {
+  if (((8192 & this.bitmap$0$1) === 0)) {
     this.queryStringParamPartialInvFunctor$1 = new $c_Lendpoints_xhr_Urls$$anon$3().init___Lendpoints_xhr_Urls(this);
-    this.bitmap$0$1 = (524288 | this.bitmap$0$1)
+    this.bitmap$0$1 = (8192 | this.bitmap$0$1)
   };
   return this.queryStringParamPartialInvFunctor$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.serverErrorResponse$lzycompute__p1__sjs_js_Function1 = (function() {
-  if (((16777216 & this.bitmap$0$1) === 0)) {
+  if (((8388608 & this.bitmap$0$1) === 0)) {
     this.serverErrorResponse$1 = $f_Lendpoints_algebra_Errors__serverErrorResponse__O(this);
-    this.bitmap$0$1 = (16777216 | this.bitmap$0$1)
+    this.bitmap$0$1 = (8388608 | this.bitmap$0$1)
   };
   return this.serverErrorResponse$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.entityIdCodec__Lendpoints_circe_JsonSchemas$JsonSchema = (function() {
-  return (((64 & this.bitmap$0$1) === 0) ? this.entityIdCodec$lzycompute__p1__Lendpoints_circe_JsonSchemas$JsonSchema() : this.entityIdCodec$1)
+  return (((2 & this.bitmap$0$1) === 0) ? this.entityIdCodec$lzycompute__p1__Lendpoints_circe_JsonSchemas$JsonSchema() : this.entityIdCodec$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.pagingQuery__Lendpoints_xhr_Urls$QueryString = (function() {
-  return (((1 & this.bitmap$0$1) === 0) ? this.pagingQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString() : this.pagingQuery$1)
+  return (((131072 & this.bitmap$0$1) === 0) ? this.pagingQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString() : this.pagingQuery$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.clientErrorsResponse$lzycompute__p1__sjs_js_Function1 = (function() {
-  if (((8388608 & this.bitmap$0$1) === 0)) {
+  if (((4194304 & this.bitmap$0$1) === 0)) {
     this.clientErrorsResponse$1 = $f_Lendpoints_algebra_Errors__clientErrorsResponse__O(this);
-    this.bitmap$0$1 = (8388608 | this.bitmap$0$1)
+    this.bitmap$0$1 = (4194304 | this.bitmap$0$1)
   };
   return this.clientErrorsResponse$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.stringQueryString__Lendpoints_xhr_Urls$QueryStringParam = (function() {
-  return (((1048576 & this.bitmap$0$1) === 0) ? this.stringQueryString$lzycompute__p1__Lendpoints_xhr_Urls$QueryStringParam() : this.stringQueryString$1)
+  return (((16384 & this.bitmap$0$1) === 0) ? this.stringQueryString$lzycompute__p1__Lendpoints_xhr_Urls$QueryStringParam() : this.stringQueryString$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.EndpointDocs$lzycompute$1__p1__V = (function() {
   if ((this.EndpointDocs$module$1 === null)) {
@@ -51668,9 +51762,9 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.EndpointDocs$lzycom
   }
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.emptyHeaders$lzycompute__p1__sjs_js_Function2 = (function() {
-  if (((512 & this.bitmap$0$1) === 0)) {
+  if (((8 & this.bitmap$0$1) === 0)) {
     this.emptyHeaders$1 = $f_Lendpoints_xhr_EndpointsWithCustomErrors__emptyHeaders__sjs_js_Function2(this);
-    this.bitmap$0$1 = (512 | this.bitmap$0$1)
+    this.bitmap$0$1 = (8 | this.bitmap$0$1)
   };
   return this.emptyHeaders$1
 });
@@ -51680,53 +51774,27 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.GenericJsonSchema$l
   }
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.stringQueryString$lzycompute__p1__Lendpoints_xhr_Urls$QueryStringParam = (function() {
-  if (((1048576 & this.bitmap$0$1) === 0)) {
+  if (((16384 & this.bitmap$0$1) === 0)) {
     this.stringQueryString$1 = new $c_Lendpoints_xhr_Urls$$anonfun$stringQueryString$2().init___Lendpoints_xhr_Urls(this);
-    this.bitmap$0$1 = (1048576 | this.bitmap$0$1)
+    this.bitmap$0$1 = (16384 | this.bitmap$0$1)
   };
   return this.stringQueryString$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.contextualizedPagedQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString = (function() {
-  if (((2 & this.bitmap$0$1) === 0)) {
-    var first = this.pagingQuery__Lendpoints_xhr_Urls$QueryString();
-    var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O(this, first);
-    var jsx$1 = this.contextQuery__Lendpoints_xhr_Urls$QueryString();
-    var this$1 = $m_Lendpoints_Tupler$();
-    this.contextualizedPagedQuery$1 = $as_Lendpoints_xhr_Urls$QueryString(jsx$2.$$amp__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler1$$anon$1().init___Lendpoints_Tupler1(this$1)));
-    this.bitmap$0$1 = (2 | this.bitmap$0$1)
+  if (((262144 & this.bitmap$0$1) === 0)) {
+    this.contextualizedPagedQuery$1 = $as_Lendpoints_xhr_Urls$QueryString($f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__contextualizedPagedQuery__O(this));
+    this.bitmap$0$1 = (262144 | this.bitmap$0$1)
   };
   return this.contextualizedPagedQuery$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.index__Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint = (function() {
-  return (((8 & this.bitmap$0$1) === 0) ? this.index$lzycompute__p1__Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint() : this.index$1)
-});
-$c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.contextQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString = (function() {
-  if (((256 & this.bitmap$0$1) === 0)) {
-    var param = $as_Lendpoints_xhr_Urls$QueryStringParam($f_Lendpoints_algebra_Urls__intQueryString__O(this));
-    var first = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param, "year");
-    var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O(this, first);
-    var param$1 = this.queryStringParamLanguage$1;
-    var jsx$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param$1, "lang");
-    var this$1 = $m_Lendpoints_Tupler$();
-    var fa = jsx$2.$$amp__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler1$$anon$1().init___Lendpoints_Tupler1(this$1));
-    var ev = this.queryStringPartialInvFunctor__Lendpoints_PartialInvariantFunctor();
-    var jsx$3 = new $c_Lendpoints_InvariantFunctorSyntax$InvariantFunctorSyntax().init___Lendpoints_InvariantFunctorSyntax__O__Lendpoints_InvariantFunctor(this, fa, ev);
-    var this$2 = $m_Lvotelog_domain_politics_Context$();
-    this.contextQuery$1 = $as_Lendpoints_xhr_Urls$QueryString(jsx$3.xmap__F1__F1__O($f_F2__tupled__F1(this$2), new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-      return (function(c$2) {
-        var c = $as_Lvotelog_domain_politics_Context(c$2);
-        return new $c_T2().init___O__O(c.year$1, c.language$1)
-      })
-    })(this))));
-    this.bitmap$0$1 = (256 | this.bitmap$0$1)
-  };
-  return this.contextQuery$1
+  return (((1048576 & this.bitmap$0$1) === 0) ? this.index$lzycompute__p1__Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint() : this.index$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.emptyRequest__sjs_js_Function2 = (function() {
-  return (((4096 & this.bitmap$0$1) === 0) ? this.emptyRequest$lzycompute__p1__sjs_js_Function2() : this.emptyRequest$1)
+  return (((64 & this.bitmap$0$1) === 0) ? this.emptyRequest$lzycompute__p1__sjs_js_Function2() : this.emptyRequest$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.queryStringParamPartialInvFunctor__Lendpoints_PartialInvariantFunctor = (function() {
-  return (((524288 & this.bitmap$0$1) === 0) ? this.queryStringParamPartialInvFunctor$lzycompute__p1__Lendpoints_PartialInvariantFunctor() : this.queryStringParamPartialInvFunctor$1)
+  return (((8192 & this.bitmap$0$1) === 0) ? this.queryStringParamPartialInvFunctor$lzycompute__p1__Lendpoints_PartialInvariantFunctor() : this.queryStringParamPartialInvFunctor$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.JsonSchema__Lendpoints_circe_JsonSchemas$JsonSchema$ = (function() {
   if ((this.JsonSchema$module$1 === null)) {
@@ -51735,30 +51803,14 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.JsonSchema__Lendpoi
   return this.JsonSchema$module$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.pagingQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString = (function() {
-  if (((1 & this.bitmap$0$1) === 0)) {
-    var first = this.offsetQuery$1;
-    var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O(this, first);
-    var jsx$1 = this.pageSizeQuery$1;
-    var this$1 = $m_Lendpoints_Tupler$();
-    var fa = jsx$2.$$amp__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler1$$anon$1().init___Lendpoints_Tupler1(this$1));
-    var ev = this.queryStringPartialInvFunctor__Lendpoints_PartialInvariantFunctor();
-    var jsx$3 = new $c_Lendpoints_InvariantFunctorSyntax$InvariantFunctorSyntax().init___Lendpoints_InvariantFunctorSyntax__O__Lendpoints_InvariantFunctor(this, fa, ev);
-    var this$2 = $m_Lvotelog_endpoint_ReadOnlyStoreEndpoint$Paging$();
-    this.pagingQuery$1 = $as_Lendpoints_xhr_Urls$QueryString(jsx$3.xmap__F1__F1__O($f_F2__tupled__F1(this$2), new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-      return (function(p$2) {
-        var p = $as_Lvotelog_endpoint_ReadOnlyStoreEndpoint$Paging(p$2);
-        return new $c_s_Tuple2$mcJI$sp().init___J__I(p.offset$1, p.pageSize$1)
-      })
-    })(this))));
-    this.bitmap$0$1 = (1 | this.bitmap$0$1)
+  if (((131072 & this.bitmap$0$1) === 0)) {
+    this.pagingQuery$1 = $as_Lendpoints_xhr_Urls$QueryString($f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__pagingQuery__O(this));
+    this.bitmap$0$1 = (131072 | this.bitmap$0$1)
   };
   return this.pagingQuery$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.queryStringPartialInvFunctor__Lendpoints_PartialInvariantFunctor = (function() {
-  return (((262144 & this.bitmap$0$1) === 0) ? this.queryStringPartialInvFunctor$lzycompute__p1__Lendpoints_PartialInvariantFunctor() : this.queryStringPartialInvFunctor$1)
-});
-$c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.contextQuery__Lendpoints_xhr_Urls$QueryString = (function() {
-  return (((256 & this.bitmap$0$1) === 0) ? this.contextQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString() : this.contextQuery$1)
+  return (((4096 & this.bitmap$0$1) === 0) ? this.queryStringPartialInvFunctor$lzycompute__p1__Lendpoints_PartialInvariantFunctor() : this.queryStringPartialInvFunctor$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.Record$lzycompute$1__p1__V = (function() {
   if ((this.Record$module$1 === null)) {
@@ -51766,7 +51818,7 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.Record$lzycompute$1
   }
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.emptyHeaders__sjs_js_Function2 = (function() {
-  return (((512 & this.bitmap$0$1) === 0) ? this.emptyHeaders$lzycompute__p1__sjs_js_Function2() : this.emptyHeaders$1)
+  return (((8 & this.bitmap$0$1) === 0) ? this.emptyHeaders$lzycompute__p1__sjs_js_Function2() : this.emptyHeaders$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.GenericJsonSchema__Lendpoints_generic_JsonSchemas$GenericJsonSchema$ = (function() {
   if ((this.GenericJsonSchema$module$1 === null)) {
@@ -51775,9 +51827,9 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.GenericJsonSchema__
   return this.GenericJsonSchema$module$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.queryStringPartialInvFunctor$lzycompute__p1__Lendpoints_PartialInvariantFunctor = (function() {
-  if (((262144 & this.bitmap$0$1) === 0)) {
+  if (((4096 & this.bitmap$0$1) === 0)) {
     this.queryStringPartialInvFunctor$1 = new $c_Lendpoints_xhr_Urls$$anon$2().init___Lendpoints_xhr_Urls(this);
-    this.bitmap$0$1 = (262144 | this.bitmap$0$1)
+    this.bitmap$0$1 = (4096 | this.bitmap$0$1)
   };
   return this.queryStringPartialInvFunctor$1
 });
@@ -51788,7 +51840,7 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.Record__Lendpoints_
   return this.Record$module$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.contextualizedPagedQuery__Lendpoints_xhr_Urls$QueryString = (function() {
-  return (((2 & this.bitmap$0$1) === 0) ? this.contextualizedPagedQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString() : this.contextualizedPagedQuery$1)
+  return (((262144 & this.bitmap$0$1) === 0) ? this.contextualizedPagedQuery$lzycompute__p1__Lendpoints_xhr_Urls$QueryString() : this.contextualizedPagedQuery$1)
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.JsonSchema$lzycompute$1__p1__V = (function() {
   if ((this.JsonSchema$module$1 === null)) {
@@ -51796,33 +51848,14 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.JsonSchema$lzycompu
   }
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.index$lzycompute__p1__Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint = (function() {
-  if (((8 & this.bitmap$0$1) === 0)) {
-    var first = this.path$1;
-    var first$1 = new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O(this, first).$$div__T__O("index");
-    var jsx$2 = new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O(this, first$1);
-    var jsx$1 = this.contextualizedPagedQuery__Lendpoints_xhr_Urls$QueryString();
-    var this$1 = $m_Lendpoints_Tupler$();
-    var url = jsx$2.$$div$qmark__O__Lendpoints_Tupler__O(jsx$1, new $c_Lendpoints_Tupler3$$anon$7().init___Lendpoints_Tupler3(this$1));
-    var docs = $m_s_None$();
-    var headers = this.emptyHeaders__sjs_js_Function2();
-    var this$2 = $m_Lendpoints_Tupler$();
-    var tuplerUH = new $c_Lendpoints_Tupler4$$anon$8().init___Lendpoints_Tupler4(this$2);
-    var request = $as_Lendpoints_xhr_EndpointsWithCustomErrors$Request($f_Lendpoints_algebra_Requests__get__O__s_Option__O__Lendpoints_Tupler__O(this, url, docs, headers, tuplerUH));
-    var jsonSchema = this.entityIdCodec__Lendpoints_circe_JsonSchemas$JsonSchema();
-    var this$3 = $m_sci_List$();
-    var factory = this$3.ReusableCBFInstance$2;
-    var codec = $f_Lendpoints_circe_JsonSchemas__arrayJsonSchema__Lendpoints_circe_JsonSchemas$JsonSchema__scg_CanBuildFrom__Lendpoints_circe_JsonSchemas$JsonSchema(this, jsonSchema, factory);
-    var entity = $f_Lendpoints_xhr_circe_JsonSchemaEntities__jsonResponse__Lendpoints_circe_JsonSchemas$JsonSchema__sjs_js_Function1(this, codec);
-    var docs$1 = $m_s_None$();
-    var response = $f_Lendpoints_xhr_EndpointsWithCustomErrors__response__I__sjs_js_Function1__s_Option__sjs_js_Function1(this, 200, entity, docs$1);
-    $f_Lendpoints_xhr_future_EndpointsWithCustomErrors__endpoint$default$3__Lendpoints_algebra_EndpointsWithCustomErrors$EndpointDocs(this);
-    this.index$1 = new $c_Lendpoints_xhr_future_EndpointsWithCustomErrors$$anon$1().init___Lendpoints_xhr_future_EndpointsWithCustomErrors__Lendpoints_xhr_EndpointsWithCustomErrors$Request__sjs_js_Function1(this, request, response);
-    this.bitmap$0$1 = (8 | this.bitmap$0$1)
+  if (((1048576 & this.bitmap$0$1) === 0)) {
+    this.index$1 = $as_Lendpoints_xhr_EndpointsWithCustomErrors$Endpoint($f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__index__O(this));
+    this.bitmap$0$1 = (1048576 | this.bitmap$0$1)
   };
   return this.index$1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.entityIdCodec$lzycompute__p1__Lendpoints_circe_JsonSchemas$JsonSchema = (function() {
-  if (((64 & this.bitmap$0$1) === 0)) {
+  if (((2 & this.bitmap$0$1) === 0)) {
     var this$36 = this.GenericJsonSchema__Lendpoints_generic_JsonSchemas$GenericJsonSchema$();
     new $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint$$anon$2().init___Lvotelog_endpoint_client_PersonStoreXhrEndpoint(this);
     var gen = new $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint$anon$macro$6$2().init___Lvotelog_endpoint_client_PersonStoreXhrEndpoint(this);
@@ -51878,7 +51911,7 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.entityIdCodec$lzyco
     var name$1 = new $c_Lendpoints_generic_JsonSchemas$GenericSchemaNames$GenericSchemaName().init___Lendpoints_generic_JsonSchemas$GenericSchemaNames__T(jsx$3, $as_T(name.split(target).join(replacement)));
     var genJsonSchema = $f_Lendpoints_generic_JsonSchemas$GenericJsonSchemaLowLowPriority__recordGeneric__Lshapeless_LabelledGeneric__Lshapeless_Annotations__Lendpoints_generic_JsonSchemas$GenericJsonSchemaLowLowPriority$DocumentedGenericRecord__Lendpoints_generic_JsonSchemas$GenericSchemaNames$GenericSchemaName__Lendpoints_generic_JsonSchemas$GenericJsonSchemaLowLowPriority$GenericRecord(this$36, gen$1, docAnns, record, name$1);
     this.entityIdCodec$1 = $as_Lendpoints_circe_JsonSchemas$JsonSchema(genJsonSchema.jsonSchema$1);
-    this.bitmap$0$1 = (64 | this.bitmap$0$1)
+    this.bitmap$0$1 = (2 | this.bitmap$0$1)
   };
   return this.entityIdCodec$1
 });
@@ -51887,6 +51920,8 @@ var $d_Lvotelog_endpoint_client_PersonStoreXhrEndpoint = new $TypeData().initCla
 }, false, "votelog.endpoint.client.PersonStoreXhrEndpoint", {
   Lvotelog_endpoint_client_PersonStoreXhrEndpoint: 1,
   O: 1,
+  Lvotelog_endpoint_PersonStoreEndpoint: 1,
+  Lvotelog_endpoint_ReadOnlyStoreEndpoint: 1,
   Lendpoints_algebra_Endpoints: 1,
   Lendpoints_algebra_EndpointsWithCustomErrors: 1,
   Lendpoints_algebra_Requests: 1,
@@ -51917,18 +51952,6 @@ var $d_Lvotelog_endpoint_client_PersonStoreXhrEndpoint = new $TypeData().initCla
   Lendpoints_circe_TuplesSchemas: 1
 });
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.$classData = $d_Lvotelog_endpoint_client_PersonStoreXhrEndpoint;
-function $is_sci_SortedSet(obj) {
-  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sci_SortedSet)))
-}
-function $as_sci_SortedSet(obj) {
-  return (($is_sci_SortedSet(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.collection.immutable.SortedSet"))
-}
-function $isArrayOf_sci_SortedSet(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.sci_SortedSet)))
-}
-function $asArrayOf_sci_SortedSet(obj, depth) {
-  return (($isArrayOf_sci_SortedSet(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.immutable.SortedSet;", depth))
-}
 /** @constructor */
 function $c_sci_AbstractMap() {
   $c_sc_AbstractMap.call(this)
