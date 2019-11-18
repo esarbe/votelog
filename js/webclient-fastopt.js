@@ -51828,13 +51828,12 @@ $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.contextualizedPaged
 $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint.prototype.init___T = (function(fragment) {
   $f_Lendpoints_algebra_Urls__$$init$__V(this);
   $f_Lvotelog_endpoint_ReadOnlyStoreEndpoint__$$init$__V(this);
-  var first = this.path$1;
-  var first$1 = new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O(this, first).$$div__T__O(fragment);
-  this.rootPath$1 = $as_Lendpoints_xhr_Urls$Path(new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O(this, first$1).$$div__T__O("person"));
+  var first = new $c_Lendpoints_xhr_Urls$$anonfun$staticPathSegment$2().init___Lendpoints_xhr_Urls__T(this, fragment);
+  this.rootPath$1 = $as_Lendpoints_xhr_Urls$Path(new $c_Lendpoints_algebra_Urls$PathOps().init___Lendpoints_algebra_Urls__O(this, first).$$div__T__O("person"));
   this.queryStringParamLanguage$1 = new $c_Lvotelog_endpoint_client_PersonStoreXhrEndpoint$$anonfun$1().init___Lvotelog_endpoint_client_PersonStoreXhrEndpoint(this);
   var param = $as_Lendpoints_xhr_Urls$QueryStringParam($f_Lendpoints_algebra_Urls__intQueryString__O(this));
-  var first$2 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param, "year");
-  var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O(this, first$2);
+  var first$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param, "year");
+  var jsx$2 = new $c_Lendpoints_algebra_Urls$QueryStringSyntax().init___Lendpoints_algebra_Urls__O(this, first$1);
   var param$1 = this.queryStringParamLanguage$1;
   var jsx$1 = new $c_Lendpoints_xhr_Urls$$anonfun$qs$3().init___Lendpoints_xhr_Urls__Lendpoints_xhr_Urls$QueryStringParam__T(this, param$1, "lang");
   var this$1 = $m_Lendpoints_Tupler$();
