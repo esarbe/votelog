@@ -22,21 +22,21 @@ trait ReadOnlyStoreEndpoint
 
   val offsetQuery: QueryString[Long] = qs[Long]("offset")
   val pageSizeQuery: QueryString[Int] = qs[Int]("pageSize")
-  val pagingQuery: QueryString[Paging] =
+  lazy val pagingQuery: QueryString[Paging] =
     (offsetQuery & pageSizeQuery).xmap(Paging.tupled)(p => (p.offset, p.pageSize))
 
-  val contextualizedPagedQuery: QueryString[(Paging, Context)] =
+  lazy val contextualizedPagedQuery: QueryString[(Paging, Context)] =
      pagingQuery & contextQuery
 
-  val idSegment = segment[Id]("id", docs = Some("Entity Id"))
+  lazy val idSegment = segment[Id]("id", docs = Some("Entity Id"))
 
-  val index: Endpoint[(Paging, Context), List[Id]] =
+  lazy val index: Endpoint[(Paging, Context), List[Id]] =
     endpoint(
       get(path / "index" /? contextualizedPagedQuery),
       ok(jsonResponse[List[Id]])
     )
 
-  val read: Endpoint[(Id, Context), Option[Entity]] =
+  lazy val read: Endpoint[(Id, Context), Option[Entity]] =
     endpoint(
       get(path / idSegment /? contextQuery),
       ok(jsonResponse[Entity]).orNotFound()

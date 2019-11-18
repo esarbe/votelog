@@ -11,18 +11,17 @@ import votelog.endpoint.ReadOnlyStoreEndpoint.Paging
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class PersonReadOnlyStoreService(endpoint: PersonStoreEndpoint with xhr.thenable.Endpoints)
+class PersonReadOnlyStoreService(endpoint: PersonStoreXhrEndpoint)
   extends ReadOnlyStoreAlg[Future, Person, Person.Id] {
   override def index(params: IndexQueryParameters): Future[List[Person.Id]] =
     endpoint
-        .index((Paging(params.offset.value, params.pageSize.value), Context(2019, Language.English)))
-        .toFuture
+      .index((Paging(params.offset.value, params.pageSize.value), Context(2019, Language.English)))
 
   override def read(queryParameters: QueryParameters)(id: Person.Id): Future[Person] =
-    endpoint.read((id, Context(2019, Language.English)))
-      .toFuture
-    .flatMap {
-      case Some(person) => Future.successful(person)
-      case None => Future.failed(InvalidId(s"No person found for id$id", id))
-    }
+    endpoint
+      .read((id, Context(2019, Language.English)))
+      .flatMap {
+        case Some(person) => Future.successful(person)
+        case None => Future.failed(InvalidId(s"No person found for id$id", id))
+      }
 }

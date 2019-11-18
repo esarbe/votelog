@@ -37,6 +37,7 @@ val webclient =
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1",
+          "org.julienrf" %%% "endpoints-xhr-client" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.12"),
           "org.julienrf" %%% "endpoints-xhr-client-circe" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.12"),
         )
     )
