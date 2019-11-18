@@ -1,11 +1,9 @@
 package votelog.endpoint.client
 
-import endpoints.xhr
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.Error.InvalidId
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.domain.politics.{Context, Language, Person}
-import votelog.endpoint.PersonStoreEndpoint
 import votelog.endpoint.ReadOnlyStoreEndpoint.Paging
 
 import scala.concurrent.Future
