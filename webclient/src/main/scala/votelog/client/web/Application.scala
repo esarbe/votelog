@@ -30,7 +30,7 @@ object Application {
 
   val context = Context("https://votelog.herokuapp.com/api/v0", politics.Context(2019, politics.Language.English))
 
-  val personComponent = new PersonReadOnlyStoreService(new PersonStoreXhrEndpoint)
+  val personComponent = new PersonReadOnlyStoreService(new PersonStoreXhrEndpoint(context.url))
   val authService = new service.SessionServiceRest(context)
   val authComponent = new components.Authentication(authService)
 
@@ -38,7 +38,13 @@ object Application {
 
     val indexQueryParams = IndexQueryParameters(PageSize(100), Offset(0), QueryParameters(context.context.language.iso639_1))
     val personIndex: Rx[Seq[Person.Id]] =
-      personComponent.index(indexQueryParams).toRx.collect { case Some(Success(persons)) => persons }(Nil)
+        authComponent.model
+        .flatMap { _ =>
+          personComponent
+            .index(indexQueryParams)
+            .toRx
+            .collect { case Some(Success(persons)) => persons }(Nil)
+      }
 
     val pview: Node =
       <div>
