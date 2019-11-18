@@ -10687,7 +10687,7 @@ $c_Lvotelog_client_service_SessionServiceRest.prototype.login__Lvotelog_domain_a
     };
     var x$2 = $as_sci_Map(this$6.elems$1);
     var this$7 = $m_Lorg_scalajs_dom_ext_Ajax$();
-    var this$10 = this$7.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("POST", x$1, null, 0, x$2, false, "");
+    var this$10 = this$7.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("POST", x$1, null, 0, x$2, true, "");
     var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
       return (function(res$2) {
         var this$8 = $m_Lio_circe_parser_package$();
