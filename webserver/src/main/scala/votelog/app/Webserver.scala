@@ -92,15 +92,15 @@ object Webserver extends IOApp {
     import scala.concurrent.duration._
 
     val services =
-      Router(
+      Map(
         component.person.location -> auth(pws.service),
         component.motion.location -> auth(mws.service),
         component.user.location -> auth(uws.service),
         component.ngo.location -> auth(nws.service),
-        component.auth.location -> CORS(basicAuth(session.service)),
+        component.auth.location -> basicAuth(session.service),
       )
 
-    services
+    Router(services.mapValues(CORS(_)).toSeq:_*)
   }
 
   lazy val loadConfiguration =
