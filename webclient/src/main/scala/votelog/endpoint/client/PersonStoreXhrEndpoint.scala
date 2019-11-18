@@ -10,7 +10,7 @@ class PersonStoreXhrEndpoint(fragment: String)
     with endpoints.xhr.future.Endpoints
     with xhr.circe.JsonSchemaEntities {
 
-  val rootPath: Path[Unit] = path / fragment / "person"
+  val rootPath: Path[Unit] = staticPathSegment(fragment) / "person"
 
   implicit val queryStringParamLanguage: QueryStringParam[Language] = (lang: Language) => List(lang.iso639_1)
 
