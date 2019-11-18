@@ -23,7 +23,8 @@ class SessionServiceRest(context: Context) extends SessionService[Future] {
         Ajax
           .post(
             url = context.url + "/auth/login",
-            headers = Map("Authorization" -> basicAuthCreds)
+            headers = Map("Authorization" -> basicAuthCreds),
+            withCredentials = true,
           )
           .map { res =>
             val user = parser.decode[User](res.responseText)
