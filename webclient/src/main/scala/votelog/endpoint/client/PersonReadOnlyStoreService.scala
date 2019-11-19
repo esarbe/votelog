@@ -1,25 +1,35 @@
 package votelog.endpoint.client
 
+import io.circe.parser
+import org.scalajs.dom.ext.Ajax
+import votelog.domain.authentication.SessionService.Error.DecodingError
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.crudi.ReadOnlyStoreAlg.Error.InvalidId
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.domain.politics.{Context, Language, Person}
-import votelog.endpoint.ReadOnlyStoreEndpoint.Paging
+import votelog.domain.politics.{Context, Person}
+import votelog.orphans.circe.implicits._
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-class PersonReadOnlyStoreService(endpoint: PersonStoreXhrEndpoint)
+class PersonReadOnlyStoreService(baseUrl: String, context: Context)
   extends ReadOnlyStoreAlg[Future, Person, Person.Id] {
-  override def index(params: IndexQueryParameters): Future[List[Person.Id]] =
-    endpoint
-      .index((Paging(params.offset.value, params.pageSize.value), Context(2019, Language.English)))
+  override def index(queryParameters: IndexQueryParameters): Future[List[Person.Id]] =
+    Ajax
+      .get(baseUrl + "/person/index", withCredentials = true)
+      .flatMap { res =>
+        parser.decode[List[Person.Id]](res.responseText) match {
+          case Right(persons) => Future.successful(persons)
+          case Left(error) => Future.failed(DecodingError(error))
+        }
+      }
 
   override def read(queryParameters: QueryParameters)(id: Person.Id): Future[Person] =
-    endpoint
-      .read((id, Context(2019, Language.English)))
-      .flatMap {
-        case Some(person) => Future.successful(person)
-        case None => Future.failed(InvalidId(s"No person found for id$id", id))
+    Ajax
+      .get(baseUrl + s"/person/${id.value.toString}", withCredentials = true)
+      .flatMap { res =>
+        parser.decode[Person](res.responseText) match {
+          case Right(persons) => Future.successful(persons)
+          case Left(error) => Future.failed(DecodingError(error))
+        }
       }
 }

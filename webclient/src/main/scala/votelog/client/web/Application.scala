@@ -28,9 +28,9 @@ object State {
 
 object Application {
 
-  val context = Context("https://votelog.herokuapp.com/api/v0", politics.Context(2019, politics.Language.English))
+  val context = Context("http://localhost:8080/api/v0", politics.Context(2019, politics.Language.English))
 
-  val personComponent = new PersonReadOnlyStoreService(new PersonStoreXhrEndpoint(context.url))
+  val personComponent = new PersonReadOnlyStoreService(context.url, context.context)
   val authService = new service.SessionServiceRest(context)
   val authComponent = new components.Authentication(authService)
 
