@@ -11,7 +11,7 @@ import votelog.orphans.circe.implicits._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class PersonReadOnlyStoreService(baseUrl: String, context: Context)
+class PersonReadOnlyStoreAjaxService(baseUrl: String, context: Context)
   extends ReadOnlyStoreAlg[Future, Person, Person.Id] {
   override def index(queryParameters: IndexQueryParameters): Future[List[Person.Id]] =
     Ajax
