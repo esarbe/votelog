@@ -5,6 +5,7 @@ import org.scalatest.{BeforeAndAfterAll, FlatSpec, Inside, Matchers}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.domain.crudi.StoreAlg
+import votelog.domain.politics.Language
 
 trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAll {
 
@@ -16,7 +17,7 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
     updatedEntity: Id => Entity,
   ): IO[Unit] = IO {
 
-    val queryParams = QueryParameters("en")
+    val queryParams = QueryParameters(Language.English, 2019)
     val indexQueryParams =
       IndexQueryParameters(PageSize(0), Offset(0), queryParams)
 
