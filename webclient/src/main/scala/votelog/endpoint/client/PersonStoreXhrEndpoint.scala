@@ -8,7 +8,8 @@ class PersonStoreXhrEndpoint(fragment: String)
   extends PersonStoreEndpoint
     with generic.JsonSchemas
     with endpoints.xhr.future.Endpoints
-    with xhr.circe.JsonSchemaEntities {
+    with xhr.circe.JsonSchemaEntities
+    with CorsEndpoints {
 
   val rootPath: Path[Unit] = staticPathSegment(fragment) / "person"
 
