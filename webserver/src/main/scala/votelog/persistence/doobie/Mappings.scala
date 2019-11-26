@@ -4,13 +4,16 @@ package votelog.persistence.doobie
 import java.util.UUID
 
 import doobie.util.{Put, Read}
-import votelog.domain.politics.{Motion, Ngo, Party, Person, Votum}
+import votelog.domain.politics.{Language, Motion, Ngo, Party, Person, Votum}
 import doobie.postgres.implicits._
 import votelog.domain.authentication.User
 
 object Mappings {
-  implicit val votumPut: Put[Votum] =
-    Put[String].contramap(Votum.asString)
+
+  implicit val languagePut: Put[Language] = Put[String].contramap(_.iso639_1.toUpperCase)
+  implicit val languageRead: Read[Language] = Read[String].map(s => Language.fromIso639_1Unsafe(s.toLowerCase))
+
+  implicit val votumPut: Put[Votum] =  Put[String].contramap(Votum.asString)
 
   implicit val votumRead: Read[Votum] =
     Read[String].map(s =>

@@ -1,3 +1,3 @@
 package votelog.client
 
-case class Context(url: String, context: votelog.domain.politics.Context)
+case class Configuration(url: String)

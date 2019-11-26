@@ -8,18 +8,20 @@ import votelog.client.web.components.Component
 import scala.scalajs.js
 import scala.xml.{Elem, Node}
 
-class Select[T: Show](legend: String, options: Rx[Set[T]], default: T) extends Component[T] {
+/**
+  * an html select element whose options might change
+  */
+class DynamicSelect[T: Show](legend: String, options: Rx[Set[T]], default: T) extends Component[T] {
 
-  val model = Var[T](default)
+  val model: Var[T] = Var[T](default)
 
-  def set(indexedOptions: Map[Int, T])(value: Var[T]): js.Dynamic => Unit = {
+  private def set(indexedOptions: Map[Int, T])(value: Var[T]): js.Dynamic => Unit = {
     event =>
       value := indexedOptions(event.target.value.asInstanceOf[String].toInt)
   }
 
-  def option(selected: Rx[T])(option: T) = {
+  private def option(selected: Rx[T])(option: T) = {
      <option selected={selected.map(_ == option)} value={option.hashCode.toString}>{option.show}</option>
-
   }
 
   override def view: Node =

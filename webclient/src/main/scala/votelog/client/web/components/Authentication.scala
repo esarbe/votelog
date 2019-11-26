@@ -87,7 +87,7 @@ class Authentication(
         case Unauthenticated => "unauthenticated"
       }
 
-    <fieldset id="authentication" class={cssClass} onkeyup={ ifEnter(set(submitLogin)) }>
+    <fieldset class={cssClass} onkeyup={ ifEnter(set(submitLogin)) }>
       <legend>Login</legend>
       <dl>
         <dt>

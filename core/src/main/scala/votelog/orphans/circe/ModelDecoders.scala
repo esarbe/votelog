@@ -5,7 +5,7 @@ import io.circe.{Decoder, KeyDecoder}
 import io.circe.generic.semiauto.deriveDecoder
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.domain.politics.{Motion, Ngo, Party, Person}
+import votelog.domain.politics.{Language, LegislativePeriod, Motion, Ngo, Party, Person}
 
 trait ModelDecoders {
   implicit val partyIdCirceDecoder: circe.Decoder[Party.Id] = Decoder.decodeInt.map(Party.Id)
@@ -32,5 +32,8 @@ trait ModelDecoders {
   implicit val ngoIdCirceDecoder: circe.Decoder[Ngo.Id] = deriveDecoder[Ngo.Id]
   implicit val ngoIdCirceKeyDecoder: circe.KeyDecoder[Ngo.Id] = a => Some(Ngo.Id(a))
   implicit val nvoCirceDecoder: circe.Decoder[Ngo] = deriveDecoder[Ngo]
+
+  implicit val lpKeyDecoder: KeyDecoder[LegislativePeriod.Id] = KeyDecoder.decodeKeyInt.map(LegislativePeriod.Id)
+  implicit val langKeyDecoder: KeyDecoder[Language] = (key: String) => Language.fromIso639_1(key)
 
 }

@@ -10,13 +10,15 @@ import votelog.domain.authentication.User
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.politics
-import votelog.domain.politics.Person
+import votelog.domain.politics.{Context, LegislativePeriod, Person}
 import votelog.endpoint.client.{PersonReadOnlyStoreAjaxService, PersonStoreXhrEndpoint}
 
+import scala.collection.immutable
 import scala.scalajs.js
 import scala.scalajs.js.timers.SetTimeoutHandle
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Try}
+import immutable.Seq
 import scala.xml.Node
 
 object State {
@@ -28,51 +30,52 @@ object State {
 }
 
 object Application {
-
-  val context = Context("http://localhost:8080/api/v0", politics.Context(2019, politics.Language.English))
+  val defaultPageSize = PageSize(20)
+  val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
+  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
   val path = Var("")
 
-  val personComponent = new PersonReadOnlyStoreAjaxService(context.url, context.context)
-  val authService = new service.SessionServiceRest(context)
+  val personsService = new PersonReadOnlyStoreAjaxService(configuration)
+  val authService = new service.SessionServiceRest(configuration)
   val authComponent = new components.Authentication(authService)
 
   val languageComponent = new components.Language
+  val personsComponent = new components.Persons(personsService, context, defaultPageSize)
+
 
   def main(args: Array[String]): Unit = {
-    val qp = QueryParameters(context.context.language, 2019)
 
-    val indexQueryParams = IndexQueryParameters(PageSize(100), Offset(0), qp)
-    val personIndex: Rx[Seq[Person.Id]] =
-      personComponent
-        .index(indexQueryParams)
-        .toRx
-        .collect { case Some(Success(persons)) => persons }(Nil)
+    val content =
+      <div>
+        <header>
+          <a href="#/authentication">Login</a>
+          <a href="#/signup">Login</a>
+          <a href="#/persons">Login</a>
 
+          <section id="language">
+            { languageComponent.view }
+          </section>
+        </header>
 
-    val pview: Node =
-      <section>
-        <header>Users</header>
-        <ul>
-          { personIndex.map { ids => ids.map { id => <li>{id.value}</li> }} }
-        </ul>
-      </section>
+        <article>
+          <section id="persons">
+            { personsComponent.view }
+          </section>
 
-    val auth: Element = dom.document.createElement("div")
-    val persons: Element = dom.document.createElement("div")
-    val language: Element = dom.document.createElement("div")
-    val languageR: Element = dom.document.createElement("div")
+          <section id ="authentication">
+            { authComponent.view }
+          </section>
 
-    dom.document.body.appendChild(auth)
-    dom.document.body.appendChild(language)
-    dom.document.body.appendChild(persons)
-    dom.document.body.appendChild(languageR)
+        </article>
 
-    val n = <div>{languageComponent.model.map(_.show)}</div>
+        <footer>
+        </footer>
+      </div>
 
-    mount(auth, authComponent.view)
-    mount(language, languageComponent.view)
-    mount(persons, pview)
-    mount(languageR, n)
+    val contentElement = dom.document.createElement("div")
+    dom.document.body.appendChild(contentElement)
+    mount(contentElement, content)
+
     println("ready.")
   }
 

@@ -17,15 +17,16 @@ import votelog.domain.crudi.StoreAlg
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the
 // effect type
-abstract class StoreService[
-  T: Encoder: Decoder,
-  Identity: Encoder: KeyDecoder,
-  Recipe: Decoder
-]
-{
+abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,  Recipe: Decoder] {
   val authAlg: AuthorizationAlg[IO]
   val store: StoreAlg[IO, T, Identity, Recipe]
   val component: Component
+
+  implicit val queryParamDecoder: Param[store.QueryParameters]
+  implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters]
+
+  object iqp extends QueryParameterExtractor[store.IndexQueryParameters]
+  object qp extends QueryParameterExtractor[store.QueryParameters]
 
   object Id {
     def unapply(str: String): Option[Identity] =
@@ -46,16 +47,14 @@ abstract class StoreService[
   }
 
   def service: AuthedRoutes[User, IO] = AuthedRoutes.of {
-    case GET -> Root / "index" as user =>
+    case GET -> Root / "index" :? iqp(params) as user =>
       checkAuthorization(user, Capability.Read, component) {
-        val indexQueryParams =
-          IndexQueryParameters(PageSize(0), Offset(0), QueryParameters("en"))
-        store.index(indexQueryParams).flatMap(id => Ok(id.asJson))
+        store.index(params).flatMap(id => Ok(id.asJson))
       }
 
-    case GET -> Root / Id(id) as user =>
+    case GET -> Root / Id(id) :? qp(params) as user =>
       checkAuthorization(user, Capability.Read, component.child(id.toString)) {
-        store.read(QueryParameters("en"))(id).attempt.flatMap {
+        store.read(params)(id).attempt.flatMap {
           case Right(e) => Ok(e.asJson)
           case Left(e) => NotFound(e.getMessage)
         }
