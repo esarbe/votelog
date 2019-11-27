@@ -38,7 +38,7 @@ class DoobieUserStoreSpec
 
   val userStore =
     schema.initialize *>
-      aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)
+      aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)((), ())
 
   it should behave like userStore.unsafeRunSync()
 }
