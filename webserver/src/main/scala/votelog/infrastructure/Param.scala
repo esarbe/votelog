@@ -10,6 +10,9 @@ trait Param[A] {
 
 object Param {
 
+  def always[T](value: T): Param[T]  =
+    (params: Map[String, Iterable[String]]) => Some(value)
+
   implicit object paramFunctor extends Functor[Param] {
     override def map[A, B](param: Param[A])(f: A => B): Param[B] =
       params => param.decode(params).map(f)

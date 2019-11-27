@@ -10,14 +10,16 @@ import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.politics.{Motion, Person, Votum}
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
+import votelog.domain.politics.{Context, Motion, Person, Votum}
 import votelog.infrastructure.logging.Logger
-import votelog.infrastructure.{ReadOnlyStoreService, VoteAlg}
+import votelog.infrastructure.{Param, ReadOnlyStoreService, VoteAlg}
 import votelog.orphans.circe.implicits._
+import votelog.persistence.PersonStore
 
 class PersonService(
   val component: Component,
-  val store: ReadOnlyStoreAlg[IO, Person, Person.Id],
+  val store: PersonStore[IO],
   val voteAlg: VoteAlg[IO],
   val log: Logger[IO],
   val authAlg: AuthorizationAlg[IO],
@@ -41,4 +43,7 @@ class PersonService(
   }
 
   override def service: AuthedRoutes[User, IO] = super.service <+> voting
+
+  override implicit val queryParamDecoder: Param[Context] = Params.contextParam
+  override implicit val indexQueryParamDecoder: Param[IndexQueryParameters[Context]] = Params.indexQueryParam
 }
