@@ -2,6 +2,9 @@ package votelog.service
 
 import cats.effect.IO
 import votelog.orphans.circe.implicits._
+import org.http4s.circe._
+import io.circe.generic.auto._
+import io.circe.syntax._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.infrastructure.{Param, StoreService}

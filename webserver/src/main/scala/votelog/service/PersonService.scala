@@ -3,19 +3,27 @@ package votelog.service
 import cats.effect.IO
 import cats.implicits._
 import io.circe.syntax._
-import io.circe.{KeyDecoder, KeyEncoder}
+import io.circe._
+
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
-import votelog.domain.politics.{Context, Motion, Person, Votum}
+import votelog.domain.politics.{Context, Language, Motion, Person, Votum}
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.{Param, ReadOnlyStoreService, VoteAlg}
 import votelog.orphans.circe.implicits._
+import io.circe.generic.auto._
+import io.circe.syntax._
+import org.http4s.circe._
 import votelog.persistence.PersonStore
+import org.http4s.circe._
+import io.circe.generic.auto._
+import io.circe.syntax._
+import PersonService._
+
 
 class PersonService(
   val component: Component,
@@ -44,6 +52,12 @@ class PersonService(
 
   override def service: AuthedRoutes[User, IO] = super.service <+> voting
 
-  override implicit val queryParamDecoder: Param[Context] = Params.contextParam
-  override implicit val indexQueryParamDecoder: Param[IndexQueryParameters[Context]] = Params.indexQueryParam
+  override implicit val queryParamDecoder: Param[Language] = Params.languageParam
+  override implicit val indexQueryParamDecoder: Param[ReadOnlyStoreAlg.IndexQueryParameters[Context]] =
+    Params.indexQueryParam(Params.contextParam)
+}
+
+object PersonService {
+  implicit val pencoder: Encoder[Person] = implicitly[Encoder[Person]]
+  implicit val pdecoder: Decoder[Person] = implicitly[Decoder[Person]]
 }

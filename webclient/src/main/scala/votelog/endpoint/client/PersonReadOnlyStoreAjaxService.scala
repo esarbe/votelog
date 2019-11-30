@@ -6,6 +6,7 @@ import votelog.client.Configuration
 import votelog.domain.authentication.SessionService.Error.DecodingError
 import votelog.domain.politics.Person
 import votelog.orphans.circe.implicits._
+import io.circe.generic.auto._
 import votelog.persistence.PersonStore
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,6 +14,7 @@ import scala.concurrent.Future
 
 class PersonReadOnlyStoreAjaxService(configuration: Configuration)
   extends PersonStore[Future] {
+
   override def index(qp: IndexQueryParameters): Future[List[Person.Id]] =
     Ajax
       .get(configuration.url + s"/person/index?pageSize=${qp.pageSize}&offset=${qp.offset}&lang=", withCredentials = true)

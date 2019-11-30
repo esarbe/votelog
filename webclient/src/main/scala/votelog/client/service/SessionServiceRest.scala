@@ -2,6 +2,7 @@ package votelog.client.service
 
 import cats.implicits._
 import io.circe.parser
+import io.circe.generic.auto._
 import org.scalajs.dom
 import org.scalajs.dom.ext.{Ajax, AjaxException}
 import votelog.client.Configuration

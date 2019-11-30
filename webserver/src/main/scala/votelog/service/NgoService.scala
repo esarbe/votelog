@@ -7,6 +7,9 @@ import votelog.infrastructure.{Param, StoreService}
 import votelog.persistence.NgoStore
 import votelog.orphans.circe.implicits._
 import votelog.domain.crudi.StoreAlg
+import org.http4s.circe._
+import io.circe.generic.auto._
+import io.circe.syntax._
 
 class NgoService(
   val component: Component,

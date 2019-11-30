@@ -3,6 +3,8 @@ package votelog.endpoint.client
 import endpoints.{generic, xhr}
 import votelog.domain.politics.{Context, Language, LegislativePeriod, Person}
 import votelog.endpoint.PersonStoreEndpoint
+import io.circe.generic.auto._
+import votelog.orphans.circe.implicits._
 
 class PersonStoreXhrEndpoint(fragment: String)
   extends PersonStoreEndpoint
@@ -17,8 +19,8 @@ class PersonStoreXhrEndpoint(fragment: String)
   implicit val queryStringParamLegislativePeriod: QueryStringParam[LegislativePeriod.Id] =
     (period: LegislativePeriod.Id) => List(period.value.toString)
 
-  override implicit lazy val entityCodec: JsonSchema[Person] = genericJsonSchema[Person]
-  override implicit lazy val entityIdCodec: JsonSchema[Person.Id] = genericJsonSchema[Person.Id]
+  override implicit lazy val entityCodec: JsonSchema[Person] = ???
+  override implicit lazy val entityIdCodec: JsonSchema[Person.Id] = ???
   override implicit lazy val id: Segment[Person.Id] = (pid: Person.Id) => pid.value.toString
 
   override val contextQuery: QueryString[Context] =

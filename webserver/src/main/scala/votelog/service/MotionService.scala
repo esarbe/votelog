@@ -1,17 +1,13 @@
 package votelog.service
 
-import java.time.Instant
-import java.time.format.DateTimeFormatter
-
-import cats._
-import cats.implicits._
 import cats.effect.IO
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.politics.{Context, Language, LegislativePeriod, Motion}
+import votelog.domain.politics.{Context, Motion}
 import votelog.infrastructure.{Param, ReadOnlyStoreService}
 import votelog.persistence.MotionStore
 import votelog.orphans.circe.implicits._
+import io.circe.generic.auto._
 
 class MotionService(
   val component: Component,

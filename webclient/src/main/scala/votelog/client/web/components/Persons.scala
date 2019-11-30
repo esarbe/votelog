@@ -37,7 +37,7 @@ class Persons(
       ids = personsService.index(indexQueryParams)
       persons <-
         ids
-          .flatMap { ids => Future.sequence(ids.map(personsService.read(queryParameters))) }
+          .flatMap { ids => Future.sequence(ids.map(personsService.read(queryParameters.language))) }
           .toRx
           .collect { case Some(Success(persons)) => persons }(Nil)
     } yield  persons
@@ -48,6 +48,14 @@ class Persons(
       offset.update(_ => Offset(event.target.value.asInstanceOf[String].toLong))
   }
 
+  def renderPerson(p: Person) = {
+    <dl>
+      <dt>Name</dt>
+      <dd> {p.firstName.value} {p.lastName.value} </dd>
+      <dt>Canton</dt>
+      <dd>{p.canton.value}</dd>
+    </dl>
+  }
 
   val view: Node =
     <section>
@@ -60,7 +68,7 @@ class Persons(
         </fieldset>
       </header>
       <ul>
-        { model.map { ids => ids.map { id => <li>{id.name}</li> }} }
+        { model.map { persons => persons.map(renderPerson)} }
       </ul>
     </section>
 

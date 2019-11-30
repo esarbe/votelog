@@ -11,8 +11,10 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.infrastructure.Param.combine
 
 object Params {
+  val languageParam: Param[Language] = Param[Language]("lang")
+
   val contextParam: Param[Context] =
-    combine(Param[LegislativePeriod.Id]("lp"), Param[Language]("lang"))
+    combine(Param[LegislativePeriod.Id]("lp"), languageParam)
       .map(Context.tupled)
 
   def indexQueryParam[T](implicit ev: Param[T]): Param[ReadOnlyStoreAlg.IndexQueryParameters[T]] = {
