@@ -15,8 +15,8 @@ object ReadOnlyStoreAlg {
   case class IndexQueryParameters[T](pageSize: PageSize, offset: Offset, queryParameters: T)
 
   object QueryParameters {
-    case class PageSize(value: Int)
-    case class Offset(value: Long)
+    case class PageSize(value: Int) { override def toString = value.toString}
+    case class Offset(value: Long) { override def toString = value.toString }
   }
 
   sealed trait Error extends Exception
