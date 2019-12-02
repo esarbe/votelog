@@ -49,7 +49,7 @@ class Persons(
   }
 
   def renderPerson(p: Person) = {
-    <dl class="person" data-id={p.id.value.toLong}>
+    <dl class="person" data-id={p.id.value.toString}>
       <dt class="name">Name</dt>
       <dd>{p.firstName.value} {p.lastName.value} </dd>
       <dt class="canton">Canton</dt>
