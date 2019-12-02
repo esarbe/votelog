@@ -20,6 +20,9 @@ val core =
             exclude("org.scala-lang.modules", "scala-xml_2.12"),
         )
     )
+    .jsSettings(
+      libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "0.2.6"
+    )
 
 val coreJvm = core.jvm
 val coreJs = core.js

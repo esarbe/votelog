@@ -4,19 +4,16 @@ import java.util.UUID
 
 import cats._
 import cats.effect.Sync
-import cats.free.Free
 import cats.implicits._
-import doobie.free.connection
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.orphans.doobie.implicits._
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
-import votelog.persistence.doobie.Mappings._
 
 class DoobieUserStore[F[_]: Sync](
   transactor: doobie.util.transactor.Transactor[F],

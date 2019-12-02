@@ -1,14 +1,20 @@
 package votelog.service
 
 import cats.effect.IO
-import votelog.orphans.circe.implicits._
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.politics.Motion
-import votelog.infrastructure.ReadOnlyStoreService
+import votelog.domain.politics.{Context, Motion}
+import votelog.infrastructure.{Param, ReadOnlyStoreService}
+import votelog.persistence.MotionStore
+import votelog.orphans.circe.implicits._
+import io.circe.generic.auto._
 
 class MotionService(
   val component: Component,
-  val store: ReadOnlyStoreAlg[IO, Motion, Motion.Id],
+  val store: MotionStore[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends ReadOnlyStoreService[Motion, Motion.Id]
+) extends ReadOnlyStoreService[Motion, Motion.Id] {
+  override implicit val queryParamDecoder: Param[Context] = Params.contextParam
+  override implicit val indexQueryParamDecoder: Param[ReadOnlyStoreAlg.IndexQueryParameters[Context]] =
+    Params.indexQueryParam
+}

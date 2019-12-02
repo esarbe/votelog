@@ -6,8 +6,7 @@ import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import votelog.domain.politics.Motion
 import votelog.persistence.MotionStore
-import votelog.persistence.doobie.Mappings._
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.orphans.doobie.implicits._
 
 class DoobieMotionStore[F[_]: Monad: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]

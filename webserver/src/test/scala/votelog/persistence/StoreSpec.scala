@@ -14,12 +14,10 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
     creationRecipe: Recipe,
     createdEntity: Id => Entity,
     updatedRecipe: Recipe,
-    updatedEntity: Id => Entity,
+    updatedEntity: Id => Entity)(
+    queryParams: store.QueryParameters,
+    indexQueryParams: store.IndexQueryParameters,
   ): IO[Unit] = IO {
-
-    val queryParams = QueryParameters(Language.English, 2019)
-    val indexQueryParams =
-      IndexQueryParameters(PageSize(0), Offset(0), queryParams)
 
     it should "be able to store an entity" in {
       val check =

@@ -8,6 +8,7 @@ trait PersonStoreEndpoint
 
   override type Entity = politics.Person
   override type Id = politics.Person.Id
-  override type IndexOptions = IndexQueryParameters
   override type Context = politics.Context
+  override type IndexOptions = IndexQueryParameters[Context]
+
 }

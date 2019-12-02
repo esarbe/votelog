@@ -10,24 +10,26 @@ import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the
 // effect type
-abstract class ReadOnlyStoreService[
-  T: Encoder: Decoder,
-  Identity: Encoder: KeyDecoder,
-]
-{
-  val authAlg: AuthorizationAlg[IO]
+abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyDecoder] {
+
   val store: ReadOnlyStoreAlg[IO, T, Identity]
+
+  implicit val queryParamDecoder: Param[store.QueryParameters]
+  implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters]
+
+  val authAlg: AuthorizationAlg[IO]
   val component: Component
 
   object Id {
     def unapply(str: String): Option[Identity] =
       KeyDecoder[Identity].apply(str)
   }
+
+  object iqp extends QueryParameterExtractor[store.IndexQueryParameters]
+  object qp extends QueryParameterExtractor[store.QueryParameters]
 
   def checkAuthorization(
     user: User,
@@ -42,20 +44,17 @@ abstract class ReadOnlyStoreService[
     }
   }
 
-
   def service: AuthedRoutes[User, IO] = AuthedRoutes.of {
-    case GET -> Root / "index" as user =>
+    case GET -> Root / "index" :? iqp(params) as user =>
       checkAuthorization(user, Capability.Read, component) {
-        val indexQueryParams =
-          IndexQueryParameters(PageSize(0), Offset(0), QueryParameters("en"))
-        store.index(indexQueryParams).flatMap(id => Ok(id.asJson))
+        store.index(params).flatMap(id => Ok(id.asJson))
       }
 
-    case GET -> Root / Id(id) as user =>
+    case GET -> Root / Id(id) :? qp(params) as user =>
       checkAuthorization(user, Capability.Read, component.child(id.toString)) {
-        store.read(QueryParameters("en"))(id).attempt.flatMap {
-          case Right(e) => Ok(e.asJson)
-          case Left(e) => NotFound(e.getMessage)
+          store.read(params)(id).attempt.flatMap {
+            case Right(e) => Ok(e.asJson)
+            case Left(e) => NotFound(e.getMessage)
         }
       }
   }

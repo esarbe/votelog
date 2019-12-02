@@ -8,6 +8,10 @@ import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.crudi.StoreAlg
 
 trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
+
+  type QueryParameters = Unit
+  type IndexQueryParameters = Unit
+
   def findByName(name: String): F[Option[User]]
   def grantPermission(userId: User.Id, component: Component, capability: Capability): F[Unit]
   def revokePermission(userId: User.Id, component: Component, capability: Capability): F[Unit]
