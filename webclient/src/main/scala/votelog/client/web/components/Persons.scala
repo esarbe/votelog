@@ -49,11 +49,13 @@ class Persons(
   }
 
   def renderPerson(p: Person) = {
-    <dl>
-      <dt>Name</dt>
-      <dd> {p.firstName.value} {p.lastName.value} </dd>
-      <dt>Canton</dt>
+    <dl class="person" data-id={p.id.value.toLong}>
+      <dt class="name">Name</dt>
+      <dd>{p.firstName.value} {p.lastName.value} </dd>
+      <dt class="canton">Canton</dt>
       <dd>{p.canton.value}</dd>
+      <dt class="party">Party</dt>
+      <dd>{p.party}</dd>
     </dl>
   }
 
@@ -71,6 +73,4 @@ class Persons(
         { model.map { persons => persons.map(renderPerson)} }
       </ul>
     </section>
-
-
 }
