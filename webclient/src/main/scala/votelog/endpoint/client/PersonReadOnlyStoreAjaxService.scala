@@ -15,15 +15,27 @@ import scala.concurrent.Future
 class PersonReadOnlyStoreAjaxService(configuration: Configuration)
   extends PersonStore[Future] {
 
-  override def index(qp: IndexQueryParameters): Future[List[Person.Id]] =
+  override def index(qp: IndexQueryParameters): Future[List[Person.Id]] = {
+    val pathQps =
+      Map(
+        "pg" -> qp.pageSize.value,
+        "os" -> qp.offset.value,
+        "lang" -> qp.queryParameters.language.iso639_1,
+        "lp" -> qp.queryParameters.legislativePeriod.value.toString,
+      )
+        .map { case (key, value) => s"$key=$value" }
+        .mkString("&")
+
     Ajax
-      .get(configuration.url + s"/person/index?pageSize=${qp.pageSize}&offset=${qp.offset}&lang=", withCredentials = true)
+      .get(configuration.url + s"/person/index?" + pathQps, withCredentials = true)
       .flatMap { res =>
         parser.decode[List[Person.Id]](res.responseText) match {
           case Right(persons) => Future.successful(persons)
           case Left(error) => Future.failed(DecodingError(error))
         }
       }
+
+  }
 
   override def read(queryParameters: QueryParameters)(id: Person.Id): Future[Person] =
     Ajax
