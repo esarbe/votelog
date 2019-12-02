@@ -16093,25 +16093,60 @@ $c_Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService.prototype.init___Lvot
   return this
 });
 $c_Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService.prototype.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future = (function(qp) {
-  var x$1 = ((this.configuration$1.url$1 + ((("/person/index?pageSize=" + qp.pageSize$1) + "&offset=") + qp.offset$1)) + "&lang=");
+  var y = qp.pageSize$1.value$1;
+  var jsx$5 = new $c_T2().init___O__O("pg", y);
+  var t = qp.offset$1.value$1;
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  var jsx$4 = new $c_T2().init___O__O("os", new $c_sjsr_RuntimeLong().init___I__I(lo, hi));
+  var y$1 = $as_Lvotelog_domain_politics_Context(qp.queryParameters$1).language$1.iso639$und1__T();
+  var jsx$3 = new $c_T2().init___O__O("lang", y$1);
+  var this$8 = $as_Lvotelog_domain_politics_Context(qp.queryParameters$1).legislativePeriod$1.value$1;
+  var y$2 = ("" + this$8);
+  var array = [jsx$5, jsx$4, jsx$3, new $c_T2().init___O__O("lp", y$2)];
+  var this$14 = new $c_scm_MapBuilder().init___sc_GenMap($m_sci_Map$EmptyMap$());
+  var i = 0;
+  var len = $uI(array.length);
+  while ((i < len)) {
+    var index = i;
+    var arg1 = array[index];
+    this$14.$$plus$eq__T2__scm_MapBuilder($as_T2(arg1));
+    i = ((1 + i) | 0)
+  };
+  var jsx$2 = $as_sc_TraversableLike(this$14.elems$1);
+  var jsx$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_T2(x0$1$2);
+      if ((x0$1 !== null)) {
+        var key = $as_T(x0$1.$$und1__O());
+        var value = x0$1.$$und2__O();
+        return ((key + "=") + value)
+      } else {
+        throw new $c_s_MatchError().init___O(x0$1)
+      }
+    })
+  })(this));
+  var this$15 = $m_sci_Iterable$();
+  var pathQps = $as_sc_TraversableOnce(jsx$2.map__F1__scg_CanBuildFrom__O(jsx$1, this$15.ReusableCBFInstance$2)).mkString__T__T("&");
+  var x$1 = ((this.configuration$1.url$1 + "/person/index?") + pathQps);
   var x$5 = $m_sci_Map$EmptyMap$();
-  var this$3 = $m_Lorg_scalajs_dom_ext_Ajax$();
-  return this$3.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+  var this$18 = $m_Lorg_scalajs_dom_ext_Ajax$();
+  return this$18.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(res$2) {
-      var this$8 = $m_Lio_circe_parser_package$();
+      var this$23 = $m_Lio_circe_parser_package$();
       var input = $as_T(res$2.responseText);
       $m_Lio_circe_Decoder$();
       $m_Lio_circe_Decoder$();
-      var inst$macro$33 = new $c_Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService$anon$importedDecoder$macro$32$1().init___Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService($this).inst$macro$26__Lio_circe_generic_decoding_DerivedDecoder();
-      var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, inst$macro$33$1) {
+      var inst$macro$33 = new $c_Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService$anon$importedDecoder$macro$32$1().init___Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService(this$2$1).inst$macro$26__Lio_circe_generic_decoding_DerivedDecoder();
+      var t$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, inst$macro$33$1) {
         return (function() {
           return inst$macro$33$1
         })
-      })($this, inst$macro$33));
-      var lv = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+      })(this$2$1, inst$macro$33));
+      var lv = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$1);
       var exported = $as_Lio_circe_Decoder(lv.value__O());
       var evidence$1 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(exported);
-      var x1 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$8, input, evidence$1);
+      var x1 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$23, input, evidence$1);
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var persons = $as_sci_List(x2.value$2);
@@ -20399,6 +20434,9 @@ $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5$$anon$6.prototype.toList
   var this$1 = $m_sci_List$();
   var cbf = this$1.ReusableCBFInstance$2;
   return $as_sci_List($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
+});
+$c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5$$anon$6.prototype.mkString__T__T = (function(sep) {
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
 });
 $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5$$anon$6.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -25402,6 +25440,9 @@ $c_sc_AbstractIterator.prototype.toList__sci_List = (function() {
   var cbf = this$1.ReusableCBFInstance$2;
   return $as_sci_List($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
 });
+$c_sc_AbstractIterator.prototype.mkString__T__T = (function(sep) {
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
+});
 $c_sc_AbstractIterator.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
 });
@@ -25708,6 +25749,9 @@ $c_sjs_js_WrappedDictionary$DictionaryIterator.prototype.init___sjs_js_Dictionar
   this.keys$1 = $g.Object.keys(dict);
   this.index$1 = 0;
   return this
+});
+$c_sjs_js_WrappedDictionary$DictionaryIterator.prototype.mkString__T__T = (function(sep) {
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
 });
 $c_sjs_js_WrappedDictionary$DictionaryIterator.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -28591,7 +28635,10 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset.prototype.produ
   }
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+  var t = this.value$1;
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toString__I__I__T(lo, hi)
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset.prototype.hashCode__I = (function() {
   var acc = (-889275714);
@@ -28661,7 +28708,8 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize.prototype.pro
   }
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+  var this$1 = this.value$1;
+  return ("" + this$1)
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize.prototype.init___I = (function(value) {
   this.value$1 = value;
@@ -43331,6 +43379,9 @@ $c_sc_AbstractTraversable.prototype.toList__sci_List = (function() {
 $c_sc_AbstractTraversable.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
 });
+$c_sc_AbstractTraversable.prototype.mkString__T__T = (function(sep) {
+  return this.mkString__T__T__T__T("", sep, "")
+});
 $c_sc_AbstractTraversable.prototype.withFilter__F1__scg_FilterMonadic = (function(p) {
   return new $c_sc_TraversableLike$WithFilter().init___sc_TraversableLike__F1(this, p)
 });
@@ -44762,6 +44813,9 @@ $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.thisCollection
 $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
 });
+$c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.mkString__T__T = (function(sep) {
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
+});
 $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.withFilter__F1__scg_FilterMonadic = (function(p) {
   return new $c_sc_TraversableLike$WithFilter().init___sc_TraversableLike__F1(this, p)
 });
@@ -45008,6 +45062,9 @@ $c_sci_StringOps.prototype.equals__O__Z = (function(x$1) {
 $c_sci_StringOps.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
 });
+$c_sci_StringOps.prototype.mkString__T__T = (function(sep) {
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
+});
 $c_sci_StringOps.prototype.withFilter__F1__scg_FilterMonadic = (function(p) {
   return new $c_sc_TraversableLike$WithFilter().init___sc_TraversableLike__F1(this, p)
 });
@@ -45084,12 +45141,12 @@ $c_sci_StringOps.prototype.$$div$colon__O__F2__O = (function(z, op) {
 $c_sci_StringOps.prototype.copyToArray__O__I__I__V = (function(xs, start, len) {
   $f_sc_IndexedSeqOptimized__copyToArray__O__I__I__V(this, xs, start, len)
 });
-$c_sci_StringOps.prototype.isTraversableAgain__Z = (function() {
-  return true
-});
 $c_sci_StringOps.prototype.hashCode__I = (function() {
   var $$this = this.repr$1;
   return $m_sjsr_RuntimeString$().hashCode__T__I($$this)
+});
+$c_sci_StringOps.prototype.isTraversableAgain__Z = (function() {
+  return true
 });
 $c_sci_StringOps.prototype.init___T = (function(repr) {
   this.repr$1 = repr;
@@ -49289,6 +49346,9 @@ $c_sci_Stream.prototype.filterImpl__F1__Z__sci_Stream = (function(p, isFlipped) 
 $c_sci_Stream.prototype.drop__I__sc_LinearSeqOptimized = (function(n) {
   return this.drop__I__sci_Stream(n)
 });
+$c_sci_Stream.prototype.mkString__T__T = (function(sep) {
+  return this.mkString__T__T__T__T("", sep, "")
+});
 $c_sci_Stream.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   this.force__sci_Stream();
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -51793,6 +51853,10 @@ $c_scm_ListBuffer.prototype.equals__O__Z = (function(that) {
   } else {
     return $f_sc_GenSeqLike__equals__O__Z(this, that)
   }
+});
+$c_scm_ListBuffer.prototype.mkString__T__T = (function(sep) {
+  var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this$1, "", sep, "")
 });
 $c_scm_ListBuffer.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
