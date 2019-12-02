@@ -21,7 +21,7 @@ class DoobiePersonStore[F[_]: Monad: ThrowableBracket](
         FROM member_council m, person p
         WHERE m.id = p.id
         AND m.language = p.language
-        AND id=${id.value}
+        AND m.id=${id.value}
       """
       .stripMargin
       .query[Person]
