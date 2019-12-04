@@ -9,8 +9,8 @@ case class Person(
   canton: Canton,
   gender: Gender,
   party: String,
-  dateOfElection: java.time.LocalDate,
-  dateOfBirth: java.time.LocalDate,
+  dateOfElection: Option[java.time.LocalDate],
+  dateOfBirth: Option[java.time.LocalDate],
 )
 
 object Person {
@@ -18,10 +18,9 @@ object Person {
   case class Name(value: String)
   case class Canton(value: String)
 
-  trait Gender
+  sealed trait Gender
   object Gender {
     case object Female extends Gender
     case object Male extends Gender
   }
-
 }
