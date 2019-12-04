@@ -26,7 +26,6 @@ abstract class VoteLog[F[_]: Applicative] {
   val authorization: AuthorizationAlg[F]
   val passwordHasher: PasswordHasherAlg[F]
 
-
   // TODO: this should not be part of the store. extract into separate
   // service/alg and use stores from there
   def politiciansScoredBy(ngos: Map[Ngo.Id, Weight]): F[List[(Motion.Id, Score)]] = {

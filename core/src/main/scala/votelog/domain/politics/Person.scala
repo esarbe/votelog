@@ -1,6 +1,6 @@
 package votelog.domain.politics
 
-import votelog.domain.politics.Person.{Canton, Gender, Name}
+import votelog.domain.politics.Person.{Gender, Name}
 
 case class Person(
   id: Person.Id,
@@ -16,7 +16,6 @@ case class Person(
 object Person {
   case class Id(value: Int)
   case class Name(value: String)
-  case class Canton(value: String)
 
   sealed trait Gender
   object Gender {

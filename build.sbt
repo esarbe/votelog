@@ -15,6 +15,7 @@ val core =
           "io.circe" %%% "circe-core" % circeVersion,
           "io.circe" %%% "circe-generic" % circeVersion,
           "io.circe" %%% "circe-parser" % circeVersion,
+          "io.circe" %%% "circe-generic-extras"  % circeVersion,
           "org.julienrf" %%% "endpoints-algebra" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.12"),
           "org.julienrf" %%% "endpoints-json-schema-generic" % "0.12.0"
             exclude("org.scala-lang.modules", "scala-xml_2.12"),
