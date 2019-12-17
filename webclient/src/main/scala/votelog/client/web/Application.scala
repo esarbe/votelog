@@ -5,7 +5,9 @@ import mhtml._
 import mhtml.future.syntax._
 import org.scalajs.dom
 import cats.implicits._
+import org.scalajs.dom.raw
 import org.scalajs.dom.raw.Element
+import votelog.client.web.components.html.DynamicList
 import votelog.domain.authentication.User
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
@@ -33,6 +35,7 @@ object Application {
   val defaultPageSize = PageSize(20)
   val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
   val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  //val configuration = Configuration("http://localhost:8080/api/v0")
   val path = Var("")
 
   val personsService = new PersonReadOnlyStoreAjaxService(configuration)
@@ -42,9 +45,7 @@ object Application {
   val languageComponent = new components.Language
   val personsComponent = new components.Persons(personsService, context, defaultPageSize)
 
-
   def main(args: Array[String]): Unit = {
-
     val content =
       <div>
         <header>
@@ -73,10 +74,13 @@ object Application {
       </div>
 
     val contentElement = dom.document.createElement("div")
+    val personsElement = dom.document.createElement("div")
     dom.document.body.appendChild(contentElement)
-    mount(contentElement, content)
+    dom.document.body.appendChild(personsElement)
 
-    println("ready.")
+    personsComponent.mountOn(personsElement)
+
+    mount(contentElement, content)
   }
 
   object debounce {
