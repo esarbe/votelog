@@ -1,8 +1,5 @@
 package votelog.client.web.components
 
-import cats._
-import mhtml.implicits.cats._
-import cats.implicits._
 import mhtml._
 import mhtml.future.syntax._
 import votelog.client.web.Application.debounce
