@@ -20,7 +20,7 @@ class Persons(
   persons: ReadOnlyStoreAlg[Future, Person, Person.Id],
   queryParameters: Rx[Context],
   defaultPageSize: PageSize,
-) extends Component[List[Person]] {
+) {
 
   val pageSize: Var[PageSize] = Var(defaultPageSize)
   val offset: Var[Offset] = Var(Offset(0))

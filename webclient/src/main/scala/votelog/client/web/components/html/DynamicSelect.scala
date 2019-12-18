@@ -11,7 +11,7 @@ import scala.xml.{Elem, Node}
 /**
   * an html select element whose options might change
   */
-class DynamicSelect[T: Show](legend: String, options: Rx[Set[T]], default: T) extends Component[T] {
+class DynamicSelect[T: Show](legend: String, options: Rx[Set[T]], default: T)  {
 
   val model: Var[T] = Var[T](default)
 
@@ -24,7 +24,7 @@ class DynamicSelect[T: Show](legend: String, options: Rx[Set[T]], default: T) ex
      <option selected={selected.map(_ == option)} value={option.hashCode.toString}>{option.show}</option>
   }
 
-  override def view: Node =
+  def view: Node =
     <fieldset>{
       options
         .map { options =>
