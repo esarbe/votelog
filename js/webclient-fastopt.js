@@ -5166,7 +5166,6 @@ function $c_Lvotelog_client_web_Application$() {
   this.defaultPageSize$1 = null;
   this.context$1 = null;
   this.configuration$1 = null;
-  this.path$1 = null;
   this.personsService$1 = null;
   this.authService$1 = null;
   this.authComponent$1 = null;
@@ -5185,7 +5184,6 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   this.defaultPageSize$1 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(20);
   this.context$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language($m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, $m_Lvotelog_domain_politics_Language$English$()));
   this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("https://votelog.herokuapp.com/api/v0");
-  this.path$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
   this.personsService$1 = new $c_Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService().init___Lvotelog_client_Configuration(this.configuration$1);
   this.authService$1 = new $c_Lvotelog_client_service_SessionServiceRest().init___Lvotelog_client_Configuration(this.configuration$1);
   this.authComponent$1 = new $c_Lvotelog_client_web_components_Authentication().init___Lvotelog_domain_authentication_SessionService(this.authService$1);
@@ -5194,90 +5192,112 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   return this
 });
 $c_Lvotelog_client_web_Application$.prototype.main__AT__V = (function(args) {
-  var jsx$20 = $m_s_xml_Null$();
-  var jsx$19 = $m_s_xml_TopScope$();
+  var jsx$26 = $m_s_xml_Null$();
+  var jsx$25 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$10 = $m_s_xml_Null$();
-  var jsx$9 = $m_s_xml_TopScope$();
+  var jsx$14 = $m_s_xml_Null$();
+  var jsx$13 = $m_s_xml_TopScope$();
   var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/authentication"), $$md, null);
-  var jsx$2 = $$md;
-  var jsx$1 = $m_s_xml_TopScope$();
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("locations"), $$md, null);
+  var jsx$10 = $$md;
+  var jsx$9 = $m_s_xml_TopScope$();
   var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Login"));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/signup"), $$md$2, null);
-  var jsx$4 = $$md$2;
-  var jsx$3 = $m_s_xml_TopScope$();
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#authentication"), $$md$2, null);
+  var jsx$2 = $$md$2;
+  var jsx$1 = $m_s_xml_TopScope$();
   var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
   $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Login"));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$4, jsx$3, false, $$buf$4));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$2, jsx$1, false, $$buf$4));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$3 = $m_s_xml_Null$();
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/persons"), $$md$3, null);
-  var jsx$6 = $$md$3;
-  var jsx$5 = $m_s_xml_TopScope$();
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#signup"), $$md$3, null);
+  var jsx$4 = $$md$3;
+  var jsx$3 = $m_s_xml_TopScope$();
   var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$5.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Login"));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$6, jsx$5, false, $$buf$5));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n          "));
+  $$buf$5.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Signup"));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$4, jsx$3, false, $$buf$5));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$4 = $m_s_xml_Null$();
-  $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("language"), $$md$4, null);
-  var jsx$8 = $$md$4;
-  var jsx$7 = $m_s_xml_TopScope$();
+  $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#persons"), $$md$4, null);
+  var jsx$6 = $$md$4;
+  var jsx$5 = $m_s_xml_TopScope$();
   var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.languageComponent$1.view__s_xml_Node());
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$8, jsx$7, false, $$buf$6));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "header", jsx$10, jsx$9, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  var jsx$16 = $m_s_xml_Null$();
-  var jsx$15 = $m_s_xml_TopScope$();
-  var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Persons"));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$6, jsx$5, false, $$buf$6));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$5 = $m_s_xml_Null$();
-  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("persons"), $$md$5, null);
-  var jsx$12 = $$md$5;
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#ngos"), $$md$5, null);
+  var jsx$8 = $$md$5;
+  var jsx$7 = $m_s_xml_TopScope$();
+  var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("NGOs"));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$8, jsx$7, false, $$buf$7));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$10, jsx$9, false, $$buf$3));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n          "));
+  var $$md$6 = $m_s_xml_Null$();
+  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("language"), $$md$6, null);
+  var jsx$12 = $$md$6;
   var jsx$11 = $m_s_xml_TopScope$();
   var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
   $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.personsComponent$1.view$1);
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.languageComponent$1.view__s_xml_Node());
   $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$12, jsx$11, false, $$buf$8));
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n          "));
-  var $$md$6 = $m_s_xml_Null$();
-  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("authentication"), $$md$6, null);
-  var jsx$14 = $$md$6;
-  var jsx$13 = $m_s_xml_TopScope$();
-  var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.authComponent$1.view$1);
-  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$14, jsx$13, false, $$buf$9));
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$16, jsx$15, false, $$buf$7));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$12, jsx$11, false, $$buf$8));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "header", jsx$14, jsx$13, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  var jsx$18 = $m_s_xml_Null$();
+  var jsx$22 = $m_s_xml_Null$();
+  var jsx$21 = $m_s_xml_TopScope$();
+  var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  var $$md$7 = $m_s_xml_Null$();
+  $$md$7 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("persons"), $$md$7, null);
+  var jsx$18 = $$md$7;
   var jsx$17 = $m_s_xml_TopScope$();
   var $$buf$10 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "footer", jsx$18, jsx$17, false, $$buf$10));
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.personsComponent$1.view$1);
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+  var $$md$8 = $m_s_xml_Null$();
+  $$md$8 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("persons-list"), $$md$8, null);
+  var jsx$16 = $$md$8;
+  var jsx$15 = $m_s_xml_TopScope$();
+  var array = [];
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$16, jsx$15, false, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$18, jsx$17, false, $$buf$10));
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n          "));
+  var $$md$9 = $m_s_xml_Null$();
+  $$md$9 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", new $c_s_xml_Text().init___T("authentication"), $$md$9, null);
+  var jsx$20 = $$md$9;
+  var jsx$19 = $m_s_xml_TopScope$();
+  var $$buf$11 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.authComponent$1.view$1);
+  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$20, jsx$19, false, $$buf$11));
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$22, jsx$21, false, $$buf$9));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
+  var jsx$24 = $m_s_xml_Null$();
+  var jsx$23 = $m_s_xml_TopScope$();
+  var $$buf$12 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$12.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "footer", jsx$24, jsx$23, false, $$buf$12));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var content = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$20, jsx$19, false, $$buf);
+  var content = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$26, jsx$25, false, $$buf);
   var contentElement = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().createElement("div");
-  var personsElement = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().createElement("div");
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.appendChild(contentElement);
-  $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.appendChild(personsElement);
-  this.personsComponent$1.mountOn__Lorg_scalajs_dom_raw_Element__F0(personsElement);
-  var this$1 = $m_Lmhtml_mount$();
-  this$1.mountNode__p1__Lorg_scalajs_dom_raw_Node__s_xml_Node__s_Option__F0(contentElement, content, $m_s_None$())
+  var this$3 = $m_Lmhtml_mount$();
+  this$3.mountNode__p1__Lorg_scalajs_dom_raw_Node__s_xml_Node__s_Option__F0(contentElement, content, $m_s_None$());
+  var personsListElement = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("persons-list");
+  this.personsComponent$1.mountOn__Lorg_scalajs_dom_raw_Element__F0(personsListElement)
 });
 var $d_Lvotelog_client_web_Application$ = new $TypeData().initClass({
   Lvotelog_client_web_Application$: 0
@@ -5340,6 +5360,406 @@ function $m_Lvotelog_client_web_Application$debounce$() {
   };
   return $n_Lvotelog_client_web_Application$debounce$
 }
+/** @constructor */
+function $c_Lvotelog_client_web_components_Persons() {
+  $c_O.call(this);
+  this.queryParameters$1 = null;
+  this.pageSize$1 = null;
+  this.offset$1 = null;
+  this.validOffset$1 = null;
+  this.cache$1 = null;
+  this.unstableIds$1 = null;
+  this.ids$1 = null;
+  this.model$1 = null;
+  this.view$1 = null
+}
+$c_Lvotelog_client_web_components_Persons.prototype = new $h_O();
+$c_Lvotelog_client_web_components_Persons.prototype.constructor = $c_Lvotelog_client_web_components_Persons;
+/** @constructor */
+function $h_Lvotelog_client_web_components_Persons() {
+  /*<skip>*/
+}
+$h_Lvotelog_client_web_components_Persons.prototype = $c_Lvotelog_client_web_components_Persons.prototype;
+$c_Lvotelog_client_web_components_Persons.prototype.setOffset__F1 = (function() {
+  return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(event$2) {
+      $this.offset$1.update__F1__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, event) {
+        return (function(x$4$2) {
+          $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(x$4$2);
+          var x = $as_T(event.target.value);
+          var this$2 = new $c_sci_StringOps().init___T(x);
+          var this$4 = $m_jl_Long$();
+          var $$this = this$2.repr$1;
+          return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J(this$4.parseLong__T__I__J($$this, 10))
+        })
+      })($this, event$2)))
+    })
+  })(this))
+});
+$c_Lvotelog_client_web_components_Persons.prototype.mountOn__Lorg_scalajs_dom_raw_Element__F0 = (function(parent) {
+  var render = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(id$2) {
+      var id = $as_Lvotelog_domain_politics_Person$Id(id$2).value$1;
+      var this$6 = $this.queryParameters$1;
+      var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, id$1) {
+        return (function(qp$2) {
+          var qp = $as_Lvotelog_domain_politics_Context(qp$2);
+          var f = $m_Lvotelog_client_web_Application$().personsService$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(qp.language$1, id$1);
+          var this$5 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+          var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2) {
+            return (function(person$2) {
+              var person = $as_s_Option(person$2);
+              var rc9 = false;
+              var x2 = null;
+              if ((person instanceof $c_s_Some)) {
+                rc9 = true;
+                x2 = $as_s_Some(person);
+                var p3 = $as_s_util_Try(x2.value$2);
+                if ((p3 instanceof $c_s_util_Success)) {
+                  var x4 = $as_s_util_Success(p3);
+                  var person$2$1 = $as_Lvotelog_domain_politics_Person(x4.value$2);
+                  $m_s_package$();
+                  return new $c_s_util_Right().init___O(person$2$1)
+                }
+              };
+              if (rc9) {
+                var p6 = $as_s_util_Try(x2.value$2);
+                if ((p6 instanceof $c_s_util_Failure)) {
+                  var x7 = $as_s_util_Failure(p6);
+                  var exception = x7.exception$2;
+                  $m_s_package$();
+                  return new $c_s_util_Left().init___O(exception)
+                }
+              };
+              $m_s_package$();
+              var value = new $c_jl_RuntimeException().init___T("unknown failure");
+              return new $c_s_util_Left().init___O(value)
+            })
+          })($this$1));
+          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$1)
+        })
+      })($this, id));
+      var person$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$2);
+      var jsx$4 = $m_s_xml_Null$();
+      var jsx$3 = $m_s_xml_TopScope$();
+      var $$buf = new $c_s_xml_NodeBuffer().init___();
+      $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+      var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+        return (function(x0$1$2) {
+          var x0$1 = $as_s_util_Either(x0$1$2);
+          if ((x0$1 instanceof $c_s_util_Right)) {
+            var x2$1 = $as_s_util_Right(x0$1);
+            var person$3 = $as_Lvotelog_domain_politics_Person(x2$1.value$2);
+            return this$2$1.renderPerson__Lvotelog_domain_politics_Person__s_xml_Elem(person$3)
+          } else if ((x0$1 instanceof $c_s_util_Left)) {
+            var x3 = $as_s_util_Left(x0$1);
+            var exception$1 = $as_jl_Throwable(x3.value$2);
+            var jsx$2 = $m_s_xml_Null$();
+            var jsx$1 = $m_s_xml_TopScope$();
+            var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(exception$1.getMessage__T(), null);
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$2, jsx$1, false, $$buf$1)
+          } else {
+            throw new $c_s_MatchError().init___O(x0$1)
+          }
+        })
+      })($this));
+      $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(person$1, f$3), null);
+      $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$4, jsx$3, false, $$buf)
+    })
+  })(this));
+  return $m_Lvotelog_client_web_components_html_DynamicList$().mountOn__Lorg_scalajs_dom_raw_Element__Lmhtml_Rx__F1__F0(parent, this.ids$1, render)
+});
+$c_Lvotelog_client_web_components_Persons.prototype.init___Lvotelog_domain_crudi_ReadOnlyStoreAlg__Lmhtml_Rx__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize = (function(persons, queryParameters, defaultPageSize) {
+  this.queryParameters$1 = queryParameters;
+  this.pageSize$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(defaultPageSize);
+  this.offset$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+  var this$1 = this.offset$1;
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x$1$2) {
+      var x$1 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(x$1$2);
+      var t = x$1.value$1;
+      var hi = t.hi$2;
+      return (hi >= 0)
+    })
+  })(this));
+  var b = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong());
+  this.validOffset$1 = $f_Lmhtml_Rx__keepIf__F1__O__Lmhtml_Rx(this$1, f, b);
+  this.cache$1 = new $c_scm_HashMap().init___();
+  var this$10 = this.validOffset$1;
+  var f$5 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+    return (function(offset$2) {
+      var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
+      var this$9 = this$2$1.pageSize$1;
+      var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, offset$1) {
+        return (function(pageSize$2) {
+          var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
+          var this$8 = $this$1.queryParameters$1;
+          var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, pageSize$1, offset$1$1) {
+            return (function(queryParameters$2) {
+              var queryParameters$1 = $as_Lvotelog_domain_politics_Context(queryParameters$2);
+              var indexQueryParams = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1, offset$1$1, queryParameters$1);
+              var f$1 = $m_Lvotelog_client_web_Application$().personsService$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams);
+              var this$7 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$1).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+              var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3) {
+                return (function(ids$2) {
+                  var ids = $as_s_Option(ids$2);
+                  var rc10 = false;
+                  var x2 = null;
+                  if ((ids instanceof $c_s_Some)) {
+                    rc10 = true;
+                    x2 = $as_s_Some(ids);
+                    var p3 = $as_s_util_Try(x2.value$2);
+                    if ((p3 instanceof $c_s_util_Success)) {
+                      var x4 = $as_s_util_Success(p3);
+                      var ids$2$1 = $as_sci_List(x4.value$2);
+                      return new $c_s_Some().init___O(ids$2$1)
+                    }
+                  };
+                  if (rc10) {
+                    var p6 = $as_s_util_Try(x2.value$2);
+                    if ((p6 instanceof $c_s_util_Failure)) {
+                      var x7 = $as_s_util_Failure(p6);
+                      var error = x7.exception$2;
+                      var x = error.getMessage__T();
+                      var this$5 = $m_s_Console$();
+                      var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
+                      this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+                      return $m_s_None$()
+                    }
+                  };
+                  var x$2 = $m_s_None$();
+                  if ((x$2 === ids)) {
+                    return $m_s_None$()
+                  };
+                  throw new $c_s_MatchError().init___O(ids)
+                })
+              })($this$2));
+              return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$7, f$2)
+            })
+          })($this$1, pageSize, offset$1));
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$8, f$3)
+        })
+      })(this$2$1, offset));
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$9, f$4)
+    })
+  })(this));
+  this.unstableIds$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$10, f$5);
+  var this$12 = this.unstableIds$1;
+  $m_sci_List$();
+  var seed = $m_sci_Nil$();
+  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$3$1) {
+    return (function(x0$1$2, x1$1$2) {
+      var x0$1 = $as_sci_List(x0$1$2);
+      var x1$1 = $as_s_Option(x1$1$2);
+      return $as_sci_List((x1$1.isEmpty__Z() ? x0$1 : x1$1.get__O()))
+    })
+  })(this));
+  this.ids$1 = new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$12, seed, step);
+  var this$19 = this.validOffset$1;
+  var f$11 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
+    return (function(offset$3$2) {
+      var offset$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$3$2);
+      var this$18 = this$4$1.pageSize$1;
+      var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$4, offset$4) {
+        return (function(pageSize$2$1) {
+          var pageSize$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2$1);
+          var this$17 = $this$4.queryParameters$1;
+          var f$9 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$5, pageSize$4, offset$2$1) {
+            return (function(queryParameters$2$1) {
+              var queryParameters$3 = $as_Lvotelog_domain_politics_Context(queryParameters$2$1);
+              var indexQueryParams$1 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$4, offset$2$1, queryParameters$3);
+              var ids$1 = $m_Lvotelog_client_web_Application$().personsService$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams$1);
+              var f$7 = ids$1.flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$6, queryParameters$4) {
+                return (function(ids$2$2) {
+                  var ids$2$3 = $as_sci_List(ids$2$2);
+                  var jsx$3 = $m_s_concurrent_Future$();
+                  var f$6 = (function($this$7, queryParameters$1$1) {
+                    return (function(id$2) {
+                      var id = $as_Lvotelog_domain_politics_Person$Id(id$2).value$1;
+                      return $m_Lvotelog_client_web_Application$().personsService$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(queryParameters$1$1.language$1, id)
+                    })
+                  })($this$6, queryParameters$4);
+                  var this$13 = $m_sci_List$();
+                  var bf = this$13.ReusableCBFInstance$2;
+                  if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+                    if ((ids$2$3 === $m_sci_Nil$())) {
+                      var jsx$2 = $m_sci_Nil$()
+                    } else {
+                      var arg1 = ids$2$3.head__O();
+                      var h = new $c_sci_$colon$colon().init___O__sci_List(f$6(arg1), $m_sci_Nil$());
+                      var t$1 = h;
+                      var rest = $as_sci_List(ids$2$3.tail__O());
+                      while ((rest !== $m_sci_Nil$())) {
+                        var arg1$1 = rest.head__O();
+                        var nx = new $c_sci_$colon$colon().init___O__sci_List(f$6(arg1$1), $m_sci_Nil$());
+                        t$1.tl$5 = nx;
+                        t$1 = nx;
+                        rest = $as_sci_List(rest.tail__O())
+                      };
+                      var jsx$2 = h
+                    }
+                  } else {
+                    var b$1 = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(ids$2$3, bf);
+                    var these = ids$2$3;
+                    while ((!these.isEmpty__Z())) {
+                      var arg1$2 = these.head__O();
+                      b$1.$$plus$eq__O__scm_Builder(f$6(arg1$2));
+                      these = $as_sci_List(these.tail__O())
+                    };
+                    var jsx$2 = b$1.result__O()
+                  };
+                  var jsx$1 = $as_sc_TraversableOnce(jsx$2);
+                  var this$14 = $m_sci_List$();
+                  return jsx$3.sequence__sc_TraversableOnce__scg_CanBuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$1, this$14.ReusableCBFInstance$2, $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
+                })
+              })($this$5, queryParameters$3)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+              var this$16 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$7).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+              var f$8 = new $c_Lvotelog_client_web_components_Persons$$anonfun$$nestedInanonfun$model$3$1().init___Lvotelog_client_web_components_Persons($this$5);
+              var b$2 = $m_sci_Nil$();
+              return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$16, f$8, b$2)
+            })
+          })($this$4, pageSize$3, offset$4));
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$17, f$9)
+        })
+      })(this$4$1, offset$3));
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$18, f$10)
+    })
+  })(this));
+  this.model$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$19, f$11);
+  var jsx$21 = $m_s_xml_Null$();
+  var jsx$20 = $m_s_xml_TopScope$();
+  var $$buf = new $c_s_xml_NodeBuffer().init___();
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var jsx$17 = $m_s_xml_Null$();
+  var jsx$16 = $m_s_xml_TopScope$();
+  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  var jsx$15 = $m_s_xml_Null$();
+  var jsx$14 = $m_s_xml_TopScope$();
+  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+  var jsx$13 = $m_s_xml_Null$();
+  var jsx$12 = $m_s_xml_TopScope$();
+  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n              "));
+  var jsx$7 = $m_s_xml_Null$();
+  var jsx$6 = $m_s_xml_TopScope$();
+  var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
+  var $$md = $m_s_xml_Null$();
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("for", new $c_s_xml_Text().init___T("offset"), $$md, null);
+  var jsx$5 = $$md;
+  var jsx$4 = $m_s_xml_TopScope$();
+  var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Offset"));
+  $$buf$5.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "label", jsx$5, jsx$4, false, $$buf$6));
+  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$7, jsx$6, false, $$buf$5));
+  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n              "));
+  var jsx$11 = $m_s_xml_Null$();
+  var jsx$10 = $m_s_xml_TopScope$();
+  var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
+  var $$md$2 = $m_s_xml_Null$();
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", this.setOffset__F1(), $$md$2, null);
+  var this$20 = this.validOffset$1;
+  var f$12 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
+    return (function(x$5$2) {
+      var x$5 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(x$5$2);
+      var t$2 = x$5.value$1;
+      var lo$1 = t$2.lo$2;
+      var hi$1 = t$2.hi$2;
+      return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toString__I__I__T(lo$1, hi$1)
+    })
+  })(this));
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$20, f$12), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("number"), $$md$2, null);
+  var jsx$9 = $$md$2;
+  var jsx$8 = $m_s_xml_TopScope$();
+  var array = [];
+  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$9, jsx$8, false, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
+  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$11, jsx$10, false, $$buf$7));
+  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$13, jsx$12, false, $$buf$4));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$15, jsx$14, false, $$buf$3));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "header", jsx$17, jsx$16, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var jsx$19 = $m_s_xml_Null$();
+  var jsx$18 = $m_s_xml_TopScope$();
+  var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "ul", jsx$19, jsx$18, false, $$buf$8));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$21, jsx$20, false, $$buf);
+  return this
+});
+$c_Lvotelog_client_web_components_Persons.prototype.renderPerson__Lvotelog_domain_politics_Person__s_xml_Elem = (function(p) {
+  var $$md = $m_s_xml_Null$();
+  var this$1 = p.id$1;
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("data-id", ("" + this$1), $$md, null);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("person"), $$md, null);
+  var jsx$14 = $$md;
+  var jsx$13 = $m_s_xml_TopScope$();
+  var $$buf = new $c_s_xml_NodeBuffer().init___();
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var $$md$2 = $m_s_xml_Null$();
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("name"), $$md$2, null);
+  var jsx$2 = $$md$2;
+  var jsx$1 = $m_s_xml_TopScope$();
+  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var jsx$4 = $m_s_xml_Null$();
+  var jsx$3 = $m_s_xml_TopScope$();
+  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.firstName$1, null);
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.lastName$1, null);
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$3));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var $$md$3 = $m_s_xml_Null$();
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("canton"), $$md$3, null);
+  var jsx$6 = $$md$3;
+  var jsx$5 = $m_s_xml_TopScope$();
+  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Canton"));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$6, jsx$5, false, $$buf$4));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var jsx$8 = $m_s_xml_Null$();
+  var jsx$7 = $m_s_xml_TopScope$();
+  var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$5.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.canton$1.value$1, null);
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$8, jsx$7, false, $$buf$5));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var $$md$4 = $m_s_xml_Null$();
+  $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("party"), $$md$4, null);
+  var jsx$10 = $$md$4;
+  var jsx$9 = $m_s_xml_TopScope$();
+  var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Party"));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$10, jsx$9, false, $$buf$6));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var jsx$12 = $m_s_xml_Null$();
+  var jsx$11 = $m_s_xml_TopScope$();
+  var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$7.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.party$1, null);
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$12, jsx$11, false, $$buf$7));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$14, jsx$13, false, $$buf)
+});
+var $d_Lvotelog_client_web_components_Persons = new $TypeData().initClass({
+  Lvotelog_client_web_components_Persons: 0
+}, false, "votelog.client.web.components.Persons", {
+  Lvotelog_client_web_components_Persons: 1,
+  O: 1
+});
+$c_Lvotelog_client_web_components_Persons.prototype.$classData = $d_Lvotelog_client_web_components_Persons;
 /** @constructor */
 function $c_Lvotelog_client_web_components_html_DynamicList$() {
   $c_O.call(this)
@@ -5517,6 +5937,93 @@ function $m_Lvotelog_client_web_components_html_DynamicList$() {
   };
   return $n_Lvotelog_client_web_components_html_DynamicList$
 }
+/** @constructor */
+function $c_Lvotelog_client_web_components_html_DynamicSelect() {
+  $c_O.call(this);
+  this.options$1 = null;
+  this.evidence$1$1 = null;
+  this.model$1 = null
+}
+$c_Lvotelog_client_web_components_html_DynamicSelect.prototype = new $h_O();
+$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.constructor = $c_Lvotelog_client_web_components_html_DynamicSelect;
+/** @constructor */
+function $h_Lvotelog_client_web_components_html_DynamicSelect() {
+  /*<skip>*/
+}
+$h_Lvotelog_client_web_components_html_DynamicSelect.prototype = $c_Lvotelog_client_web_components_html_DynamicSelect.prototype;
+$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.view__s_xml_Node = (function() {
+  var jsx$5 = $m_s_xml_Null$();
+  var jsx$4 = $m_s_xml_TopScope$();
+  var $$buf = new $c_s_xml_NodeBuffer().init___();
+  var this$4 = this.options$1;
+  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(options$2) {
+      var options = $as_sci_Set(options$2);
+      var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
+        return (function(x$2$2) {
+          return $objectHashCode(x$2$2)
+        })
+      })($this));
+      var this$1 = $m_sci_Set$();
+      var bf = new $c_scg_GenSetFactory$$anon$1().init___scg_GenSetFactory(this$1);
+      var jsx$1 = $as_sc_IterableLike($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(options, f, bf));
+      var this$2 = $m_sci_Set$();
+      var indexedOptions = $as_sc_TraversableOnce(jsx$1.zip__sc_GenIterable__scg_CanBuildFrom__O(options, new $c_scg_GenSetFactory$$anon$1().init___scg_GenSetFactory(this$2))).toMap__s_Predef$$less$colon$less__sci_Map($m_s_Predef$().singleton$und$less$colon$less$2);
+      var $$md = $m_s_xml_Null$();
+      $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", $this.set__p1__sci_Map__Lmhtml_Var__F1(indexedOptions, $this.model$1), $$md, null);
+      var jsx$3 = $$md;
+      var jsx$2 = $m_s_xml_TopScope$();
+      var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+        return (function(option$2) {
+          return this$2$1.option__p1__Lmhtml_Rx__O__s_xml_Elem(this$2$1.model$1, option$2)
+        })
+      })($this));
+      var this$3 = $m_sci_Set$();
+      var bf$1 = new $c_scg_GenSetFactory$$anon$1().init___scg_GenSetFactory(this$3);
+      $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer($as_sc_TraversableOnce($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(options, f$1, bf$1)).toList__sci_List(), null);
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "select", jsx$3, jsx$2, false, $$buf$1)
+    })
+  })(this));
+  $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$4, f$2), null);
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$5, jsx$4, false, $$buf)
+});
+$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.option__p1__Lmhtml_Rx__O__s_xml_Elem = (function(selected, option) {
+  var $$md = $m_s_xml_Null$();
+  var this$1 = $objectHashCode(option);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", ("" + this$1), $$md, null);
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, option$1) {
+    return (function(x$1$2) {
+      return $m_sr_BoxesRunTime$().equals__O__O__Z(x$1$2, option$1)
+    })
+  })(this, option));
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("selected", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(selected, f), $$md, null);
+  var jsx$2 = $$md;
+  var jsx$1 = $m_s_xml_TopScope$();
+  var $$buf = new $c_s_xml_NodeBuffer().init___();
+  var this$3 = $m_Lcats_implicits$();
+  var tc = this.evidence$1$1;
+  var this$4 = new $c_Lcats_Show$ToShowOps$$anon$1().init___Lcats_Show$ToShowOps__O__Lcats_Show(this$3, option, tc);
+  $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this$4.typeClassInstance$1.show__O__T(this$4.self$1), null);
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "option", jsx$2, jsx$1, false, $$buf)
+});
+$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.init___T__Lmhtml_Rx__O__Lcats_Show = (function(legend, options, $default, evidence$1) {
+  this.options$1 = options;
+  this.evidence$1$1 = evidence$1;
+  this.model$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($default);
+  return this
+});
+$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.set__p1__sci_Map__Lmhtml_Var__F1 = (function(indexedOptions, value) {
+  return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, value$1, indexedOptions$1) {
+    return (function(event$2) {
+      var x = $as_T(event$2.target.value);
+      var this$2 = new $c_sci_StringOps().init___T(x);
+      var this$4 = $m_jl_Integer$();
+      var $$this = this$2.repr$1;
+      value$1.$$colon$eq__O__V(indexedOptions$1.apply__O__O(this$4.parseInt__T__I__I($$this, 10)))
+    })
+  })(this, value, indexedOptions))
+});
 /** @constructor */
 function $c_Lvotelog_domain_diff_ListDiff$() {
   $c_O.call(this)
@@ -10564,493 +11071,28 @@ var $d_Lvotelog_client_web_components_Authentication = new $TypeData().initClass
 });
 $c_Lvotelog_client_web_components_Authentication.prototype.$classData = $d_Lvotelog_client_web_components_Authentication;
 /** @constructor */
-function $c_Lvotelog_client_web_components_Persons() {
-  $c_O.call(this);
-  this.queryParameters$1 = null;
-  this.pageSize$1 = null;
-  this.offset$1 = null;
-  this.validOffset$1 = null;
-  this.cache$1 = null;
-  this.unstableIds$1 = null;
-  this.ids$1 = null;
-  this.model$1 = null;
-  this.view$1 = null
+function $c_Lvotelog_client_web_components_Language() {
+  $c_Lvotelog_client_web_components_html_DynamicSelect.call(this)
 }
-$c_Lvotelog_client_web_components_Persons.prototype = new $h_O();
-$c_Lvotelog_client_web_components_Persons.prototype.constructor = $c_Lvotelog_client_web_components_Persons;
+$c_Lvotelog_client_web_components_Language.prototype = new $h_Lvotelog_client_web_components_html_DynamicSelect();
+$c_Lvotelog_client_web_components_Language.prototype.constructor = $c_Lvotelog_client_web_components_Language;
 /** @constructor */
-function $h_Lvotelog_client_web_components_Persons() {
+function $h_Lvotelog_client_web_components_Language() {
   /*<skip>*/
 }
-$h_Lvotelog_client_web_components_Persons.prototype = $c_Lvotelog_client_web_components_Persons.prototype;
-$c_Lvotelog_client_web_components_Persons.prototype.setOffset__F1 = (function() {
-  return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(event$2) {
-      $this.offset$1.update__F1__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, event) {
-        return (function(x$4$2) {
-          $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(x$4$2);
-          var x = $as_T(event.target.value);
-          var this$2 = new $c_sci_StringOps().init___T(x);
-          var this$4 = $m_jl_Long$();
-          var $$this = this$2.repr$1;
-          return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J(this$4.parseLong__T__I__J($$this, 10))
-        })
-      })($this, event$2)))
-    })
-  })(this))
-});
-$c_Lvotelog_client_web_components_Persons.prototype.mountOn__Lorg_scalajs_dom_raw_Element__F0 = (function(parent) {
-  var render = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(id$2) {
-      var id = $as_Lvotelog_domain_politics_Person$Id(id$2).value$1;
-      var this$6 = $this.queryParameters$1;
-      var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, id$1) {
-        return (function(qp$2) {
-          var qp = $as_Lvotelog_domain_politics_Context(qp$2);
-          var f = $m_Lvotelog_client_web_Application$().personsService$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(qp.language$1, id$1);
-          var this$5 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-          var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2) {
-            return (function(person$2) {
-              var person = $as_s_Option(person$2);
-              var rc9 = false;
-              var x2 = null;
-              if ((person instanceof $c_s_Some)) {
-                rc9 = true;
-                x2 = $as_s_Some(person);
-                var p3 = $as_s_util_Try(x2.value$2);
-                if ((p3 instanceof $c_s_util_Success)) {
-                  var x4 = $as_s_util_Success(p3);
-                  var person$2$1 = $as_Lvotelog_domain_politics_Person(x4.value$2);
-                  $m_s_package$();
-                  return new $c_s_util_Right().init___O(person$2$1)
-                }
-              };
-              if (rc9) {
-                var p6 = $as_s_util_Try(x2.value$2);
-                if ((p6 instanceof $c_s_util_Failure)) {
-                  var x7 = $as_s_util_Failure(p6);
-                  var exception = x7.exception$2;
-                  $m_s_package$();
-                  return new $c_s_util_Left().init___O(exception)
-                }
-              };
-              $m_s_package$();
-              var value = new $c_jl_RuntimeException().init___T("unknown failure");
-              return new $c_s_util_Left().init___O(value)
-            })
-          })($this$1));
-          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$1)
-        })
-      })($this, id));
-      var person$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$2);
-      var jsx$4 = $m_s_xml_Null$();
-      var jsx$3 = $m_s_xml_TopScope$();
-      var $$buf = new $c_s_xml_NodeBuffer().init___();
-      $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-      var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
-        return (function(x0$1$2) {
-          var x0$1 = $as_s_util_Either(x0$1$2);
-          if ((x0$1 instanceof $c_s_util_Right)) {
-            var x2$1 = $as_s_util_Right(x0$1);
-            var person$3 = $as_Lvotelog_domain_politics_Person(x2$1.value$2);
-            return this$2$1.renderPerson__Lvotelog_domain_politics_Person__s_xml_Elem(person$3)
-          } else if ((x0$1 instanceof $c_s_util_Left)) {
-            var x3 = $as_s_util_Left(x0$1);
-            var exception$1 = $as_jl_Throwable(x3.value$2);
-            var jsx$2 = $m_s_xml_Null$();
-            var jsx$1 = $m_s_xml_TopScope$();
-            var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
-            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(exception$1.getMessage__T(), null);
-            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-            return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$2, jsx$1, false, $$buf$1)
-          } else {
-            throw new $c_s_MatchError().init___O(x0$1)
-          }
-        })
-      })($this));
-      $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(person$1, f$3), null);
-      $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$4, jsx$3, false, $$buf)
-    })
-  })(this));
-  return $m_Lvotelog_client_web_components_html_DynamicList$().mountOn__Lorg_scalajs_dom_raw_Element__Lmhtml_Rx__F1__F0(parent, this.ids$1, render)
-});
-$c_Lvotelog_client_web_components_Persons.prototype.init___Lvotelog_domain_crudi_ReadOnlyStoreAlg__Lmhtml_Rx__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize = (function(persons, queryParameters, defaultPageSize) {
-  this.queryParameters$1 = queryParameters;
-  this.pageSize$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(defaultPageSize);
-  this.offset$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
-  var this$1 = this.offset$1;
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(x$1$2) {
-      var x$1 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(x$1$2);
-      var t = x$1.value$1;
-      var hi = t.hi$2;
-      return (hi >= 0)
-    })
-  })(this));
-  var b = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong());
-  this.validOffset$1 = $f_Lmhtml_Rx__keepIf__F1__O__Lmhtml_Rx(this$1, f, b);
-  this.cache$1 = new $c_scm_HashMap().init___();
-  var this$10 = this.validOffset$1;
-  var f$5 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
-    return (function(offset$2) {
-      var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
-      var this$9 = this$2$1.pageSize$1;
-      var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, offset$1) {
-        return (function(pageSize$2) {
-          var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
-          var this$8 = $this$1.queryParameters$1;
-          var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, pageSize$1, offset$1$1) {
-            return (function(queryParameters$2) {
-              var queryParameters$1 = $as_Lvotelog_domain_politics_Context(queryParameters$2);
-              var indexQueryParams = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1, offset$1$1, queryParameters$1);
-              var f$1 = $m_Lvotelog_client_web_Application$().personsService$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams);
-              var this$7 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$1).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-              var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3) {
-                return (function(ids$2) {
-                  var ids = $as_s_Option(ids$2);
-                  var rc10 = false;
-                  var x2 = null;
-                  if ((ids instanceof $c_s_Some)) {
-                    rc10 = true;
-                    x2 = $as_s_Some(ids);
-                    var p3 = $as_s_util_Try(x2.value$2);
-                    if ((p3 instanceof $c_s_util_Success)) {
-                      var x4 = $as_s_util_Success(p3);
-                      var ids$2$1 = $as_sci_List(x4.value$2);
-                      return new $c_s_Some().init___O(ids$2$1)
-                    }
-                  };
-                  if (rc10) {
-                    var p6 = $as_s_util_Try(x2.value$2);
-                    if ((p6 instanceof $c_s_util_Failure)) {
-                      var x7 = $as_s_util_Failure(p6);
-                      var error = x7.exception$2;
-                      var x = error.getMessage__T();
-                      var this$5 = $m_s_Console$();
-                      var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
-                      this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-                      return $m_s_None$()
-                    }
-                  };
-                  var x$2 = $m_s_None$();
-                  if ((x$2 === ids)) {
-                    return $m_s_None$()
-                  };
-                  throw new $c_s_MatchError().init___O(ids)
-                })
-              })($this$2));
-              return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$7, f$2)
-            })
-          })($this$1, pageSize, offset$1));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$8, f$3)
-        })
-      })(this$2$1, offset));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$9, f$4)
-    })
-  })(this));
-  this.unstableIds$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$10, f$5);
-  var this$12 = this.unstableIds$1;
-  $m_sci_List$();
-  var seed = $m_sci_Nil$();
-  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$3$1) {
-    return (function(x0$1$2, x1$1$2) {
-      var x0$1 = $as_sci_List(x0$1$2);
-      var x1$1 = $as_s_Option(x1$1$2);
-      return $as_sci_List((x1$1.isEmpty__Z() ? x0$1 : x1$1.get__O()))
-    })
-  })(this));
-  this.ids$1 = new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$12, seed, step);
-  var this$19 = this.validOffset$1;
-  var f$11 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
-    return (function(offset$3$2) {
-      var offset$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$3$2);
-      var this$18 = this$4$1.pageSize$1;
-      var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$4, offset$4) {
-        return (function(pageSize$2$1) {
-          var pageSize$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2$1);
-          var this$17 = $this$4.queryParameters$1;
-          var f$9 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$5, pageSize$4, offset$2$1) {
-            return (function(queryParameters$2$1) {
-              var queryParameters$3 = $as_Lvotelog_domain_politics_Context(queryParameters$2$1);
-              var indexQueryParams$1 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$4, offset$2$1, queryParameters$3);
-              var ids$1 = $m_Lvotelog_client_web_Application$().personsService$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams$1);
-              var f$7 = ids$1.flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$6, queryParameters$4) {
-                return (function(ids$2$2) {
-                  var ids$2$3 = $as_sci_List(ids$2$2);
-                  var jsx$3 = $m_s_concurrent_Future$();
-                  var f$6 = (function($this$7, queryParameters$1$1) {
-                    return (function(id$2) {
-                      var id = $as_Lvotelog_domain_politics_Person$Id(id$2).value$1;
-                      return $m_Lvotelog_client_web_Application$().personsService$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(queryParameters$1$1.language$1, id)
-                    })
-                  })($this$6, queryParameters$4);
-                  var this$13 = $m_sci_List$();
-                  var bf = this$13.ReusableCBFInstance$2;
-                  if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
-                    if ((ids$2$3 === $m_sci_Nil$())) {
-                      var jsx$2 = $m_sci_Nil$()
-                    } else {
-                      var arg1 = ids$2$3.head__O();
-                      var h = new $c_sci_$colon$colon().init___O__sci_List(f$6(arg1), $m_sci_Nil$());
-                      var t$1 = h;
-                      var rest = $as_sci_List(ids$2$3.tail__O());
-                      while ((rest !== $m_sci_Nil$())) {
-                        var arg1$1 = rest.head__O();
-                        var nx = new $c_sci_$colon$colon().init___O__sci_List(f$6(arg1$1), $m_sci_Nil$());
-                        t$1.tl$5 = nx;
-                        t$1 = nx;
-                        rest = $as_sci_List(rest.tail__O())
-                      };
-                      var jsx$2 = h
-                    }
-                  } else {
-                    var b$1 = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(ids$2$3, bf);
-                    var these = ids$2$3;
-                    while ((!these.isEmpty__Z())) {
-                      var arg1$2 = these.head__O();
-                      b$1.$$plus$eq__O__scm_Builder(f$6(arg1$2));
-                      these = $as_sci_List(these.tail__O())
-                    };
-                    var jsx$2 = b$1.result__O()
-                  };
-                  var jsx$1 = $as_sc_TraversableOnce(jsx$2);
-                  var this$14 = $m_sci_List$();
-                  return jsx$3.sequence__sc_TraversableOnce__scg_CanBuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$1, this$14.ReusableCBFInstance$2, $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
-                })
-              })($this$5, queryParameters$3)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-              var this$16 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$7).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-              var f$8 = new $c_Lvotelog_client_web_components_Persons$$anonfun$$nestedInanonfun$model$3$1().init___Lvotelog_client_web_components_Persons($this$5);
-              var b$2 = $m_sci_Nil$();
-              return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$16, f$8, b$2)
-            })
-          })($this$4, pageSize$3, offset$4));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$17, f$9)
-        })
-      })(this$4$1, offset$3));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$18, f$10)
-    })
-  })(this));
-  this.model$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$19, f$11);
-  var jsx$21 = $m_s_xml_Null$();
-  var jsx$20 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$17 = $m_s_xml_Null$();
-  var jsx$16 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$15 = $m_s_xml_Null$();
-  var jsx$14 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  var jsx$13 = $m_s_xml_Null$();
-  var jsx$12 = $m_s_xml_TopScope$();
-  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n              "));
-  var jsx$7 = $m_s_xml_Null$();
-  var jsx$6 = $m_s_xml_TopScope$();
-  var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
-  var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("for", new $c_s_xml_Text().init___T("offset"), $$md, null);
-  var jsx$5 = $$md;
-  var jsx$4 = $m_s_xml_TopScope$();
-  var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Offset"));
-  $$buf$5.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "label", jsx$5, jsx$4, false, $$buf$6));
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$7, jsx$6, false, $$buf$5));
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n              "));
-  var jsx$11 = $m_s_xml_Null$();
-  var jsx$10 = $m_s_xml_TopScope$();
-  var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
-  var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", this.setOffset__F1(), $$md$2, null);
-  var this$20 = this.validOffset$1;
-  var f$12 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
-    return (function(x$5$2) {
-      var x$5 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(x$5$2);
-      var t$2 = x$5.value$1;
-      var lo$1 = t$2.lo$2;
-      var hi$1 = t$2.hi$2;
-      return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toString__I__I__T(lo$1, hi$1)
-    })
-  })(this));
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$20, f$12), $$md$2, null);
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("number"), $$md$2, null);
-  var jsx$9 = $$md$2;
-  var jsx$8 = $m_s_xml_TopScope$();
-  var array = [];
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$9, jsx$8, false, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$11, jsx$10, false, $$buf$7));
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$13, jsx$12, false, $$buf$4));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$15, jsx$14, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "header", jsx$17, jsx$16, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$19 = $m_s_xml_Null$();
-  var jsx$18 = $m_s_xml_TopScope$();
-  var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "ul", jsx$19, jsx$18, false, $$buf$8));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$21, jsx$20, false, $$buf);
+$h_Lvotelog_client_web_components_Language.prototype = $c_Lvotelog_client_web_components_Language.prototype;
+$c_Lvotelog_client_web_components_Language.prototype.init___ = (function() {
+  $c_Lvotelog_client_web_components_html_DynamicSelect.prototype.init___T__Lmhtml_Rx__O__Lcats_Show.call(this, "Language", $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_Lvotelog_domain_politics_Language$().values$1), $m_Lvotelog_domain_politics_Language$English$(), $m_Lvotelog_domain_politics_Language$().languageShow$1);
   return this
 });
-$c_Lvotelog_client_web_components_Persons.prototype.renderPerson__Lvotelog_domain_politics_Person__s_xml_Elem = (function(p) {
-  var $$md = $m_s_xml_Null$();
-  var this$1 = p.id$1;
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("data-id", ("" + this$1), $$md, null);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("person"), $$md, null);
-  var jsx$14 = $$md;
-  var jsx$13 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("name"), $$md$2, null);
-  var jsx$2 = $$md$2;
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$4 = $m_s_xml_Null$();
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.firstName$1, null);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.lastName$1, null);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$3));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var $$md$3 = $m_s_xml_Null$();
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("canton"), $$md$3, null);
-  var jsx$6 = $$md$3;
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Canton"));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$6, jsx$5, false, $$buf$4));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$8 = $m_s_xml_Null$();
-  var jsx$7 = $m_s_xml_TopScope$();
-  var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$5.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.canton$1.value$1, null);
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$8, jsx$7, false, $$buf$5));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var $$md$4 = $m_s_xml_Null$();
-  $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("party"), $$md$4, null);
-  var jsx$10 = $$md$4;
-  var jsx$9 = $m_s_xml_TopScope$();
-  var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Party"));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$10, jsx$9, false, $$buf$6));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$12 = $m_s_xml_Null$();
-  var jsx$11 = $m_s_xml_TopScope$();
-  var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$7.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.party$1, null);
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$12, jsx$11, false, $$buf$7));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$14, jsx$13, false, $$buf)
+var $d_Lvotelog_client_web_components_Language = new $TypeData().initClass({
+  Lvotelog_client_web_components_Language: 0
+}, false, "votelog.client.web.components.Language", {
+  Lvotelog_client_web_components_Language: 1,
+  Lvotelog_client_web_components_html_DynamicSelect: 1,
+  O: 1
 });
-var $d_Lvotelog_client_web_components_Persons = new $TypeData().initClass({
-  Lvotelog_client_web_components_Persons: 0
-}, false, "votelog.client.web.components.Persons", {
-  Lvotelog_client_web_components_Persons: 1,
-  O: 1,
-  Lvotelog_client_web_components_Component: 1
-});
-$c_Lvotelog_client_web_components_Persons.prototype.$classData = $d_Lvotelog_client_web_components_Persons;
-/** @constructor */
-function $c_Lvotelog_client_web_components_html_DynamicSelect() {
-  $c_O.call(this);
-  this.options$1 = null;
-  this.evidence$1$1 = null;
-  this.model$1 = null
-}
-$c_Lvotelog_client_web_components_html_DynamicSelect.prototype = new $h_O();
-$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.constructor = $c_Lvotelog_client_web_components_html_DynamicSelect;
-/** @constructor */
-function $h_Lvotelog_client_web_components_html_DynamicSelect() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_html_DynamicSelect.prototype = $c_Lvotelog_client_web_components_html_DynamicSelect.prototype;
-$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.view__s_xml_Node = (function() {
-  var jsx$5 = $m_s_xml_Null$();
-  var jsx$4 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  var this$4 = this.options$1;
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(options$2) {
-      var options = $as_sci_Set(options$2);
-      var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
-        return (function(x$2$2) {
-          return $objectHashCode(x$2$2)
-        })
-      })($this));
-      var this$1 = $m_sci_Set$();
-      var bf = new $c_scg_GenSetFactory$$anon$1().init___scg_GenSetFactory(this$1);
-      var jsx$1 = $as_sc_IterableLike($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(options, f, bf));
-      var this$2 = $m_sci_Set$();
-      var indexedOptions = $as_sc_TraversableOnce(jsx$1.zip__sc_GenIterable__scg_CanBuildFrom__O(options, new $c_scg_GenSetFactory$$anon$1().init___scg_GenSetFactory(this$2))).toMap__s_Predef$$less$colon$less__sci_Map($m_s_Predef$().singleton$und$less$colon$less$2);
-      var $$md = $m_s_xml_Null$();
-      $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", $this.set__p1__sci_Map__Lmhtml_Var__F1(indexedOptions, $this.model$1), $$md, null);
-      var jsx$3 = $$md;
-      var jsx$2 = $m_s_xml_TopScope$();
-      var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
-      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
-        return (function(option$2) {
-          return this$2$1.option__p1__Lmhtml_Rx__O__s_xml_Elem(this$2$1.model$1, option$2)
-        })
-      })($this));
-      var this$3 = $m_sci_Set$();
-      var bf$1 = new $c_scg_GenSetFactory$$anon$1().init___scg_GenSetFactory(this$3);
-      $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer($as_sc_TraversableOnce($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(options, f$1, bf$1)).toList__sci_List(), null);
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "select", jsx$3, jsx$2, false, $$buf$1)
-    })
-  })(this));
-  $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$4, f$2), null);
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$5, jsx$4, false, $$buf)
-});
-$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.option__p1__Lmhtml_Rx__O__s_xml_Elem = (function(selected, option) {
-  var $$md = $m_s_xml_Null$();
-  var this$1 = $objectHashCode(option);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", ("" + this$1), $$md, null);
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, option$1) {
-    return (function(x$1$2) {
-      return $m_sr_BoxesRunTime$().equals__O__O__Z(x$1$2, option$1)
-    })
-  })(this, option));
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("selected", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(selected, f), $$md, null);
-  var jsx$2 = $$md;
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  var this$3 = $m_Lcats_implicits$();
-  var tc = this.evidence$1$1;
-  var this$4 = new $c_Lcats_Show$ToShowOps$$anon$1().init___Lcats_Show$ToShowOps__O__Lcats_Show(this$3, option, tc);
-  $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this$4.typeClassInstance$1.show__O__T(this$4.self$1), null);
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "option", jsx$2, jsx$1, false, $$buf)
-});
-$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.init___T__Lmhtml_Rx__O__Lcats_Show = (function(legend, options, $default, evidence$1) {
-  this.options$1 = options;
-  this.evidence$1$1 = evidence$1;
-  this.model$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($default);
-  return this
-});
-$c_Lvotelog_client_web_components_html_DynamicSelect.prototype.set__p1__sci_Map__Lmhtml_Var__F1 = (function(indexedOptions, value) {
-  return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, value$1, indexedOptions$1) {
-    return (function(event$2) {
-      var x = $as_T(event$2.target.value);
-      var this$2 = new $c_sci_StringOps().init___T(x);
-      var this$4 = $m_jl_Integer$();
-      var $$this = this$2.repr$1;
-      value$1.$$colon$eq__O__V(indexedOptions$1.apply__O__O(this$4.parseInt__T__I__I($$this, 10)))
-    })
-  })(this, value, indexedOptions))
-});
+$c_Lvotelog_client_web_components_Language.prototype.$classData = $d_Lvotelog_client_web_components_Language;
 /** @constructor */
 function $c_jl_Number() {
   $c_O.call(this)
@@ -17151,30 +17193,6 @@ var $d_Lvotelog_client_service_SessionServiceRest$anon$importedDecoder$macro$52$
   Ljava_io_Serializable: 1
 });
 $c_Lvotelog_client_service_SessionServiceRest$anon$importedDecoder$macro$52$1.prototype.$classData = $d_Lvotelog_client_service_SessionServiceRest$anon$importedDecoder$macro$52$1;
-/** @constructor */
-function $c_Lvotelog_client_web_components_Language() {
-  $c_Lvotelog_client_web_components_html_DynamicSelect.call(this)
-}
-$c_Lvotelog_client_web_components_Language.prototype = new $h_Lvotelog_client_web_components_html_DynamicSelect();
-$c_Lvotelog_client_web_components_Language.prototype.constructor = $c_Lvotelog_client_web_components_Language;
-/** @constructor */
-function $h_Lvotelog_client_web_components_Language() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_Language.prototype = $c_Lvotelog_client_web_components_Language.prototype;
-$c_Lvotelog_client_web_components_Language.prototype.init___ = (function() {
-  $c_Lvotelog_client_web_components_html_DynamicSelect.prototype.init___T__Lmhtml_Rx__O__Lcats_Show.call(this, "Language", $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_Lvotelog_domain_politics_Language$().values$1), $m_Lvotelog_domain_politics_Language$English$(), $m_Lvotelog_domain_politics_Language$().languageShow$1);
-  return this
-});
-var $d_Lvotelog_client_web_components_Language = new $TypeData().initClass({
-  Lvotelog_client_web_components_Language: 0
-}, false, "votelog.client.web.components.Language", {
-  Lvotelog_client_web_components_Language: 1,
-  Lvotelog_client_web_components_html_DynamicSelect: 1,
-  O: 1,
-  Lvotelog_client_web_components_Component: 1
-});
-$c_Lvotelog_client_web_components_Language.prototype.$classData = $d_Lvotelog_client_web_components_Language;
 /** @constructor */
 function $c_Lvotelog_domain_authorization_Component$() {
   $c_O.call(this);
