@@ -14,8 +14,8 @@ case class Person(
 )
 
 object Person {
-  case class Id(value: Int)
-  case class Name(value: String)
+  case class Id(value: Int) extends AnyVal { override def toString: String = value.toString}
+  case class Name(value: String) extends AnyVal
 
   sealed trait Gender
   object Gender {
