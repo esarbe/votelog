@@ -6,6 +6,7 @@ trait ReadOnlyStoreAlg[F[_], T, Identity] {
   type QueryParameters
   type IndexQueryParameters
 
+  // todo: index should return a set
   def index(queryParameters: IndexQueryParameters): F[List[Identity]]
   def read(queryParameters: QueryParameters)(id: Identity): F[T]
 }
