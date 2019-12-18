@@ -21,7 +21,7 @@ import scala.scalajs.js.timers.SetTimeoutHandle
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Try}
 import immutable.Seq
-import scala.xml.Node
+import scala.xml.{Elem, Node, NodeBuffer}
 
 object State {
   sealed trait Authenticated
@@ -36,7 +36,6 @@ object Application {
   val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
   val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
   //val configuration = Configuration("http://localhost:8080/api/v0")
-  val path = Var("")
 
   val personsService = new PersonReadOnlyStoreAjaxService(configuration)
   val authService = new service.SessionServiceRest(configuration)
@@ -49,9 +48,12 @@ object Application {
     val content =
       <div>
         <header>
-          <a href="#/authentication">Login</a>
-          <a href="#/signup">Login</a>
-          <a href="#/persons">Login</a>
+          <section id="locations">
+            <a href="#authentication">Login</a>
+            <a href="#signup">Signup</a>
+            <a href="#persons">Persons</a>
+            <a href="#ngos">NGOs</a>
+          </section>
 
           <section id="language">
             { languageComponent.view }
@@ -61,6 +63,7 @@ object Application {
         <article>
           <section id="persons">
             { personsComponent.view }
+            <div id="persons-list"></div>
           </section>
 
           <section id ="authentication">
@@ -74,13 +77,13 @@ object Application {
       </div>
 
     val contentElement = dom.document.createElement("div")
-    val personsElement = dom.document.createElement("div")
     dom.document.body.appendChild(contentElement)
-    dom.document.body.appendChild(personsElement)
-
-    personsComponent.mountOn(personsElement)
-
     mount(contentElement, content)
+
+    val personsListElement = dom.document.getElementById("persons-list")
+    personsComponent.mountOn(personsListElement)
+
+
   }
 
   object debounce {
