@@ -27,4 +27,10 @@ object implicits {
       case "female" => Female
       case "male" => Male
     }
+
+  implicit val personGenderEncoder: Encoder[Person.Gender] =
+    Encoder.encodeString.contramap {
+      case Female => "female"
+      case Male => "male"
+    }
 }
