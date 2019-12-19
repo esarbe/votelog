@@ -2,7 +2,6 @@ package votelog.client.web.components
 
 import mhtml._
 import mhtml.future.syntax._
-import votelog.client.web.Application.debounce
 import votelog.client.web.State
 import votelog.client.web.State.Authenticated
 import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
@@ -12,9 +11,9 @@ import votelog.domain.authentication.SessionService.Error.{AuthenticationFailed,
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.scalajs.js
 import scala.util.Success
 import scala.xml.{Elem, Node}
+import votelog.client.web.components.html.tools._
 
 
 class Authentication(
@@ -60,16 +59,6 @@ class Authentication(
           .collect { case Some(Success(user)) => user }(Unauthenticated)
     }
 
-
-  def ifEnter(run: js.Dynamic => Unit): js.Dynamic => Unit = {
-    event =>
-      if (event.keyCode == 13) run(event)
-  }
-
-  def set[T](value: Var[T]): js.Dynamic => Unit = {
-    event =>
-      value.update(_ => event.target.value.asInstanceOf[T])
-  }
 
   def loginView(
     request: Rx[Option[UserPassword]],

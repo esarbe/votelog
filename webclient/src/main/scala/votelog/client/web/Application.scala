@@ -1,27 +1,15 @@
-package votelog.client
-package web
+package votelog.client.web
 
-import mhtml._
-import mhtml.future.syntax._
+import mhtml.Var
 import org.scalajs.dom
-import cats.implicits._
-import org.scalajs.dom.raw
-import org.scalajs.dom.raw.Element
-import votelog.client.web.components.html.DynamicList
+import votelog.client.Configuration
+import votelog.client.service.SessionServiceRest
 import votelog.domain.authentication.User
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics
-import votelog.domain.politics.{Context, LegislativePeriod, Person}
-import votelog.endpoint.client.{PersonReadOnlyStoreAjaxService, PersonStoreXhrEndpoint}
-
-import scala.collection.immutable
-import scala.scalajs.js
-import scala.scalajs.js.timers.SetTimeoutHandle
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Success, Try}
-import immutable.Seq
-import scala.xml.{Elem, Node, NodeBuffer}
+import votelog.domain.politics.{Context, LegislativePeriod}
+import votelog.endpoint.client.PersonReadOnlyStoreAjaxService
+import votelog.client.mhtml.mount.xmlElementEmbeddableNodeBuffer
 
 object State {
   sealed trait Authenticated
@@ -38,7 +26,7 @@ object Application {
   //val configuration = Configuration("http://localhost:8080/api/v0")
 
   val personsService = new PersonReadOnlyStoreAjaxService(configuration)
-  val authService = new service.SessionServiceRest(configuration)
+  val authService = new SessionServiceRest(configuration)
   val authComponent = new components.Authentication(authService)
 
   val languageComponent = new components.Language
@@ -46,7 +34,7 @@ object Application {
 
   def main(args: Array[String]): Unit = {
     val content =
-      <div>
+      <application>
         <header>
           <section id="locations">
             <a href="#authentication">Login</a>
@@ -63,7 +51,6 @@ object Application {
         <article>
           <section id="persons">
             { personsComponent.view }
-            <div id="persons-list"></div>
           </section>
 
           <section id ="authentication">
@@ -74,27 +61,8 @@ object Application {
 
         <footer>
         </footer>
-      </div>
+      </application>
 
-    val contentElement = dom.document.createElement("div")
-    dom.document.body.appendChild(contentElement)
-    mount(contentElement, content)
-
-    val personsListElement = dom.document.getElementById("persons-list")
-    personsComponent.mountOn(personsListElement)
-
-
+    votelog.client.mhtml.mount(dom.document.body, content)
   }
-
-  object debounce {
-    var timeoutHandler: js.UndefOr[SetTimeoutHandle] = js.undefined
-    def apply[A, B](timeout: Double)(f: A => B): A => Unit = { a =>
-      timeoutHandler foreach js.timers.clearTimeout
-      timeoutHandler = js.timers.setTimeout(timeout) {
-        f(a)
-        ()
-      }
-    }
-  }
-
 }

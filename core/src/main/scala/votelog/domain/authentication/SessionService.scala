@@ -27,5 +27,4 @@ object Authentication {
   object Credentials {
     case class UserPassword(username: String, password: String) extends Credentials
   }
-
 }

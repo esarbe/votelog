@@ -50,3 +50,6 @@ docker-compose -f testing/docker-compose.yml up postgres
 
 # License
 This project is licensed under the AGPL 3.0. See [LICENSE.md](LICENSE.md)
+
+This project includes parts that are licensed unter the The MIT License (MIT). 
+The corresponding source files have an appropriate license header.

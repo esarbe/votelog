@@ -29,10 +29,7 @@ class PersonReadOnlyStoreAjaxService(configuration: Configuration)
     Ajax
       .get(configuration.url + s"/person/index?" + pathQps, withCredentials = true)
       .flatMap { res =>
-        parser.decode[List[Person.Id]](res.responseText) match {
-          case Right(persons) => Future.successful(persons)
-          case Left(error) => Future.failed(DecodingError(error))
-        }
+        parser.decode[List[Person.Id]](res.responseText).fold(Future.failed, Future.successful)
       }
   }
 
@@ -40,9 +37,6 @@ class PersonReadOnlyStoreAjaxService(configuration: Configuration)
     Ajax
       .get(configuration.url + s"/person/${id.value.toString}?lang=${queryParameters.iso639_1}", withCredentials = true)
       .flatMap { res =>
-        parser.decode[Person](res.responseText) match {
-          case Right(persons) => Future.successful(persons)
-          case Left(error) => Future.failed(DecodingError(error))
-        }
+        parser.decode[Person](res.responseText).fold(Future.failed, Future.successful)
       }
 }
