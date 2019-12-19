@@ -1,7 +1,18 @@
+body {
+  margin: 0;
+}
+
 article section {
-    display: none;
+  display: none;
 }
 
 article section:target {
-    display: block;
+  display: block;
+}
+
+application header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
