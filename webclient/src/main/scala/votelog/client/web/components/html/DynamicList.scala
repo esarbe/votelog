@@ -11,7 +11,7 @@ import scala.xml.Node
 
 object DynamicList {
 
-  def mountOn[T](rx: Rx[List[T]], render: T => Node)(listNode: DomNode): Cancelable = {
+  def mountOn[T](rx: Rx[List[T]], render: T => Rx[Node])(listNode: DomNode): Cancelable = {
     val elementNodes = ArrayBuffer.empty[(DomNode, Cancelable)]
 
     val seed = (Seq.empty[ListDiff.Op], List.empty[T])
@@ -33,7 +33,7 @@ object DynamicList {
     buffer: ArrayBuffer[(DomNode, Cancelable)],
     changes: Seq[ListDiff.Op],
     currentValues: List[T],
-    render: T => Node,
+    render: T => Rx[Node],
   ): Unit = {
     var indexOffset = 0
     changes.foreach {
@@ -46,7 +46,7 @@ object DynamicList {
 
       case Insert(indexPrev, indexCurr) =>
         val node = createElement(parent, indexPrev - indexOffset, buffer.map(_._1))
-        val rx = Rx(render(currentValues(indexCurr)))
+        val rx = render(currentValues(indexCurr))
         val callback = mhtml.mount(node, rx)
         buffer.insert(indexPrev - indexOffset, (node, callback))
         indexOffset -= 1

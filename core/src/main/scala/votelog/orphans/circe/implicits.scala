@@ -7,12 +7,25 @@ import votelog.domain.politics._
 import io.circe.generic.semiauto._
 import io.circe.generic.extras.semiauto._
 import io.circe.generic.extras.defaults._
+import votelog.domain.authentication.User.Permission
+import votelog.domain.authorization.{Capability, Component}
+import votelog.persistence.UserStore
+import votelog.persistence.UserStore.Password
 
 object implicits {
 
+  implicit val keyEncoderUserId: KeyEncoder[User.Id] = KeyEncoder.encodeKeyString.contramap(_.value)
+  implicit val userIdDecoder: Codec[User.Id] = deriveUnwrappedCodec
+  implicit val userEmailCodec: Codec[User.Email] = deriveUnwrappedCodec
+  implicit val componentCodec: Codec[Component] = deriveConfiguredCodec
+  implicit val capabilityCodec: Codec[Capability] = deriveConfiguredCodec
+  implicit val permissionCodec: Codec[Permission] = deriveConfiguredCodec
+  implicit val userCodec: Codec[User] = deriveConfiguredCodec
   implicit val personIdCodec: Codec[Person.Id] = deriveUnwrappedCodec
   implicit val personNameCodec: Codec[Person.Name] = deriveUnwrappedCodec
+  implicit val passwordClarCodec: Codec[Password.Clear] = deriveUnwrappedCodec
   implicit val cantonCodec: Codec[Canton] = deriveUnwrappedCodec
+  implicit val userStoreRecipleCodec: Codec[UserStore.Recipe] = deriveConfiguredCodec
 
   implicit val partyIdCirceKeyDecoder: KeyDecoder[Party.Id] = KeyDecoder.decodeKeyInt.map(Party.Id)
   implicit val motionIdCirceKeyDecoder: KeyDecoder[Motion.Id] = KeyDecoder.decodeKeyInt.map(Motion.Id)
@@ -21,6 +34,7 @@ object implicits {
   implicit val lpKeyDecoder: KeyDecoder[LegislativePeriod.Id] = KeyDecoder.decodeKeyInt.map(LegislativePeriod.Id)
   implicit val langKeyDecoder: KeyDecoder[Language] = (key: String) => Language.fromIso639_1(key)
   implicit val ngoIdCirceKeyDecoder: KeyDecoder[Ngo.Id] = a => Some(Ngo.Id(a))
+
 
   implicit val personGenderDecoder: Decoder[Person.Gender] =
     Decoder.decodeString.map {

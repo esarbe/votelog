@@ -38,7 +38,7 @@ class Persons(
       ids <- personsService.index(indexQueryParams).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(ids)
-      case Some(Failure(error)) => println(error.getMessage); None
+      case Some(Failure(error)) => println(s"error: ${error.getMessage}"); None
       case None => None
     }
 
@@ -69,20 +69,20 @@ class Persons(
 
   def renderPerson: Either[Person.Id, Person] => Node = {
     case Right(p) =>
-      <dl class="person" data-id={p.id.value.toString}>
+      /* <dl class="person" data-id={p.id.value.toString}>
         <dt class="name">Name</dt>
         <dd>{p.firstName.value} {p.lastName.value} </dd>
         <dt class="canton">Canton</dt>
         <dd>{p.canton.value}</dd>
         <dt class="party">Party</dt>
         <dd>{p.party}</dd>
-      </dl>
+      </dl> */
+      <dl class="person" data-id={p.id.value.toString}> </dl>
     case Left(id) =>
-      <dl class="person loading" data-id={id.value.toString}>
-      </dl>
+      <dl class="person loading" data-id={id.value.toString}></dl>
   }
 
-  val render: Person.Id => Node = { (id: Person.Id) =>
+  val render: Person.Id => Rx[Node] = { (id: Person.Id) =>
     val person: Rx[Either[Throwable, Either[Person.Id, Person]]] =
       for {
         qp <- queryParameters
@@ -93,13 +93,10 @@ class Persons(
         case None => Right(Left(id))
       }
 
-    <div>
-      { person.map {
-          case Right(person) => renderPerson(person)
-          case Left(exception) => <div> { exception.getMessage } </div>
-        }
+      person.map {
+        case Right(person) => renderPerson(person)
+        case Left(exception) => <div> { exception.getMessage } </div>
       }
-    </div>
   }
 
   val view = Group {

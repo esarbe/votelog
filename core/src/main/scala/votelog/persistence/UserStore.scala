@@ -3,7 +3,11 @@ package votelog.persistence
 
 import java.util.UUID
 
+import cats.implicits._
+import cats.data.{NonEmptyList, Validated}
+import cats.data.Validated.{Invalid, Valid}
 import votelog.domain.authentication.User
+import votelog.domain.authentication.User.Email
 import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.crudi.StoreAlg
 
@@ -39,6 +43,29 @@ object UserStore {
     }
 
     case class Hashed(value: String) extends Password
+  }
+
+  def validateRecipe(
+    name: String,
+    email: Email,
+    password: Password.Clear,
+    confirmPassword: Password.Clear
+  ): Validated[NonEmptyList[(String, String)], Recipe] = {
+
+    def nonEmptyString(name: String): String => Validated[NonEmptyList[(String, String)], String] = (s: String) =>
+      if (s.isEmpty) Invalid(name -> "must not be empty").toValidatedNel
+      else Valid(s).toValidatedNel
+
+    def areEqual(password: Password.Clear, confirmPassword: Password.Clear): Validated[NonEmptyList[(String, String)], Password.Clear] =
+      if (password != confirmPassword) Invalid("confirmPassword" -> "must be equal to password").toValidatedNel
+      else Valid(password).toValidatedNel
+
+    (nonEmptyString("name")(name),
+      nonEmptyString("email")(email.value),
+      areEqual(password, confirmPassword))
+      .mapN { case (name, email, password) =>
+      Recipe(name, User.Email(email), password)
+    }
   }
 }
 

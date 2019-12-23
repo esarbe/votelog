@@ -23,8 +23,7 @@ case class Component(location: String) extends AnyVal {
 
     val compared = top.map { case (a, b) => a == b }
 
-    location.length < other.location.length &&
-      compared.forall(identity)
+    this != other && compared.forall(identity)
   }
 
   def child(name: String): Component = Component(s"$location$Separator$name")
@@ -32,6 +31,6 @@ case class Component(location: String) extends AnyVal {
 }
 
 object Component {
-  val Root = Component("")
+  val Root = Component("/")
   private val Separator: Char = '/'
 }
