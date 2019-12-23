@@ -19154,14 +19154,14 @@ function $h_Lvotelog_client_service_RestStore() {
   /*<skip>*/
 }
 $h_Lvotelog_client_service_RestStore.prototype = $c_Lvotelog_client_service_RestStore.prototype;
-$c_Lvotelog_client_service_RestStore.prototype.location__O__T = (function(id) {
+$c_Lvotelog_client_service_RestStore.prototype.param__O__T = (function(id) {
   $m_Lio_circe_KeyEncoder$();
   var A = this.evidence$3$1;
   return ("/" + A.apply__O__T(id))
 });
 $c_Lvotelog_client_service_RestStore.prototype.read__O__O__s_concurrent_Future = (function(queryParameters, id) {
   var this$3 = $m_Lorg_scalajs_dom_ext_Ajax$();
-  var url = ((("" + this.indexUrl$2) + this.location__O__T(id)) + this.queryParam__O__Lvotelog_client_service_HttpQueryParameter__T(queryParameters, this.queryParameterBuilder$2));
+  var url = ((("" + this.indexUrl$2) + this.param__O__T(id)) + this.queryParam__O__Lvotelog_client_service_HttpQueryParameter__T(queryParameters, this.queryParameterBuilder$2));
   var headers = $m_sci_Map$EmptyMap$();
   return this$3.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", url, null, 0, headers, false, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(res$2) {
@@ -19522,7 +19522,7 @@ $c_Lvotelog_endpoint_client_PersonReadOnlyStoreAjaxService.prototype.index__Lvot
   })(this));
   var this$15 = $m_sci_Iterable$();
   var pathQps = $as_sc_TraversableOnce(jsx$2.map__F1__scg_CanBuildFrom__O(jsx$1, this$15.ReusableCBFInstance$2)).mkString__T__T("&");
-  var x$1 = ((this.configuration$1.url$1 + "/person/index?") + pathQps);
+  var x$1 = ((this.configuration$1.url$1 + "/person/?") + pathQps);
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$18 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$18.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
