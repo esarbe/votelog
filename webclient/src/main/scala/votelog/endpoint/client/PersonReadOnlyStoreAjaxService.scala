@@ -27,7 +27,7 @@ class PersonReadOnlyStoreAjaxService(configuration: Configuration)
         .mkString("&")
 
     Ajax
-      .get(configuration.url + s"/person/index?" + pathQps, withCredentials = true)
+      .get(configuration.url + s"/person/?" + pathQps, withCredentials = true)
       .flatMap { res =>
         parser.decode[List[Person.Id]](res.responseText).fold(Future.failed, Future.successful)
       }
