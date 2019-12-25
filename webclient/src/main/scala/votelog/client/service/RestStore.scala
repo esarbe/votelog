@@ -23,32 +23,32 @@ abstract class RestStore[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Enco
     s"/${KeyEncoder[Identity].apply(id)}"
 
   override def create(r: Recipe): Future[Identity] = {
-    Ajax.post(indexUrl, r.asJson.noSpaces)
+    Ajax.post(indexUrl, r.asJson.noSpaces, withCredentials = true)
       .flatMap { res =>
         decode[Identity](res.responseText).fold(Future.failed, Future.successful)
       }
   }
 
   override def delete(id: Identity): Future[Unit] = {
-    Ajax.delete(indexUrl + param(id)).void
+    Ajax.delete(indexUrl + param(id), withCredentials = true).void
   }
 
   override def update(id: Identity, r: Recipe): Future[T] = {
-    Ajax.put(indexUrl + param(id), r.asJson.noSpaces)
+    Ajax.put(indexUrl + param(id), r.asJson.noSpaces, withCredentials = true)
       .flatMap { res =>
         decode[T](res.responseText).fold(Future.failed, Future.successful)
       }
   }
 
   override def index(queryParameters: IndexQueryParameters): Future[List[Identity]] = {
-    Ajax.get(indexUrl + queryParam(queryParameters))
+    Ajax.get(indexUrl + queryParam(queryParameters), withCredentials = true)
       .flatMap { res =>
         decode[List[Identity]](res.responseText).fold(Future.failed, Future.successful)
       }
   }
 
   override def read(queryParameters: QueryParameters)(id: Identity): Future[T] = {
-    Ajax.get(indexUrl + param(id) + queryParam(queryParameters))
+    Ajax.get(indexUrl + param(id) + queryParam(queryParameters), withCredentials = true)
       .flatMap { res =>
         decode[T](res.responseText).fold(Future.failed, Future.successful)
       }
