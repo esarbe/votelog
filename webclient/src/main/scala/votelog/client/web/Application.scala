@@ -1,9 +1,11 @@
 package votelog.client.web
 
-import mhtml.{Rx, Var}
+import mhtml.{Cancelable, Rx, Var}
 import org.scalajs.dom
+import org.scalajs.dom.HashChangeEvent
 import votelog.client.Configuration
 import votelog.client.service.{SessionServiceRest, UserStoreRest}
+import votelog.client.web.components.html.tools.set
 import votelog.client.web.components.{CrudIndexComponent, UserIndexComponent}
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component
@@ -12,7 +14,8 @@ import votelog.domain.politics
 import votelog.domain.politics.{Context, LegislativePeriod}
 import votelog.endpoint.client.PersonReadOnlyStoreAjaxService
 
-import scala.xml.Node
+import scala.scalajs.js
+import scala.xml.{Group, Node}
 
 object State {
   sealed trait Authenticated
@@ -25,10 +28,20 @@ object State {
 object Application {
   val RxUnit = Rx(Unit)
   val defaultPageSize = PageSize(20)
+  val url: Rx[String] = Var.create[String]("")({ rx: Var[String] =>
+    val listener = (e: HashChangeEvent) => rx := e.newURL
+    dom.window.addEventListener("hashchange", listener)
+    Cancelable( () => dom.window.removeEventListener("hashchange", listener))
+  })
+
+  val location =
+    url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
+
   val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
-  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  //val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
   val root = Component.Root
-  //val configuration = Configuration("http://localhost:8080/api/v0")
+  val configuration = Configuration("http://localhost:8080/api/v0")
+
 
   val personsService = new PersonReadOnlyStoreAjaxService(configuration)
   val authService = new SessionServiceRest(configuration)
@@ -40,6 +53,23 @@ object Application {
   val languageComponent = new components.Language
   val personsComponent = new components.Persons(personsService, context, defaultPageSize)
   val userComponent = new components.UserComponent(root.child("user"), userService, userIndexComponent)
+  val appView: Rx[Node] = location.map(Router.apply)
+
+  object Router {
+    def apply(location: String): Node = {
+      location.drop(1).split('/').toList match {
+        case "user" :: Nil =>
+          userComponent.view
+        case "user" :: id :: Nil =>
+          userComponent.read.model := Some(User.Id(id))
+          userComponent.view
+        case "login" :: Nil => authComponent.view
+        case "signup" :: Nil => userComponent.create.form("Sign Up")
+        case "person" :: Nil => personsComponent.view
+        case a => println(a); Group(Nil)
+      }
+    }
+  }
 
   def main(args: Array[String]): Unit = {
     val content =
@@ -51,11 +81,11 @@ object Application {
             <slogan>siehe selbst.</slogan>
           </branding>
           <navigation>
-            <a href="#authentication">Login</a>
-            <a href="#signup">Signup</a>
-            <a href="#persons">Persons</a>
-            <a href="#ngos">NGOs</a>
-            <a href="#users">NGOs</a>
+            <a href="#/login">Login</a>
+            <a href="#/signup">Signup</a>
+            <a href="#/person">Persons</a>
+            <a href="#/ngo">NGOs</a>
+            <a href="#/user">Users</a>
           </navigation>
 
           <settings>
@@ -63,20 +93,9 @@ object Application {
           </settings>
         </header>
 
-        <components>
-          <component id="persons">
-            { personsComponent.view }
-          </component>
-
-          <component id ="authentication">
-            { authComponent.view }
-          </component>
-
-          <component id ="users">
-            { userComponent.view }
-          </component>
-
-        </components>
+        <content>
+          { appView }
+        </content>
 
         <footer>
         </footer>
