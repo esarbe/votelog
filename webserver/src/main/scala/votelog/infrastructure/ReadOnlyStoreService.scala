@@ -16,7 +16,6 @@ import votelog.domain.crudi.ReadOnlyStoreAlg
 abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyDecoder] {
 
   val store: ReadOnlyStoreAlg[IO, T, Identity]
-
   implicit val queryParamDecoder: Param[store.QueryParameters]
   implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters]
 
@@ -45,7 +44,7 @@ abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyD
   }
 
   def service: AuthedRoutes[User, IO] = AuthedRoutes.of {
-    case GET -> Root / "index" :? iqp(params) as user =>
+    case GET -> Root :? iqp(params) as user =>
       checkAuthorization(user, Capability.Read, component) {
         store.index(params).flatMap(id => Ok(id.asJson))
       }

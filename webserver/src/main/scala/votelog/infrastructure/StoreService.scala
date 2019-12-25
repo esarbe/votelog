@@ -47,7 +47,7 @@ abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,
   }
 
   def service: AuthedRoutes[User, IO] = AuthedRoutes.of {
-    case GET -> Root / "" :? iqp(params) as user =>
+    case GET -> Root :? iqp(params) as user =>
       checkAuthorization(user, Capability.Read, component) {
         store.index(params).flatMap(id => Ok(id.asJson))
       }
