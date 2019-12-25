@@ -24,6 +24,12 @@ class ComponentSpec extends WordSpec with Matchers {
       Component("").name shouldBe ""
       Component("/").name shouldBe ""
     }
+
+    "location" in {
+      Component.Root.location shouldBe ""
+      Component("").location shouldBe ""
+      Component("/").location shouldBe "/"
+    }
   }
 
 
