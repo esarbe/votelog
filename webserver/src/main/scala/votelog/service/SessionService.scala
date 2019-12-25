@@ -3,13 +3,13 @@ package votelog.service
 import cats.effect.{Clock, IO}
 import org.http4s.dsl.io._
 import org.http4s.circe._
-import io.circe.generic.auto._
 import io.circe.syntax._
 import org.http4s.{AuthedRoutes, ResponseCookie}
 import org.reactormonk.CryptoBits
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component
 import votelog.service.SessionService.CookieName
+import votelog.orphans.circe.implicits._
 
 import scala.concurrent.duration.MILLISECONDS
 
