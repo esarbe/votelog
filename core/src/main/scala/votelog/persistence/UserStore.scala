@@ -57,15 +57,15 @@ object UserStore {
       else Valid(s).toValidatedNel
 
     def areEqual(password: Password.Clear, confirmPassword: Password.Clear): Validated[NonEmptyList[(String, String)], Password.Clear] =
-      if (password != confirmPassword) Invalid("confirmPassword" -> "must be equal to password").toValidatedNel
+      if (password != confirmPassword) Invalid("confirmPassword" -> s"must be equal to password but was '${password.value}' and '${confirmPassword.value}'").toValidatedNel
       else Valid(password).toValidatedNel
 
     (nonEmptyString("name")(name),
       nonEmptyString("email")(email.value),
-      areEqual(password, confirmPassword))
-      .mapN { case (name, email, password) =>
-      Recipe(name, User.Email(email), password)
-    }
+      nonEmptyString("password")(password.value) *>
+        areEqual(password, confirmPassword)
+    )
+        .mapN { case (name, email, password) => Recipe(name, User.Email(email), password) }
   }
 }
 
