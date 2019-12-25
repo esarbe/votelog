@@ -1,12 +1,13 @@
 package votelog.endpoint.client
 
-import io.circe.parser
+import io.circe.{Decoder, parser}
 import org.scalajs.dom.ext.Ajax
 import votelog.client.Configuration
 import votelog.domain.authentication.SessionService.Error.DecodingError
 import votelog.domain.politics.{Language, Person}
 import votelog.orphans.circe.implicits._
 import io.circe.generic.auto._
+import org.scalajs.dom.XMLHttpRequest
 import votelog.persistence.PersonStore
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,15 +29,19 @@ class PersonReadOnlyStoreAjaxService(configuration: Configuration)
 
     Ajax
       .get(configuration.url + s"/person/?" + pathQps, withCredentials = true)
-      .flatMap { res =>
-        parser.decode[List[Person.Id]](res.responseText).fold(Future.failed, Future.successful)
-      }
+      .flatMap(ifSuccess(asJson[List[Person.Id]]))
   }
 
   override def read(queryParameters: Language)(id: Person.Id): Future[Person] =
     Ajax
       .get(configuration.url + s"/person/${id.value.toString}?lang=${queryParameters.iso639_1}", withCredentials = true)
-      .flatMap { res =>
-        parser.decode[Person](res.responseText).fold(Future.failed, Future.successful)
-      }
+      .flatMap(ifSuccess(asJson[Person]))
+
+  def asJson[T: Decoder](res: XMLHttpRequest): Future[T] =
+    parser.decode[T](res.responseText).fold(Future.failed, Future.successful)
+
+  def ifSuccess[T](f: XMLHttpRequest => Future[T])(res: XMLHttpRequest): Future[T] =  {
+    if (200 <= res.status && res.status < 300) f(res)
+    else Future.failed(new RuntimeException(res.responseText))
+  }
 }
