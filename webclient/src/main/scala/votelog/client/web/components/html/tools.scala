@@ -18,7 +18,7 @@ object tools {
       errors.map(_.toMap.filterKeys(_ == id).values.toList).dropRepeats
 
     <dl>
-      <dt><label for={id}></label></dt>
+      <dt><label for={id}>{label}</label></dt>
       <dd><input type="text" id={id} value={rx} onchange={set(rx)}/></dd>
       <dd>{ filteredErrors.map { _.map { error => <error>{error}</error> }}} </dd>
     </dl>
