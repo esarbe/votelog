@@ -3,6 +3,8 @@ package votelog.domain.authorization
 import votelog.domain.authorization.Component.Separator
 
 /**
+ * TODO: rename 'Path'
+ *
   * Components form a n-tree where each component
   * is either a root or a descendant of another component
   * if a component a is a descendant of another component,
@@ -31,6 +33,6 @@ case class Component(location: String) extends AnyVal {
 }
 
 object Component {
-  val Root = Component("/")
+  val Root = Component("")
   private val Separator: Char = '/'
 }
