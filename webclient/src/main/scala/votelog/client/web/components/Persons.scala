@@ -3,7 +3,6 @@ package votelog.client.web.components
 import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
 import votelog.client.mhtml.mount.Embeddable
-import votelog.client.mhtml.mount.xmlElementEmbeddableEmbeddable
 import votelog.client.web.Application.{personsComponent, personsService}
 import votelog.client.web.components.html.DynamicList
 import votelog.domain.crudi.ReadOnlyStoreAlg
@@ -27,6 +26,7 @@ class Persons(
   val offset: Var[Offset] = Var(Offset(0))
   val validOffset = offset.keepIf(_.value >= 0)(Offset(0))
   var cache = collection.mutable.Map.empty[Person.Id, Rx[Person]]
+  var viewCancelable: Option[Cancelable] = None
 
   // will run like: None -> Some(List) -> None -> Some(List)
   val unstableIds: Rx[Option[List[Person.Id]]] =
@@ -77,7 +77,9 @@ class Persons(
         <dt class="party">Party</dt>
         <dd>{p.party}</dd>
       </dl> */
-      <dl class="person" data-id={p.id.value.toString}> </dl>
+      <dl class="person" data-id={p.id.value.toString}>
+        <dl><dd>Name</dd><dt>{p.firstName.value} {p.lastName.value}</dt></dl>
+      </dl>
     case Left(id) =>
       <dl class="person loading" data-id={id.value.toString}></dl>
   }
@@ -99,6 +101,14 @@ class Persons(
       }
   }
 
+  def mountView(e: org.scalajs.dom.Node) = {
+    viewCancelable = Some(DynamicList.mountOn(ids, render)(e))
+  }
+
+  def unountView(e: org.scalajs.dom.Node) = {
+    viewCancelable.foreach(_.cancel)
+  }
+
   val view = Group {
       <header>
         <fieldset>
@@ -108,9 +118,9 @@ class Persons(
           </dl>
         </fieldset>
       </header>
-      <content>
-        { Embeddable(<ul/>, DynamicList.mountOn(ids, render)) }
-      </content>
+      <content
+        mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node) }
+        mhtml-onunmount={ (node: org.scalajs.dom.Node) => unountView(node) } />
   }
 
 }

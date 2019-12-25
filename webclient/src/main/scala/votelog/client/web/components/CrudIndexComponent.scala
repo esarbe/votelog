@@ -1,7 +1,7 @@
 package votelog.client.web.components
 
 import mhtml.future.syntax._
-import mhtml.{Rx, Var}
+import mhtml.{Cancelable, Rx, Var}
 import votelog.client.mhtml.mount.Embeddable
 import votelog.client.web.components.html.DynamicList
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
@@ -24,6 +24,7 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
   val pageSize: Var[PageSize] = Var(defaultPageSize)
   val offset: Var[Offset] = Var(Offset(0))
   val validOffset = offset.keepIf(_.value >= 0)(Offset(0))
+  var viewCancelable: Option[Cancelable] = None
 
   // will run like: None -> Some(List) -> None -> Some(List)
   val unstableIds: Rx[Option[List[Identity]]] =
@@ -63,7 +64,7 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
     val person: Rx[Either[Throwable, Option[T]]] =
       for {
         qp <- queryParameters
-        _ = println("bar")
+        _ <- validOffset // FIXME: find way to provide offset and page size to service. builder?
         entity <- store.read(qp)(id).toRx
       } yield entity match {
         case Some(Success(person)) => Right(Some(person))
@@ -80,6 +81,14 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
     }
   }
 
+  def mountView(e: org.scalajs.dom.Node, renderEntity: (Identity, T) => Rx[Node]) = {
+    viewCancelable = Some(DynamicList.mountOn(ids, render(renderEntity))(e))
+  }
+
+  def unmountView(e: org.scalajs.dom.Node) = {
+    viewCancelable.foreach(_.cancel)
+  }
+
   def view(renderEntity: (Identity, T) => Rx[Node]) =  Group {
     <header>
       <fieldset>
@@ -90,9 +99,10 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
       </fieldset>
       { queryParametersView.map(view => <fieldset> {view} </fieldset>) }
     </header>
-    <content>
-      { Embeddable(<ul/>, DynamicList.mountOn(ids, render(renderEntity))) }
-    </content>
+    <content
+      mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node, renderEntity) }
+      mhtml-onunmount={ (node: org.scalajs.dom.Node) => unmountView(node) } />
   }
+
 
 }
