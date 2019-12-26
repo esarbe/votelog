@@ -8,7 +8,7 @@ import mhtml.implicits.cats._
 import mhtml.{Rx, Var}
 import votelog.client.web.components.html.tools.{ifEnter, inputPassword, inputText, set}
 import votelog.domain.authentication.User
-import votelog.domain.authentication.User.Permission
+import votelog.domain.authentication.User.{Email, Permission}
 import votelog.domain.crudi.StoreAlg
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, Recipe}
@@ -27,6 +27,8 @@ class UserComponent(
 
   def id(id: String): String = component.child(id).location
 
+
+
   object create {
 
     type Error = (String, String)
@@ -35,9 +37,9 @@ class UserComponent(
     private val email = Var("")
     private val password = Var("")
     private val confirmPassword = Var("")
-    private val submit: Var[Unit] = Var(())
+    private val submitCreate = Var("")
 
-    private val validatedRecipe: Rx[Validated[NonEmptyList[Error], Recipe]] =
+    private val recipe: Rx[Validated[NonEmptyList[(String, String)], Recipe]] =
       for {
         name <- name
         email <- email
@@ -46,39 +48,48 @@ class UserComponent(
       } yield UserStore.validateRecipe(name, User.Email(email), Password.Clear(password), Password.Clear(confirmPassword))
 
     private val errors: Rx[List[(String, String)]] =
-      validatedRecipe
+      recipe
         .map {
-          case Invalid(errors) => errors.toList
+          case Invalid(errors) => errors.toList.map { case (field, message) => (id(field), message) }
           case _ => Nil
         }
 
-    val model: Rx[Option[User.Id]] =
-      validatedRecipe.sampleOn(submit)
+    private val validatedRecipe =
+      recipe.map {
+        case Valid(recipe) => Some(recipe)
+        case _ => None
+      }
+
+    val model: Rx[Option[Either[Throwable, User.Id]]] =
+      validatedRecipe.sampleOn(submitCreate)
         .flatMap {
-          case Valid(recipe) => store.create(recipe).toRx
-          case _ => Rx(None)
+          case Some(recipe) => store.create(recipe).toRx
+          case None => Rx(None)
         }.map {
-        case None => None
-        case Some(Success(userId)) => Some(userId)
-        case Some(Failure(error)) => println(error.getMessage); None
+          case None => None
+          case Some(Success(userId)) => Some(Right(userId))
+          case Some(Failure(error)) => Some(Left(error))
       }
 
     def id(id: String): String = component.child("create").child(id).location
 
     def form(legend: String): Elem = {
         <article class="user">
-          <fieldset onkeyup={ ifEnter(set(submit)) }>
+          <fieldset onkeyup={ ifEnter(set(submitCreate)) }>
             <legend>{legend}</legend>
             { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
             { inputText(id = id("email"), label = "Email", rx = email, errors = errors) }
             { inputPassword(id = id("password"), label = "Password", rx = password, errors = errors) }
             { inputPassword(id = id("confirmPassword"), label = "Confirm password", rx = confirmPassword, errors = errors) }
 
-            <input type="button" value="submit" onclick={ set(submit) } />
-            { errors.map { _.map { case (key, message) =>
-              <error> {key}: {message} </error>
-                }
-            }}
+            <input type="button" value="x" onclick={ set(submitCreate) } enabled={ validatedRecipe.map(_.nonEmpty) } />
+            {
+              model.map {
+                case Some(Right(id)) => <p>User {id.value} created</p>
+                case Some(Left(error)) => <p>Error creating new user: {error.getMessage}</p>
+                case None => <p></p>
+              }
+            }
           </fieldset>
         </article>
     }
