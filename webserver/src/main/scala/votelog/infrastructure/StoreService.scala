@@ -60,7 +60,7 @@ abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,
         }
       }
 
-    case req @ POST -> Root / "create" as user =>
+    case req @ POST -> Root as user =>
       checkAuthorization(user, Capability.Create, component) {
         req.req
           .as[Recipe]
