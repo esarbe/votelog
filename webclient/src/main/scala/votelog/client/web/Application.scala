@@ -38,10 +38,8 @@ object Application {
     url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
 
   val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
-  //val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
   val root = Component.Root
-  val configuration = Configuration("http://localhost:8080/api/v0")
-
 
   val personsService = new PersonReadOnlyStoreAjaxService(configuration)
   val authService = new SessionServiceRest(configuration)
