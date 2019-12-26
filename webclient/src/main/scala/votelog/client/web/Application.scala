@@ -82,7 +82,6 @@ object Application {
             <slogan>siehe selbst.</slogan>
           </branding>
           <navigation>
-            <a href="#/signup">Signup</a>
             <a href="#/person">Persons</a>
             <a href="#/ngo">NGOs</a>
             <a href="#/user">Users</a>
@@ -90,7 +89,7 @@ object Application {
           <user>
             { authComponent.model.map {
                 case UserAuthenticated(user) => <a href="#/logout">Logout {user.name} </a>
-                case Unauthenticated => <a href="#/login">Login</a>
+                case Unauthenticated => <span> <a href="#/login">Login</a> or <a href="#/signup">Sign up</a> </span>
               }
             }
           </user>
