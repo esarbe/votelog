@@ -5875,12 +5875,12 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   return this
 });
 $c_Lvotelog_client_web_Application$.prototype.main__AT__V = (function(args) {
-  var jsx$30 = $m_s_xml_Null$();
-  var jsx$29 = $m_s_xml_TopScope$();
+  var jsx$34 = $m_s_xml_Null$();
+  var jsx$33 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$24 = $m_s_xml_Null$();
-  var jsx$23 = $m_s_xml_TopScope$();
+  var jsx$28 = $m_s_xml_Null$();
+  var jsx$27 = $m_s_xml_TopScope$();
   var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   var jsx$8 = $m_s_xml_Null$();
@@ -5906,80 +5906,112 @@ $c_Lvotelog_client_web_Application$.prototype.main__AT__V = (function(args) {
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "branding", jsx$8, jsx$7, false, $$buf$3));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  var jsx$20 = $m_s_xml_Null$();
-  var jsx$19 = $m_s_xml_TopScope$();
+  var jsx$18 = $m_s_xml_Null$();
+  var jsx$17 = $m_s_xml_TopScope$();
   var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/login"), $$md, null);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/signup"), $$md, null);
   var jsx$10 = $$md;
   var jsx$9 = $m_s_xml_TopScope$();
   var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Login"));
+  $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Signup"));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$10, jsx$9, false, $$buf$7));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/signup"), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/person"), $$md$2, null);
   var jsx$12 = $$md$2;
   var jsx$11 = $m_s_xml_TopScope$();
   var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Signup"));
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Persons"));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$12, jsx$11, false, $$buf$8));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$3 = $m_s_xml_Null$();
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/person"), $$md$3, null);
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/ngo"), $$md$3, null);
   var jsx$14 = $$md$3;
   var jsx$13 = $m_s_xml_TopScope$();
   var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Persons"));
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("NGOs"));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$14, jsx$13, false, $$buf$9));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$4 = $m_s_xml_Null$();
-  $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/ngo"), $$md$4, null);
+  $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/user"), $$md$4, null);
   var jsx$16 = $$md$4;
   var jsx$15 = $m_s_xml_TopScope$();
   var $$buf$10 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("NGOs"));
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Users"));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$16, jsx$15, false, $$buf$10));
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  var $$md$5 = $m_s_xml_Null$();
-  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/user"), $$md$5, null);
-  var jsx$18 = $$md$5;
-  var jsx$17 = $m_s_xml_TopScope$();
-  var $$buf$11 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Users"));
-  $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$18, jsx$17, false, $$buf$11));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "navigation", jsx$20, jsx$19, false, $$buf$6));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "navigation", jsx$18, jsx$17, false, $$buf$6));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  var jsx$24 = $m_s_xml_Null$();
+  var jsx$23 = $m_s_xml_TopScope$();
+  var $$buf$11 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+  var this$3 = this.authComponent$1.model$1;
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_Lvotelog_client_web_State$Authenticated(x0$1$2);
+      if ((x0$1 instanceof $c_Lvotelog_client_web_State$Authenticated$UserAuthenticated)) {
+        var x2 = $as_Lvotelog_client_web_State$Authenticated$UserAuthenticated(x0$1);
+        var user = x2.user$1;
+        var $$md$1 = $m_s_xml_Null$();
+        $$md$1 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/logout"), $$md$1, null);
+        var jsx$20 = $$md$1;
+        var jsx$19 = $m_s_xml_TopScope$();
+        var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+        $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Logout "));
+        $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(user.name$1, null);
+        $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+        return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$20, jsx$19, false, $$buf$1)
+      } else {
+        var x = $m_Lvotelog_client_web_State$Authenticated$Unauthenticated$();
+        if ((x === x0$1)) {
+          var $$md$2$1 = $m_s_xml_Null$();
+          $$md$2$1 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("href", new $c_s_xml_Text().init___T("#/login"), $$md$2$1, null);
+          var jsx$22 = $$md$2$1;
+          var jsx$21 = $m_s_xml_TopScope$();
+          var $$buf$2$1 = new $c_s_xml_NodeBuffer().init___();
+          $$buf$2$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Login"));
+          return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$22, jsx$21, false, $$buf$2$1)
+        } else {
+          throw new $c_s_MatchError().init___O(x0$1)
+        }
+      }
+    })
+  })(this));
+  $$buf$11.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$3, f), null);
+  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "user", jsx$24, jsx$23, false, $$buf$11));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n          "));
-  var jsx$22 = $m_s_xml_Null$();
-  var jsx$21 = $m_s_xml_TopScope$();
+  var jsx$26 = $m_s_xml_Null$();
+  var jsx$25 = $m_s_xml_TopScope$();
   var $$buf$12 = new $c_s_xml_NodeBuffer().init___();
   $$buf$12.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   $$buf$12.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.languageComponent$1.view__s_xml_Node());
   $$buf$12.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "settings", jsx$22, jsx$21, false, $$buf$12));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "settings", jsx$26, jsx$25, false, $$buf$12));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "header", jsx$24, jsx$23, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "header", jsx$28, jsx$27, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  var jsx$26 = $m_s_xml_Null$();
-  var jsx$25 = $m_s_xml_TopScope$();
+  var jsx$30 = $m_s_xml_Null$();
+  var jsx$29 = $m_s_xml_TopScope$();
   var $$buf$13 = new $c_s_xml_NodeBuffer().init___();
   $$buf$13.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   $$buf$13.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.appView$1, null);
   $$buf$13.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "content", jsx$26, jsx$25, false, $$buf$13));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "content", jsx$30, jsx$29, false, $$buf$13));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  var jsx$28 = $m_s_xml_Null$();
-  var jsx$27 = $m_s_xml_TopScope$();
+  var jsx$32 = $m_s_xml_Null$();
+  var jsx$31 = $m_s_xml_TopScope$();
   var $$buf$14 = new $c_s_xml_NodeBuffer().init___();
   $$buf$14.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "footer", jsx$28, jsx$27, false, $$buf$14));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "footer", jsx$32, jsx$31, false, $$buf$14));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var content = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "application", jsx$30, jsx$29, false, $$buf);
-  var this$3 = $m_Lvotelog_client_mhtml_mount$();
+  var content = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "application", jsx$34, jsx$33, false, $$buf);
+  var this$4 = $m_Lvotelog_client_mhtml_mount$();
   var parent = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body;
-  this$3.mountNode__p1__Lorg_scalajs_dom_raw_Node__s_xml_Node__s_Option__F0(parent, content, $m_s_None$())
+  this$4.mountNode__p1__Lorg_scalajs_dom_raw_Node__s_xml_Node__s_Option__F0(parent, content, $m_s_None$())
 });
 var $d_Lvotelog_client_web_Application$ = new $TypeData().initClass({
   Lvotelog_client_web_Application$: 0
@@ -6096,9 +6128,6 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().personsComponent$1.view$1
     }
   };
-  var this$12 = $m_s_Console$();
-  var this$13 = $as_Ljava_io_PrintStream(this$12.outVar$2.v$1);
-  this$13.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x1 + "\n"));
   return new $c_s_xml_Group().init___sc_Seq($m_sci_Nil$())
 });
 var $d_Lvotelog_client_web_Application$Router$ = new $TypeData().initClass({
@@ -7153,9 +7182,10 @@ function $c_Lvotelog_client_web_components_UserComponent$create$() {
   this.email$1 = null;
   this.password$1 = null;
   this.confirmPassword$1 = null;
-  this.submit$1 = null;
-  this.validatedRecipe$1 = null;
+  this.submitCreate$1 = null;
+  this.recipe$1 = null;
   this.errors$1 = null;
+  this.validatedRecipe$1 = null;
   this.model$1 = null;
   this.$$outer$1 = null
 }
@@ -7169,14 +7199,14 @@ $h_Lvotelog_client_web_components_UserComponent$create$.prototype = $c_Lvotelog_
 $c_Lvotelog_client_web_components_UserComponent$create$.prototype.form__T__s_xml_Elem = (function(legend) {
   var $$md = $m_s_xml_Null$();
   $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("user"), $$md, null);
-  var jsx$11 = $$md;
-  var jsx$10 = $m_s_xml_TopScope$();
+  var jsx$14 = $$md;
+  var jsx$13 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onkeyup", $m_Lvotelog_client_web_components_html_tools$().ifEnter__F1__F1($m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submit$1)), $$md$2, null);
-  var jsx$9 = $$md$2;
-  var jsx$8 = $m_s_xml_TopScope$();
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onkeyup", $m_Lvotelog_client_web_components_html_tools$().ifEnter__F1__F1($m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submitCreate$1)), $$md$2, null);
+  var jsx$12 = $$md$2;
+  var jsx$11 = $m_s_xml_TopScope$();
   var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var jsx$2 = $m_s_xml_Null$();
@@ -7210,75 +7240,72 @@ $c_Lvotelog_client_web_components_UserComponent$create$.prototype.form__T__s_xml
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this$4.input__T__T__T__Lmhtml_Var__Lmhtml_Rx__s_xml_Elem("password", id$3, "Confirm password", rx$3, errors$3));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n            "));
   var $$md$3 = $m_s_xml_Null$();
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submit$1), $$md$3, null);
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_s_xml_Text().init___T("submit"), $$md$3, null);
+  var this$5 = this.validatedRecipe$1;
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x$1$2) {
+      var x$1 = $as_s_Option(x$1$2);
+      return x$1.isDefined__Z()
+    })
+  })(this));
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("enabled", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f), $$md$3, null);
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submitCreate$1), $$md$3, null);
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_s_xml_Text().init___T("x"), $$md$3, null);
   $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("button"), $$md$3, null);
   var jsx$4 = $$md$3;
   var jsx$3 = $m_s_xml_TopScope$();
   var array = [];
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$4, jsx$3, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  var this$8 = this.errors$1;
-  var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(x$1$2) {
-      var x$1 = $as_sci_List(x$1$2);
-      var f = (function($this$1) {
-        return (function(x0$1$2) {
-          var x0$1 = $as_T2(x0$1$2);
-          if ((x0$1 !== null)) {
-            var key = $as_T(x0$1.$$und1__O());
-            var message = $as_T(x0$1.$$und2__O());
-            var jsx$6 = $m_s_xml_Null$();
-            var jsx$5 = $m_s_xml_TopScope$();
-            var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
-            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(key, null);
-            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(": "));
-            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(message, null);
-            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-            return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "error", jsx$6, jsx$5, false, $$buf$1)
-          } else {
-            throw new $c_s_MatchError().init___O(x0$1)
-          }
-        })
-      })($this);
-      var this$7 = $m_sci_List$();
-      var bf = this$7.ReusableCBFInstance$2;
-      if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
-        if ((x$1 === $m_sci_Nil$())) {
-          var jsx$7 = $m_sci_Nil$()
-        } else {
-          var arg1 = x$1.head__O();
-          var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
-          var t = h;
-          var rest = $as_sci_List(x$1.tail__O());
-          while ((rest !== $m_sci_Nil$())) {
-            var arg1$1 = rest.head__O();
-            var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
-            t.tl$5 = nx;
-            t = nx;
-            rest = $as_sci_List(rest.tail__O())
-          };
-          var jsx$7 = h
+  var this$10 = this.model$1;
+  var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_s_Option(x0$1$2);
+      var rc10 = false;
+      var x2 = null;
+      if ((x0$1 instanceof $c_s_Some)) {
+        rc10 = true;
+        x2 = $as_s_Some(x0$1);
+        var p3 = $as_s_util_Either(x2.value$2);
+        if ((p3 instanceof $c_s_util_Right)) {
+          var x4 = $as_s_util_Right(p3);
+          var id$4 = $as_Lvotelog_domain_authentication_User$Id(x4.value$2).value$1;
+          var jsx$6 = $m_s_xml_Null$();
+          var jsx$5 = $m_s_xml_TopScope$();
+          var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+          $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("User "));
+          $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(id$4, null);
+          $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" created"));
+          return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "p", jsx$6, jsx$5, false, $$buf$1)
         }
-      } else {
-        var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(x$1, bf);
-        var these = x$1;
-        while ((!these.isEmpty__Z())) {
-          var arg1$2 = these.head__O();
-          b.$$plus$eq__O__scm_Builder(f(arg1$2));
-          these = $as_sci_List(these.tail__O())
-        };
-        var jsx$7 = b.result__O()
       };
-      return $as_sci_List(jsx$7)
+      if (rc10) {
+        var p6 = $as_s_util_Either(x2.value$2);
+        if ((p6 instanceof $c_s_util_Left)) {
+          var x7 = $as_s_util_Left(p6);
+          var error = $as_jl_Throwable(x7.value$2);
+          var jsx$8 = $m_s_xml_Null$();
+          var jsx$7 = $m_s_xml_TopScope$();
+          var $$buf$2$1 = new $c_s_xml_NodeBuffer().init___();
+          $$buf$2$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Error creating new user: "));
+          $$buf$2$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(error.getMessage__T(), null);
+          return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "p", jsx$8, jsx$7, false, $$buf$2$1)
+        }
+      };
+      var x = $m_s_None$();
+      if ((x === x0$1)) {
+        var jsx$10 = $m_s_xml_Null$();
+        var jsx$9 = $m_s_xml_TopScope$();
+        var array$1 = [];
+        return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "p", jsx$10, jsx$9, false, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1))
+      };
+      throw new $c_s_MatchError().init___O(x0$1)
     })
   })(this));
-  $$buf$2.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$8, f$1), null);
+  $$buf$2.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$10, f$1), null);
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$9, jsx$8, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$12, jsx$11, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$11, jsx$10, false, $$buf)
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$14, jsx$13, false, $$buf)
 });
 $c_Lvotelog_client_web_components_UserComponent$create$.prototype.init___Lvotelog_client_web_components_UserComponent = (function($$outer) {
   if (($$outer === null)) {
@@ -7290,7 +7317,7 @@ $c_Lvotelog_client_web_components_UserComponent$create$.prototype.init___Lvotelo
   this.email$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
   this.password$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
   this.confirmPassword$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
-  this.submit$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var((void 0));
+  this.submitCreate$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
   var this$4 = this.name$1;
   var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(name$2) {
@@ -7319,74 +7346,133 @@ $c_Lvotelog_client_web_components_UserComponent$create$.prototype.init___Lvotelo
       return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$3, f$2)
     })
   })(this));
-  this.validatedRecipe$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$3);
-  var this$5 = this.validatedRecipe$1;
-  var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  this.recipe$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$3);
+  var this$7 = this.recipe$1;
+  var f$5 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(x0$1$2) {
       var x0$1 = $as_Lcats_data_Validated(x0$1$2);
       if ((x0$1 instanceof $c_Lcats_data_Validated$Invalid)) {
         var x2 = $as_Lcats_data_Validated$Invalid(x0$1);
         var errors = $as_Lcats_data_NonEmptyList(x2.e$2);
-        return errors.toList__sci_List()
+        var this$6 = errors.toList__sci_List();
+        var f$4 = (function($this$4) {
+          return (function(x0$2$2) {
+            var x0$2 = $as_T2(x0$2$2);
+            if ((x0$2 !== null)) {
+              var field = $as_T(x0$2.$$und1__O());
+              var message = $as_T(x0$2.$$und2__O());
+              return new $c_T2().init___O__O($this$4.id__T__T(field), message)
+            } else {
+              throw new $c_s_MatchError().init___O(x0$2)
+            }
+          })
+        })(this$2$1);
+        var this$5 = $m_sci_List$();
+        var bf = this$5.ReusableCBFInstance$2;
+        if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+          if ((this$6 === $m_sci_Nil$())) {
+            var jsx$1 = $m_sci_Nil$()
+          } else {
+            var arg1 = this$6.head__O();
+            var h = new $c_sci_$colon$colon().init___O__sci_List(f$4(arg1), $m_sci_Nil$());
+            var t = h;
+            var rest = $as_sci_List(this$6.tail__O());
+            while ((rest !== $m_sci_Nil$())) {
+              var arg1$1 = rest.head__O();
+              var nx = new $c_sci_$colon$colon().init___O__sci_List(f$4(arg1$1), $m_sci_Nil$());
+              t.tl$5 = nx;
+              t = nx;
+              rest = $as_sci_List(rest.tail__O())
+            };
+            var jsx$1 = h
+          }
+        } else {
+          var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$6, bf);
+          var these = this$6;
+          while ((!these.isEmpty__Z())) {
+            var arg1$2 = these.head__O();
+            b.$$plus$eq__O__scm_Builder(f$4(arg1$2));
+            these = $as_sci_List(these.tail__O())
+          };
+          var jsx$1 = b.result__O()
+        };
+        return $as_sci_List(jsx$1)
       } else {
         return $m_sci_Nil$()
       }
     })
   })(this));
-  this.errors$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$4);
-  var this$6 = this.validatedRecipe$1;
-  var other = this.submit$1;
-  var this$9 = new $c_Lmhtml_Rx$SampleOn().init___Lmhtml_Rx__Lmhtml_Rx(this$6, other);
+  this.errors$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$7, f$5);
+  var this$8 = this.recipe$1;
   var f$6 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
-    return (function(x0$2$2) {
-      var x0$2 = $as_Lcats_data_Validated(x0$2$2);
-      if ((x0$2 instanceof $c_Lcats_data_Validated$Valid)) {
-        var x2$1 = $as_Lcats_data_Validated$Valid(x0$2);
+    return (function(x0$3$2) {
+      var x0$3 = $as_Lcats_data_Validated(x0$3$2);
+      if ((x0$3 instanceof $c_Lcats_data_Validated$Valid)) {
+        var x2$1 = $as_Lcats_data_Validated$Valid(x0$3);
         var recipe = $as_Lvotelog_persistence_UserStore$Recipe(x2$1.a$2);
-        var this$7 = this$3$1.$$outer$1.votelog$client$web$components$UserComponent$$store$f;
-        var f$5 = this$7.create__O__s_concurrent_Future(recipe);
-        return new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$5).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
+        return new $c_s_Some().init___O(recipe)
       } else {
-        return $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
+        return $m_s_None$()
       }
     })
   })(this));
-  var this$13 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$9, f$6);
-  var f$7 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
-    return (function(x0$3$2) {
-      var x0$3 = $as_s_Option(x0$3$2);
+  this.validatedRecipe$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$8, f$6);
+  var this$9 = this.validatedRecipe$1;
+  var other = this.submitCreate$1;
+  var this$12 = new $c_Lmhtml_Rx$SampleOn().init___Lmhtml_Rx__Lmhtml_Rx(this$9, other);
+  var f$8 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
+    return (function(x0$4$2) {
+      var x0$4 = $as_s_Option(x0$4$2);
+      if ((x0$4 instanceof $c_s_Some)) {
+        var x2$2 = $as_s_Some(x0$4);
+        var recipe$1 = $as_Lvotelog_persistence_UserStore$Recipe(x2$2.value$2);
+        var this$10 = this$4$1.$$outer$1.votelog$client$web$components$UserComponent$$store$f;
+        var f$7 = this$10.create__O__s_concurrent_Future(recipe$1);
+        return new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$7).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
+      } else {
+        var x = $m_s_None$();
+        if ((x === x0$4)) {
+          return $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
+        } else {
+          throw new $c_s_MatchError().init___O(x0$4)
+        }
+      }
+    })
+  })(this));
+  var this$15 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$12, f$8);
+  var f$9 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
+    return (function(x0$5$2) {
+      var x0$5 = $as_s_Option(x0$5$2);
       var rc10 = false;
-      var x2$2 = null;
-      var x = $m_s_None$();
-      if ((x === x0$3)) {
+      var x2$3 = null;
+      var x$1 = $m_s_None$();
+      if ((x$1 === x0$5)) {
         return $m_s_None$()
       };
-      if ((x0$3 instanceof $c_s_Some)) {
+      if ((x0$5 instanceof $c_s_Some)) {
         rc10 = true;
-        x2$2 = $as_s_Some(x0$3);
-        var p3 = $as_s_util_Try(x2$2.value$2);
+        x2$3 = $as_s_Some(x0$5);
+        var p3 = $as_s_util_Try(x2$3.value$2);
         if ((p3 instanceof $c_s_util_Success)) {
           var x4 = $as_s_util_Success(p3);
           var userId = $as_Lvotelog_domain_authentication_User$Id(x4.value$2).value$1;
-          return new $c_s_Some().init___O(new $c_Lvotelog_domain_authentication_User$Id().init___T(userId))
+          $m_s_package$();
+          var value = new $c_Lvotelog_domain_authentication_User$Id().init___T(userId);
+          return new $c_s_Some().init___O(new $c_s_util_Right().init___O(value))
         }
       };
       if (rc10) {
-        var p6 = $as_s_util_Try(x2$2.value$2);
+        var p6 = $as_s_util_Try(x2$3.value$2);
         if ((p6 instanceof $c_s_util_Failure)) {
           var x7 = $as_s_util_Failure(p6);
           var error = x7.exception$2;
-          var x$1 = error.getMessage__T();
-          var this$11 = $m_s_Console$();
-          var this$12 = $as_Ljava_io_PrintStream(this$11.outVar$2.v$1);
-          this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-          return $m_s_None$()
+          return new $c_s_Some().init___O(($m_s_package$(), new $c_s_util_Left().init___O(error)))
         }
       };
-      throw new $c_s_MatchError().init___O(x0$3)
+      throw new $c_s_MatchError().init___O(x0$5)
     })
   })(this));
-  this.model$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$13, f$7);
+  this.model$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$15, f$9);
   return this
 });
 $c_Lvotelog_client_web_components_UserComponent$create$.prototype.id__T__T = (function(id) {
