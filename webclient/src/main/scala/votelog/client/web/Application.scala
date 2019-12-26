@@ -5,6 +5,7 @@ import org.scalajs.dom
 import org.scalajs.dom.HashChangeEvent
 import votelog.client.Configuration
 import votelog.client.service.{SessionServiceRest, UserStoreRest}
+import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
 import votelog.client.web.components.html.tools.set
 import votelog.client.web.components.{CrudIndexComponent, UserIndexComponent}
 import votelog.domain.authentication.User
@@ -54,6 +55,8 @@ object Application {
   val appView: Rx[Node] = location.map(Router.apply)
 
   object Router {
+
+    // TODO: mabye reuse http4s dsl path for 'location's
     def apply(location: String): Node = {
       location.drop(1).split('/').toList match {
         case "user" :: Nil =>
@@ -64,7 +67,7 @@ object Application {
         case "login" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")
         case "person" :: Nil => personsComponent.view
-        case a => println(a); Group(Nil)
+        case a => Group(Nil)
       }
     }
   }
@@ -79,12 +82,18 @@ object Application {
             <slogan>siehe selbst.</slogan>
           </branding>
           <navigation>
-            <a href="#/login">Login</a>
             <a href="#/signup">Signup</a>
             <a href="#/person">Persons</a>
             <a href="#/ngo">NGOs</a>
             <a href="#/user">Users</a>
           </navigation>
+          <user>
+            { authComponent.model.map {
+                case UserAuthenticated(user) => <a href="#/logout">Logout {user.name} </a>
+                case Unauthenticated => <a href="#/login">Login</a>
+              }
+            }
+          </user>
 
           <settings>
             { languageComponent.view }
