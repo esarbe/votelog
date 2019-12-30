@@ -4,6 +4,7 @@ import votelog.domain.authentication.Authentication.Credentials
 
 trait SessionService[F[_]] {
   def login(cred: Credentials): F[Either[SessionService.Error, User]]
+  def get: F[Either[SessionService.Error, User]]
   def logout(): F[Unit]
 }
 

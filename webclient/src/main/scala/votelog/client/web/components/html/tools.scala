@@ -41,8 +41,12 @@ object tools {
     }
   }
 
-  def set[T](value: Var[T]): js.Dynamic => Unit = {
+  def setTo[T](t: T, vrx: Var[T]): js.Dynamic => Unit  = {
+    _ => vrx := t
+  }
+
+  def set[T](vrx: Var[T]): js.Dynamic => Unit = {
     event =>
-      value.update(_ => event.target.value.asInstanceOf[T])
+      vrx := event.target.value.asInstanceOf[T]
   }
 }

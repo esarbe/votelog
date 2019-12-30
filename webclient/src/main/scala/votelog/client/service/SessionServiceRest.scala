@@ -28,8 +28,7 @@ class SessionServiceRest(context: Configuration) extends SessionService[Future] 
             withCredentials = true,
           )
           .map { res =>
-            val user = parser.decode[User](res.responseText)
-            user.leftMap(DecodingError)
+            parser.decode[User](res.responseText).leftMap(DecodingError)
           }.recover {
             case AjaxException(xhr) if  xhr.status == 401 =>
               Left(AuthenticationFailed)
@@ -39,9 +38,17 @@ class SessionServiceRest(context: Configuration) extends SessionService[Future] 
     }
   }
 
+  override def get: Future[Either[SessionService.Error, User]] = {
+    Ajax.get(url = context.url + "/auth", withCredentials = true)
+      .map { res =>
+        parser.decode[User](res.responseText)
+          .leftMap(DecodingError)
+      }
+  }
+
   override def logout(): Future[Unit] = {
     Ajax
-      .post(url = context.url + "/auth/login")
+      .post(url = context.url + "/auth/logout", withCredentials = true)
       .void
   }
 }

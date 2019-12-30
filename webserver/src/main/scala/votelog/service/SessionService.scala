@@ -18,8 +18,8 @@ class SessionService(
   clock: Clock[IO],
   component: Component
 ) {
-
   val service: AuthedRoutes[User, IO] = AuthedRoutes.of {
+    case GET -> Root as user => Ok(user.asJson)
     case POST -> Root / "login" as user =>
       clock
         .realTime(MILLISECONDS)
