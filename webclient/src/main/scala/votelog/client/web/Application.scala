@@ -5,9 +5,8 @@ import org.scalajs.dom
 import org.scalajs.dom.HashChangeEvent
 import votelog.client.Configuration
 import votelog.client.service.{SessionServiceRest, UserStoreRest}
-import votelog.client.web.State.Authenticated.{Unauthenticated, UserAuthenticated}
-import votelog.client.web.components.html.tools.set
-import votelog.client.web.components.{CrudIndexComponent, UserIndexComponent}
+import votelog.client.web.components.Authentication.State.{Authenticated, Unauthenticated}
+import votelog.client.web.components.UserIndexComponent
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
@@ -15,25 +14,18 @@ import votelog.domain.politics
 import votelog.domain.politics.{Context, LegislativePeriod}
 import votelog.endpoint.client.PersonReadOnlyStoreAjaxService
 
-import scala.scalajs.js
 import scala.xml.{Group, Node}
-
-object State {
-  sealed trait Authenticated
-  object Authenticated {
-    object Unauthenticated extends Authenticated
-    case class UserAuthenticated(user: User) extends Authenticated
-  }
-}
 
 object Application {
   val RxUnit = Rx(Unit)
   val defaultPageSize = PageSize(20)
-  val url: Rx[String] = Var.create[String]("")({ rx: Var[String] =>
+
+  val url: Rx[String] = {
+    val rx = Var("")
     val listener = (e: HashChangeEvent) => rx := e.newURL
     dom.window.addEventListener("hashchange", listener)
-    Cancelable( () => dom.window.removeEventListener("hashchange", listener))
-  })
+    rx
+  }
 
   val location =
     url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
@@ -64,7 +56,7 @@ object Application {
         case "user" :: id :: Nil =>
           userComponent.read.model := Some(User.Id(id))
           userComponent.view
-        case "login" :: Nil => authComponent.view
+        case "session" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")
         case "person" :: Nil => personsComponent.view
         case a => Group(Nil)
@@ -88,8 +80,8 @@ object Application {
           </navigation>
           <user>
             { authComponent.model.map {
-                case UserAuthenticated(user) => <a href="#/logout">Logout {user.name} </a>
-                case Unauthenticated => <span> <a href="#/login">Login</a> or <a href="#/signup">Sign up</a> </span>
+                case Authenticated(user) => <a href="#/session">Logout {user.name} </a>
+                case Unauthenticated => <span> <a href="#/session">Login</a> or <a href="#/signup">Sign up</a> </span>
               }
             }
           </user>
