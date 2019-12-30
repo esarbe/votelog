@@ -21,7 +21,7 @@ object Application {
   val defaultPageSize = PageSize(20)
 
   val url: Rx[String] = {
-    val rx = Var("")
+    val rx = Var(dom.window.location.href)
     val listener = (e: HashChangeEvent) => rx := e.newURL
     dom.window.addEventListener("hashchange", listener)
     rx
