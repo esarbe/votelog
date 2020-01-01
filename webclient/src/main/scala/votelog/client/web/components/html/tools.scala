@@ -19,7 +19,7 @@ object tools {
 
     <dl>
       <dt><label for={id}>{label}</label></dt>
-      <dd><input type="text" id={id} value={rx} onchange={set(rx)}/></dd>
+      <dd><input type={ofType} id={id} value={rx} onchange={set(rx)}/></dd>
       <dd>{ filteredErrors.map { _.map { error => <error>{error}</error> }}} </dd>
     </dl>
   }
