@@ -21,8 +21,8 @@ trait ReadOnlyStoreEndpoint
   val rootPath: Path[Unit]
   val contextQuery: QueryString[Context]
 
-  val offsetQuery: QueryString[Long] = qs[Long]("offset")
-  val pageSizeQuery: QueryString[Int] = qs[Int]("pageSize")
+  val offsetQuery: QueryString[Long] = qs[Long]("os")
+  val pageSizeQuery: QueryString[Int] = qs[Int]("ps")
   lazy val pagingQuery: QueryString[Paging] =
     (offsetQuery & pageSizeQuery).xmap(Paging.tupled)(p => (p.offset, p.pageSize))
 
@@ -32,7 +32,7 @@ trait ReadOnlyStoreEndpoint
 
   lazy val index: Endpoint[(Paging, Context), List[Id]] =
     endpoint(
-      get(rootPath / "index" /? contextualizedPagedQuery),
+      get(rootPath /? contextualizedPagedQuery),
       ok(jsonResponse[List[Id]])
     )
 

@@ -3,7 +3,6 @@ package votelog.endpoint.client
 import io.circe.{Decoder, parser}
 import org.scalajs.dom.ext.Ajax
 import votelog.client.Configuration
-import votelog.domain.authentication.SessionService.Error.DecodingError
 import votelog.domain.politics.{Language, Person}
 import votelog.orphans.circe.implicits._
 import io.circe.generic.auto._
