@@ -4,7 +4,7 @@ import cats.effect._
 import cats.implicits._
 import org.http4s.implicits._
 import org.http4s.server.blaze.BlazeServerBuilder
-import org.http4s.server.middleware.{CORS, CORSConfig}
+import org.http4s.server.middleware.CORS
 import org.http4s.server.middleware.authentication.BasicAuth
 import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.{BasicCredentials, HttpRoutes}
@@ -15,8 +15,6 @@ import votelog.domain.authentication.User
 import votelog.domain.authorization.Component.Root
 import votelog.implementation.Log4SLogger
 import votelog.service._
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object Webserver extends IOApp {
 
@@ -95,8 +93,8 @@ object Webserver extends IOApp {
         component.motion.location -> auth(mws.service),
         component.user.location -> auth(uws.service),
         component.ngo.location -> auth(nws.service),
-        component.auth.location -> basicAuth(session.service),
-        component.auth.location -> auth(session.service),
+        component.auth.child("session").location -> basicAuth(session.service),
+        component.auth.child("user").location -> auth(session.service),
       )
 
     Router(services.map { case (location, service) => (location, CORS(service)) }:_*)
