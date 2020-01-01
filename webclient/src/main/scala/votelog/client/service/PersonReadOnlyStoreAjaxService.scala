@@ -1,12 +1,12 @@
-package votelog.endpoint.client
+package votelog.client.service
 
+import io.circe.generic.auto._
 import io.circe.{Decoder, parser}
+import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax
 import votelog.client.Configuration
 import votelog.domain.politics.{Language, Person}
 import votelog.orphans.circe.implicits._
-import io.circe.generic.auto._
-import org.scalajs.dom.XMLHttpRequest
 import votelog.persistence.PersonStore
 
 import scala.concurrent.ExecutionContext.Implicits.global
