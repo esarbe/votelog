@@ -15,10 +15,8 @@ class ListDiffTest extends WordSpec with Matchers {
       changes.foreach {
         case Delete(beforeIndex) =>
           buffer.remove(beforeIndex - i)
-          println(s"buffer.remove($beforeIndex - $i)")
           i += 1
         case Insert(indexPrev, indexCurr) =>
-          println(s"buffer.insert($indexPrev - $i, curr($indexCurr))")
           buffer.insert(indexPrev - i, curr(indexCurr))
           i -= 1
       }
