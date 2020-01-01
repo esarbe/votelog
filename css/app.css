@@ -1,13 +1,46 @@
+@font-face {
+  font-family: "BPreplay";
+  src: url("../fonts/BPreplay/BPreplay.otf");
+}
+
 body {
   margin: 0;
+  font-family: sans-serif;
 }
 
-article section {
-  display: none;
+application {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "header header header header"
+    "main main main main"
+    "footer footer footer footer";
 }
 
-article section:target {
-  display: block;
+application > header {
+  grid-area: header;
+  background-color: #9aac18;
+}
+
+application > header > branding {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 10pt;
+}
+
+application > header fieldset {
+  border: 0;
+}
+
+application > header > branding name {
+  font-family: "BPreplay";
+  font-size: 35pt;
+}
+
+application > header > branding slogan {
+  text-align: right;
 }
 
 application header {
@@ -15,4 +48,8 @@ application header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+application > content {
+  grid-area: main;
 }
