@@ -58,7 +58,6 @@ class Authentication(
       if (username.nonEmpty && password.nonEmpty) Some(UserPassword(username, password))
       else None
 
-
   val model: Rx[State] = event.map {
     case Initialized => Unauthenticated
     case SubmitLogout(user) => Unauthenticated
