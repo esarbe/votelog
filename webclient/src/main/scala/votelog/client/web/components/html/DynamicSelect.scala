@@ -26,6 +26,7 @@ class DynamicSelect[T: Show](legend: String, options: Rx[Set[T]], default: T)  {
 
   def view: Node =
     <fieldset>{
+      <legend>{legend}</legend>
       options
         .map { options =>
           val indexedOptions = (options.map(_.hashCode) zip options).toMap
