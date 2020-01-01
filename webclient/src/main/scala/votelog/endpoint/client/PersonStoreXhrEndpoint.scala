@@ -24,6 +24,6 @@ class PersonStoreXhrEndpoint(fragment: String)
   override implicit lazy val id: Segment[Person.Id] = (pid: Person.Id) => pid.value.toString
 
   override val contextQuery: QueryString[Context] =
-    (qs[LegislativePeriod.Id]("legislativePeriod") & qs[Language]("lang"))
+    (qs[LegislativePeriod.Id]("lp") & qs[Language]("lang"))
       .xmap(Context.tupled)(c => (c.legislativePeriod, c.language))
 }
