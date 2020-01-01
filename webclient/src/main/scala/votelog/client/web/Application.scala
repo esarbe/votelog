@@ -4,7 +4,7 @@ import mhtml.{Cancelable, Rx, Var}
 import org.scalajs.dom
 import org.scalajs.dom.HashChangeEvent
 import votelog.client.Configuration
-import votelog.client.service.{SessionServiceRest, UserStoreRest}
+import votelog.client.service.{PersonReadOnlyStoreAjaxService, SessionServiceRest, UserStoreRest}
 import votelog.client.web.components.Authentication.State.{Authenticated, Unauthenticated}
 import votelog.client.web.components.UserIndexComponent
 import votelog.domain.authentication.User
@@ -12,7 +12,6 @@ import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics
 import votelog.domain.politics.{Context, LegislativePeriod}
-import votelog.endpoint.client.PersonReadOnlyStoreAjaxService
 
 import scala.xml.{Group, Node}
 
@@ -27,8 +26,7 @@ object Application {
     rx
   }
 
-  val location =
-    url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
+  val location = url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
 
   val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
   val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
