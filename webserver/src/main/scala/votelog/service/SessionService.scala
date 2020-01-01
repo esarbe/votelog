@@ -20,7 +20,7 @@ class SessionService(
 ) {
   val service: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root as user => Ok(user.asJson)
-    case POST -> Root / "login" as user =>
+    case POST -> Root as user =>
       clock
         .realTime(MILLISECONDS)
         .flatMap { millis =>
@@ -34,8 +34,13 @@ class SessionService(
           )
         }
 
-    case POST -> Root / "logout" as _ =>
-      Ok("Logged out.").map(_.removeCookie(CookieName))
+    case DELETE -> Root as user =>
+      Ok(s"Logged out user ${user.name}")
+        .map(_.addCookie( ResponseCookie(
+          name = CookieName,
+          content = "",
+          path = Some(component.location)
+        )))
   }
 }
 
