@@ -2,7 +2,6 @@ package votelog.client.web.components
 
 import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
-import votelog.client.mhtml.mount.Embeddable
 import votelog.client.web.components.html.DynamicList
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.crudi.StoreAlg
@@ -25,6 +24,7 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
   val offset: Var[Offset] = Var(Offset(0))
   val validOffset = offset.keepIf(_.value >= 0)(Offset(0))
   var viewCancelable: Option[Cancelable] = None
+  val selected: Var[Option[Identity]] = Var(None)
 
   // will run like: None -> Some(List) -> None -> Some(List)
   val unstableIds: Rx[Option[List[Identity]]] =
@@ -33,32 +33,32 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
       ids <- store.index(indexQueryParameters).toRx
     } yield ids.flatMap {
       case Success(ids) => Some(ids)
-      case Failure(error) => println(s"error: ${error.getMessage}"); None
+      case Failure(error) => println(s"error: $error, ${error.getMessage}"); None
     }
 
   // keeps last list, None doesn't appear
   val ids: Rx[List[Identity]] = unstableIds.foldp(List.empty[Identity]){
-    case (acc, curr) => println(s"collecting $curr"); curr.getOrElse(acc)
+    case (acc, curr) => curr.getOrElse(acc)
   }
 
   val model: Rx[Option[T]] = {
     for {
       queryParameters <- queryParameters
-      _ = println("fooo")
       id <- selected
-      entities <-
-        Future.sequence(id.toList.map(store.read(queryParameters)))
-          .toRx
-          .collect { case Some(Success(entities)) => entities.headOption }(None)
-    } yield entities
+      entity <- id match {
+        case Some(id) => store.read(queryParameters)(id).toRx
+        case None => Rx(None)
+      }
+    } yield entity match {
+      case Some(Success(entity)) => Some(entity)
+      case _ => None
+    }
   }
 
   def setOffset: js.Dynamic => Unit = {
     event =>
       offset := Offset(event.target.value.asInstanceOf[String].toLong)
   }
-
-  val selected: Var[Option[Identity]] = Var(None)
 
   def render(renderEntity: (Identity, T) => Rx[Node]): Identity => Rx[Node] = { (id: Identity) =>
     val person: Rx[Either[Throwable, Option[T]]] =
@@ -82,7 +82,8 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
   }
 
   def mountView(e: org.scalajs.dom.Node, renderEntity: (Identity, T) => Rx[Node]) = {
-    viewCancelable = Some(DynamicList.mountOn(ids, render(renderEntity))(e))
+    val cancel = DynamicList.mountOn(ids, render(renderEntity))(e)
+    viewCancelable = Some(cancel)
   }
 
   def unmountView(e: org.scalajs.dom.Node) = {
@@ -99,9 +100,11 @@ abstract class CrudIndexComponent[T, Identity, Recipe](
       </fieldset>
       { queryParametersView.map(view => <fieldset> {view} </fieldset>) }
     </header>
-    <content
-      mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node, renderEntity) }
-      mhtml-onunmount={ (node: org.scalajs.dom.Node) => unmountView(node) } />
+    <content>
+      <ul mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node, renderEntity) }
+          mhtml-onunmount={ (node: org.scalajs.dom.Node) => unmountView(node) } />
+    </content>
+
   }
 
 
