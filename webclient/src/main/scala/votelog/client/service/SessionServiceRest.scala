@@ -23,7 +23,7 @@ class SessionServiceRest(context: Configuration) extends SessionService[Future] 
         val basicAuthCreds = s"Basic  ${dom.window.btoa(s"$username:$password")}"
         Ajax
           .post(
-            url = context.url + "/auth/login",
+            url = context.url + "/auth/session",
             headers = Map("Authorization" -> basicAuthCreds),
             withCredentials = true,
           )
@@ -39,16 +39,15 @@ class SessionServiceRest(context: Configuration) extends SessionService[Future] 
   }
 
   override def get: Future[Either[SessionService.Error, User]] = {
-    Ajax.get(url = context.url + "/auth", withCredentials = true)
+    Ajax.get(url = context.url + "/auth/user", withCredentials = true)
       .map { res =>
-        parser.decode[User](res.responseText)
-          .leftMap(DecodingError)
+        parser.decode[User](res.responseText).leftMap(DecodingError)
       }
   }
 
   override def logout(): Future[Unit] = {
     Ajax
-      .post(url = context.url + "/auth/logout", withCredentials = true)
+      .delete(url = context.url + "/auth/user", withCredentials = true)
       .void
   }
 }
