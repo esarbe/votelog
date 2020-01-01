@@ -9,6 +9,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.politics.{Context, Person}
+import votelog.persistence.PersonStore
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -17,14 +18,14 @@ import scala.util.{Failure, Success}
 import scala.xml.{Group, Node, NodeBuffer}
 
 class Persons(
-  persons: ReadOnlyStoreAlg[Future, Person, Person.Id],
+  persons: PersonStore[Future],
   queryParameters: Rx[Context],
   defaultPageSize: PageSize,
 ) {
 
   val pageSize: Var[PageSize] = Var(defaultPageSize)
   val offset: Var[Offset] = Var(Offset(0))
-  val validOffset = offset.keepIf(_.value >= 0)(Offset(0))
+  val validOffset: Rx[Offset] = offset.keepIf(_.value >= 0)(Offset(0))
   var cache = collection.mutable.Map.empty[Person.Id, Rx[Person]]
   var viewCancelable: Option[Cancelable] = None
 
@@ -38,7 +39,7 @@ class Persons(
       ids <- personsService.index(indexQueryParams).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(ids)
-      case Some(Failure(error)) => println(s"error: ${error.getMessage}"); None
+      case Some(Failure(error)) => println(s"error: $error, ${error.getMessage}"); None
       case None => None
     }
 
