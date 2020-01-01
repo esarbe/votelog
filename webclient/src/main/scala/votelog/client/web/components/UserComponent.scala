@@ -27,8 +27,6 @@ class UserComponent(
 
   def id(id: String): String = component.child(id).location
 
-
-
   object create {
 
     type Error = (String, String)
@@ -74,24 +72,24 @@ class UserComponent(
     def id(id: String): String = component.child("create").child(id).location
 
     def form(legend: String): Elem = {
-        <article class="user">
-          <fieldset onkeyup={ ifEnter(set(submitCreate)) }>
-            <legend>{legend}</legend>
-            { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
-            { inputText(id = id("email"), label = "Email", rx = email, errors = errors) }
-            { inputPassword(id = id("password"), label = "Password", rx = password, errors = errors) }
-            { inputPassword(id = id("confirmPassword"), label = "Confirm password", rx = confirmPassword, errors = errors) }
+      <article class="user">
+        <fieldset onkeyup={ ifEnter(set(submitCreate)) }>
+          <legend>{legend}</legend>
+          { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
+          { inputText(id = id("email"), label = "Email", rx = email, errors = errors) }
+          { inputPassword(id = id("password"), label = "Password", rx = password, errors = errors) }
+          { inputPassword(id = id("confirmPassword"), label = "Confirm password", rx = confirmPassword, errors = errors) }
 
-            <input type="button" value="x" onclick={ set(submitCreate) } enabled={ validatedRecipe.map(_.nonEmpty) } />
-            {
-              model.map {
-                case Some(Right(id)) => <p>User {id.value} created</p>
-                case Some(Left(error)) => <p>Error creating new user: {error.getMessage}</p>
-                case None => <p></p>
-              }
+          <input type="button" value="create" onclick={ set(submitCreate) } disabled={ validatedRecipe.map(_.isEmpty) } />
+          {
+            model.map {
+              case Some(Right(id)) => <p>User {id.value} created</p>
+              case Some(Left(error)) => <p>Error creating new user: {error.getMessage}</p>
+              case None => <p></p>
             }
-          </fieldset>
-        </article>
+          }
+        </fieldset>
+      </article>
     }
   }
 
@@ -104,7 +102,7 @@ class UserComponent(
     </article>
   }
 
-  def renderFullUser(user: Option[User]) = Rx {
+  def renderFullUser(user: Option[User]): Elem = {
     user match {
       case Some(user) =>
         <article class="user">
@@ -140,11 +138,11 @@ class UserComponent(
 
   object read {
     val model =  crud.selected
-    val view = crud.model.map(renderFullUser)
+    val view: Rx[Elem] = crud.model.map(renderFullUser)
   }
 
   val view = Group {
-    <section id={id("index")} >
+    <section id={id("")} >
       { index.view }
     </section>
     <section id={id("read")} >
