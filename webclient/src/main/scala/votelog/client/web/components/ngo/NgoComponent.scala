@@ -30,9 +30,6 @@ class NgoComponent(
     type Error = (String, String)
 
     private val name = Var("")
-    private val email = Var("")
-    private val password = Var("")
-    private val confirmPassword = Var("")
     private val submitCreate = Var("")
 
     private val recipe: Rx[Validated[NonEmptyList[(String, String)], Recipe]] =
@@ -58,7 +55,11 @@ class NgoComponent(
         .flatMap {
           case Some(recipe) => store.create(recipe).toRx
           case None => Rx(None)
-        }.map {
+        }.map { q =>
+            println(s"Q: $q")
+          q
+        }
+        .map {
           case None => None
           case Some(Success(ngoId)) => Some(Right(ngoId))
           case Some(Failure(error)) => Some(Left(error))
@@ -67,13 +68,10 @@ class NgoComponent(
     def id(id: String): String = component.child("create").child(id).location
 
     def form(legend: String): Elem = {
-      <article class="Ngo">
+      <article class="ngo">
         <fieldset onkeyup={ ifEnter(set(submitCreate)) }>
           <legend>{legend}</legend>
           { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
-          { inputText(id = id("email"), label = "Email", rx = email, errors = errors) }
-          { inputPassword(id = id("password"), label = "Password", rx = password, errors = errors) }
-          { inputPassword(id = id("confirmPassword"), label = "Confirm password", rx = confirmPassword, errors = errors) }
 
           <input type="button" value="create" onclick={ set(submitCreate) } disabled={ validatedRecipe.map(_.isEmpty) } />
           {
@@ -123,8 +121,11 @@ class NgoComponent(
   }
 
   val view = Group {
-    <section id={id("")} >
+    <section id={id("index")} >
       { index.view }
+    </section>
+    <section id={id("create")}>
+      { create.form("Create") }
     </section>
     <section id={id("read")} >
       { read.view }

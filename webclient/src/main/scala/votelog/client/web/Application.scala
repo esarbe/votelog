@@ -1,17 +1,18 @@
 package votelog.client.web
 
-import mhtml.{Cancelable, Rx, Var}
+import mhtml.{Rx, Var}
 import org.scalajs.dom
 import org.scalajs.dom.HashChangeEvent
 import votelog.client.Configuration
-import votelog.client.service.{PersonReadOnlyStoreAjaxService, SessionServiceRest, UserStoreRest}
+import votelog.client.service.{NgoStoreRest, PersonReadOnlyStoreAjaxService, SessionServiceRest, UserStoreRest}
 import votelog.client.web.components.Authentication.State.{Authenticated, Unauthenticated}
 import votelog.client.web.components.UserIndexComponent
+import votelog.client.web.components.ngo.NgoIndexComponent
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics
-import votelog.domain.politics.{Context, LegislativePeriod}
+import votelog.domain.politics.{Context, LegislativePeriod, Ngo}
 
 import scala.xml.{Group, Node}
 
@@ -29,18 +30,23 @@ object Application {
   val location = url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
 
   val context: Var[Context] = Var(Context(LegislativePeriod.Default.id, politics.Language.English))
-  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  val configuration = Configuration("http://localhost:8080/api/v0")
   val root = Component.Root
 
   val personsService = new PersonReadOnlyStoreAjaxService(configuration)
+
   val authService = new SessionServiceRest(configuration)
 
   val userService = new UserStoreRest(configuration)
-  val userIndexComponent = new UserIndexComponent(userService, defaultPageSize)
+  val ngoService = new NgoStoreRest(configuration)
+
 
   val authComponent = new components.Authentication(authService)
   val languageComponent = new components.Language
   val personsComponent = new components.Persons(personsService, context, defaultPageSize)
+  val ngoIndexComponent = new NgoIndexComponent(ngoService, defaultPageSize)
+  val ngoComponent = new components.ngo.NgoComponent(root.child("ngo"), ngoService, ngoIndexComponent)
+  val userIndexComponent = new UserIndexComponent(userService, defaultPageSize)
   val userComponent = new components.UserComponent(root.child("user"), userService, userIndexComponent)
   val appView: Rx[Node] = location.map(Router.apply)
 
@@ -54,6 +60,13 @@ object Application {
         case "user" :: id :: Nil =>
           userComponent.read.model := Some(User.Id(id))
           userComponent.view
+
+        case "ngo" :: Nil =>
+          ngoComponent.view
+        case "ngo" :: id :: Nil =>
+          ngoComponent.read.model := Some(Ngo.Id(id))
+          ngoComponent.view
+
         case "session" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")
         case "person" :: Nil => personsComponent.view
@@ -94,6 +107,7 @@ object Application {
         </content>
 
         <footer>
+          Contact | Blag  gitlab
         </footer>
       </application>
 
