@@ -3,7 +3,6 @@ package votelog.client.service
 import votelog.client.Configuration
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
-import votelog.domain.crudi.StoreAlg
 import votelog.persistence.UserStore
 
 import scala.concurrent.Future

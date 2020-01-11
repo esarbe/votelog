@@ -5,7 +5,7 @@ import cats.implicits._
 import doobie._
 import doobie.implicits._
 import votelog.domain.politics.Scoring.{Score, Weight}
-import votelog.domain.politics.{Motion, Ngo}
+import votelog.domain.politics.{Business, Ngo}
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
@@ -30,7 +30,7 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
   private def readQuery(id: Ngo.Id) =
     sql"select name from ngos where id = $id".query[Ngo].unique
 
-  private def upsertMotionScoreQuery(ngoId: Ngo.Id, motionId: Motion.Id, score: Score) =
+  private def upsertMotionScoreQuery(ngoId: Ngo.Id, motionId: Business.Id, score: Score) =
     for {
       scored <-
         sql"select count(*) > 0 from motions_scores where ngoid = $ngoId and motionid = $motionId"
@@ -44,13 +44,13 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
           sql"insert into motions_scores values ($ngoId, $motionId, $score)".update.run
     } yield ()
 
-  private def deleteMotionScoreQuery(ngoId: Ngo.Id, motionId: Motion.Id) =
+  private def deleteMotionScoreQuery(ngoId: Ngo.Id, motionId: Business.Id) =
     sql"delete from motions_scores where ngoid = $ngoId and motionid = $motionId".update.run
 
 
-  private def selectMotionScore(ngoId: Ngo.Id): doobie.ConnectionIO[List[(Motion.Id, Score)]] =
+  private def selectMotionScore(ngoId: Ngo.Id): doobie.ConnectionIO[List[(Business.Id, Score)]] =
     sql"select motionid, score from motions_scores where ngoid = $ngoId"
-      .query[(Motion.Id, Score)]
+      .query[(Business.Id, Score)]
       .accumulate[List]
 
 
@@ -78,13 +78,13 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
   override def read(p: QueryParameters)(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
-  override def motionsScoredBy(ngo: Ngo.Id): F[List[(Motion.Id, Score)]] =
+  override def motionsScoredBy(ngo: Ngo.Id): F[List[(Business.Id, Score)]] =
     selectMotionScore(ngo).transact(transactor)
 
-  override def scoreMotion(ngo: Ngo.Id, motion: Motion.Id, score: Score): F[Unit] =
+  override def scoreMotion(ngo: Ngo.Id, motion: Business.Id, score: Score): F[Unit] =
     upsertMotionScoreQuery(ngo, motion, score).transact(transactor)
 
-  override def removeMotionScore(ngo: Ngo.Id, motion: Motion.Id): F[Unit] =
+  override def removeMotionScore(ngo: Ngo.Id, motion: Business.Id): F[Unit] =
     deleteMotionScoreQuery(ngo, motion).transact(transactor).void
 
 }

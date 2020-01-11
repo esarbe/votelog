@@ -4,10 +4,10 @@ import cats.effect.{ContextShift, IO}
 import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{FlatSpec, Matchers}
-import votelog.domain.politics.{Motion, Ngo}
+import votelog.domain.politics.{Business, Ngo}
 import votelog.domain.politics.Scoring.Score
 import votelog.persistence.NgoStore.Recipe
-import votelog.persistence.{MotionStore, NgoStore, PersonStore, StoreSpec}
+import votelog.persistence.{BusinessStore, NgoStore, PersonStore, StoreSpec}
 
 import scala.concurrent.ExecutionContext
 
@@ -44,7 +44,7 @@ class DoobieNgoStoreSpec
       for {
         nid <- store.create(NgoStore.Recipe("Earthicans"))
         before <- store.motionsScoredBy(nid)
-        mid = Motion.Id(1)
+        mid = Business.Id(1)
         _ <- store.scoreMotion(nid, mid, Score(0.0))
         afterScoring <- store.motionsScoredBy(nid)
         _ <- store.scoreMotion(nid, mid, Score(0.5))
@@ -64,7 +64,7 @@ class DoobieNgoStoreSpec
       for {
         nid <- store.create(NgoStore.Recipe("Earthicans"))
         before <- store.motionsScoredBy(nid)
-        mid = Motion.Id(1)
+        mid = Business.Id(1)
         _ <- store.scoreMotion(nid, mid, Score(0.0))
         afterScoring <- store.motionsScoredBy(nid)
         _ <- store.removeMotionScore(nid, mid)

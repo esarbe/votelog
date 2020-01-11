@@ -11,18 +11,18 @@ import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
-import votelog.domain.politics.Motion
+import votelog.domain.politics.Business
 import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
-import votelog.persistence.MotionStore
-import votelog.service.MotionServiceSpec.check
+import votelog.persistence.BusinessStore
+import votelog.service.BusinessServiceSpec.check
 
 
-class MotionServiceSpec extends FlatSpec with Matchers {
+class BusinessServiceSpec extends FlatSpec with Matchers {
 
   val store =
-    new MotionStore[IO] {
-      override def index(queryParameters: IndexQueryParameters): IO[List[Motion.Id]] = IO.pure(Nil)
-      override def read(queryParameters: QueryParameters)(id: Motion.Id): IO[Motion] = ???
+    new BusinessStore[IO] {
+      override def index(queryParameters: IndexQueryParameters): IO[List[Business.Id]] = IO.pure(Nil)
+      override def read(queryParameters: QueryParameters)(id: Business.Id): IO[Business] = ???
     }
 
   val auth: AuthorizationAlg[IO] = (_, _, _) => IO.pure(true)
@@ -35,11 +35,11 @@ class MotionServiceSpec extends FlatSpec with Matchers {
     val result = service.run(request).value
 
     // TODO: find a way to use matchers better
-    check(result, Ok, Some(List.empty[Motion.Id].asJson)) shouldBe true
+    check(result, Ok, Some(List.empty[Business.Id].asJson)) shouldBe true
   }
 }
 
-object MotionServiceSpec extends Matchers with Inside {
+object BusinessServiceSpec extends Matchers with Inside {
   def check[A](
     eventualResponse: IO[Option[Response[IO]]],
     expectedStatus: Status,

@@ -1,5 +1,7 @@
 package votelog.app
 
+import cats.Monad
+import cats.data.{Kleisli, OptionT}
 import cats.effect._
 import cats.implicits._
 import org.http4s.implicits._
@@ -7,7 +9,7 @@ import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware.CORS
 import org.http4s.server.middleware.authentication.BasicAuth
 import org.http4s.server.{AuthMiddleware, Router}
-import org.http4s.{BasicCredentials, HttpRoutes}
+import org.http4s.{AuthedRequest, BasicCredentials, HttpRoutes, Request, Response}
 import org.reactormonk.{CryptoBits, PrivateKey}
 import pureconfig.generic.auto._
 import votelog.app
@@ -75,7 +77,8 @@ object Webserver extends IOApp {
     val key = PrivateKey(configuration.secret.getBytes)
     val crypto: CryptoBits = CryptoBits(key)
     val clock = Clock[IO]
-    val auth: AuthMiddleware[IO, User] = new AuthenticationService(votelog.user, crypto).middleware
+    val authService = new AuthenticationService(votelog.user, crypto)
+    val auth: AuthMiddleware[IO, User] = authService.middleware
 
     val validateCredentials: BasicCredentials => IO[Option[User]] = { creds =>
       for {

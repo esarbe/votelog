@@ -13,7 +13,7 @@ import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.politics.{Context, Language, LegislativePeriod, Motion, Person}
+import votelog.domain.politics.{Context, Language, LegislativePeriod, Business, Person}
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.{Param, ReadOnlyStoreService, VoteAlg}
 import votelog.orphans.circe.implicits._
@@ -27,15 +27,15 @@ class PersonService(
   val authAlg: AuthorizationAlg[IO],
 ) extends ReadOnlyStoreService[Person, Person.Id] {
 
-  implicit val motionIdCirceKeyEncoder: KeyEncoder[Motion.Id] =
-    KeyEncoder.instance[Motion.Id](_.value.toString)
+  implicit val motionIdCirceKeyEncoder: KeyEncoder[Business.Id] =
+    KeyEncoder.instance[Business.Id](_.value.toString)
 
   val defaultIndexQueryParameters: IndexQueryParameters[Context] =
     IndexQueryParameters[Context](PageSize(20), Offset(0), Context(LegislativePeriod.Id(50), Language.English))
 
   object MotionId {
-    def unapply(str: String): Option[Motion.Id] =
-      KeyDecoder[Motion.Id].apply(str)
+    def unapply(str: String): Option[Business.Id] =
+      KeyDecoder[Business.Id].apply(str)
   }
 
   lazy val voting: AuthedRoutes[User, IO] =  AuthedRoutes.of {

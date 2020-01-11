@@ -1,7 +1,7 @@
 package votelog.service
 
 import cats.Traverse
-import cats.data.{Kleisli, OptionT}
+import cats.data.{EitherT, Kleisli, OptionT}
 import cats.effect.IO
 import cats.implicits._
 import org.http4s.dsl.io._
