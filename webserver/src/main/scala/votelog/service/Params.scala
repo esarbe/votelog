@@ -18,8 +18,8 @@ object Params {
       .map(Context.tupled)
 
   def indexQueryParam[T](implicit ev: Param[T]): Param[ReadOnlyStoreAlg.IndexQueryParameters[T]] = {
-    implicit val pageSizeKeyDecoder: KeyDecoder[PageSize] = KeyDecoder.decodeKeyInt.map(PageSize)
-    implicit val offsetDecoder: KeyDecoder[Offset] = KeyDecoder.decodeKeyLong.map(Offset)
+    implicit val pageSizeKeyDecoder: KeyDecoder[PageSize] = KeyDecoder.decodeKeyInt.map(PageSize.apply)
+    implicit val offsetDecoder: KeyDecoder[Offset] = KeyDecoder.decodeKeyLong.map(Offset.apply)
 
     combine(combine(Param[PageSize]("ps"), Param[Offset]("os")), ev)
         .map{ case (ps, os, t) => IndexQueryParameters[T](ps, os, t) }

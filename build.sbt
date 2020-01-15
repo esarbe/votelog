@@ -15,10 +15,12 @@ val core =
           "io.circe" %%% "circe-core" % circeVersion,
           "io.circe" %%% "circe-generic" % circeVersion,
           "io.circe" %%% "circe-parser" % circeVersion,
-          "io.circe" %%% "circe-generic-extras"  % circeVersion,
+          "io.circe" %%% "circe-generic-extras"  % "0.12.2",
           "org.julienrf" %%% "endpoints-algebra" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.12"),
           "org.julienrf" %%% "endpoints-json-schema-generic" % "0.12.0"
             exclude("org.scala-lang.modules", "scala-xml_2.12"),
+          "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
+          "org.scalacheck" %%% "scalacheck" % "1.14.0" % Test,
         )
     )
     .jsSettings(
@@ -34,6 +36,8 @@ val webclient =
       Settings.common,
       Settings.compiler,
       scalaJSUseMainModuleInitializer := true,
+      jsEnv in Test := PhantomJSEnv().value,
+      scalaJSLinkerConfig in Test ~= { _.withESFeatures(_.withUseECMAScript2015(false)) },
       mainClass in Compile := Some("votelog.client.web.Application"),
       libraryDependencies ++=
         Seq(
@@ -41,8 +45,6 @@ val webclient =
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1",
-          "org.julienrf" %%% "endpoints-xhr-client" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.12"),
-          "org.julienrf" %%% "endpoints-xhr-client-circe" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.12"),
         )
     )
     .dependsOn(core.js)

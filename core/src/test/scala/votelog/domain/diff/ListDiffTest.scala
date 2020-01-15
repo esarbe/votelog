@@ -1,6 +1,6 @@
 package votelog.domain.diff
 
-import org.scalatest.{FlatSpec, Matchers, WordSpec}
+import org.scalatest.{Matchers, WordSpec}
 import votelog.domain.diff.ListDiff.Op
 import votelog.domain.diff.ListDiff.Op.{Delete, Insert}
 

@@ -3,7 +3,7 @@ package votelog.client.web.components.html
 import cats._
 import cats.implicits._
 import mhtml.{Rx, Var}
-import votelog.client.web.components.Component
+import votelog.client.web.components.id
 
 import scala.scalajs.js
 import scala.xml.{Elem, Node}
@@ -11,7 +11,13 @@ import scala.xml.{Elem, Node}
 /**
   * an html select element whose options won't change
   */
-class StaticSelect[T: Show](legend: String, options: Set[T], default: T) extends Component[T] {
+class StaticSelect[T: Show : Ordering](
+  legend: String,
+  options: Seq[T],
+  default: T,
+  clazz: String,
+  id: String
+) {
 
   val model = Var[T](default)
 
@@ -24,13 +30,16 @@ class StaticSelect[T: Show](legend: String, options: Set[T], default: T) extends
     <option selected={selected.map(_ == option)} value={option.hashCode.toString}>{option.show}</option>
   }
 
-  override def view: Node =
-    <fieldset>
-      {
-        val indexedOptions = (options.map(_.hashCode) zip options).toMap
-        <select onchange={ set(indexedOptions)(model) }>
+  def view: Node = {
+    val indexedOptions = (options.sorted.map(_.hashCode) zip options).toMap
+
+    <dl class={clazz}>
+      <dt><label for={id} >Page Size</label></dt>
+      <dd>
+        <select id={id} onchange={ set(indexedOptions)(model) }>
           { options.map(option(model)).toList }
         </select>
-      }
-    </fieldset>
+      </dd>
+    </dl>
+  }
 }

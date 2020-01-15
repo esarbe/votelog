@@ -4,24 +4,32 @@ import cats.data.Validated.{Invalid, Valid}
 import cats.data.{NonEmptyList, Validated}
 import mhtml.future.syntax._
 import mhtml.{Rx, Var}
-import votelog.client.web.components.CrudIndexComponent
+import votelog.client.web.components.{CrudIndexComponent, Paging}
 import votelog.client.web.components.html.tools.{ifEnter, inputPassword, inputText, set}
-import votelog.domain.crudi.StoreAlg
-import votelog.domain.politics.Ngo
+import votelog.domain.authorization.Component
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.politics.{Context, Ngo}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scala.xml.{Elem, Group}
+import scala.xml.{Elem, Group, Node}
+
+object NgoComponent {
+  case class Configuration(defaultContext: Context, defaultPageSize: PageSize, pageSizes: Seq[PageSize])
+}
 
 class NgoComponent(
-  // need to figure out better way to put all of this together
   component: votelog.domain.authorization.Component,
-  store: StoreAlg[Future, Ngo, Ngo.Id, Recipe],
-  crud: CrudIndexComponent[Ngo, Ngo.Id, NgoStore.Recipe]
-) {
+  configuration: NgoComponent.Configuration,
+  val store: NgoStore[Future],
+) extends CrudIndexComponent[Ngo, Ngo.Id] { self =>
+
+  val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
+  val queryParameters: Rx[store.QueryParameters] = Rx(())
+  val queryParametersView: Option[Node] = None
 
   def id(id: String): String = component.child(id).location
 
@@ -55,9 +63,6 @@ class NgoComponent(
         .flatMap {
           case Some(recipe) => store.create(recipe).toRx
           case None => Rx(None)
-        }.map { q =>
-            println(s"Q: $q")
-          q
         }
         .map {
           case None => None
@@ -86,8 +91,8 @@ class NgoComponent(
     }
   }
 
-  def renderPreviewNgo(id: Ngo.Id, ngo: Ngo): Rx[Elem] = Rx {
-    <article class="ngo" data-selected={ crud.selected.map(_.contains(id)) }>
+  def renderNgoPreview(id: Ngo.Id, ngo: Ngo): Rx[Elem] = Rx {
+    <article class="ngo preview" data-selected={ selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Name</dt>
         <dd>{ngo.name}</dd>
@@ -111,13 +116,29 @@ class NgoComponent(
   }
 
   object index {
-    val model = crud.ids
-    val view = crud.view(renderPreviewNgo)
+
+    val paging: Paging =
+      new Paging {
+        override val configuration: Paging.Configuration =
+          Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+        implicit val component: Component = self.component.child("paging")
+      }
+
+    val view =
+      <section>
+        <controls>
+          <fieldset>
+            { paging.view }
+          </fieldset>
+
+        </controls>
+        { self.renderIndex(renderNgoPreview) }
+      </section>
   }
 
   object read {
-    val model =  crud.selected
-    val view: Rx[Elem] = crud.model.map(renderFullNgo)
+    val model = self.selectedId
+    val view: Rx[Elem] = self.selectedEntity.map(renderFullNgo)
   }
 
   val view = Group {

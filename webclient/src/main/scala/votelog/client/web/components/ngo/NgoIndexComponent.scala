@@ -10,10 +10,10 @@ import scala.concurrent.Future
 import scala.xml.Node
 
 class NgoIndexComponent(
-  override val store: NgoStore[Future],
-  defaultPageSize: PageSize,
-) extends CrudIndexComponent[Ngo, Ngo.Id, NgoStore.Recipe](store, defaultPageSize) {
-  override def indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
-  override def queryParameters: Rx[store.QueryParameters] = Rx(())
-  override def queryParametersView: Option[Node] = None
+  val store: NgoStore[Future],
+  val defaultPageSize: PageSize,
+) extends CrudIndexComponent[Ngo, Ngo.Id]{
+  val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
+  val queryParameters: Rx[store.QueryParameters] = Rx(())
+  val queryParametersView: Option[Node] = None
 }

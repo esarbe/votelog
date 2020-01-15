@@ -9,21 +9,33 @@ import mhtml.{Rx, Var}
 import votelog.client.web.components.html.tools.{ifEnter, inputPassword, inputText, set}
 import votelog.domain.authentication.User
 import votelog.domain.authentication.User.{Email, Permission}
+import votelog.domain.authorization.Component
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.crudi.StoreAlg
+import votelog.domain.politics.Context
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, Recipe}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scala.xml.{Elem, Group}
+import scala.xml.{Elem, Group, Node}
+
+object UserComponent {
+  case class Configuration(defaultPageSize: PageSize, pageSizes: Seq[PageSize])
+}
 
 class UserComponent(
   // need to figure out better way to put all of this together
   component: votelog.domain.authorization.Component,
-  store: StoreAlg[Future, User, User.Id, Recipe],
-  crud: CrudIndexComponent[User, User.Id, UserStore.Recipe]
-) {
+  configuration: UserComponent.Configuration,
+  val store: UserStore[Future],
+) extends CrudIndexComponent[User, User.Id] { self =>
+
+  val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
+  val queryParameters: Rx[store.QueryParameters] = Rx(())
+  val queryParametersView: Option[Node] = None
+
 
   def id(id: String): String = component.child(id).location
 
@@ -93,8 +105,8 @@ class UserComponent(
     }
   }
 
-  def renderPreviewUser(id: User.Id, user: User): Rx[Elem] = Rx {
-    <article class="user" data-selected={ crud.selected.map(_.contains(id)) }>
+  def renderUserPreview(id: User.Id, user: User): Rx[Elem] = Rx {
+    <article class="user" data-selected={ self.selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Name</dt>
         <dd>{user.name}</dd>
@@ -132,13 +144,31 @@ class UserComponent(
   }
 
   object index {
-    val model = crud.ids
-    val view = crud.view(renderPreviewUser)
+
+    val paging: Paging =
+      new Paging {
+        override val configuration: Paging.Configuration =
+          Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+        implicit val component: Component = self.component.child("paging")
+      }
+
+    val view =
+      <section>
+        <controls>
+          <fieldset>
+            { paging.view }
+          </fieldset>
+
+        </controls>
+        { self.renderIndex(renderUserPreview) }
+      </section>
+
+    val model = self.ids
   }
 
   object read {
-    val model =  crud.selected
-    val view: Rx[Elem] = crud.model.map(renderFullUser)
+    val model =  self.selectedId
+    val view: Rx[Elem] = self.selectedEntity.map(renderFullUser)
   }
 
   val view = Group {

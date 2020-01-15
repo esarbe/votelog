@@ -8,8 +8,8 @@ import votelog.persistence.UserStore
 import scala.concurrent.Future
 import votelog.orphans.circe.implicits._
 
-class UserStoreRest(configuration: Configuration)
-  extends RestStore[User, User.Id, UserStore.Recipe]
+class UserStoreXhr(configuration: Configuration)
+  extends StoreXhr[User, User.Id, UserStore.Recipe]
     with UserStore[Future] {
 
   val indexUrl =  configuration.url + "/user"

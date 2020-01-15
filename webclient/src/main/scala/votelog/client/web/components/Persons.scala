@@ -2,8 +2,7 @@ package votelog.client.web.components
 
 import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
-import votelog.client.mhtml.mount.Embeddable
-import votelog.client.web.Application.{personsComponent, personsService}
+import votelog.client.web.Application.{personsComponent, personsStore}
 import votelog.client.web.components.html.DynamicList
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
@@ -36,7 +35,7 @@ class Persons(
       pageSize <- pageSize
       queryParameters <- queryParameters
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
-      ids <- personsService.index(indexQueryParams).toRx
+      ids <- personsStore.index(indexQueryParams).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(ids)
       case Some(Failure(error)) => println(s"error: $error, ${error.getMessage}"); None
@@ -54,10 +53,10 @@ class Persons(
       pageSize <- pageSize
       queryParameters <- queryParameters
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
-      ids = personsService.index(indexQueryParams)
+      ids = personsStore.index(indexQueryParams)
       persons <-
         ids
-          .flatMap { ids => Future.sequence(ids.map(personsService.read(queryParameters.language))) }
+          .flatMap { ids => Future.sequence(ids.map(personsStore.read(queryParameters.language))) }
           .toRx
           .collect { case Some(Success(persons)) => persons }(Nil)
     } yield persons
@@ -89,7 +88,7 @@ class Persons(
     val person: Rx[Either[Throwable, Either[Person.Id, Person]]] =
       for {
         qp <- queryParameters
-        person <- personsService.read(qp.language)(id).toRx
+        person <- personsStore.read(qp.language)(id).toRx
       } yield person match {
         case Some(Success(person)) => Right(Right(person))
         case Some(Failure(exception)) => Left(exception)

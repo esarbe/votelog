@@ -18,7 +18,7 @@ import votelog.domain.authentication.Authentication.Credentials
 import scala.scalajs.js
 class Authentication(
   auth: SessionService[Future],
-) extends Component[Authentication.State] {
+) {
 
   val event: Var[Event] = Var(Initialized)
 

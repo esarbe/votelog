@@ -3,7 +3,6 @@ package votelog.client.web.components.html
 import cats._
 import cats.implicits._
 import mhtml.{Rx, Var}
-import votelog.client.web.components.Component
 
 import scala.scalajs.js
 import scala.xml.{Elem, Node}

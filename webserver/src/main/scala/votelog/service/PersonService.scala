@@ -3,14 +3,17 @@ package votelog.service
 import cats.effect.IO
 import cats.implicits._
 import io.circe._
+import io.circe.generic.semiauto._
 import io.circe.generic.auto._
+//import io.circe.generic.semiauto._
+import io.circe.generic.extras.semiauto._
+import io.circe.generic.extras.defaults._
 import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
-import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.politics.{Context, Language, LegislativePeriod, Business, Person}
@@ -42,7 +45,10 @@ class PersonService(
 
     case GET -> Root / Id(id) / "votes" as user =>
       voteAlg.getVotesForPerson(id).attempt.flatMap {
-        case Right(votes) => Ok(votes.toMap.asJson)
+        case Right(votes) =>
+          implicitly[Encoder[votelog.domain.politics.Votum]]
+          implicitly[Encoder[votelog.domain.politics.Business.Id]]
+          Ok(votes.toMap.asJson)
         case Left(error) => InternalServerError(error.getMessage)
       }
   }

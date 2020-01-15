@@ -10,7 +10,7 @@ import io.circe.syntax._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-abstract class RestStore[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encoder]
+abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encoder]
   extends StoreAlg[Future, T, Identity, Recipe]{
 
   val indexUrl: String // TODO: maybe reuse [[Component]]?!!!

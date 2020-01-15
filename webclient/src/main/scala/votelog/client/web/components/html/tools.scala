@@ -45,6 +45,14 @@ object tools {
     _ => vrx := t
   }
 
+  def update[T](vrx: Var[T])(f: T => T): js.Dynamic => Unit = {
+    _ => vrx.update(f)
+  }
+
+  def trigger(vrx: Var[Unit]): js.Dynamic => Unit = {
+    _ => vrx := Unit
+  }
+
   def set[T](vrx: Var[T]): js.Dynamic => Unit = {
     event =>
       vrx := event.target.value.asInstanceOf[T]

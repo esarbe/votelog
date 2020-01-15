@@ -15,7 +15,7 @@ import votelog.orphans.circe.implicits._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SessionServiceRest(context: Configuration) extends SessionService[Future] {
+class SessionServiceXhr(context: Configuration) extends SessionService[Future] {
 
   override def login(cred: Authentication.Credentials): Future[Either[Error, User]] = {
     cred match {
