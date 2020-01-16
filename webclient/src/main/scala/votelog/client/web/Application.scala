@@ -33,7 +33,7 @@ object Application {
   val defaultContext = Context(LegislativePeriod.Default.id, politics.Language.English)
   val context: Var[Context] = Var(defaultContext)
 
-  val configuration = Configuration("https://votelog.herokuapps.com/api/v0")
+  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
 
   val root = Component.Root
 
