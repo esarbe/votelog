@@ -23,11 +23,11 @@ class BusinessComponent(
   component: votelog.domain.authorization.Component,
   configuration: BusinessComponent.Configuration,
   val store: BusinessStore[Future],
+  language: Rx[Language]
 ) extends CrudIndexComponent[Business, Business.Id] { self =>
 
   def id(id: String): String = component.child(id).location
 
-  val language = new StaticSelect("language", Language.values.toSeq, Language.English, "lang", "lang")
   val legislativePeriod =
     new StaticSelect(
       legend = "legislative period",
@@ -37,16 +37,12 @@ class BusinessComponent(
       id = "legislativePeriod"
     )
 
-  val paging: Paging =
-    new Paging {
-      override val configuration: Paging.Configuration =
-        Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
-      implicit val component: Component = self.component.child("paging")
-    }
+  val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+  val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
   val queryParameters: Rx[Context] =
     for {
-      language <- language.model
+      language <- language
       legislativePeriod <- legislativePeriod.model
     } yield Context(legislativePeriod, language)
 

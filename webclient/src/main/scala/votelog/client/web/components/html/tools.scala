@@ -53,6 +53,11 @@ object tools {
     _ => vrx := Unit
   }
 
+  def setAs[T](vrx: Var[T])(f: js.Dynamic => T) = {
+    event: js.Dynamic =>
+      vrx := f(event.target.value)
+  }
+
   def set[T](vrx: Var[T]): js.Dynamic => Unit = {
     event =>
       vrx := event.target.value.asInstanceOf[T]

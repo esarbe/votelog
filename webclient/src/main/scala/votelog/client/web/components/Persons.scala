@@ -3,11 +3,12 @@ package votelog.client.web.components
 import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
 import votelog.client.web.Application.{personsComponent, personsStore}
-import votelog.client.web.components.html.DynamicList
+import votelog.client.web.components.html.{DynamicList, StaticSelect}
+import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.politics.{Context, Person}
+import votelog.domain.politics.{Context, LegislativePeriod, Person}
 import votelog.persistence.PersonStore
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,22 +18,37 @@ import scala.util.{Failure, Success}
 import scala.xml.{Group, Node, NodeBuffer}
 
 class Persons(
+  component: Component,
   persons: PersonStore[Future],
-  queryParameters: Rx[Context],
-  defaultPageSize: PageSize,
+  language: Rx[votelog.domain.politics.Language],
 ) {
 
-  val pageSize: Var[PageSize] = Var(defaultPageSize)
-  val offset: Var[Offset] = Var(Offset(0))
-  val validOffset: Rx[Offset] = offset.keepIf(_.value >= 0)(Offset(0))
+  val pagingConfiguration = Paging.Configuration(PageSize(10), Seq(PageSize(10), PageSize(20), PageSize(40)))
+  val paging: Paging = new Paging(component.child("paging"), pagingConfiguration)
   var cache = collection.mutable.Map.empty[Person.Id, Rx[Person]]
   var viewCancelable: Option[Cancelable] = None
+
+  val legislativePeriod =
+    new StaticSelect(
+      legend = "legislative period",
+      options = LegislativePeriod.ids,
+      default = LegislativePeriod.Default.id,
+      clazz = "legislativePeriod",
+      id = "legislativePeriod"
+    )
+
+  val queryParameters: Rx[Context] =
+    for {
+      language <- language
+      legislativePeriod <- legislativePeriod.model
+    } yield Context(legislativePeriod, language)
+
 
   // will run like: None -> Some(List) -> None -> Some(List)
   val unstableIds: Rx[Option[List[Person.Id]]] =
     for {
-      offset <- validOffset
-      pageSize <- pageSize
+      offset <- paging.offset
+      pageSize <- paging.pageSize
       queryParameters <- queryParameters
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
       ids <- personsStore.index(indexQueryParams).toRx
@@ -49,8 +65,8 @@ class Persons(
 
   val model: Rx[List[Person]] = {
     for {
-      offset <- validOffset
-      pageSize <- pageSize
+      offset <- paging.offset
+      pageSize <- paging.pageSize
       queryParameters <- queryParameters
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
       ids = personsStore.index(indexQueryParams)
@@ -60,11 +76,6 @@ class Persons(
           .toRx
           .collect { case Some(Success(persons)) => persons }(Nil)
     } yield persons
-  }
-
-  def setOffset: js.Dynamic => Unit = {
-    event =>
-      offset.update(_ => Offset(event.target.value.asInstanceOf[String].toLong))
   }
 
   def renderPerson: Either[Person.Id, Person] => Node = {
@@ -87,8 +98,8 @@ class Persons(
   val render: Person.Id => Rx[Node] = { (id: Person.Id) =>
     val person: Rx[Either[Throwable, Either[Person.Id, Person]]] =
       for {
-        qp <- queryParameters
-        person <- personsStore.read(qp.language)(id).toRx
+        language <- language
+        person <- personsStore.read(language)(id).toRx
       } yield person match {
         case Some(Success(person)) => Right(Right(person))
         case Some(Failure(exception)) => Left(exception)
@@ -110,17 +121,14 @@ class Persons(
   }
 
   val view = Group {
-      <header>
-        <fieldset>
-          <dl>
-            <dt><label for="offset">Offset</label></dt>
-            <dd><input type="number" value={validOffset.map(_.value.toString)} onchange={setOffset}></input></dd>
-          </dl>
-        </fieldset>
-      </header>
-      <content
-        mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node) }
-        mhtml-onunmount={ (node: org.scalajs.dom.Node) => unountView(node) } />
+    <controls>
+      <fieldset>
+        { paging.view }
+      </fieldset>
+    </controls>
+    <content
+      mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node) }
+      mhtml-onunmount={ (node: org.scalajs.dom.Node) => unountView(node) } />
   }
 
 }
