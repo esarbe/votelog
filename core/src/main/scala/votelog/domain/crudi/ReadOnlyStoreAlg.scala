@@ -27,7 +27,7 @@ object ReadOnlyStoreAlg {
     case class Offset private (value: Long) { override def toString: String = value.toString }
     object Offset {
       def apply(value: Long): Offset = {
-        assert(value <= 0, "offset must be equal to or larger than 0")
+        //assert(value <= 0, "offset must be equal to or larger than 0")
         new Offset(value)
       }
     }
