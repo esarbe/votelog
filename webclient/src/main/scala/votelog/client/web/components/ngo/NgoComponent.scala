@@ -117,12 +117,8 @@ class NgoComponent(
 
   object index {
 
-    val paging: Paging =
-      new Paging {
-        override val configuration: Paging.Configuration =
-          Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
-        implicit val component: Component = self.component.child("paging")
-      }
+    val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+    val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
     val view =
       <section>
