@@ -6263,7 +6263,8 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
       return $m_Lvotelog_client_web_Application$Router$().apply__T__s_xml_Node(location)
     })
   })(this));
-  this.appView$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$18, f$2);
+  var this$19 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$18, f$2);
+  this.appView$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$19);
   return this
 });
 $c_Lvotelog_client_web_Application$.prototype.main__AT__V = (function(args) {
@@ -6315,7 +6316,7 @@ $c_Lvotelog_client_web_Application$.prototype.main__AT__V = (function(args) {
   var jsx$12 = $$md$2;
   var jsx$11 = $m_s_xml_TopScope$();
   var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Persons"));
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Businesses"));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "a", jsx$12, jsx$11, false, $$buf$8));
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
   var $$md$3 = $m_s_xml_Null$();
@@ -6442,7 +6443,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.init___ = (function() {
   return this
 });
 $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (function(location) {
-  var rc54 = false;
+  var rc61 = false;
   var x2 = null;
   var this$2 = new $c_sci_StringOps().init___T(location);
   var $$this = this$2.repr$1;
@@ -6461,7 +6462,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
   };
   var x1 = result;
   if ((x1 instanceof $c_sci_$colon$colon)) {
-    rc54 = true;
+    rc61 = true;
     x2 = $as_sci_$colon$colon(x1);
     var p3 = $as_T(x2.head$5);
     var p4 = x2.tl$5;
@@ -6475,7 +6476,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().userComponent$1.view$1
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p6 = $as_T(x2.head$5);
     var p7 = x2.tl$5;
     if (((p6 === "user") && (p7 instanceof $c_sci_$colon$colon))) {
@@ -6489,7 +6490,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       }
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p11 = $as_T(x2.head$5);
     var p12 = x2.tl$5;
     if ((p11 === "ngo")) {
@@ -6502,7 +6503,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().ngoComponent$1.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p14 = $as_T(x2.head$5);
     var p15 = x2.tl$5;
     if (((p14 === "ngo") && (p15 instanceof $c_sci_$colon$colon))) {
@@ -6516,7 +6517,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       }
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p19 = $as_T(x2.head$5);
     var p20 = x2.tl$5;
     if ((p19 === "business")) {
@@ -6529,7 +6530,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().ngoComponent$1.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p22 = $as_T(x2.head$5);
     var p23 = x2.tl$5;
     if (((p22 === "business") && (p23 instanceof $c_sci_$colon$colon))) {
@@ -6547,7 +6548,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       }
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p27 = $as_T(x2.head$5);
     var p28 = x2.tl$5;
     if ((p27 === "session")) {
@@ -6560,7 +6561,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().authComponent$1.view__s_xml_Elem()
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p30 = $as_T(x2.head$5);
     var p31 = x2.tl$5;
     if ((p30 === "signup")) {
@@ -6573,7 +6574,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().userComponent$1.create__Lvotelog_client_web_components_UserComponent$create$().form__T__s_xml_Elem("Sign Up")
     }
   };
-  if (rc54) {
+  if (rc61) {
     var p33 = $as_T(x2.head$5);
     var p34 = x2.tl$5;
     if ((p33 === "person")) {
@@ -6586,7 +6587,29 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       return $m_Lvotelog_client_web_Application$().personsComponent$1.view$1
     }
   };
-  return new $c_s_xml_Group().init___sc_Seq($m_sci_Nil$())
+  if (rc61) {
+    var p36 = $as_T(x2.head$5);
+    var p37 = x2.tl$5;
+    if (((p36 === "person") && (p37 instanceof $c_sci_$colon$colon))) {
+      var x38 = $as_sci_$colon$colon(p37);
+      var id$4 = $as_T(x38.head$5);
+      var p39 = x38.tl$5;
+      var x$19 = $m_sci_Nil$();
+      if (x$19.equals__O__Z(p39)) {
+        var jsx$8 = $m_Lvotelog_client_web_Application$().personsComponent$1.maybeSelected$1;
+        var this$16 = new $c_sci_StringOps().init___T(id$4);
+        var this$18 = $m_jl_Integer$();
+        var $$this$2 = this$16.repr$1;
+        jsx$8.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_politics_Person$Id().init___I(this$18.parseInt__T__I__I($$this$2, 10))));
+        return $m_Lvotelog_client_web_Application$().personsComponent$1.view$1
+      }
+    }
+  };
+  var jsx$10 = $m_s_xml_Null$();
+  var jsx$9 = $m_s_xml_TopScope$();
+  var $$buf = new $c_s_xml_NodeBuffer().init___();
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Not found"));
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "message", jsx$10, jsx$9, false, $$buf)
 });
 var $d_Lvotelog_client_web_Application$Router$ = new $TypeData().initClass({
   Lvotelog_client_web_Application$Router$: 0
