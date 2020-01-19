@@ -57,7 +57,7 @@ object UserStore {
       else Valid(s).toValidatedNel
 
     def areEqual(password: Password.Clear, confirmPassword: Password.Clear): Validated[NonEmptyList[(String, String)], Password.Clear] =
-      if (password != confirmPassword) Invalid("confirmPassword" -> s"must be equal to password but was '${password.value}' and '${confirmPassword.value}'").toValidatedNel
+      if (password != confirmPassword) Invalid("confirmPassword" -> s"must be equal to password").toValidatedNel
       else Valid(password).toValidatedNel
 
     (nonEmptyString("name")(name),

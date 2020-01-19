@@ -68,9 +68,9 @@ class Authentication(
   }
 
   def view: Elem = {
-    val cssClass = model.map {
-      case Unauthenticated => "unauthenticated"
-      case Authenticated(_) => "authenticated"
+    val cssClass: Rx[String] = model.map {
+      case Unauthenticated => "login unauthenticated"
+      case Authenticated(_) => "logout authenticated"
     }
 
     val disabled: Rx[Boolean] =
@@ -79,42 +79,44 @@ class Authentication(
         case Unauthenticated => false
       }(false)
 
-    <fieldset class={cssClass}
-      onkeyup={
-        loginRequest.map {
-          case Some(credentials) => ifEnter( _ => login(credentials))
-          case None => (_: js.Dynamic) => ()
-        }}>
-      <legend>Login</legend>
-        <dl>
-          <dt>
-            <label for="username">Username</label>
-          </dt>
-          <dd>
-            <input id="username" type="text" disabled={disabled} value={ username }  onchange={ debounce(200)(set(username)) } />
-          </dd>
-        </dl>
-        <dl>
-          <dt>
-            <label for="password">Password</label>
-          </dt>
-          <dd>
-            <input id="password" type="password" disabled={disabled} value={ password } onchange={ debounce(200)(set(password)) } />
-          </dd>
-        </dl>
-      {  model.map {
-        case Authenticated(user) =>
-          <input type="button" value="logout" onclick={ () => logout(user)} />
-        case Unauthenticated =>
-          <input type="button" value="login"
-            onclick={ loginRequest.map {
-              case Some(credentials) => () => login(credentials)
-              case None => () => ()
-            }} />
+    <article>
+      <fieldset class={cssClass.map(_ + " authentication")}
+        onkeyup={
+          loginRequest.map {
+            case Some(credentials) => ifEnter( _ => login(credentials))
+            case None => (_: js.Dynamic) => ()
+          }}>
+        <legend>Login</legend>
+          <dl>
+            <dt>
+              <label for="username">Username</label>
+            </dt>
+            <dd>
+              <input id="username" type="text" disabled={disabled} value={ username }  onchange={ debounce(200)(set(username)) } />
+            </dd>
+          </dl>
+          <dl>
+            <dt>
+              <label for="password">Password</label>
+            </dt>
+            <dd>
+              <input id="password" type="password" disabled={disabled} value={ password } onchange={ debounce(200)(set(password)) } />
+            </dd>
+          </dl>
+        {  model.map {
+          case Authenticated(user) =>
+            <input type="button" value="logout" onclick={ () => logout(user)} />
+          case Unauthenticated =>
+            <input type="button" value="login"
+              onclick={ loginRequest.map {
+                case Some(credentials) => () => login(credentials)
+                case None => () => ()
+              }} />
+          }
         }
-      }
 
-    </fieldset>
+      </fieldset>
+    </article>
     }
 }
 

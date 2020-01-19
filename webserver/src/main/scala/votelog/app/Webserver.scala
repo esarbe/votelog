@@ -91,7 +91,7 @@ object Webserver extends IOApp {
     val session = new SessionService(crypto, clock, component.root)
 
     val services =
-      List(
+      Map(
         component.person.location -> auth(pws.service),
         component.motion.location -> auth(mws.service),
         component.user.location -> auth(uws.service),
@@ -100,7 +100,7 @@ object Webserver extends IOApp {
         component.auth.child("user").location -> auth(session.service),
       )
 
-    Router(services.map { case (location, service) => (location, CORS(service)) }:_*)
+    Router(services.mapValues(CORS(_)).toSeq:_*)
   }
 
   lazy val loadConfiguration =

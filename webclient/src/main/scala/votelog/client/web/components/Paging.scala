@@ -43,7 +43,8 @@ class Paging(component: Component, configuration: Configuration) {
   def incIfGtZero(by: Int)(i: Int): Int = (i + by) max 1
 
   val view: Elem = {
-    <fieldset>
+    <fieldset class="control paging">
+      <legend>Paging</legend>
       <dl class="page">
         <dt><label for={ id("page")(component) } >Page</label></dt>
         <dd><button onclick={ update(page)(incIfGtZero(-10)) }>{"<<"}</button></dd>

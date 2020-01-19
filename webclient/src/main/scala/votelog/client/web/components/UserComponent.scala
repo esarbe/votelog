@@ -80,12 +80,11 @@ class UserComponent(
           case Some(Success(userId)) => Some(Right(userId))
           case Some(Failure(error)) => Some(Left(error))
       }
-
     def id(id: String): String = component.child("create").child(id).location
 
     def form(legend: String): Elem = {
-      <article class="user">
-        <fieldset onkeyup={ ifEnter(set(submitCreate)) }>
+      <controls class="user">
+        <fieldset class="create" onkeyup={ ifEnter(set(submitCreate)) }>
           <legend>{legend}</legend>
           { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
           { inputText(id = id("email"), label = "Email", rx = email, errors = errors) }
@@ -101,7 +100,7 @@ class UserComponent(
             }
           }
         </fieldset>
-      </article>
+      </controls>
     }
   }
 

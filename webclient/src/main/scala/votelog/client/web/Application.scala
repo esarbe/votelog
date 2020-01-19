@@ -81,6 +81,12 @@ object Application {
           ngoComponent.read.model := Some(Ngo.Id(id))
           ngoComponent.index.view
 
+        case "business" :: Nil =>
+          ngoComponent.index.view
+        case "business" :: id :: Nil =>
+          businessComponent.read.model := Some(Business.Id(id.toInt))
+          ngoComponent.index.view
+
         case "session" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")
         case "person" :: Nil => personsComponent.view
@@ -100,6 +106,7 @@ object Application {
           </branding>
           <navigation>
             <a href="#/person">Persons</a>
+            <a href="#/business">Persons</a>
             <a href="#/ngo">NGOs</a>
             <a href="#/user">Users</a>
           </navigation>
@@ -116,9 +123,7 @@ object Application {
           </settings>
         </header>
 
-        <content>
-          { appView }
-        </content>
+        { appView }
 
         <footer>
           Contact | Blag  gitlab
