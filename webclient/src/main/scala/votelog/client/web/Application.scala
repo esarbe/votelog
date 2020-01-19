@@ -14,7 +14,7 @@ import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics
-import votelog.domain.politics.{Business, Context, LegislativePeriod, Ngo}
+import votelog.domain.politics.{Business, Context, LegislativePeriod, Ngo, Person}
 
 import scala.xml.{Group, Node}
 
@@ -62,7 +62,7 @@ object Application {
     new components.business.BusinessComponent(root.child("business"), configuration, businessStore, languageComponent.model)
   }
 
-  val appView: Rx[Node] = location.map(Router.apply)
+  val appView: Rx[Node] = location.map(Router.apply).dropRepeats
 
   object Router {
 
@@ -90,7 +90,10 @@ object Application {
         case "session" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")
         case "person" :: Nil => personsComponent.view
-        case a => Group(Nil)
+        case "person" :: id :: Nil =>
+          personsComponent.maybeSelected := Some(Person.Id(id.toInt))
+          personsComponent.view
+        case a => <message>Not found</message>
       }
     }
   }
@@ -106,7 +109,7 @@ object Application {
           </branding>
           <navigation>
             <a href="#/person">Persons</a>
-            <a href="#/business">Persons</a>
+            <a href="#/business">Businesses</a>
             <a href="#/ngo">NGOs</a>
             <a href="#/user">Users</a>
           </navigation>
