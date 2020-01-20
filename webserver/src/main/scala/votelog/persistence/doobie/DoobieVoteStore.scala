@@ -1,12 +1,10 @@
 package votelog.persistence.doobie
 
 import cats.Monad
-import votelog.domain.politics.{Business, Person}
-import votelog.infrastructure.VoteAlg
+import votelog.domain.politics.{Business, Person, VoteAlg, Votum}
 import doobie._
 import doobie.implicits._
 import cats.implicits._
-import votelog.domain.politics.Votum
 import doobie.postgres.implicits._
 
 class DoobieVoteStore[F[_]: Monad: ThrowableBracket](
@@ -15,7 +13,7 @@ class DoobieVoteStore[F[_]: Monad: ThrowableBracket](
 
   import votelog.orphans.doobie.implicits._
 
-  override def getVotesForMotion(m: Business.Id): F[List[(Person.Id, Votum)]] =
+  override def getVotesForBusiness(m: Business.Id): F[List[(Person.Id, Votum)]] =
     sql"select person_number, decision from voting where business_number = ${m.value}".query[(Person.Id, Votum)]
       .stream
       .compile

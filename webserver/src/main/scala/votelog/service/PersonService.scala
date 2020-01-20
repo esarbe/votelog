@@ -5,6 +5,7 @@ import cats.implicits._
 import io.circe._
 import io.circe.generic.semiauto._
 import io.circe.generic.auto._
+import votelog.domain.politics.VoteAlg
 //import io.circe.generic.semiauto._
 import io.circe.generic.extras.semiauto._
 import io.circe.generic.extras.defaults._
@@ -18,7 +19,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.politics.{Context, Language, LegislativePeriod, Business, Person}
 import votelog.infrastructure.logging.Logger
-import votelog.infrastructure.{Param, ReadOnlyStoreService, VoteAlg}
+import votelog.infrastructure.{Param, ReadOnlyStoreService}
 import votelog.orphans.circe.implicits._
 import votelog.persistence.PersonStore
 

@@ -10,9 +10,8 @@ import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
 import votelog.domain.politics.Scoring.{Score, Weight}
-import votelog.domain.politics.{Business, Ngo, Votum}
+import votelog.domain.politics.{Business, Ngo, VoteAlg, Votum}
 import votelog.implementation.UserCapabilityAuthorization
-import votelog.infrastructure.VoteAlg
 import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
 import votelog.persistence._
