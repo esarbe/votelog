@@ -82,10 +82,10 @@ object Application {
           ngoComponent.index.view
 
         case "business" :: Nil =>
-          ngoComponent.index.view
+          businessComponent.index.view
         case "business" :: id :: Nil =>
           businessComponent.read.model := Some(Business.Id(id.toInt))
-          ngoComponent.index.view
+          businessComponent.index.view
 
         case "session" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")

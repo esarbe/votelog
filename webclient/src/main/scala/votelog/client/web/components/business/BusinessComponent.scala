@@ -79,7 +79,7 @@ class BusinessComponent(
 
   object index {
     val model = self.ids
-    val view =
+    lazy val view =
       <section>
         <controls>
           <fieldset>

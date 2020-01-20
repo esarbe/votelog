@@ -147,7 +147,7 @@ class UserComponent(
     val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
     val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
-    val view =
+    lazy val view =
       <section>
         <controls>
           <fieldset>

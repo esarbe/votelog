@@ -21,7 +21,7 @@ trait CrudIndexComponent[T, Identity] { self =>
 
   // will run like: None -> Some(List) -> None -> Some(List)
   // TODO: add better error handling
-  val unstableIds: Rx[Option[List[Identity]]] =
+  lazy val unstableIds: Rx[Option[List[Identity]]] =
     for {
       indexQueryParameters <- indexQueryParameters
       ids <- store.index(indexQueryParameters).toRx
@@ -31,11 +31,12 @@ trait CrudIndexComponent[T, Identity] { self =>
     }
 
   // keeps last list, None doesn't appear
-  val ids: Rx[List[Identity]] = unstableIds.foldp(List.empty[Identity]){
+  lazy val ids: Rx[List[Identity]] = unstableIds.foldp(List.empty[Identity]){
     case (acc, curr) => curr.getOrElse(acc)
   }
 
   private def mountView(e: org.scalajs.dom.Node, renderEntity: (Identity, T) => Rx[Node]): Unit = {
+    println(s"ids: $ids, renderEntity: $renderEntity, renderEntities: ${ renderEntities _} ")
     val cancel = DynamicList.mountOn(ids, renderEntities(renderEntity))(e)
     viewCancelable = Some(cancel)
   }

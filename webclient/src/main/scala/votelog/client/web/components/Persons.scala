@@ -10,7 +10,7 @@ import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.politics.{Context, LegislativePeriod, Person}
+import votelog.domain.politics.{Context, LegislativePeriod, Person, VoteAlg}
 import votelog.persistence.PersonStore
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -114,7 +114,7 @@ class Persons(
     case Right(p) =>
       <a href={s"#${id(p.id.value.toString)(component)}"}>
         <dl class="entity person" data-id={p.id.value.toString}>
-          <dd>Name</dd><dt>{p.firstName.value} {p.lastName.value}</dt>
+          <dt>Name</dt><dd>{p.firstName.value} {p.lastName.value}</dd>
         </dl>
       </a>
 
