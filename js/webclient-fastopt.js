@@ -1130,6 +1130,18 @@ function $f_F2__tupled__F1($thiz) {
     })
   })($thiz))
 }
+function $is_F2(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.F2)))
+}
+function $as_F2(obj) {
+  return (($is_F2(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.Function2"))
+}
+function $isArrayOf_F2(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.F2)))
+}
+function $asArrayOf_F2(obj, depth) {
+  return (($isArrayOf_F2(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.Function2;", depth))
+}
 function $f_Lcats_data_ValidatedFunctions__invalidNel__O__Lcats_data_Validated($thiz, e) {
   return new $c_Lcats_data_Validated$Invalid().init___O(new $c_Lcats_data_NonEmptyList().init___O__sci_List(e, $m_sci_Nil$()))
 }
@@ -1309,6 +1321,19 @@ function $isArrayOf_Lvotelog_client_web_components_Authentication$State(obj, dep
 function $asArrayOf_Lvotelog_client_web_components_Authentication$State(obj, depth) {
   return (($isArrayOf_Lvotelog_client_web_components_Authentication$State(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.client.web.components.Authentication$State;", depth))
 }
+function $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx($thiz) {
+  var this$2 = $thiz.unstableIds__Lmhtml_Rx();
+  $m_sci_List$();
+  var seed = $m_sci_Nil$();
+  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+    return (function(x0$1$2, x1$1$2) {
+      var x0$1 = $as_sci_List(x0$1$2);
+      var x1$1 = $as_s_Option(x1$1$2);
+      return $as_sci_List((x1$1.isEmpty__Z() ? x0$1 : x1$1.get__O()))
+    })
+  })($thiz));
+  return new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$2, seed, step)
+}
 function $f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem($thiz, renderEntity) {
   var jsx$4 = $m_s_xml_Null$();
   var jsx$3 = $m_s_xml_TopScope$();
@@ -1333,8 +1358,55 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__
   return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "content", jsx$4, jsx$3, false, $$buf)
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__mountView__pLvotelog_client_web_components_CrudIndexComponent__Lorg_scalajs_dom_raw_Node__F2__V($thiz, e, renderEntity) {
+  var x = (((((("ids: " + $thiz.ids__Lmhtml_Rx()) + ", renderEntity: ") + renderEntity) + ", renderEntities: ") + new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(renderEntity$2$2) {
+      var renderEntity$2 = $as_F2(renderEntity$2$2);
+      return $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__pLvotelog_client_web_components_CrudIndexComponent__F2__F1($this, renderEntity$2)
+    })
+  })($thiz))) + " ");
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var cancel = $m_Lvotelog_client_web_components_html_DynamicList$().mountOn__Lmhtml_Rx__F1__Lorg_scalajs_dom_raw_Node__F0($thiz.ids__Lmhtml_Rx(), $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__pLvotelog_client_web_components_CrudIndexComponent__F2__F1($thiz, renderEntity), e);
   $thiz.viewCancelable$und$eq__s_Option__V(new $c_s_Some().init___O(new $c_Lmhtml_Cancelable().init___F0(cancel)))
+}
+function $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx($thiz) {
+  var this$6 = $thiz.indexQueryParameters__Lmhtml_Rx();
+  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(indexQueryParameters$2) {
+      var f = $as_s_concurrent_Future($this.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg().index__O__O(indexQueryParameters$2));
+      var this$5 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
+        return (function(ids$2) {
+          var ids = $as_s_Option(ids$2);
+          if (ids.isEmpty__Z()) {
+            return $m_s_None$()
+          } else {
+            var arg1 = ids.get__O();
+            var x0$1 = $as_s_util_Try(arg1);
+            if ((x0$1 instanceof $c_s_util_Success)) {
+              var x2 = $as_s_util_Success(x0$1);
+              var ids$1 = $as_sci_List(x2.value$2);
+              return new $c_s_Some().init___O(ids$1)
+            } else {
+              if ((!(x0$1 instanceof $c_s_util_Failure))) {
+                throw new $c_s_MatchError().init___O(x0$1)
+              };
+              var x3 = $as_s_util_Failure(x0$1);
+              var error = x3.exception$2;
+              var x = ((("error: " + error) + ", ") + error.getMessage__T());
+              var this$3 = $m_s_Console$();
+              var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
+              this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+              return $m_s_None$()
+            }
+          }
+        })
+      })($this));
+      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$1)
+    })
+  })($thiz));
+  return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$2)
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__pLvotelog_client_web_components_CrudIndexComponent__F2__F1($thiz, renderEntity) {
   return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, renderEntity$1) {
@@ -1447,78 +1519,31 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__p
 function $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V($thiz) {
   $thiz.viewCancelable$und$eq__s_Option__V($m_s_None$());
   $thiz.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V($m_Lmhtml_Var$().apply__O__Lmhtml_Var($m_s_None$()));
-  var this$6 = $thiz.indexQueryParameters__Lmhtml_Rx();
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(indexQueryParameters$2) {
-      var f = $as_s_concurrent_Future($this.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg().index__O__O(indexQueryParameters$2));
-      var this$5 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
-        return (function(ids$2) {
-          var ids = $as_s_Option(ids$2);
-          if (ids.isEmpty__Z()) {
-            return $m_s_None$()
-          } else {
-            var arg1 = ids.get__O();
-            var x0$1 = $as_s_util_Try(arg1);
-            if ((x0$1 instanceof $c_s_util_Success)) {
-              var x2 = $as_s_util_Success(x0$1);
-              var ids$1 = $as_sci_List(x2.value$2);
-              return new $c_s_Some().init___O(ids$1)
-            } else {
-              if ((!(x0$1 instanceof $c_s_util_Failure))) {
-                throw new $c_s_MatchError().init___O(x0$1)
-              };
-              var x3 = $as_s_util_Failure(x0$1);
-              var error = x3.exception$2;
-              var x = ((("error: " + error) + ", ") + error.getMessage__T());
-              var this$3 = $m_s_Console$();
-              var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
-              this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-              return $m_s_None$()
-            }
-          }
-        })
-      })($this));
-      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$1)
-    })
-  })($thiz));
-  $thiz.votelog$client$web$components$CrudIndexComponent$$undsetter$und$unstableIds$und$eq__Lmhtml_Rx__V(new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$2));
-  var this$8 = $thiz.unstableIds__Lmhtml_Rx();
-  $m_sci_List$();
-  var seed = $m_sci_Nil$();
-  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$2$1) {
-    return (function(x0$1$2, x1$1$2) {
-      var x0$1$1 = $as_sci_List(x0$1$2);
-      var x1$1 = $as_s_Option(x1$1$2);
-      return $as_sci_List((x1$1.isEmpty__Z() ? x0$1$1 : x1$1.get__O()))
-    })
-  })($thiz));
-  $thiz.votelog$client$web$components$CrudIndexComponent$$undsetter$und$ids$und$eq__Lmhtml_Rx__V(new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$8, seed, step));
-  var this$12 = $thiz.queryParameters__Lmhtml_Rx();
-  var f$6 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
+  var this$4 = $thiz.queryParameters__Lmhtml_Rx();
+  var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(queryParameters$2) {
-      var this$11 = this$3$1.selectedId__Lmhtml_Var();
-      var f$5 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, queryParameters) {
+      var this$3 = $this.selectedId__Lmhtml_Var();
+      var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, queryParameters) {
         return (function(id$2) {
           var id = $as_s_Option(id$2);
           if ((id instanceof $c_s_Some)) {
-            var x2$1 = $as_s_Some(id);
-            var id$2$1 = x2$1.value$2;
-            var f$3 = $as_s_concurrent_Future($this$2.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg().read__O__O__O(queryParameters, id$2$1));
-            var this$10 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$3).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
+            var x2 = $as_s_Some(id);
+            var id$2$1 = x2.value$2;
+            var f = $as_s_concurrent_Future($this$1.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg().read__O__O__O(queryParameters, id$2$1));
+            var this$2 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
           } else {
-            var x$1 = $m_s_None$();
-            if ((!(x$1 === id))) {
+            var x = $m_s_None$();
+            if ((!(x === id))) {
               throw new $c_s_MatchError().init___O(id)
             };
-            var this$10 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
+            var this$2 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
           };
-          var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3) {
+          var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2) {
             return (function(entity$2) {
               var entity = $as_s_Option(entity$2);
               if ((entity instanceof $c_s_Some)) {
-                var x2$2 = $as_s_Some(entity);
-                var p3 = $as_s_util_Try(x2$2.value$2);
+                var x2$1 = $as_s_Some(entity);
+                var p3 = $as_s_util_Try(x2$1.value$2);
                 if ((p3 instanceof $c_s_util_Success)) {
                   var x4 = $as_s_util_Success(p3);
                   var entity$2$1 = x4.value$2;
@@ -1527,14 +1552,14 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V($thiz)
               };
               return $m_s_None$()
             })
-          })($this$2));
-          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$10, f$4)
+          })($this$1));
+          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$2, f$1)
         })
-      })(this$3$1, queryParameters$2));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$11, f$5)
+      })($this, queryParameters$2));
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$3, f$2)
     })
   })($thiz));
-  $thiz.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V(new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$12, f$6))
+  $thiz.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V(new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$3))
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__unmountView__pLvotelog_client_web_components_CrudIndexComponent__Lorg_scalajs_dom_raw_Node__V($thiz, e) {
   var this$1 = $thiz.viewCancelable__s_Option();
@@ -6486,7 +6511,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var x$3 = $m_sci_Nil$();
       if (x$3.equals__O__Z(p9)) {
         $m_Lvotelog_client_web_Application$().userComponent$1.read__Lvotelog_client_web_components_UserComponent$read$().model$1.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_authentication_User$Id().init___T(id)));
-        return $m_Lvotelog_client_web_Application$().userComponent$1.index__Lvotelog_client_web_components_UserComponent$index$().view$1
+        return $m_Lvotelog_client_web_Application$().userComponent$1.index__Lvotelog_client_web_components_UserComponent$index$().view__s_xml_Elem()
       }
     }
   };
@@ -6527,7 +6552,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var jsx$3 = false
     };
     if (jsx$3) {
-      return $m_Lvotelog_client_web_Application$().ngoComponent$1.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1
+      return $m_Lvotelog_client_web_Application$().businessComponent$1.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view__s_xml_Elem()
     }
   };
   if (rc61) {
@@ -6544,7 +6569,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
         var this$14 = $m_jl_Integer$();
         var $$this$1 = this$12.repr$1;
         jsx$4.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_politics_Business$Id().init___I(this$14.parseInt__T__I__I($$this$1, 10))));
-        return $m_Lvotelog_client_web_Application$().ngoComponent$1.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1
+        return $m_Lvotelog_client_web_Application$().businessComponent$1.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view__s_xml_Elem()
       }
     }
   };
@@ -7389,14 +7414,14 @@ $c_Lvotelog_client_web_components_Persons.prototype.previewPerson__F1 = (functio
         var jsx$1 = $m_s_xml_TopScope$();
         var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
         $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
-        $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$2, jsx$1, false, $$buf$3));
+        $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
         var jsx$4 = $m_s_xml_Null$();
         var jsx$3 = $m_s_xml_TopScope$();
         var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
         $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.firstName$1, null);
         $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
         $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(p.lastName$1, null);
-        $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$4, jsx$3, false, $$buf$4));
+        $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
         $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
         $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
         $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
@@ -8231,10 +8256,11 @@ $c_Lvotelog_client_web_components_UserComponent$create$.prototype.$classData = $
 /** @constructor */
 function $c_Lvotelog_client_web_components_UserComponent$index$() {
   $c_O.call(this);
+  this.view$1 = null;
   this.pagingConfiguration$1 = null;
   this.paging$1 = null;
-  this.view$1 = null;
   this.model$1 = null;
+  this.bitmap$0$1 = false;
   this.$$outer$1 = null
 }
 $c_Lvotelog_client_web_components_UserComponent$index$.prototype = new $h_O();
@@ -8244,6 +8270,41 @@ function $h_Lvotelog_client_web_components_UserComponent$index$() {
   /*<skip>*/
 }
 $h_Lvotelog_client_web_components_UserComponent$index$.prototype = $c_Lvotelog_client_web_components_UserComponent$index$.prototype;
+$c_Lvotelog_client_web_components_UserComponent$index$.prototype.view$lzycompute__p1__s_xml_Elem = (function() {
+  if ((!this.bitmap$0$1)) {
+    var jsx$6 = $m_s_xml_Null$();
+    var jsx$5 = $m_s_xml_TopScope$();
+    var $$buf = new $c_s_xml_NodeBuffer().init___();
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+    var jsx$4 = $m_s_xml_Null$();
+    var jsx$3 = $m_s_xml_TopScope$();
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+    var jsx$2 = $m_s_xml_Null$();
+    var jsx$1 = $m_s_xml_TopScope$();
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+    var this$1 = this.$$outer$1;
+    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+      return (function(id$2, user$2) {
+        var id = $as_Lvotelog_domain_authentication_User$Id(id$2).value$1;
+        var user = $as_Lvotelog_domain_authentication_User(user$2);
+        return $this.$$outer$1.renderUserPreview__T__Lvotelog_domain_authentication_User__Lmhtml_Rx(id, user)
+      })
+    })(this));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this$1, renderEntity));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
+    this.bitmap$0$1 = true
+  };
+  return this.view$1
+});
 $c_Lvotelog_client_web_components_UserComponent$index$.prototype.init___Lvotelog_client_web_components_UserComponent = (function($$outer) {
   if (($$outer === null)) {
     throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
@@ -8252,36 +8313,11 @@ $c_Lvotelog_client_web_components_UserComponent$index$.prototype.init___Lvotelog
   };
   this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset($$outer.votelog$client$web$components$UserComponent$$configuration$f.defaultPageSize$1, $$outer.votelog$client$web$components$UserComponent$$configuration$f.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
   this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T($$outer.votelog$client$web$components$UserComponent$$component$f, "paging"), this.pagingConfiguration$1);
-  var jsx$6 = $m_s_xml_Null$();
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$4 = $m_s_xml_Null$();
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  var jsx$2 = $m_s_xml_Null$();
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
-    return (function(id$2, user$2) {
-      var id = $as_Lvotelog_domain_authentication_User$Id(id$2).value$1;
-      var user = $as_Lvotelog_domain_authentication_User(user$2);
-      return $this.$$outer$1.renderUserPreview__T__Lvotelog_domain_authentication_User__Lmhtml_Rx(id, user)
-    })
-  })(this));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem($$outer, renderEntity));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
-  this.model$1 = $$outer.ids$1;
+  this.model$1 = $$outer.ids__Lmhtml_Rx();
   return this
+});
+$c_Lvotelog_client_web_components_UserComponent$index$.prototype.view__s_xml_Elem = (function() {
+  return ((!this.bitmap$0$1) ? this.view$lzycompute__p1__s_xml_Elem() : this.view$1)
 });
 var $d_Lvotelog_client_web_components_UserComponent$index$ = new $TypeData().initClass({
   Lvotelog_client_web_components_UserComponent$index$: 0
@@ -8331,8 +8367,9 @@ $c_Lvotelog_client_web_components_UserComponent$read$.prototype.$classData = $d_
 /** @constructor */
 function $c_Lvotelog_client_web_components_business_BusinessComponent$index$() {
   $c_O.call(this);
-  this.model$1 = null;
   this.view$1 = null;
+  this.model$1 = null;
+  this.bitmap$0$1 = false;
   this.$$outer$1 = null
 }
 $c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype = new $h_O();
@@ -8342,42 +8379,52 @@ function $h_Lvotelog_client_web_components_business_BusinessComponent$index$() {
   /*<skip>*/
 }
 $h_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype = $c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype;
+$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.view$lzycompute__p1__s_xml_Elem = (function() {
+  if ((!this.bitmap$0$1)) {
+    var jsx$6 = $m_s_xml_Null$();
+    var jsx$5 = $m_s_xml_TopScope$();
+    var $$buf = new $c_s_xml_NodeBuffer().init___();
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+    var jsx$4 = $m_s_xml_Null$();
+    var jsx$3 = $m_s_xml_TopScope$();
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+    var jsx$2 = $m_s_xml_Null$();
+    var jsx$1 = $m_s_xml_TopScope$();
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.$$outer$1.paging$1.view$1);
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+    var this$1 = this.$$outer$1;
+    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+      return (function(id$2, business$2) {
+        var id = $as_Lvotelog_domain_politics_Business$Id(id$2);
+        var business = $as_Lvotelog_domain_politics_Business(business$2);
+        return $this.$$outer$1.renderBusinessPreview__Lvotelog_domain_politics_Business$Id__Lvotelog_domain_politics_Business__Lmhtml_Rx(id, business)
+      })
+    })(this));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this$1, renderEntity));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
+    this.bitmap$0$1 = true
+  };
+  return this.view$1
+});
 $c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.init___Lvotelog_client_web_components_business_BusinessComponent = (function($$outer) {
   if (($$outer === null)) {
     throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
   } else {
     this.$$outer$1 = $$outer
   };
-  this.model$1 = $$outer.ids$1;
-  var jsx$6 = $m_s_xml_Null$();
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$4 = $m_s_xml_Null$();
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  var jsx$2 = $m_s_xml_Null$();
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($$outer.paging$1.view$1);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
-    return (function(id$2, business$2) {
-      var id = $as_Lvotelog_domain_politics_Business$Id(id$2);
-      var business = $as_Lvotelog_domain_politics_Business(business$2);
-      return $this.$$outer$1.renderBusinessPreview__Lvotelog_domain_politics_Business$Id__Lvotelog_domain_politics_Business__Lmhtml_Rx(id, business)
-    })
-  })(this));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem($$outer, renderEntity));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
+  this.model$1 = $$outer.ids__Lmhtml_Rx();
   return this
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.view__s_xml_Elem = (function() {
+  return ((!this.bitmap$0$1) ? this.view$lzycompute__p1__s_xml_Elem() : this.view$1)
 });
 var $d_Lvotelog_client_web_components_business_BusinessComponent$index$ = new $TypeData().initClass({
   Lvotelog_client_web_components_business_BusinessComponent$index$: 0
@@ -14946,7 +14993,8 @@ function $c_Lvotelog_client_web_components_UserComponent() {
   this.selectedId$1 = null;
   this.unstableIds$1 = null;
   this.ids$1 = null;
-  this.selectedEntity$1 = null
+  this.selectedEntity$1 = null;
+  this.bitmap$0$1 = 0
 }
 $c_Lvotelog_client_web_components_UserComponent.prototype = new $h_O();
 $c_Lvotelog_client_web_components_UserComponent.prototype.constructor = $c_Lvotelog_client_web_components_UserComponent;
@@ -14956,7 +15004,7 @@ function $h_Lvotelog_client_web_components_UserComponent() {
 }
 $h_Lvotelog_client_web_components_UserComponent.prototype = $c_Lvotelog_client_web_components_UserComponent.prototype;
 $c_Lvotelog_client_web_components_UserComponent.prototype.ids__Lmhtml_Rx = (function() {
-  return this.ids$1
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.queryParameters__Lmhtml_Rx = (function() {
   return this.queryParameters$1
@@ -14971,17 +15019,21 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.index$lzycompute$1__p1
     this.index$module$1 = new $c_Lvotelog_client_web_components_UserComponent$index$().init___Lvotelog_client_web_components_UserComponent(this)
   }
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
-  this.selectedId$1 = x$1
-});
 $c_Lvotelog_client_web_components_UserComponent.prototype.viewCancelable__s_Option = (function() {
   return this.viewCancelable$1
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
+  this.selectedId$1 = x$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
   return this.unstableIds$1
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$unstableIds$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.unstableIds$1 = x$1
+$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.read$lzycompute$1__p1__V = (function() {
   if ((this.read$module$1 === null)) {
@@ -15039,7 +15091,7 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.init___T__Lvotelog_cli
   var jsx$1 = $m_s_xml_TopScope$();
   var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_UserComponent$index$().view$1);
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_UserComponent$index$().view__s_xml_Elem());
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$2, jsx$1, false, $$buf$2));
   var $$md$2 = $m_s_xml_Null$();
@@ -15063,11 +15115,15 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.read__Lvotelog_client_
   };
   return this.read$module$1
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$ids$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.ids$1 = x$1
-});
 $c_Lvotelog_client_web_components_UserComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
   return this.indexQueryParameters$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.ids$1
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg = (function() {
   return this.store$1
@@ -15207,14 +15263,14 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.renderFullUser__s_Opti
     }
   }
 });
+$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V = (function(x$1) {
+  this.selectedEntity$1 = x$1
+});
 $c_Lvotelog_client_web_components_UserComponent.prototype.index__Lvotelog_client_web_components_UserComponent$index$ = (function() {
   if ((this.index$module$1 === null)) {
     this.index$lzycompute$1__p1__V()
   };
   return this.index$module$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.selectedEntity$1 = x$1
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.create__Lvotelog_client_web_components_UserComponent$create$ = (function() {
   if ((this.create$module$1 === null)) {
@@ -15250,7 +15306,8 @@ function $c_Lvotelog_client_web_components_business_BusinessComponent() {
   this.selectedId$1 = null;
   this.unstableIds$1 = null;
   this.ids$1 = null;
-  this.selectedEntity$1 = null
+  this.selectedEntity$1 = null;
+  this.bitmap$0$1 = 0
 }
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype = new $h_O();
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.constructor = $c_Lvotelog_client_web_components_business_BusinessComponent;
@@ -15260,7 +15317,7 @@ function $h_Lvotelog_client_web_components_business_BusinessComponent() {
 }
 $h_Lvotelog_client_web_components_business_BusinessComponent.prototype = $c_Lvotelog_client_web_components_business_BusinessComponent.prototype;
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.ids__Lmhtml_Rx = (function() {
-  return this.ids$1
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.queryParameters__Lmhtml_Rx = (function() {
   return this.queryParameters$1
@@ -15361,11 +15418,15 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.viewCance
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
   this.selectedId$1 = x$1
 });
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
   return this.unstableIds$1
 });
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$unstableIds$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.unstableIds$1 = x$1
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.read$lzycompute$1__p1__V = (function() {
   if ((this.read$module$1 === null)) {
@@ -15375,11 +15436,15 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.read$lzyc
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.selectedId__Lmhtml_Var = (function() {
   return this.selectedId$1
 });
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$ids$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.ids$1 = x$1
-});
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
   return this.indexQueryParameters$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.ids$1
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.read__Lvotelog_client_web_components_business_BusinessComponent$read$ = (function() {
   if ((this.read$module$1 === null)) {
@@ -15437,7 +15502,7 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.init___T_
   var jsx$1 = $m_s_xml_TopScope$();
   var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view$1);
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view__s_xml_Elem());
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$2, jsx$1, false, $$buf$2));
   var $$md$2 = $m_s_xml_Null$();
@@ -15489,7 +15554,8 @@ function $c_Lvotelog_client_web_components_ngo_NgoComponent() {
   this.selectedId$1 = null;
   this.unstableIds$1 = null;
   this.ids$1 = null;
-  this.selectedEntity$1 = null
+  this.selectedEntity$1 = null;
+  this.bitmap$0$1 = 0
 }
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype = new $h_O();
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.constructor = $c_Lvotelog_client_web_components_ngo_NgoComponent;
@@ -15505,7 +15571,7 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.index__Lvotelog_cli
   return this.index$module$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.ids__Lmhtml_Rx = (function() {
-  return this.ids$1
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.queryParameters__Lmhtml_Rx = (function() {
   return this.queryParameters$1
@@ -15526,8 +15592,15 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.viewCancelable__s_Option = (function() {
   return this.viewCancelable$1
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
   return this.unstableIds$1
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderFullNgo__s_Option__s_xml_Elem = (function(ngo) {
   if ((ngo instanceof $c_s_Some)) {
@@ -15572,9 +15645,6 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderFullNgo__s_Op
     }
   }
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$unstableIds$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.unstableIds$1 = x$1
-});
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.read$lzycompute$1__p1__V = (function() {
   if ((this.read$module$1 === null)) {
     this.read$module$1 = new $c_Lvotelog_client_web_components_ngo_NgoComponent$read$().init___Lvotelog_client_web_components_ngo_NgoComponent(this)
@@ -15594,9 +15664,6 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.read__Lvotelog_clie
     this.read$lzycompute$1__p1__V()
   };
   return this.read$module$1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$ids$und$eq__Lmhtml_Rx__V = (function(x$1) {
-  this.ids$1 = x$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderNgoPreview__Lvotelog_domain_politics_Ngo$Id__Lvotelog_domain_politics_Ngo__Lmhtml_Rx = (function(id, ngo) {
   var jsx$9 = $m_Lmhtml_Rx$();
@@ -15633,6 +15700,13 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderNgoPreview__L
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   return jsx$9.apply__O__Lmhtml_Rx(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf))
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.ids$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
   return this.indexQueryParameters$1
