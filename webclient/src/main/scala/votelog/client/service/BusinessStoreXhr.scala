@@ -3,7 +3,7 @@ package votelog.client.service
 import votelog.client.Configuration
 import votelog.client.service.ReadOnlyStoreXhr.indexQueryParam
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.politics.{Business, Context}
+import votelog.domain.politics.{Business, Context, Language}
 import votelog.persistence.BusinessStore
 import votelog.orphans.circe.implicits._
 
@@ -15,8 +15,8 @@ class BusinessStoreXhr(configuration: Configuration)
 
   override val indexUrl: String = configuration.url + "/business"
 
-  override implicit val queryParameterBuilder: HttpQueryParameter[Context] = params.Politics.contextParams
-
+  implicit val contextParameterBuilder: HttpQueryParameter[Context] = params.Politics.contextParams
+  override implicit val queryParameterBuilder: HttpQueryParameter[Language] = params.Politics.langParam
   override implicit val indexQueryParameterBuilder: HttpQueryParameter[ReadOnlyStoreAlg.IndexQueryParameters[Context]] =
     indexQueryParam
 }

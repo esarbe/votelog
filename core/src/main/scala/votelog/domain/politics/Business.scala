@@ -1,6 +1,8 @@
 package votelog.domain.politics
 
-case class Business(name: String, submitter: Person.Id)
+import java.time.LocalDate
+
+case class Business(title: String, description: String, submittedBy: String, submissionDate: LocalDate)
 
 object Business {
   case class Id(value: Int)

@@ -19,11 +19,10 @@ abstract class ReadOnlyStoreXhr[T: Decoder, Identity: Decoder: KeyEncoder]
 
   def encode[P: HttpQueryParameter](p: P): String = HttpQueryParameter[P].encode(p)
 
-  def param(id: Identity): String =
-    s"/${KeyEncoder[Identity].apply(id)}"
-
+  def param(id: Identity): String = s"/${KeyEncoder[Identity].apply(id)}"
 
   override def index(queryParameters: IndexQueryParameters): Future[List[Identity]] = {
+    println(s"$indexUrl")
     Ajax.get(indexUrl + "?" + encode(queryParameters), withCredentials = true)
       .flatMap { res =>
         decode[List[Identity]](res.responseText).fold(Future.failed, Future.successful)
