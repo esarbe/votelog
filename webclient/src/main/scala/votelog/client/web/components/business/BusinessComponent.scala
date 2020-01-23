@@ -40,24 +40,22 @@ class BusinessComponent(
   val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
   val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
-  val queryParameters: Rx[Context] =
-    for {
-      language <- language
-      legislativePeriod <- legislativePeriod.model
-    } yield Context(legislativePeriod, language)
+  val queryParameters: Rx[Language] = language
+
 
   val indexQueryParameters: Rx[store.IndexQueryParameters] =
     for {
       offset <- paging.offset
       pageSize <- paging.pageSize
-      context <- queryParameters
-    } yield IndexQueryParameters(pageSize, offset, context)
+      language <- language
+      legislativePeriod <- legislativePeriod.model
+    } yield IndexQueryParameters(pageSize, offset, Context(legislativePeriod, language))
 
   def renderBusinessPreview(id: Business.Id, business: Business): Rx[Elem] = Rx {
-    <article class="ngo" data-selected={ self.selectedId.map(_.contains(id)) }>
+    <article class="business entity" data-selected={ self.selectedId.map(_.contains(id)) }>
       <dl>
-        <dt>Name</dt>
-        <dd>{business.name}</dd>
+        <dt>Title</dt>
+        <dd>{business.title}</dd>
       </dl>
     </article>
   }
@@ -67,8 +65,14 @@ class BusinessComponent(
       case Some(business) =>
         <article class="business">
           <dl>
-            <dd>NGO</dd>
-            <dt>{business.name}</dt>
+            <dt>Title</dt>
+            <dd>{business.title.getOrElse("no title")}</dd>
+            <dt>Description</dt>
+            <dd>{business.description.getOrElse("no description")}</dd>
+            <dt>Submitter</dt>
+            <dd>{business.submittedBy.getOrElse("unknown")}</dd>
+            <dt>Submission date</dt>
+            <dd>{business.submissionDate.formatted("yyyy-dd-MM")}</dd>
           </dl>
         </article>
 
@@ -93,7 +97,7 @@ class BusinessComponent(
 
   object read {
     val model =  self.selectedId
-    val view: Rx[Elem] = self.selectedEntity.map(renderEntity)
+    lazy val view: Rx[Elem] = self.selectedEntity.map(renderEntity)
   }
 
   val view = Group {

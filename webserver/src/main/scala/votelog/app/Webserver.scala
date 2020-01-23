@@ -55,7 +55,7 @@ object Webserver extends IOApp {
     object component {
       val root = Root.child("api").child("v0")
       val person = root.child("person")
-      val motion = root.child("motion")
+      val business = root.child("business")
       val user = root.child("user")
       val ngo = root.child("ngo")
       val auth = root.child("auth")
@@ -70,7 +70,7 @@ object Webserver extends IOApp {
         authAlg = votelog.authorization
       )
 
-    val mws = new MotionService(component.motion, votelog.motion, votelog.authorization)
+    val bws = new BusinessService(component.business, votelog.motion, votelog.authorization)
     val uws = new UserService(component.user, votelog.user, votelog.authorization)
     val nws = new NgoService(component.ngo, votelog.ngo, votelog.authorization)
 
@@ -93,7 +93,7 @@ object Webserver extends IOApp {
     val services =
       Map(
         component.person.location -> auth(pws.service),
-        component.motion.location -> auth(mws.service),
+        component.business.location -> auth(bws.service),
         component.user.location -> auth(uws.service),
         component.ngo.location -> auth(nws.service),
         component.auth.child("session").location -> basicAuth(session.service),
