@@ -6117,7 +6117,8 @@ function $m_Lvotelog_client_service_ReadOnlyStoreXhr$() {
 /** @constructor */
 function $c_Lvotelog_client_service_params_Politics$() {
   $c_O.call(this);
-  this.contextParams$1 = null
+  this.contextParams$1 = null;
+  this.langParam$1 = null
 }
 $c_Lvotelog_client_service_params_Politics$.prototype = new $h_O();
 $c_Lvotelog_client_service_params_Politics$.prototype.constructor = $c_Lvotelog_client_service_params_Politics$;
@@ -6159,6 +6160,12 @@ $c_Lvotelog_client_service_params_Politics$.prototype.init___ = (function() {
       })($this));
       var this$9 = $m_sci_Iterable$();
       return $as_sc_TraversableOnce(jsx$2.map__F1__scg_CanBuildFrom__O(jsx$1, this$9.ReusableCBFInstance$2)).mkString__T__T("&")
+    })
+  })(this));
+  this.langParam$1 = new $c_Lvotelog_client_service_params_Politics$$$Lambda$2().init___O((function(this$2$1) {
+    return (function(lang$2) {
+      var lang = $as_Lvotelog_domain_politics_Language(lang$2);
+      return ("lang=" + lang.iso639$und1__T())
     })
   })(this));
   return this
@@ -6265,7 +6272,7 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   this.location$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$17);
   this.defaultContext$1 = new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language($m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, $m_Lvotelog_domain_politics_Language$English$());
   this.context$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(this.defaultContext$1);
-  this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("https://votelog.herokuapp.com/api/v0");
+  this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("http://localhost:8080/api/v0");
   this.root$1 = $m_Lvotelog_domain_authorization_Component$().Root$1;
   this.authService$1 = new $c_Lvotelog_client_service_SessionServiceXhr().init___Lvotelog_client_Configuration(this.configuration$1);
   this.personsStore$1 = new $c_Lvotelog_client_service_PersonStoreXhr().init___Lvotelog_client_Configuration(this.configuration$1);
@@ -8436,8 +8443,9 @@ $c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.$c
 /** @constructor */
 function $c_Lvotelog_client_web_components_business_BusinessComponent$read$() {
   $c_O.call(this);
-  this.model$1 = null;
   this.view$1 = null;
+  this.model$1 = null;
+  this.bitmap$0$1 = false;
   this.$$outer$1 = null
 }
 $c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype = new $h_O();
@@ -8447,6 +8455,23 @@ function $h_Lvotelog_client_web_components_business_BusinessComponent$read$() {
   /*<skip>*/
 }
 $h_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype = $c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype;
+$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.view__Lmhtml_Rx = (function() {
+  return ((!this.bitmap$0$1) ? this.view$lzycompute__p1__Lmhtml_Rx() : this.view$1)
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.view$lzycompute__p1__Lmhtml_Rx = (function() {
+  if ((!this.bitmap$0$1)) {
+    var this$1 = this.$$outer$1.selectedEntity$1;
+    var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+      return (function(maybeBusiness$2) {
+        var maybeBusiness = $as_s_Option(maybeBusiness$2);
+        return $this.$$outer$1.renderEntity__s_Option__s_xml_Elem(maybeBusiness)
+      })
+    })(this));
+    this.view$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
+    this.bitmap$0$1 = true
+  };
+  return this.view$1
+});
 $c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.init___Lvotelog_client_web_components_business_BusinessComponent = (function($$outer) {
   if (($$outer === null)) {
     throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
@@ -8454,14 +8479,6 @@ $c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.ini
     this.$$outer$1 = $$outer
   };
   this.model$1 = $$outer.selectedId$1;
-  var this$1 = $$outer.selectedEntity$1;
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(maybeBusiness$2) {
-      var maybeBusiness = $as_s_Option(maybeBusiness$2);
-      return $this.$$outer$1.renderEntity__s_Option__s_xml_Elem(maybeBusiness)
-    })
-  })(this));
-  this.view$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
   return this
 });
 var $d_Lvotelog_client_web_components_business_BusinessComponent$read$ = new $TypeData().initClass({
@@ -9918,12 +9935,12 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
   })(this));
   this.lpKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$35, f$5);
   this.langKeyDecoder$1 = new $c_Lvotelog_orphans_circe_implicits$$anonfun$2().init___();
-  var inst$macro$218 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1().init___().inst$macro$203__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec();
-  var t$14 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$18$1, inst$macro$218$1) {
+  var inst$macro$226 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1().init___().inst$macro$203__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec();
+  var t$14 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$18$1, inst$macro$226$1) {
     return (function() {
-      return inst$macro$218$1
+      return inst$macro$226$1
     })
-  })(this, inst$macro$218));
+  })(this, inst$macro$226));
   var codec$14 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$14);
   this.businessCodec$1 = $as_Lio_circe_Codec$AsObject(codec$14.value__O());
   var this$38 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
@@ -9937,12 +9954,12 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
     })
   })(this));
   this.businessIdKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$39, f$7);
-  var inst$macro$226 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1().init___().inst$macro$219__Lio_circe_generic_extras_codec_UnwrappedCodec();
-  var t$15 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$20$1, inst$macro$226$1) {
+  var inst$macro$234 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1().init___().inst$macro$227__Lio_circe_generic_extras_codec_UnwrappedCodec();
+  var t$15 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$20$1, inst$macro$234$1) {
     return (function() {
-      return inst$macro$226$1
+      return inst$macro$234$1
     })
-  })(this, inst$macro$226));
+  })(this, inst$macro$234));
   var codec$15 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$15);
   this.businessIdCodec$1 = $as_Lio_circe_Codec(codec$15.value__O());
   var this$42 = $m_Lio_circe_Encoder$().encodeString$1;
@@ -14756,27 +14773,31 @@ $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__
   return this
 });
 $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.index__O__s_concurrent_Future = (function(queryParameters) {
+  var x = ("" + this.indexUrl$2);
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var x$1 = ((this.indexUrl$2 + "?") + this.encode__O__Lvotelog_client_service_HttpQueryParameter__T(queryParameters, this.indexQueryParameterBuilder$2));
   var x$5 = $m_sci_Map$EmptyMap$();
-  var this$3 = $m_Lorg_scalajs_dom_ext_Ajax$();
-  return this$3.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+  var this$6 = $m_Lorg_scalajs_dom_ext_Ajax$();
+  return this$6.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(res$2) {
-      var this$5 = $m_Lio_circe_parser_package$();
+      var this$8 = $m_Lio_circe_parser_package$();
       var input = $as_T(res$2.responseText);
       $m_Lio_circe_Decoder$();
       var decodeA = $this.evidence$2$1;
       var evidence$1 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA);
-      var this$6 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$5, input, evidence$1);
-      if ((this$6 instanceof $c_s_util_Right)) {
-        var x2 = $as_s_util_Right(this$6);
+      var this$9 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$8, input, evidence$1);
+      if ((this$9 instanceof $c_s_util_Right)) {
+        var x2 = $as_s_util_Right(this$9);
         var b = x2.value$2;
         var result = $as_sci_List(b);
         return $m_s_concurrent_Future$().successful__O__s_concurrent_Future(result)
       } else {
-        if ((!(this$6 instanceof $c_s_util_Left))) {
-          throw new $c_s_MatchError().init___O(this$6)
+        if ((!(this$9 instanceof $c_s_util_Left))) {
+          throw new $c_s_MatchError().init___O(this$9)
         };
-        var x3 = $as_s_util_Left(this$6);
+        var x3 = $as_s_util_Left(this$9);
         var a = x3.value$2;
         var exception = $as_jl_Throwable(a);
         return $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(exception)
@@ -14953,6 +14974,33 @@ var $d_Lvotelog_client_service_params_Politics$$$Lambda$1 = new $TypeData().init
   Lvotelog_client_service_HttpQueryParameter: 1
 });
 $c_Lvotelog_client_service_params_Politics$$$Lambda$1.prototype.$classData = $d_Lvotelog_client_service_params_Politics$$$Lambda$1;
+/** @constructor */
+function $c_Lvotelog_client_service_params_Politics$$$Lambda$2() {
+  $c_O.call(this);
+  this.f$1 = null
+}
+$c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype = new $h_O();
+$c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype.constructor = $c_Lvotelog_client_service_params_Politics$$$Lambda$2;
+/** @constructor */
+function $h_Lvotelog_client_service_params_Politics$$$Lambda$2() {
+  /*<skip>*/
+}
+$h_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype = $c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype;
+$c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype.init___O = (function(f) {
+  this.f$1 = f;
+  return this
+});
+$c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype.encode__O__T = (function(t) {
+  return $as_T((0, this.f$1)(t))
+});
+var $d_Lvotelog_client_service_params_Politics$$$Lambda$2 = new $TypeData().initClass({
+  Lvotelog_client_service_params_Politics$$$Lambda$2: 0
+}, false, "votelog.client.service.params.Politics$$$Lambda$2", {
+  Lvotelog_client_service_params_Politics$$$Lambda$2: 1,
+  O: 1,
+  Lvotelog_client_service_HttpQueryParameter: 1
+});
+$c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype.$classData = $d_Lvotelog_client_service_params_Politics$$$Lambda$2;
 /** @constructor */
 function $c_Lvotelog_client_web_components_Language() {
   $c_Lvotelog_client_web_components_html_DynamicSelect.call(this)
@@ -15296,6 +15344,7 @@ function $c_Lvotelog_client_web_components_business_BusinessComponent() {
   this.read$module$1 = null;
   this.component$1 = null;
   this.store$1 = null;
+  this.language$1 = null;
   this.legislativePeriod$1 = null;
   this.pagingConfiguration$1 = null;
   this.paging$1 = null;
@@ -15328,38 +15377,117 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderEnt
     var business = $as_Lvotelog_domain_politics_Business(x2.value$2);
     var $$md = $m_s_xml_Null$();
     $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("business"), $$md, null);
-    var jsx$8 = $$md;
-    var jsx$7 = $m_s_xml_TopScope$();
+    var jsx$22 = $$md;
+    var jsx$21 = $m_s_xml_TopScope$();
     var $$buf = new $c_s_xml_NodeBuffer().init___();
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    var jsx$6 = $m_s_xml_Null$();
-    var jsx$5 = $m_s_xml_TopScope$();
+    var jsx$20 = $m_s_xml_Null$();
+    var jsx$19 = $m_s_xml_TopScope$();
     var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
     $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
     var jsx$2 = $m_s_xml_Null$();
     var jsx$1 = $m_s_xml_TopScope$();
     var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("NGO"));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$2, jsx$1, false, $$buf$3));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Title"));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
     $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
     var jsx$4 = $m_s_xml_Null$();
     var jsx$3 = $m_s_xml_TopScope$();
     var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(business.name$1, null);
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$4, jsx$3, false, $$buf$4));
+    var this$1 = business.title$1;
+    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$1.isEmpty__Z() ? "no title" : this$1.get__O()), null);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var jsx$6 = $m_s_xml_Null$();
+    var jsx$5 = $m_s_xml_TopScope$();
+    var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$5.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Description"));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$6, jsx$5, false, $$buf$5));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var jsx$8 = $m_s_xml_Null$();
+    var jsx$7 = $m_s_xml_TopScope$();
+    var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
+    var this$2 = business.description$1;
+    $$buf$6.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$2.isEmpty__Z() ? "no description" : this$2.get__O()), null);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$8, jsx$7, false, $$buf$6));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var jsx$10 = $m_s_xml_Null$();
+    var jsx$9 = $m_s_xml_TopScope$();
+    var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Submitter"));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$10, jsx$9, false, $$buf$7));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var jsx$12 = $m_s_xml_Null$();
+    var jsx$11 = $m_s_xml_TopScope$();
+    var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
+    var this$3 = business.submittedBy$1;
+    $$buf$8.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$3.isEmpty__Z() ? "unknown" : this$3.get__O()), null);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$12, jsx$11, false, $$buf$8));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var jsx$14 = $m_s_xml_Null$();
+    var jsx$13 = $m_s_xml_TopScope$();
+    var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Submission date"));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$14, jsx$13, false, $$buf$9));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var jsx$18 = $m_s_xml_Null$();
+    var jsx$17 = $m_s_xml_TopScope$();
+    var $$buf$10 = new $c_s_xml_NodeBuffer().init___();
+    var self = business.submissionDate$1;
+    var this$9 = new $c_sci_StringOps().init___T("yyyy-dd-MM");
+    var array = [self];
+    var jsx$16 = $m_sjsr_RuntimeString$();
+    var $$this = this$9.repr$1;
+    $m_sc_Seq$();
+    $m_sjs_js_WrappedArray$();
+    var array$1 = [];
+    var x1 = $uI(array.length);
+    switch (x1) {
+      case (-1): {
+        break
+      }
+    };
+    var i = 0;
+    var len = $uI(array.length);
+    while ((i < len)) {
+      var index = i;
+      var arg1 = array[index];
+      var elem = $f_sci_StringLike__unwrapArg__psci_StringLike__O__O(this$9, arg1);
+      array$1.push(elem);
+      i = ((1 + i) | 0)
+    };
+    $m_s_reflect_ManifestFactory$ObjectManifest$();
+    var len$1 = $uI(array$1.length);
+    var result = $newArrayObject($d_O.getArrayOf(), [len$1]);
+    var len$2 = result.u.length;
+    var i$1 = 0;
+    var j = 0;
+    var x = $uI(array$1.length);
+    var x$1 = ((x < len$2) ? x : len$2);
+    var that = result.u.length;
+    var end = ((x$1 < that) ? x$1 : that);
+    while ((i$1 < end)) {
+      var jsx$15 = j;
+      var index$1 = i$1;
+      result.set(jsx$15, array$1[index$1]);
+      i$1 = ((1 + i$1) | 0);
+      j = ((1 + j) | 0)
+    };
+    $$buf$10.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(jsx$16.format__T__AO__T($$this, result), null);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$18, jsx$17, false, $$buf$10));
     $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$20, jsx$19, false, $$buf$2));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf)
+    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$22, jsx$21, false, $$buf)
   } else {
-    var x = $m_s_None$();
-    if ((x === maybeBusiness)) {
+    var x$2 = $m_s_None$();
+    if ((x$2 === maybeBusiness)) {
       var $$md$2 = $m_s_xml_Null$();
       $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("business loading"), $$md$2, null);
-      var jsx$10 = $$md$2;
-      var jsx$9 = $m_s_xml_TopScope$();
-      var array = [];
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$10, jsx$9, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
+      var jsx$24 = $$md$2;
+      var jsx$23 = $m_s_xml_TopScope$();
+      var array$2 = [];
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$24, jsx$23, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2))
     } else {
       throw new $c_s_MatchError().init___O(maybeBusiness)
     }
@@ -15381,7 +15509,7 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderBus
     })
   })(this, id));
   $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("data-selected", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), $$md, null);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("ngo"), $$md, null);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("business entity"), $$md, null);
   var jsx$8 = $$md;
   var jsx$7 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
@@ -15393,13 +15521,13 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderBus
   var jsx$2 = $m_s_xml_Null$();
   var jsx$1 = $m_s_xml_TopScope$();
   var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Title"));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
   var jsx$4 = $m_s_xml_Null$();
   var jsx$3 = $m_s_xml_TopScope$();
   var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(business.name$1, null);
+  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(business.title$1, null);
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
@@ -15455,46 +15583,41 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.read__Lvo
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.init___T__Lvotelog_client_web_components_business_BusinessComponent$Configuration__Lvotelog_persistence_BusinessStore__Lmhtml_Rx = (function(component, configuration, store, language) {
   this.component$1 = component;
   this.store$1 = store;
+  this.language$1 = language;
   $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V(this);
   this.legislativePeriod$1 = new $c_Lvotelog_client_web_components_html_StaticSelect().init___T__sc_Seq__O__T__T__Lcats_Show__s_math_Ordering("legislative period", $m_Lvotelog_domain_politics_LegislativePeriod$().ids$1, $m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, "legislativePeriod", "legislativePeriod", $m_Lvotelog_domain_politics_LegislativePeriod$Id$().legislativePeriodShow$1, $m_Lvotelog_domain_politics_LegislativePeriod$Id$().legislativeIdOrdering$1);
   this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(configuration.defaultPageSize$1, configuration.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
   this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "paging"), this.pagingConfiguration$1);
-  var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(language$2$2) {
-      var language$2 = $as_Lvotelog_domain_politics_Language(language$2$2);
-      var this$3 = $this.legislativePeriod$1.model$1;
-      var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, language$1) {
-        return (function(legislativePeriod$2) {
-          var legislativePeriod = $as_Lvotelog_domain_politics_LegislativePeriod$Id(legislativePeriod$2);
-          return new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language(legislativePeriod, language$1)
-        })
-      })($this, language$2));
-      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$3, f)
-    })
-  })(this));
-  this.queryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(language, f$1);
+  this.queryParameters$1 = language;
   var this$6 = this.paging$1.offset$1;
-  var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(offset$2) {
       var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
-      var this$5 = this$2$1.paging$1.pageSize$1;
-      var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, offset$1) {
+      var this$5 = $this.paging$1.pageSize$1;
+      var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, offset$1) {
         return (function(pageSize$2) {
           var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
-          var this$4 = $this$2.queryParameters$1;
-          var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, pageSize$1, offset$1$1) {
-            return (function(context$2) {
-              var context = $as_Lvotelog_domain_politics_Context(context$2);
-              return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1, offset$1$1, context)
+          var this$4 = $this$1.language$1;
+          var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, pageSize$1, offset$1$1) {
+            return (function(language$2) {
+              var language$1 = $as_Lvotelog_domain_politics_Language(language$2);
+              var this$3 = $this$2.legislativePeriod$1.model$1;
+              var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, pageSize$1$1, offset$1$2, language$3) {
+                return (function(legislativePeriod$2) {
+                  var legislativePeriod = $as_Lvotelog_domain_politics_LegislativePeriod$Id(legislativePeriod$2);
+                  return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1$1, offset$1$2, new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language(legislativePeriod, language$3))
+                })
+              })($this$2, pageSize$1, offset$1$1, language$1));
+              return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$3, f)
             })
-          })($this$2, pageSize, offset$1));
-          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$4, f$2)
+          })($this$1, pageSize, offset$1));
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$1)
         })
-      })(this$2$1, offset));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$5, f$3)
+      })($this, offset));
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$5, f$2)
     })
   })(this));
-  this.indexQueryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$4);
+  this.indexQueryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$3);
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   var $$md = $m_s_xml_Null$();
   $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("index"), $$md, null);
@@ -15511,7 +15634,7 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.init___T_
   var jsx$3 = $m_s_xml_TopScope$();
   var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.read__Lvotelog_client_web_components_business_BusinessComponent$read$().view$1, null);
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.read__Lvotelog_client_web_components_business_BusinessComponent$read$().view__Lmhtml_Rx(), null);
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$4, jsx$3, false, $$buf$3));
   this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
@@ -18936,6 +19059,48 @@ var $d_Lio_circe_Encoder$$anon$19 = new $TypeData().initClass({
 });
 $c_Lio_circe_Encoder$$anon$19.prototype.$classData = $d_Lio_circe_Encoder$$anon$19;
 /** @constructor */
+function $c_Lio_circe_Encoder$$anon$21() {
+  $c_O.call(this);
+  this.e$2$1 = null
+}
+$c_Lio_circe_Encoder$$anon$21.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$21.prototype.constructor = $c_Lio_circe_Encoder$$anon$21;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$21() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$21.prototype = $c_Lio_circe_Encoder$$anon$21.prototype;
+$c_Lio_circe_Encoder$$anon$21.prototype.apply__s_Option__Lio_circe_Json = (function(a) {
+  if ((a instanceof $c_s_Some)) {
+    var x2 = $as_s_Some(a);
+    var v = x2.value$2;
+    return this.e$2$1.apply__O__Lio_circe_Json(v)
+  } else {
+    var x = $m_s_None$();
+    if ((x === a)) {
+      return $m_Lio_circe_Json$().Null$1
+    } else {
+      throw new $c_s_MatchError().init___O(a)
+    }
+  }
+});
+$c_Lio_circe_Encoder$$anon$21.prototype.init___Lio_circe_Encoder = (function(e$2) {
+  this.e$2$1 = e$2;
+  return this
+});
+$c_Lio_circe_Encoder$$anon$21.prototype.apply__O__Lio_circe_Json = (function(a) {
+  return this.apply__s_Option__Lio_circe_Json($as_s_Option(a))
+});
+var $d_Lio_circe_Encoder$$anon$21 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$21: 0
+}, false, "io.circe.Encoder$$anon$21", {
+  Lio_circe_Encoder$$anon$21: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$21.prototype.$classData = $d_Lio_circe_Encoder$$anon$21;
+/** @constructor */
 function $c_Lio_circe_Encoder$$anon$22() {
   $c_O.call(this)
 }
@@ -18989,6 +19154,35 @@ var $d_Lio_circe_Encoder$$anon$5 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lio_circe_Encoder$$anon$5.prototype.$classData = $d_Lio_circe_Encoder$$anon$5;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$52() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$52.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$52.prototype.constructor = $c_Lio_circe_Encoder$$anon$52;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$52() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$52.prototype = $c_Lio_circe_Encoder$$anon$52.prototype;
+$c_Lio_circe_Encoder$$anon$52.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$52.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $as_Ljava_time_LocalDate(a);
+  $m_Lio_circe_Json$();
+  var value = a$1.toString__T();
+  return new $c_Lio_circe_Json$JString().init___T(value)
+});
+var $d_Lio_circe_Encoder$$anon$52 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$52: 0
+}, false, "io.circe.Encoder$$anon$52", {
+  Lio_circe_Encoder$$anon$52: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$52.prototype.$classData = $d_Lio_circe_Encoder$$anon$52;
 /** @constructor */
 function $c_Lio_circe_Encoder$$anon$7() {
   $c_O.call(this)
@@ -23912,121 +24106,10 @@ var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1 = new $TypeData().
 });
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1;
 /** @constructor */
-function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1() {
-  $c_O.call(this);
-  this.inst$macro$216$1 = null;
-  this.inst$macro$203$1 = null;
-  this.bitmap$0$1 = 0
-}
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype = new $h_O();
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1;
-/** @constructor */
-function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1() {
-  /*<skip>*/
-}
-$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype;
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.init___ = (function() {
-  return this
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.inst$macro$216__Lio_circe_generic_extras_codec_ReprAsObjectCodec = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$216$lzycompute__p1__Lio_circe_generic_extras_codec_ReprAsObjectCodec() : this.inst$macro$216$1)
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.inst$macro$203__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$203$lzycompute__p1__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec() : this.inst$macro$203$1)
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.inst$macro$203$lzycompute__p1__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec = (function() {
-  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1(this);
-    var gen = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1(this);
-    $m_Lshapeless_ops_hlist$ZipWithKeys$();
-    $m_Lshapeless_ops_hlist$ZipWithKeys$();
-    var zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().hnilZipWithKeys$1;
-    $m_Lshapeless_Witness$();
-    var this$1 = $m_s_Symbol$();
-    var value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "submitter"));
-    new $c_Lshapeless_Witness$$anon$1().init___O(value0);
-    var zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys);
-    $m_Lshapeless_Witness$();
-    var this$4 = $m_s_Symbol$();
-    var value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "name"));
-    new $c_Lshapeless_Witness$$anon$1().init___O(value0$1);
-    var zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$1);
-    var ev = $m_s_Predef$().singleton$und$less$colon$less$2;
-    var gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1().init___Lshapeless_Generic__Lshapeless_ops_hlist$ZipWithKeys__s_Predef$$less$colon$less(gen, zip, ev);
-    var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
-      return (function() {
-        return $this.inst$macro$216__Lio_circe_generic_extras_codec_ReprAsObjectCodec()
-      })
-    })(this));
-    var codec = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
-    var defaults = new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), $m_Lshapeless_HNil$()));
-    var $default = new $c_Lshapeless_Default$$anon$1().init___Lshapeless_HList(defaults);
-    new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1(this);
-    var tailHelper = new $c_Lshapeless_Default$AsRecord$Helper$$anon$2().init___();
-    var tailHelper$1 = new $c_Lshapeless_Default$AsRecord$Helper$$anon$4().init___Lshapeless_Default$AsRecord$Helper(tailHelper);
-    var helper = new $c_Lshapeless_Default$AsRecord$Helper$$anon$4().init___Lshapeless_Default$AsRecord$Helper(tailHelper$1);
-    var defaults$1 = new $c_Lshapeless_Default$AsRecord$$anon$5().init___Lshapeless_Default__Lshapeless_Default$AsRecord$Helper($default, helper);
-    var defaultMapper = $m_Lio_circe_generic_extras_util_RecordToMap$().hnilRecordToMap$1;
-    var config = $m_Lio_circe_generic_extras_defaults$().defaultGenericConfiguration$1;
-    $m_Lshapeless_Witness$();
-    var this$14 = $m_s_Symbol$();
-    var value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$14, "name"));
-    var wk$1 = new $c_Lshapeless_Witness$$anon$1().init___O(value0$2);
-    $m_Lshapeless_Witness$();
-    var this$16 = $m_s_Symbol$();
-    var value0$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$16, "submitter"));
-    var wk = new $c_Lshapeless_Witness$$anon$1().init___O(value0$3);
-    var kt = new $c_Lshapeless_ops_record_Keys$$anon$28().init___();
-    var kt$1 = new $c_Lshapeless_ops_record_Keys$$anon$29().init___Lshapeless_Witness__Lshapeless_ops_record_Keys(wk, kt);
-    var fields = new $c_Lshapeless_ops_record_Keys$$anon$29().init___Lshapeless_Witness__Lshapeless_ops_record_Keys(wk$1, kt$1);
-    var ev$1 = $m_s_Predef$().singleton$und$less$colon$less$2;
-    var this$21 = $m_sci_List$();
-    var cbf = this$21.ReusableCBFInstance$2;
-    var tttvs = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$24().init___s_Predef$$less$colon$less__scg_CanBuildFrom(ev$1, cbf);
-    var u = new $c_Lshapeless_Lub$$anon$1().init___();
-    var this$24 = $m_sci_List$();
-    var cbf$1 = this$24.ReusableCBFInstance$2;
-    var fieldsToList = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs, u, cbf$1);
-    var annotations = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$2$1) {
-      return (function() {
-        return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), $m_Lshapeless_HNil$()))
-      })
-    })(this));
-    var keys = new $c_Lshapeless_Annotations$$anon$1().init___F0(annotations);
-    var ev$2 = $m_s_Predef$().singleton$und$less$colon$less$2;
-    var this$27 = $m_sci_List$();
-    var cbf$2 = this$27.ReusableCBFInstance$2;
-    var tttvs$1 = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$24().init___s_Predef$$less$colon$less__scg_CanBuildFrom(ev$2, cbf$2);
-    var u$1 = new $c_Lshapeless_Lub$$anon$1().init___();
-    var this$30 = $m_sci_List$();
-    var cbf$3 = this$30.ReusableCBFInstance$2;
-    var keysToList = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs$1, u$1, cbf$3);
-    this.inst$macro$203$1 = new $c_Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec$$anon$1().init___Lshapeless_LabelledGeneric__Lshapeless_Lazy__Lshapeless_Default$AsRecord__Lio_circe_generic_extras_util_RecordToMap__Lio_circe_generic_extras_Configuration__Lshapeless_ops_record_Keys__Lshapeless_ops_hlist$ToTraversable__Lshapeless_Annotations__Lshapeless_ops_hlist$ToTraversable(gen$1, codec, defaults$1, defaultMapper, config, fields, fieldsToList, keys, keysToList);
-    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.inst$macro$203$1
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.inst$macro$216$lzycompute__p1__Lio_circe_generic_extras_codec_ReprAsObjectCodec = (function() {
-  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.inst$macro$216$1 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1(this);
-    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.inst$macro$216$1
-});
-var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1 = new $TypeData().initClass({
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1: 0
-}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$217$1", {
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1: 1,
-  O: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1;
-/** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1() {
   $c_O.call(this);
-  this.inst$macro$220$1 = null;
-  this.inst$macro$219$1 = null;
+  this.inst$macro$224$1 = null;
+  this.inst$macro$203$1 = null;
   this.bitmap$0$1 = 0
 }
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype = new $h_O();
@@ -24039,33 +24122,130 @@ $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype = $c_Lvotelo
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.init___ = (function() {
   return this
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$219__Lio_circe_generic_extras_codec_UnwrappedCodec = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$219$lzycompute__p1__Lio_circe_generic_extras_codec_UnwrappedCodec() : this.inst$macro$219$1)
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$219$lzycompute__p1__Lio_circe_generic_extras_codec_UnwrappedCodec = (function() {
-  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
-      return (function() {
-        return $this.inst$macro$220__Lshapeless_Generic()
-      })
-    })(this));
-    var gen = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
-    var decodeR = $m_Lio_circe_Decoder$().decodeInt$1;
-    var encodeR = $m_Lio_circe_Encoder$().encodeInt$1;
-    this.inst$macro$219$1 = new $c_Lio_circe_generic_extras_codec_UnwrappedCodec$$anon$1().init___Lio_circe_Decoder__Lshapeless_Lazy__Lio_circe_Encoder(decodeR, gen, encodeR);
-    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.inst$macro$219$1
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$220$lzycompute__p1__Lshapeless_Generic = (function() {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$224$lzycompute__p1__Lio_circe_generic_extras_codec_ReprAsObjectCodec = (function() {
   if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.inst$macro$220$1 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1(this);
+    this.inst$macro$224$1 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1(this);
     this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
   };
-  return this.inst$macro$220$1
+  return this.inst$macro$224$1
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$220__Lshapeless_Generic = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$220$lzycompute__p1__Lshapeless_Generic() : this.inst$macro$220$1)
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$224__Lio_circe_generic_extras_codec_ReprAsObjectCodec = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$224$lzycompute__p1__Lio_circe_generic_extras_codec_ReprAsObjectCodec() : this.inst$macro$224$1)
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$203__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$203$lzycompute__p1__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec() : this.inst$macro$203$1)
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.inst$macro$203$lzycompute__p1__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1(this);
+    var gen = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1(this);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    var zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().hnilZipWithKeys$1;
+    $m_Lshapeless_Witness$();
+    var this$1 = $m_s_Symbol$();
+    var value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "submissionDate"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0);
+    var zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    var this$4 = $m_s_Symbol$();
+    var value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "submittedBy"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$1);
+    var zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    var this$7 = $m_s_Symbol$();
+    var value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "description"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$2);
+    var zipWithKeys$3 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$2);
+    $m_Lshapeless_Witness$();
+    var this$10 = $m_s_Symbol$();
+    var value0$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$10, "title"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$3);
+    var zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$3);
+    var ev = $m_s_Predef$().singleton$und$less$colon$less$2;
+    var gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1().init___Lshapeless_Generic__Lshapeless_ops_hlist$ZipWithKeys__s_Predef$$less$colon$less(gen, zip, ev);
+    var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
+      return (function() {
+        return $this.inst$macro$224__Lio_circe_generic_extras_codec_ReprAsObjectCodec()
+      })
+    })(this));
+    var codec = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+    var defaults = new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), $m_Lshapeless_HNil$()))));
+    var $default = new $c_Lshapeless_Default$$anon$1().init___Lshapeless_HList(defaults);
+    new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1(this);
+    var tailHelper = new $c_Lshapeless_Default$AsRecord$Helper$$anon$2().init___();
+    var tailHelper$1 = new $c_Lshapeless_Default$AsRecord$Helper$$anon$4().init___Lshapeless_Default$AsRecord$Helper(tailHelper);
+    var tailHelper$2 = new $c_Lshapeless_Default$AsRecord$Helper$$anon$4().init___Lshapeless_Default$AsRecord$Helper(tailHelper$1);
+    var tailHelper$3 = new $c_Lshapeless_Default$AsRecord$Helper$$anon$4().init___Lshapeless_Default$AsRecord$Helper(tailHelper$2);
+    var helper = new $c_Lshapeless_Default$AsRecord$Helper$$anon$4().init___Lshapeless_Default$AsRecord$Helper(tailHelper$3);
+    var defaults$1 = new $c_Lshapeless_Default$AsRecord$$anon$5().init___Lshapeless_Default__Lshapeless_Default$AsRecord$Helper($default, helper);
+    var defaultMapper = $m_Lio_circe_generic_extras_util_RecordToMap$().hnilRecordToMap$1;
+    var config = $m_Lio_circe_generic_extras_defaults$().defaultGenericConfiguration$1;
+    $m_Lshapeless_Witness$();
+    var this$22 = $m_s_Symbol$();
+    var value0$4 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$22, "title"));
+    var wk$3 = new $c_Lshapeless_Witness$$anon$1().init___O(value0$4);
+    $m_Lshapeless_Witness$();
+    var this$24 = $m_s_Symbol$();
+    var value0$5 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$24, "description"));
+    var wk$2 = new $c_Lshapeless_Witness$$anon$1().init___O(value0$5);
+    $m_Lshapeless_Witness$();
+    var this$26 = $m_s_Symbol$();
+    var value0$6 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$26, "submittedBy"));
+    var wk$1 = new $c_Lshapeless_Witness$$anon$1().init___O(value0$6);
+    $m_Lshapeless_Witness$();
+    var this$28 = $m_s_Symbol$();
+    var value0$7 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$28, "submissionDate"));
+    var wk = new $c_Lshapeless_Witness$$anon$1().init___O(value0$7);
+    var kt = new $c_Lshapeless_ops_record_Keys$$anon$28().init___();
+    var kt$1 = new $c_Lshapeless_ops_record_Keys$$anon$29().init___Lshapeless_Witness__Lshapeless_ops_record_Keys(wk, kt);
+    var kt$2 = new $c_Lshapeless_ops_record_Keys$$anon$29().init___Lshapeless_Witness__Lshapeless_ops_record_Keys(wk$1, kt$1);
+    var kt$3 = new $c_Lshapeless_ops_record_Keys$$anon$29().init___Lshapeless_Witness__Lshapeless_ops_record_Keys(wk$2, kt$2);
+    var fields = new $c_Lshapeless_ops_record_Keys$$anon$29().init___Lshapeless_Witness__Lshapeless_ops_record_Keys(wk$3, kt$3);
+    var ev$1 = $m_s_Predef$().singleton$und$less$colon$less$2;
+    var this$35 = $m_sci_List$();
+    var cbf = this$35.ReusableCBFInstance$2;
+    var tttvs = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$24().init___s_Predef$$less$colon$less__scg_CanBuildFrom(ev$1, cbf);
+    var u = new $c_Lshapeless_Lub$$anon$1().init___();
+    var this$38 = $m_sci_List$();
+    var cbf$1 = this$38.ReusableCBFInstance$2;
+    var tttvs$1 = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs, u, cbf$1);
+    var u$1 = new $c_Lshapeless_Lub$$anon$1().init___();
+    var this$41 = $m_sci_List$();
+    var cbf$2 = this$41.ReusableCBFInstance$2;
+    var tttvs$2 = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs$1, u$1, cbf$2);
+    var u$2 = new $c_Lshapeless_Lub$$anon$1().init___();
+    var this$44 = $m_sci_List$();
+    var cbf$3 = this$44.ReusableCBFInstance$2;
+    var fieldsToList = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs$2, u$2, cbf$3);
+    var annotations = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$2$1) {
+      return (function() {
+        return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList($m_s_None$(), $m_Lshapeless_HNil$()))))
+      })
+    })(this));
+    var keys = new $c_Lshapeless_Annotations$$anon$1().init___F0(annotations);
+    var ev$2 = $m_s_Predef$().singleton$und$less$colon$less$2;
+    var this$47 = $m_sci_List$();
+    var cbf$4 = this$47.ReusableCBFInstance$2;
+    var tttvs$3 = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$24().init___s_Predef$$less$colon$less__scg_CanBuildFrom(ev$2, cbf$4);
+    var u$3 = new $c_Lshapeless_Lub$$anon$1().init___();
+    var this$50 = $m_sci_List$();
+    var cbf$5 = this$50.ReusableCBFInstance$2;
+    var tttvs$4 = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs$3, u$3, cbf$5);
+    var u$4 = new $c_Lshapeless_Lub$$anon$1().init___();
+    var this$53 = $m_sci_List$();
+    var cbf$6 = this$53.ReusableCBFInstance$2;
+    var tttvs$5 = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs$4, u$4, cbf$6);
+    var u$5 = new $c_Lshapeless_Lub$$anon$1().init___();
+    var this$56 = $m_sci_List$();
+    var cbf$7 = this$56.ReusableCBFInstance$2;
+    var keysToList = new $c_Lshapeless_ops_hlist$ToTraversable$$anon$25().init___Lshapeless_ops_hlist$ToTraversable__Lshapeless_Lub__scg_CanBuildFrom(tttvs$5, u$5, cbf$7);
+    this.inst$macro$203$1 = new $c_Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec$$anon$1().init___Lshapeless_LabelledGeneric__Lshapeless_Lazy__Lshapeless_Default$AsRecord__Lio_circe_generic_extras_util_RecordToMap__Lio_circe_generic_extras_Configuration__Lshapeless_ops_record_Keys__Lshapeless_ops_hlist$ToTraversable__Lshapeless_Annotations__Lshapeless_ops_hlist$ToTraversable(gen$1, codec, defaults$1, defaultMapper, config, fields, fieldsToList, keys, keysToList);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$203$1
 });
 var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = new $TypeData().initClass({
   Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1: 0
@@ -24076,6 +24256,60 @@ var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = new $TypeData().
   Ljava_io_Serializable: 1
 });
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1;
+/** @constructor */
+function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1() {
+  $c_O.call(this);
+  this.inst$macro$228$1 = null;
+  this.inst$macro$227$1 = null;
+  this.bitmap$0$1 = 0
+}
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype = new $h_O();
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1;
+/** @constructor */
+function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1() {
+  /*<skip>*/
+}
+$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.inst$macro$228__Lshapeless_Generic = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$228$lzycompute__p1__Lshapeless_Generic() : this.inst$macro$228$1)
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.inst$macro$227__Lio_circe_generic_extras_codec_UnwrappedCodec = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$227$lzycompute__p1__Lio_circe_generic_extras_codec_UnwrappedCodec() : this.inst$macro$227$1)
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.inst$macro$228$lzycompute__p1__Lshapeless_Generic = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.inst$macro$228$1 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1().init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$228$1
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.inst$macro$227$lzycompute__p1__Lio_circe_generic_extras_codec_UnwrappedCodec = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
+      return (function() {
+        return $this.inst$macro$228__Lshapeless_Generic()
+      })
+    })(this));
+    var gen = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+    var decodeR = $m_Lio_circe_Decoder$().decodeInt$1;
+    var encodeR = $m_Lio_circe_Encoder$().encodeInt$1;
+    this.inst$macro$227$1 = new $c_Lio_circe_generic_extras_codec_UnwrappedCodec$$anon$1().init___Lio_circe_Decoder__Lshapeless_Lazy__Lio_circe_Encoder(decodeR, gen, encodeR);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$227$1
+});
+var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1: 0
+}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$233$1", {
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1;
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$27$1() {
   $c_O.call(this);
@@ -31813,6 +32047,7 @@ $c_Lshapeless_Witness$$anon$2.prototype.$classData = $d_Lshapeless_Witness$$anon
 function $c_Lvotelog_client_service_BusinessStoreXhr() {
   $c_Lvotelog_client_service_ReadOnlyStoreXhr.call(this);
   this.indexUrl$2 = null;
+  this.contextParameterBuilder$2 = null;
   this.queryParameterBuilder$2 = null;
   this.indexQueryParameterBuilder$2 = null
 }
@@ -31826,11 +32061,12 @@ $h_Lvotelog_client_service_BusinessStoreXhr.prototype = $c_Lvotelog_client_servi
 $c_Lvotelog_client_service_BusinessStoreXhr.prototype.init___Lvotelog_client_Configuration = (function(configuration) {
   $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder.call(this, $m_Lvotelog_orphans_circe_implicits$().businessCodec$1, $m_Lvotelog_orphans_circe_implicits$().businessIdCodec$1, $m_Lvotelog_orphans_circe_implicits$().businessIdKeyEncoder$1);
   this.indexUrl$2 = (configuration.url$1 + "/business");
-  this.queryParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().contextParams$1;
+  this.contextParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().contextParams$1;
+  this.queryParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().langParam$1;
   this.indexQueryParameterBuilder$2 = new $c_Lvotelog_client_service_BusinessStoreXhr$$Lambda$1().init___O((function($this) {
     return (function(qp$2) {
       var qp = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters(qp$2);
-      return $m_Lvotelog_client_service_ReadOnlyStoreXhr$().indexQueryParam__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__Lvotelog_client_service_HttpQueryParameter__T(qp, $this.queryParameterBuilder$2)
+      return $m_Lvotelog_client_service_ReadOnlyStoreXhr$().indexQueryParam__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__Lvotelog_client_service_HttpQueryParameter__T(qp, $this.contextParameterBuilder$2)
     })
   })(this));
   return this
@@ -32510,108 +32746,118 @@ var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$anon$macro$199$1 =
 });
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$anon$macro$199$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$anon$macro$199$1;
 /** @constructor */
-function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1() {
+function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1() {
   $c_O.call(this)
 }
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype = new $h_O();
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype = new $h_O();
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1;
 /** @constructor */
-function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1() {
+function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1() {
   /*<skip>*/
 }
-$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype;
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.from__Lshapeless_$colon$colon__Lvotelog_domain_politics_Business = (function(p) {
+$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.from__Lshapeless_$colon$colon__Lvotelog_domain_politics_Business = (function(p) {
   if ((p !== null)) {
-    var pat$macro$213 = $as_T(p.head$1);
+    var pat$macro$219 = $as_s_Option(p.head$1);
     var p2 = $as_Lshapeless_$colon$colon(p.tail$1);
     if ((p2 !== null)) {
-      var pat$macro$214 = $as_Lvotelog_domain_politics_Person$Id(p2.head$1).value$1;
-      var p3 = $as_Lshapeless_HNil(p2.tail$1);
-      var x = $m_Lshapeless_HNil$();
-      if ((x === p3)) {
-        return new $c_Lvotelog_domain_politics_Business().init___T__I(pat$macro$213, pat$macro$214)
+      var pat$macro$220 = $as_s_Option(p2.head$1);
+      var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
+      if ((p3 !== null)) {
+        var pat$macro$221 = $as_s_Option(p3.head$1);
+        var p4 = $as_Lshapeless_$colon$colon(p3.tail$1);
+        if ((p4 !== null)) {
+          var pat$macro$222 = $as_Ljava_time_LocalDate(p4.head$1);
+          var p5 = $as_Lshapeless_HNil(p4.tail$1);
+          var x = $m_Lshapeless_HNil$();
+          if ((x === p5)) {
+            return new $c_Lvotelog_domain_politics_Business().init___s_Option__s_Option__s_Option__Ljava_time_LocalDate(pat$macro$219, pat$macro$220, pat$macro$221, pat$macro$222)
+          }
+        }
       }
     }
   };
   throw new $c_s_MatchError().init___O(p)
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.from__O__O = (function(r) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.from__O__O = (function(r) {
   return this.from__Lshapeless_$colon$colon__Lvotelog_domain_politics_Business($as_Lshapeless_$colon$colon(r))
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1 = (function($$outer) {
-  return this
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.to__O__O = (function(t) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.to__O__O = (function(t) {
   return this.to__Lvotelog_domain_politics_Business__Lshapeless_$colon$colon($as_Lvotelog_domain_politics_Business(t))
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.to__Lvotelog_domain_politics_Business__Lshapeless_$colon$colon = (function(p) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = (function($$outer) {
+  return this
+});
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.to__Lvotelog_domain_politics_Business__Lshapeless_$colon$colon = (function(p) {
   if ((p !== null)) {
-    var pat$macro$213 = p.name$1;
-    var pat$macro$214 = p.submitter$1;
-    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$213, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(new $c_Lvotelog_domain_politics_Person$Id().init___I(pat$macro$214), $m_Lshapeless_HNil$()))
+    var pat$macro$219 = p.title$1;
+    var pat$macro$220 = p.description$1;
+    var pat$macro$221 = p.submittedBy$1;
+    var pat$macro$222 = p.submissionDate$1;
+    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$219, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$220, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$221, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$222, $m_Lshapeless_HNil$()))))
   } else {
     throw new $c_s_MatchError().init___O(p)
   }
 });
-var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1 = new $TypeData().initClass({
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1: 0
-}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$217$1$anon$macro$215$1", {
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1: 1,
+var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1: 0
+}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$225$1$anon$macro$223$1", {
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$anon$macro$215$1;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$223$1;
 /** @constructor */
-function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1() {
+function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1() {
   $c_O.call(this)
 }
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype = new $h_O();
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype = new $h_O();
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1;
 /** @constructor */
-function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1() {
+function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1() {
   /*<skip>*/
 }
-$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype;
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.to__Lvotelog_domain_politics_Business$Id__Lshapeless_$colon$colon = (function(p) {
+$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.to__Lvotelog_domain_politics_Business$Id__Lshapeless_$colon$colon = (function(p) {
   if ((p !== null)) {
-    var pat$macro$223 = p.value$1;
-    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$223, $m_Lshapeless_HNil$())
+    var pat$macro$231 = p.value$1;
+    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$231, $m_Lshapeless_HNil$())
   } else {
     throw new $c_s_MatchError().init___O(p)
   }
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.from__O__O = (function(r) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.from__O__O = (function(r) {
   return this.from__Lshapeless_$colon$colon__Lvotelog_domain_politics_Business$Id($as_Lshapeless_$colon$colon(r))
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.to__O__O = (function(t) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.to__O__O = (function(t) {
   return this.to__Lvotelog_domain_politics_Business$Id__Lshapeless_$colon$colon($as_Lvotelog_domain_politics_Business$Id(t))
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.from__Lshapeless_$colon$colon__Lvotelog_domain_politics_Business$Id = (function(p) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.from__Lshapeless_$colon$colon__Lvotelog_domain_politics_Business$Id = (function(p) {
   if ((p !== null)) {
-    var pat$macro$223 = $uI(p.head$1);
+    var pat$macro$231 = $uI(p.head$1);
     var p2 = $as_Lshapeless_HNil(p.tail$1);
     var x = $m_Lshapeless_HNil$();
     if ((x === p2)) {
-      return new $c_Lvotelog_domain_politics_Business$Id().init___I(pat$macro$223)
+      return new $c_Lvotelog_domain_politics_Business$Id().init___I(pat$macro$231)
     }
   };
   throw new $c_s_MatchError().init___O(p)
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = (function($$outer) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1 = (function($$outer) {
   return this
 });
-var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1 = new $TypeData().initClass({
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1: 0
-}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$225$1$anon$macro$224$1", {
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1: 1,
+var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1: 0
+}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$233$1$anon$macro$232$1", {
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$anon$macro$224$1;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1$anon$macro$232$1;
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$27$1$anon$macro$25$1() {
   $c_O.call(this)
@@ -39282,8 +39528,10 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize$$$Lambda$1.pr
 /** @constructor */
 function $c_Lvotelog_domain_politics_Business() {
   $c_O.call(this);
-  this.name$1 = null;
-  this.submitter$1 = 0
+  this.title$1 = null;
+  this.description$1 = null;
+  this.submittedBy$1 = null;
+  this.submissionDate$1 = null
 }
 $c_Lvotelog_domain_politics_Business.prototype = new $h_O();
 $c_Lvotelog_domain_politics_Business.prototype.constructor = $c_Lvotelog_domain_politics_Business;
@@ -39296,14 +39544,36 @@ $c_Lvotelog_domain_politics_Business.prototype.productPrefix__T = (function() {
   return "Business"
 });
 $c_Lvotelog_domain_politics_Business.prototype.productArity__I = (function() {
-  return 2
+  return 4
 });
 $c_Lvotelog_domain_politics_Business.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
     return true
   } else if ((x$1 instanceof $c_Lvotelog_domain_politics_Business)) {
     var Business$1 = $as_Lvotelog_domain_politics_Business(x$1);
-    return ((this.name$1 === Business$1.name$1) && (this.submitter$1 === Business$1.submitter$1))
+    var x = this.title$1;
+    var x$2 = Business$1.title$1;
+    if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
+      var x$3 = this.description$1;
+      var x$4 = Business$1.description$1;
+      var jsx$2 = ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+    } else {
+      var jsx$2 = false
+    };
+    if (jsx$2) {
+      var x$5 = this.submittedBy$1;
+      var x$6 = Business$1.submittedBy$1;
+      var jsx$1 = ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
+    } else {
+      var jsx$1 = false
+    };
+    if (jsx$1) {
+      var x$7 = this.submissionDate$1;
+      var x$8 = Business$1.submissionDate$1;
+      return ((x$7 === null) ? (x$8 === null) : x$7.equals__O__Z(x$8))
+    } else {
+      return false
+    }
   } else {
     return false
   }
@@ -39311,11 +39581,19 @@ $c_Lvotelog_domain_politics_Business.prototype.equals__O__Z = (function(x$1) {
 $c_Lvotelog_domain_politics_Business.prototype.productElement__I__O = (function(x$1) {
   switch (x$1) {
     case 0: {
-      return this.name$1;
+      return this.title$1;
       break
     }
     case 1: {
-      return new $c_Lvotelog_domain_politics_Person$Id().init___I(this.submitter$1);
+      return this.description$1;
+      break
+    }
+    case 2: {
+      return this.submittedBy$1;
+      break
+    }
+    case 3: {
+      return this.submissionDate$1;
       break
     }
     default: {
@@ -39326,14 +39604,16 @@ $c_Lvotelog_domain_politics_Business.prototype.productElement__I__O = (function(
 $c_Lvotelog_domain_politics_Business.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
 });
-$c_Lvotelog_domain_politics_Business.prototype.init___T__I = (function(name, submitter) {
-  this.name$1 = name;
-  this.submitter$1 = submitter;
-  return this
-});
 $c_Lvotelog_domain_politics_Business.prototype.hashCode__I = (function() {
   var this$2 = $m_s_util_hashing_MurmurHash3$();
   return this$2.productHash__s_Product__I__I(this, (-889275714))
+});
+$c_Lvotelog_domain_politics_Business.prototype.init___s_Option__s_Option__s_Option__Ljava_time_LocalDate = (function(title, description, submittedBy, submissionDate) {
+  this.title$1 = title;
+  this.description$1 = description;
+  this.submittedBy$1 = submittedBy;
+  this.submissionDate$1 = submissionDate;
+  return this
 });
 $c_Lvotelog_domain_politics_Business.prototype.productIterator__sc_Iterator = (function() {
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
@@ -40750,55 +41030,55 @@ var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$$anon$33 = new $Ty
 });
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$$anon$33.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$$anon$33;
 /** @constructor */
-function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35() {
+function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35() {
   $c_O.call(this)
 }
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35.prototype = new $h_O();
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35.prototype = new $h_O();
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35;
 /** @constructor */
-function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35() {
+function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35() {
   /*<skip>*/
 }
-$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35.prototype;
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1 = (function($$outer) {
+$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35.prototype;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = (function($$outer) {
   return this
 });
-var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35 = new $TypeData().initClass({
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35: 0
-}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$217$1$$anon$35", {
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35: 1,
+var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35: 0
+}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$225$1$$anon$35", {
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$35;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$35;
 /** @constructor */
-function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36() {
+function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36() {
   $c_O.call(this)
 }
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36.prototype = new $h_O();
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36.prototype = new $h_O();
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36;
 /** @constructor */
-function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36() {
+function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36() {
   /*<skip>*/
 }
-$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36.prototype;
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1 = (function($$outer) {
+$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36.prototype;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = (function($$outer) {
   return this
 });
-var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36 = new $TypeData().initClass({
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36: 0
-}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$217$1$$anon$36", {
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36: 1,
+var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36: 0
+}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$225$1$$anon$36", {
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$36;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$36;
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$27$1$$anon$2() {
   $c_O.call(this)
@@ -54125,6 +54405,13 @@ $c_Lio_circe_Encoder$.prototype.init___ = (function() {
   this.encoderContravariant$1 = new $c_Lio_circe_Encoder$$anon$36().init___();
   return this
 });
+$c_Lio_circe_Encoder$.prototype.encodeLocalDate$lzycompute__p1__Lio_circe_Encoder = (function() {
+  if (((32768 & this.bitmap$0$1) === 0)) {
+    this.encodeLocalDate$1 = new $c_Lio_circe_Encoder$$anon$52().init___();
+    this.bitmap$0$1 = (32768 | this.bitmap$0$1)
+  };
+  return this.encodeLocalDate$1
+});
 $c_Lio_circe_Encoder$.prototype.encodeMap__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Encoder$AsObject = (function(encodeK, encodeV) {
   var ev = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(x$2) {
@@ -54133,6 +54420,9 @@ $c_Lio_circe_Encoder$.prototype.encodeMap__Lio_circe_KeyEncoder__Lio_circe_Encod
     })
   })(this));
   return new $c_Lio_circe_Encoder$$anon$34().init___Lio_circe_KeyEncoder__Lio_circe_Encoder__F1(encodeK, encodeV, ev)
+});
+$c_Lio_circe_Encoder$.prototype.encodeLocalDate__Lio_circe_Encoder = (function() {
+  return (((32768 & this.bitmap$0$1) === 0) ? this.encodeLocalDate$lzycompute__p1__Lio_circe_Encoder() : this.encodeLocalDate$1)
 });
 var $d_Lio_circe_Encoder$ = new $TypeData().initClass({
   Lio_circe_Encoder$: 0
@@ -56139,69 +56429,81 @@ var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$$anon$31 = new $Ty
 });
 $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$$anon$31.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$201$1$$anon$31;
 /** @constructor */
-function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34() {
+function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34() {
   $c_Lio_circe_generic_extras_codec_ReprAsObjectCodec.call(this);
-  this.circeGenericDecoderForname$3 = null;
-  this.circeGenericDecoderForsubmitter$3 = null;
-  this.circeGenericEncoderForname$3 = null;
-  this.circeGenericEncoderForsubmitter$3 = null
+  this.circeGenericDecoderForsubmittedBy$3 = null;
+  this.circeGenericDecoderForsubmissionDate$3 = null;
+  this.circeGenericEncoderForsubmittedBy$3 = null;
+  this.circeGenericEncoderForsubmissionDate$3 = null
 }
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype = new $h_Lio_circe_generic_extras_codec_ReprAsObjectCodec();
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype = new $h_Lio_circe_generic_extras_codec_ReprAsObjectCodec();
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34;
 /** @constructor */
-function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34() {
+function $h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34() {
   /*<skip>*/
 }
-$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype;
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype.configuredDecode__Lio_circe_HCursor__F1__F1__sci_Map__s_Option__s_util_Either = (function(c, transformMemberNames, transformConstructorNames, defaults, discriminator) {
-  return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.orDefault__Lio_circe_ACursor__Lio_circe_Decoder__T__sci_Map__s_util_Either(c.downField__T__Lio_circe_ACursor($as_T(transformMemberNames.apply__O__O("name"))), this.circeGenericDecoderForname$3, "name", defaults), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.orDefault__Lio_circe_ACursor__Lio_circe_Decoder__T__sci_Map__s_util_Either(c.downField__T__Lio_circe_ACursor($as_T(transformMemberNames.apply__O__O("submitter"))), this.circeGenericDecoderForsubmitter$3, "submitter", defaults), $m_Lio_circe_generic_decoding_ReprDecoder$().hnilResult$1, $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1))
+$h_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype = $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype.configuredDecode__Lio_circe_HCursor__F1__F1__sci_Map__s_Option__s_util_Either = (function(c, transformMemberNames, transformConstructorNames, defaults, discriminator) {
+  return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.orDefault__Lio_circe_ACursor__Lio_circe_Decoder__T__sci_Map__s_util_Either(c.downField__T__Lio_circe_ACursor($as_T(transformMemberNames.apply__O__O("title"))), this.circeGenericDecoderForsubmittedBy$3, "title", defaults), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.orDefault__Lio_circe_ACursor__Lio_circe_Decoder__T__sci_Map__s_util_Either(c.downField__T__Lio_circe_ACursor($as_T(transformMemberNames.apply__O__O("description"))), this.circeGenericDecoderForsubmittedBy$3, "description", defaults), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.orDefault__Lio_circe_ACursor__Lio_circe_Decoder__T__sci_Map__s_util_Either(c.downField__T__Lio_circe_ACursor($as_T(transformMemberNames.apply__O__O("submittedBy"))), this.circeGenericDecoderForsubmittedBy$3, "submittedBy", defaults), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.orDefault__Lio_circe_ACursor__Lio_circe_Decoder__T__sci_Map__s_util_Either(c.downField__T__Lio_circe_ACursor($as_T(transformMemberNames.apply__O__O("submissionDate"))), this.circeGenericDecoderForsubmissionDate$3, "submissionDate", defaults), $m_Lio_circe_generic_decoding_ReprDecoder$().hnilResult$1, $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1))
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype.configuredEncodeObject__Lshapeless_$colon$colon__F1__F1__s_Option__Lio_circe_JsonObject = (function(a, transformMemberNames, transformConstructorNames, discriminator) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype.configuredEncodeObject__Lshapeless_$colon$colon__F1__F1__s_Option__Lio_circe_JsonObject = (function(a, transformMemberNames, transformConstructorNames, discriminator) {
   if ((a !== null)) {
-    var circeGenericHListBindingForname = $as_T(a.head$1);
+    var circeGenericHListBindingFortitle = $as_s_Option(a.head$1);
     var p2 = $as_Lshapeless_$colon$colon(a.tail$1);
     if ((p2 !== null)) {
-      var circeGenericHListBindingForsubmitter = $as_Lvotelog_domain_politics_Person$Id(p2.head$1).value$1;
-      var p3 = $as_Lshapeless_HNil(p2.tail$1);
-      var x = $m_Lshapeless_HNil$();
-      if ((x === p3)) {
-        var jsx$2 = $m_Lio_circe_JsonObject$();
-        var this$3 = $m_sci_Vector$();
-        var array = [new $c_T2().init___O__O(transformMemberNames.apply__O__O("name"), this.circeGenericEncoderForname$3.apply__O__Lio_circe_Json(circeGenericHListBindingForname)), new $c_T2().init___O__O(transformMemberNames.apply__O__O("submitter"), this.circeGenericEncoderForsubmitter$3.apply__O__Lio_circe_Json(new $c_Lvotelog_domain_politics_Person$Id().init___I(circeGenericHListBindingForsubmitter)))];
-        if (($uI(array.length) === 0)) {
-          var jsx$1 = this$3.NIL$6
-        } else {
-          var b = new $c_sci_VectorBuilder().init___();
-          var i = 0;
-          var len = $uI(array.length);
-          while ((i < len)) {
-            var index = i;
-            var arg1 = array[index];
-            b.$$plus$eq__O__sci_VectorBuilder(arg1);
-            i = ((1 + i) | 0)
-          };
-          var jsx$1 = b.result__sci_Vector()
-        };
-        return jsx$2.fromIterable__sc_Iterable__Lio_circe_JsonObject(jsx$1)
+      var circeGenericHListBindingFordescription = $as_s_Option(p2.head$1);
+      var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
+      if ((p3 !== null)) {
+        var circeGenericHListBindingForsubmittedBy = $as_s_Option(p3.head$1);
+        var p4 = $as_Lshapeless_$colon$colon(p3.tail$1);
+        if ((p4 !== null)) {
+          var circeGenericHListBindingForsubmissionDate = $as_Ljava_time_LocalDate(p4.head$1);
+          var p5 = $as_Lshapeless_HNil(p4.tail$1);
+          var x = $m_Lshapeless_HNil$();
+          if ((x === p5)) {
+            var jsx$2 = $m_Lio_circe_JsonObject$();
+            var this$3 = $m_sci_Vector$();
+            var array = [new $c_T2().init___O__O(transformMemberNames.apply__O__O("title"), this.circeGenericEncoderForsubmittedBy$3.apply__O__Lio_circe_Json(circeGenericHListBindingFortitle)), new $c_T2().init___O__O(transformMemberNames.apply__O__O("description"), this.circeGenericEncoderForsubmittedBy$3.apply__O__Lio_circe_Json(circeGenericHListBindingFordescription)), new $c_T2().init___O__O(transformMemberNames.apply__O__O("submittedBy"), this.circeGenericEncoderForsubmittedBy$3.apply__O__Lio_circe_Json(circeGenericHListBindingForsubmittedBy)), new $c_T2().init___O__O(transformMemberNames.apply__O__O("submissionDate"), this.circeGenericEncoderForsubmissionDate$3.apply__O__Lio_circe_Json(circeGenericHListBindingForsubmissionDate))];
+            if (($uI(array.length) === 0)) {
+              var jsx$1 = this$3.NIL$6
+            } else {
+              var b = new $c_sci_VectorBuilder().init___();
+              var i = 0;
+              var len = $uI(array.length);
+              while ((i < len)) {
+                var index = i;
+                var arg1 = array[index];
+                b.$$plus$eq__O__sci_VectorBuilder(arg1);
+                i = ((1 + i) | 0)
+              };
+              var jsx$1 = b.result__sci_Vector()
+            };
+            return jsx$2.fromIterable__sc_Iterable__Lio_circe_JsonObject(jsx$1)
+          }
+        }
       }
     }
   };
   throw new $c_s_MatchError().init___O(a)
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1 = (function($$outer) {
-  this.circeGenericDecoderForname$3 = $m_Lio_circe_Decoder$().decodeString$1;
-  this.circeGenericDecoderForsubmitter$3 = $m_Lvotelog_orphans_circe_implicits$().personIdCodec$1;
-  this.circeGenericEncoderForname$3 = $m_Lio_circe_Encoder$().encodeString$1;
-  this.circeGenericEncoderForsubmitter$3 = $m_Lvotelog_orphans_circe_implicits$().personIdCodec$1;
-  return this
-});
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype.configuredEncodeObject__O__F1__F1__s_Option__Lio_circe_JsonObject = (function(a, transformMemberNames, transformDiscriminator, discriminator) {
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype.configuredEncodeObject__O__F1__F1__s_Option__Lio_circe_JsonObject = (function(a, transformMemberNames, transformDiscriminator, discriminator) {
   return this.configuredEncodeObject__Lshapeless_$colon$colon__F1__F1__s_Option__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a), transformMemberNames, transformDiscriminator, discriminator)
 });
-var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34 = new $TypeData().initClass({
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34: 0
-}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$217$1$$anon$34", {
-  Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34: 1,
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype.init___Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1 = (function($$outer) {
+  $m_Lio_circe_Decoder$();
+  var d = $m_Lio_circe_Decoder$().decodeString$1;
+  this.circeGenericDecoderForsubmittedBy$3 = new $c_Lio_circe_Decoder$$anon$39().init___Lio_circe_Decoder(d);
+  this.circeGenericDecoderForsubmissionDate$3 = $m_Lio_circe_Decoder$().decodeLocalDate__Lio_circe_Decoder();
+  $m_Lio_circe_Encoder$();
+  var e = $m_Lio_circe_Encoder$().encodeString$1;
+  this.circeGenericEncoderForsubmittedBy$3 = new $c_Lio_circe_Encoder$$anon$21().init___Lio_circe_Encoder(e);
+  this.circeGenericEncoderForsubmissionDate$3 = $m_Lio_circe_Encoder$().encodeLocalDate__Lio_circe_Encoder();
+  return this
+});
+var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34: 0
+}, false, "votelog.orphans.circe.implicits$anon$lazy$macro$225$1$$anon$34", {
+  Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34: 1,
   Lio_circe_generic_extras_codec_ReprAsObjectCodec: 1,
   Lio_circe_generic_extras_decoding_ReprDecoder: 1,
   O: 1,
@@ -56212,7 +56514,7 @@ var $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34 = new $Ty
   Lio_circe_Encoder$AsRoot: 1,
   Lio_circe_Encoder: 1
 });
-$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$217$1$$anon$34;
+$c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1$$anon$34;
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$27$1$$anon$1() {
   $c_Lio_circe_generic_extras_codec_ReprAsObjectCodec.call(this);
