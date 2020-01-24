@@ -41,6 +41,7 @@ val webclient =
         Seq(
           "org.typelevel" %%% "cats-core" % "2.0.0" withSources(),
           "org.scala-js" %%% "scalajs-dom" % "0.9.7",
+          "com.lihaoyi" %%% "scalatags" % "0.8.2",
           "in.nvilla" %%% "monadic-html" % "0.4.0-RC1",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0-RC1",
           "org.scalatest" %% "scalatest" % "3.0.5" % Test,

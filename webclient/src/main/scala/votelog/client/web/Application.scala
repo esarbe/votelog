@@ -2,7 +2,12 @@ package votelog.client.web
 
 import mhtml.{Rx, Var}
 import org.scalajs.dom
-import org.scalajs.dom.HashChangeEvent
+import org.scalajs.dom.{Element, HashChangeEvent, MutationObserverInit, raw}
+import org.scalajs.dom.html.Div
+import org.scalajs.dom.raw.{MutationObserver, MutationRecord}
+import scalatags.JsDom
+import scalatags.JsDom.Attr
+import scalatags.generic.{Attr, AttrValue, Modifier}
 import votelog.client.Configuration
 import votelog.client.service.{BusinessStoreXhr, NgoStoreXhr, PersonStoreXhr, SessionServiceXhr, UserStoreXhr}
 import votelog.client.web.components.Authentication.State.{Authenticated, Unauthenticated}
@@ -12,8 +17,9 @@ import votelog.client.web.components.ngo.NgoComponent
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component
 import votelog.domain.politics
-import votelog.domain.politics.{Business, Context, LegislativePeriod, Ngo, Person}
+import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Ngo, Person}
 
+import scala.scalajs.js
 import scala.xml.{Group, Node}
 
 object Application {
@@ -97,6 +103,44 @@ object Application {
     }
   }
 
+  implicit val langStringer: Stringer[Language] = (lang: Language) => lang.iso639_1
+
+  trait Stringer[T] { def asString(t: T): String }
+
+  implicit def varAttr[T: Stringer]: JsDom.GenericAttr[Var[T]] = new JsDom.GenericAttr[Var[T]]{
+    override def apply(elem: dom.Element, a: JsDom.Attr, v: Var[T]): Unit = {
+      val cancelable = v.impure.run { t =>
+        elem.setAttribute(a.name, implicitly[Stringer[T]].asString(t))
+      }
+      new MutationObserver({(records: js.Array[MutationRecord], _) =>
+        if (records.exists(record => record.removedNodes(0) != null && record.removedNodes(0) == elem)){println("cancelling"); cancelable.cancel}
+      }).observe(dom.document.body, MutationObserverInit(true, false, true, true))
+    }
+  }
+
+
+
+  def rxAttr[T: Stringer]: AttrValue[Element, Rx[T]] = new AttrValue[dom.Element, Rx[T]] {
+    def apply(elem: dom.Element, a: Attr, v: Rx[T]): Unit = {
+      val cancelable = v.impure.run { (t: T) =>
+        elem.asInstanceOf[js.Dynamic].updateDynamic(a.name)(implicitly[Stringer[T]].asString(t))
+      }
+      elem.textContent = "gargle"
+      elem.addEventListener("remove", (e: dom.Event) =>  cancelable.cancel)
+    }
+  }
+
+
+  import scalatags.JsDom.all._
+  implicit val bigDecimalAttrValue: JsDom.GenericAttr[BigDecimal] = scalatags.JsDom.implicits.genericAttr[BigDecimal]
+
+  val q: JsDom.TypedTag[Div] = div(
+    id := "johnny",
+    `class` := languageComponent.model,
+  )
+
+  input(value := "boa")
+
   def main(args: Array[String]): Unit = {
     val content =
       <application>
@@ -133,6 +177,7 @@ object Application {
       </application>
 
     votelog.client.mhtml.mount(dom.document.body, content)
+    dom.document.body.appendChild(q.render)
   }
 
 }
