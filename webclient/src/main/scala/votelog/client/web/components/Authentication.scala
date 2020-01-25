@@ -20,32 +20,26 @@ class Authentication(
   auth: SessionService[Future],
 ) {
 
-  val event: Var[Event] = Var(Initialized)
-
-  def handleAuthEvent: Option[Try[Either[SessionService.Error, User]]] => Unit = {
-    case Some(Success(Right(user))) => event := LoginSucceeded(user)
-    case Some(Failure(error)) => event := LoginFailed(error)
-    case Some(Success(Left(error))) => event := LoginFailed(error)
-    case _ =>
-  }
+  val state: Var[Event] = Var(Initialized)
 
   private def logout(user: User): Unit = {
-    event := SubmitLogout(user: User)
+    state := SubmitLogout(user: User)
     auth.logout().toRx.impure.run {
-      case Some(Success(())) => event := LogoutSucceeded
+      case Some(Success(())) => state := LogoutSucceeded
       case _ =>
     }
     ()
   }
 
-  private def login(credentials: Credentials): Unit = {
-    event := SubmitLogin(credentials)
-    auth.login(credentials).toRx.impure.run(handleAuthEvent)
-    ()
+  val handleAuthentication: Either[SessionService.Error, User] => Unit = {
+    case Right(user) => state := LoginSucceeded(user)
+    case Left(error) => state := LoginFailed(error)
   }
 
+  private def login(credentials: Credentials): Unit = auth.login(credentials).map(handleAuthentication)
+
   // check initial authentication
-  auth.get.toRx.impure.run(handleAuthEvent)
+  auth.get.foreach(handleAuthentication)
 
   val username: Var[String] = Var("")
   val password: Var[String] = Var("")
@@ -58,9 +52,9 @@ class Authentication(
       if (username.nonEmpty && password.nonEmpty) Some(UserPassword(username, password))
       else None
 
-  val model: Rx[State] = event.map {
+  val model: Rx[State] = state.map {
     case Initialized => Unauthenticated
-    case SubmitLogout(user) => Unauthenticated
+    case SubmitLogout(user) => Authenticated(user)
     case SubmitLogin(credentials) => Unauthenticated
     case LoginFailed(reason) => Unauthenticated
     case LoginSucceeded(user) => Authenticated(user)
@@ -114,7 +108,6 @@ class Authentication(
               }} />
           }
         }
-
       </fieldset>
     </article>
     }
