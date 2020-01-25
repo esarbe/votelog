@@ -113,19 +113,16 @@ object Application {
         elem.setAttribute(a.name, implicitly[Stringer[T]].asString(t))
       }
       new MutationObserver({(records: js.Array[MutationRecord], _) =>
-        if (records.exists(record => record.removedNodes(0) != null && record.removedNodes(0) == elem)){println("cancelling"); cancelable.cancel}
-      }).observe(dom.document.body, MutationObserverInit(true, false, true, true))
+        if (records.exists(record => record.removedNodes(0) != null && record.removedNodes(0) == elem))(cancelable.cancel)
+      }).observe(dom.document.body, MutationObserverInit(childList = true))
     }
   }
-
-
 
   def rxAttr[T: Stringer]: AttrValue[Element, Rx[T]] = new AttrValue[dom.Element, Rx[T]] {
     def apply(elem: dom.Element, a: Attr, v: Rx[T]): Unit = {
       val cancelable = v.impure.run { (t: T) =>
         elem.asInstanceOf[js.Dynamic].updateDynamic(a.name)(implicitly[Stringer[T]].asString(t))
       }
-      elem.textContent = "gargle"
       elem.addEventListener("remove", (e: dom.Event) =>  cancelable.cancel)
     }
   }
@@ -136,12 +133,17 @@ object Application {
 
   val q: JsDom.TypedTag[Div] = div(
     id := "johnny",
+    onclick := { () => println("foo") },
     `class` := languageComponent.model,
-  )
+  )("asdf")
 
   input(value := "boa")
 
   def main(args: Array[String]): Unit = {
+    val f = tag("application")(
+              tag("header")(
+
+              ))
     val content =
       <application>
         <header>
