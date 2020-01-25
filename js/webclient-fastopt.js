@@ -6661,7 +6661,8 @@ function $m_Lvotelog_client_web_Application$Router$() {
 function $c_Lvotelog_client_web_components_Authentication() {
   $c_O.call(this);
   this.auth$1 = null;
-  this.event$1 = null;
+  this.state$1 = null;
+  this.handleAuthentication$1 = null;
   this.username$1 = null;
   this.password$1 = null;
   this.loginRequest$1 = null;
@@ -6674,83 +6675,44 @@ function $h_Lvotelog_client_web_components_Authentication() {
   /*<skip>*/
 }
 $h_Lvotelog_client_web_components_Authentication.prototype = $c_Lvotelog_client_web_components_Authentication.prototype;
-$c_Lvotelog_client_web_components_Authentication.prototype.handleAuthEvent__F1 = (function() {
-  return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(x0$1$2) {
-      var x0$1 = $as_s_Option(x0$1$2);
-      var rc16 = false;
-      var x2 = null;
-      matchEnd17: {
-        if ((x0$1 instanceof $c_s_Some)) {
-          rc16 = true;
-          x2 = $as_s_Some(x0$1);
-          var p3 = $as_s_util_Try(x2.value$2);
-          if ((p3 instanceof $c_s_util_Success)) {
-            var x4 = $as_s_util_Success(p3);
-            var p5 = $as_s_util_Either(x4.value$2);
-            if ((p5 instanceof $c_s_util_Right)) {
-              var x6 = $as_s_util_Right(p5);
-              var user = $as_Lvotelog_domain_authentication_User(x6.value$2);
-              $this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded().init___Lvotelog_domain_authentication_User(user));
-              break matchEnd17
-            }
-          }
-        };
-        if (rc16) {
-          var p8 = $as_s_util_Try(x2.value$2);
-          if ((p8 instanceof $c_s_util_Failure)) {
-            var x9 = $as_s_util_Failure(p8);
-            var error = x9.exception$2;
-            $this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed().init___jl_Throwable(error));
-            break matchEnd17
-          }
-        };
-        if (rc16) {
-          var p11 = $as_s_util_Try(x2.value$2);
-          if ((p11 instanceof $c_s_util_Success)) {
-            var x12 = $as_s_util_Success(p11);
-            var p13 = $as_s_util_Either(x12.value$2);
-            if ((p13 instanceof $c_s_util_Left)) {
-              var x14 = $as_s_util_Left(p13);
-              var error$2 = $as_Lvotelog_domain_authentication_SessionService$Error(x14.value$2);
-              $this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed().init___jl_Throwable($as_jl_Throwable(error$2)));
-              break matchEnd17
-            }
-          }
-        }
-      }
-    })
-  })(this))
-});
 $c_Lvotelog_client_web_components_Authentication.prototype.login__p1__Lvotelog_domain_authentication_Authentication$Credentials__V = (function(credentials) {
-  this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin().init___Lvotelog_domain_authentication_Authentication$Credentials(credentials));
   var this$1 = this.auth$1;
-  var f = this$1.login__Lvotelog_domain_authentication_Authentication$Credentials__s_concurrent_Future(credentials);
-  var $$this = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext()).impure__Lmhtml_Rx();
-  var effect = this.handleAuthEvent__F1();
-  $m_Lmhtml_Rx$().run__Lmhtml_Rx__F1__F0($$this, effect)
+  this$1.login__Lvotelog_domain_authentication_Authentication$Credentials__s_concurrent_Future(credentials).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(this.handleAuthentication$1, $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
 });
 $c_Lvotelog_client_web_components_Authentication.prototype.init___Lvotelog_domain_authentication_SessionService = (function(auth) {
   this.auth$1 = auth;
-  this.event$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($m_Lvotelog_client_web_components_Authentication$Event$Initialized$());
-  var f = auth.get__s_concurrent_Future();
-  var $$this = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext()).impure__Lmhtml_Rx();
-  var effect = this.handleAuthEvent__F1();
-  $m_Lmhtml_Rx$().run__Lmhtml_Rx__F1__F0($$this, effect);
+  this.state$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($m_Lvotelog_client_web_components_Authentication$Event$Initialized$());
+  this.handleAuthentication$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_s_util_Either(x0$1$2);
+      if ((x0$1 instanceof $c_s_util_Right)) {
+        var x2 = $as_s_util_Right(x0$1);
+        var user = $as_Lvotelog_domain_authentication_User(x2.value$2);
+        $this.state$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded().init___Lvotelog_domain_authentication_User(user))
+      } else if ((x0$1 instanceof $c_s_util_Left)) {
+        var x3 = $as_s_util_Left(x0$1);
+        var error = $as_Lvotelog_domain_authentication_SessionService$Error(x3.value$2);
+        $this.state$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed().init___jl_Throwable($as_jl_Throwable(error)))
+      } else {
+        throw new $c_s_MatchError().init___O(x0$1)
+      }
+    })
+  })(this));
+  auth.get__s_concurrent_Future().foreach__F1__s_concurrent_ExecutionContext__V(this.handleAuthentication$1, $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
   this.username$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
   this.password$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var("");
-  var this$8 = this.username$1;
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+  var this$7 = this.username$1;
+  var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
     return (function(username$2) {
       var username = $as_T(username$2);
-      var this$7 = $this.password$1;
-      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, username$1) {
+      var this$6 = this$2.password$1;
+      var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, username$1) {
         return (function(password$2) {
           var password = $as_T(password$2);
-          var this$4 = new $c_sci_StringOps().init___T(username$1);
-          if ($f_sc_TraversableOnce__nonEmpty__Z(this$4)) {
-            var this$6 = new $c_sci_StringOps().init___T(password);
-            var jsx$1 = $f_sc_TraversableOnce__nonEmpty__Z(this$6)
+          var this$3 = new $c_sci_StringOps().init___T(username$1);
+          if ($f_sc_TraversableOnce__nonEmpty__Z(this$3)) {
+            var this$5 = new $c_sci_StringOps().init___T(password);
+            var jsx$1 = $f_sc_TraversableOnce__nonEmpty__Z(this$5)
           } else {
             var jsx$1 = false
           };
@@ -6760,43 +6722,45 @@ $c_Lvotelog_client_web_components_Authentication.prototype.init___Lvotelog_domai
             return $m_s_None$()
           }
         })
-      })($this, username));
-      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$7, f$1)
+      })(this$2, username));
+      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$6, f)
     })
   })(this));
-  this.loginRequest$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$8, f$2);
-  var this$9 = this.event$1;
-  var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
-    return (function(x0$1$2) {
-      var x0$1 = $as_Lvotelog_client_web_components_Authentication$Event(x0$1$2);
+  this.loginRequest$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$7, f$1);
+  var this$8 = this.state$1;
+  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
+    return (function(x0$2$2) {
+      var x0$2 = $as_Lvotelog_client_web_components_Authentication$Event(x0$2$2);
       var x = $m_Lvotelog_client_web_components_Authentication$Event$Initialized$();
-      if ((x === x0$1)) {
+      if ((x === x0$2)) {
         return $m_Lvotelog_client_web_components_Authentication$State$Unauthenticated$()
-      } else if ((x0$1 instanceof $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout)) {
+      } else if ((x0$2 instanceof $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout)) {
+        var x2$1 = $as_Lvotelog_client_web_components_Authentication$Event$SubmitLogout(x0$2);
+        var user$1 = x2$1.user$1;
+        return new $c_Lvotelog_client_web_components_Authentication$State$Authenticated().init___Lvotelog_domain_authentication_User(user$1)
+      } else if ((x0$2 instanceof $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin)) {
         return $m_Lvotelog_client_web_components_Authentication$State$Unauthenticated$()
-      } else if ((x0$1 instanceof $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin)) {
+      } else if ((x0$2 instanceof $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed)) {
         return $m_Lvotelog_client_web_components_Authentication$State$Unauthenticated$()
-      } else if ((x0$1 instanceof $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed)) {
-        return $m_Lvotelog_client_web_components_Authentication$State$Unauthenticated$()
-      } else if ((x0$1 instanceof $c_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded)) {
-        var x5 = $as_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded(x0$1);
-        var user = x5.user$1;
-        return new $c_Lvotelog_client_web_components_Authentication$State$Authenticated().init___Lvotelog_domain_authentication_User(user)
+      } else if ((x0$2 instanceof $c_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded)) {
+        var x5 = $as_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded(x0$2);
+        var user$2 = x5.user$1;
+        return new $c_Lvotelog_client_web_components_Authentication$State$Authenticated().init___Lvotelog_domain_authentication_User(user$2)
       } else {
         var x$3 = $m_Lvotelog_client_web_components_Authentication$Event$LogoutSucceeded$();
-        if ((x$3 === x0$1)) {
+        if ((x$3 === x0$2)) {
           return $m_Lvotelog_client_web_components_Authentication$State$Unauthenticated$()
         } else {
-          throw new $c_s_MatchError().init___O(x0$1)
+          throw new $c_s_MatchError().init___O(x0$2)
         }
       }
     })
   })(this));
-  this.model$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$9, f$3);
+  this.model$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$8, f$2);
   return this
 });
 $c_Lvotelog_client_web_components_Authentication.prototype.logout__p1__Lvotelog_domain_authentication_User__V = (function(user) {
-  this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout().init___Lvotelog_domain_authentication_User(user));
+  this.state$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout().init___Lvotelog_domain_authentication_User(user));
   var this$1 = this.auth$1;
   var f = this$1.logout__s_concurrent_Future();
   var $$this = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext()).impure__Lmhtml_Rx();
@@ -6811,7 +6775,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.logout__p1__Lvotelog_
             var x4 = $as_s_util_Success(p3);
             var p5 = $asUnit(x4.value$2);
             if ((p5 === (void 0))) {
-              $this.event$1.$$colon$eq__O__V($m_Lvotelog_client_web_components_Authentication$Event$LogoutSucceeded$());
+              $this.state$1.$$colon$eq__O__V($m_Lvotelog_client_web_components_Authentication$Event$LogoutSucceeded$());
               break matchEnd8
             }
           }
@@ -7026,7 +6990,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.view__s_xml_Elem = (f
     })
   })(this));
   $$buf$2.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$13, f$5), null);
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n      "));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$28, jsx$27, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$30, jsx$29, false, $$buf)
@@ -10922,6 +10886,14 @@ function $m_s_concurrent_ExecutionContext$Implicits$() {
     $n_s_concurrent_ExecutionContext$Implicits$ = new $c_s_concurrent_ExecutionContext$Implicits$().init___()
   };
   return $n_s_concurrent_ExecutionContext$Implicits$
+}
+function $f_s_concurrent_Future__foreach__F1__s_concurrent_ExecutionContext__V($thiz, f, executor) {
+  $thiz.onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, f$1) {
+    return (function(x$1$2) {
+      var x$1 = $as_s_util_Try(x$1$2);
+      x$1.foreach__F1__V(f$1)
+    })
+  })($thiz, f)), executor)
 }
 function $f_s_concurrent_Future__flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future($thiz, f, executor) {
   var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, f$1) {
@@ -47645,59 +47617,8 @@ function $m_Lvotelog_client_web_components_Authentication$Event$LogoutSucceeded$
 }
 /** @constructor */
 function $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin() {
-  $c_O.call(this);
-  this.credentials$1 = null
-}
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype = new $h_O();
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.constructor = $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin;
-/** @constructor */
-function $h_Lvotelog_client_web_components_Authentication$Event$SubmitLogin() {
   /*<skip>*/
 }
-$h_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype = $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype;
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.productPrefix__T = (function() {
-  return "SubmitLogin"
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.productArity__I = (function() {
-  return 1
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.equals__O__Z = (function(x$1) {
-  if ((this === x$1)) {
-    return true
-  } else if ((x$1 instanceof $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin)) {
-    var SubmitLogin$1 = $as_Lvotelog_client_web_components_Authentication$Event$SubmitLogin(x$1);
-    var x = this.credentials$1;
-    var x$2 = SubmitLogin$1.credentials$1;
-    return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
-  } else {
-    return false
-  }
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.productElement__I__O = (function(x$1) {
-  switch (x$1) {
-    case 0: {
-      return this.credentials$1;
-      break
-    }
-    default: {
-      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
-    }
-  }
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.hashCode__I = (function() {
-  var this$2 = $m_s_util_hashing_MurmurHash3$();
-  return this$2.productHash__s_Product__I__I(this, (-889275714))
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.init___Lvotelog_domain_authentication_Authentication$Credentials = (function(credentials) {
-  this.credentials$1 = credentials;
-  return this
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.productIterator__sc_Iterator = (function() {
-  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
-});
 function $as_Lvotelog_client_web_components_Authentication$Event$SubmitLogin(obj) {
   return (((obj instanceof $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin) || (obj === null)) ? obj : $throwClassCastException(obj, "votelog.client.web.components.Authentication$Event$SubmitLogin"))
 }
@@ -47707,18 +47628,6 @@ function $isArrayOf_Lvotelog_client_web_components_Authentication$Event$SubmitLo
 function $asArrayOf_Lvotelog_client_web_components_Authentication$Event$SubmitLogin(obj, depth) {
   return (($isArrayOf_Lvotelog_client_web_components_Authentication$Event$SubmitLogin(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.client.web.components.Authentication$Event$SubmitLogin;", depth))
 }
-var $d_Lvotelog_client_web_components_Authentication$Event$SubmitLogin = new $TypeData().initClass({
-  Lvotelog_client_web_components_Authentication$Event$SubmitLogin: 0
-}, false, "votelog.client.web.components.Authentication$Event$SubmitLogin", {
-  Lvotelog_client_web_components_Authentication$Event$SubmitLogin: 1,
-  O: 1,
-  Lvotelog_client_web_components_Authentication$Event: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lvotelog_client_web_components_Authentication$Event$SubmitLogin.prototype.$classData = $d_Lvotelog_client_web_components_Authentication$Event$SubmitLogin;
 /** @constructor */
 function $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout() {
   $c_O.call(this);
@@ -49902,6 +49811,9 @@ $c_s_concurrent_impl_Promise$KeptPromise$Failed.prototype.init___s_util_Failure 
 $c_s_concurrent_impl_Promise$KeptPromise$Failed.prototype.tryComplete__s_util_Try__Z = (function(value) {
   return false
 });
+$c_s_concurrent_impl_Promise$KeptPromise$Failed.prototype.foreach__F1__s_concurrent_ExecutionContext__V = (function(f, executor) {
+  /*<skip>*/
+});
 $c_s_concurrent_impl_Promise$KeptPromise$Failed.prototype.toString__T = (function() {
   return $f_s_concurrent_impl_Promise__toString__T(this)
 });
@@ -49950,6 +49862,9 @@ function $h_s_concurrent_impl_Promise$KeptPromise$Successful() {
   /*<skip>*/
 }
 $h_s_concurrent_impl_Promise$KeptPromise$Successful.prototype = $c_s_concurrent_impl_Promise$KeptPromise$Successful.prototype;
+$c_s_concurrent_impl_Promise$KeptPromise$Successful.prototype.foreach__F1__s_concurrent_ExecutionContext__V = (function(f, executor) {
+  $f_s_concurrent_Future__foreach__F1__s_concurrent_ExecutionContext__V(this, f, executor)
+});
 $c_s_concurrent_impl_Promise$KeptPromise$Successful.prototype.tryComplete__s_util_Try__Z = (function(value) {
   return false
 });
@@ -50005,14 +49920,17 @@ function $h_s_util_Failure() {
   /*<skip>*/
 }
 $h_s_util_Failure.prototype = $c_s_util_Failure.prototype;
-$c_s_util_Failure.prototype.productPrefix__T = (function() {
-  return "Failure"
-});
 $c_s_util_Failure.prototype.toEither__s_util_Either = (function() {
   return new $c_s_util_Left().init___O(this.exception$2)
 });
+$c_s_util_Failure.prototype.productPrefix__T = (function() {
+  return "Failure"
+});
 $c_s_util_Failure.prototype.productArity__I = (function() {
   return 1
+});
+$c_s_util_Failure.prototype.map__F1__s_util_Try = (function(f) {
+  return this
 });
 $c_s_util_Failure.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
@@ -50025,9 +49943,6 @@ $c_s_util_Failure.prototype.equals__O__Z = (function(x$1) {
   } else {
     return false
   }
-});
-$c_s_util_Failure.prototype.map__F1__s_util_Try = (function(f) {
-  return this
 });
 $c_s_util_Failure.prototype.productElement__I__O = (function(x$1) {
   switch (x$1) {
@@ -50042,6 +49957,9 @@ $c_s_util_Failure.prototype.productElement__I__O = (function(x$1) {
 });
 $c_s_util_Failure.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_s_util_Failure.prototype.foreach__F1__V = (function(f) {
+  /*<skip>*/
 });
 $c_s_util_Failure.prototype.init___jl_Throwable = (function(exception) {
   this.exception$2 = exception;
@@ -50301,6 +50219,9 @@ $c_s_util_Success.prototype.productElement__I__O = (function(x$1) {
 });
 $c_s_util_Success.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_s_util_Success.prototype.foreach__F1__V = (function(f) {
+  f.apply__O__O(this.value$2)
 });
 $c_s_util_Success.prototype.init___O = (function(value) {
   this.value$2 = value;
@@ -55234,6 +55155,9 @@ $c_s_concurrent_impl_Promise$DefaultPromise.prototype.dispatchOrAddCallback__p2_
     };
     break
   }
+});
+$c_s_concurrent_impl_Promise$DefaultPromise.prototype.foreach__F1__s_concurrent_ExecutionContext__V = (function(f, executor) {
+  $f_s_concurrent_Future__foreach__F1__s_concurrent_ExecutionContext__V(this, f, executor)
 });
 $c_s_concurrent_impl_Promise$DefaultPromise.prototype.tryComplete__s_util_Try__Z = (function(value) {
   var resolved = $m_s_concurrent_impl_Promise$().scala$concurrent$impl$Promise$$resolveTry__s_util_Try__s_util_Try(value);
