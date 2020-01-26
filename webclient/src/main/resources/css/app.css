@@ -134,6 +134,7 @@ application > header > branding {
 application > header fieldset {
   border: 0;
 }
+
 application > header settings fieldset select {
   background-color: var(--color-primary-2);
 }
