@@ -2,17 +2,12 @@ package votelog.client.web.components
 
 import cats.data.Validated.{Invalid, Valid}
 import cats.data.{NonEmptyList, Validated}
-import cats.implicits._
 import mhtml.future.syntax._
-import mhtml.implicits.cats._
 import mhtml.{Rx, Var}
 import votelog.client.web.components.html.tools.{ifEnter, inputPassword, inputText, set}
 import votelog.domain.authentication.User
-import votelog.domain.authentication.User.{Email, Permission}
-import votelog.domain.authorization.Component
+import votelog.domain.authentication.User.Permission
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
-import votelog.domain.crudi.StoreAlg
-import votelog.domain.politics.Context
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, Recipe}
 
@@ -35,7 +30,6 @@ class UserComponent(
   val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
   val queryParameters: Rx[store.QueryParameters] = Rx(())
   val queryParametersView: Option[Node] = None
-
 
   def id(id: String): String = component.child(id).location
 
@@ -80,6 +74,7 @@ class UserComponent(
           case Some(Success(userId)) => Some(Right(userId))
           case Some(Failure(error)) => Some(Left(error))
       }
+
     def id(id: String): String = component.child("create").child(id).location
 
     def form(legend: String): Elem = {
@@ -104,19 +99,18 @@ class UserComponent(
     }
   }
 
-  def renderUserPreview(id: User.Id, user: User): Rx[Elem] = Rx {
+  def renderEntityPreview(id: User.Id, user: User): Elem =
     <article class="user" data-selected={ self.selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Name</dt>
         <dd>{user.name}</dd>
       </dl>
     </article>
-  }
 
-  def renderFullUser(user: Option[User]): Elem = {
+  def renderEntity(user: Option[User]): Elem = {
     user match {
       case Some(user) =>
-        <article class="user">
+        <section class="entity user">
           <dl>
             <dd>Email</dd>
             <dt>{user.email.value}</dt>
@@ -135,43 +129,30 @@ class UserComponent(
               }
             </dd>
           </dl>
-        </article>
+        </section>
 
       case None =>
-        <article class="user loading" />
+        <section class="entity user loading" />
     }
   }
 
-  object index {
+  val errors: Rx[Iterable[Throwable]] = Rx(Nil)
+  val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+  val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
-    val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
-    val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
-    lazy val view =
-      <section>
-        <controls>
-          <fieldset>
-            { paging.view }
-          </fieldset>
+  lazy val view = Group {
+    <controls>
+      { paging.view }
+    </controls>
 
-        </controls>
-        { self.renderIndex(renderUserPreview) }
-      </section>
+    <article id={id("index")} >
+      { self.renderIndex(renderEntityPreview) }
+      { self.selectedEntity.map(renderEntity) }
+    </article>
 
-    val model = self.ids
-  }
-
-  object read {
-    val model =  self.selectedId
-    val view: Rx[Elem] = self.selectedEntity.map(renderFullUser)
-  }
-
-  val view = Group {
-    <section id={id("")} >
-      { index.view }
-    </section>
-    <section id={id("read")} >
-      { read.view }
-    </section>
+    <messages>
+      { errors.map { _.toList.map { error => <error> { error.getMessage } </error> } } }
+    </messages>
   }
 }

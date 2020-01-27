@@ -5,8 +5,7 @@ import cats.data.{NonEmptyList, Validated}
 import mhtml.future.syntax._
 import mhtml.{Rx, Var}
 import votelog.client.web.components.{CrudIndexComponent, Paging}
-import votelog.client.web.components.html.tools.{ifEnter, inputPassword, inputText, set}
-import votelog.domain.authorization.Component
+import votelog.client.web.components.html.tools.{ifEnter, inputText, set}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics.{Context, Ngo}
 import votelog.persistence.NgoStore
@@ -27,9 +26,9 @@ class NgoComponent(
   val store: NgoStore[Future],
 ) extends CrudIndexComponent[Ngo, Ngo.Id] { self =>
 
-  val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
-  val queryParameters: Rx[store.QueryParameters] = Rx(())
-  val queryParametersView: Option[Node] = None
+  lazy val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
+  lazy val queryParameters: Rx[store.QueryParameters] = Rx(())
+  lazy val queryParametersView: Option[Node] = None
 
   def id(id: String): String = component.child(id).location
 
@@ -91,19 +90,18 @@ class NgoComponent(
     }
   }
 
-  def renderNgoPreview(id: Ngo.Id, ngo: Ngo): Rx[Elem] = Rx {
+  def renderEntityPreview(id: Ngo.Id, ngo: Ngo): Elem =
     <article class="ngo preview" data-selected={ selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Name</dt>
         <dd>{ngo.name}</dd>
       </dl>
     </article>
-  }
 
-  def renderFullNgo(ngo: Option[Ngo]): Elem = {
+  def renderEntity(ngo: Option[Ngo]): Elem = {
     ngo match {
       case Some(ngo) =>
-        <article class="ngo">
+        <article class="entity ngo">
           <dl>
             <dd>NGO</dd>
             <dt>{ngo.name}</dt>
@@ -111,41 +109,27 @@ class NgoComponent(
         </article>
 
       case None =>
-        <article class="ngo loading" />
+        <article class="loading entity ngo" />
     }
   }
 
-  object index {
+  lazy val errors: Rx[Iterable[Throwable]] = Rx(Nil)
+  lazy val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+  lazy val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
-    val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
-    val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
 
-    val view =
-      <section>
-        <controls>
-          <fieldset>
-            { paging.view }
-          </fieldset>
+  lazy val view = Group {
+    <controls>
+      { paging.view }
+    </controls>
 
-        </controls>
-        { self.renderIndex(renderNgoPreview) }
-      </section>
-  }
+    <article id={id("index")} >
+      { self.renderIndex(renderEntityPreview) }
+      { self.selectedEntity.map(renderEntity) }
+    </article>
 
-  object read {
-    val model = self.selectedId
-    val view: Rx[Elem] = self.selectedEntity.map(renderFullNgo)
-  }
-
-  val view = Group {
-    <section id={id("index")} >
-      { index.view }
-    </section>
-    <section id={id("create")}>
-      { create.form("Create") }
-    </section>
-    <section id={id("read")} >
-      { read.view }
-    </section>
+    <messages>
+      { errors.map { _.toList.map { error => <error> { error.getMessage } </error> } } }
+    </messages>
   }
 }

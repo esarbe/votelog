@@ -19,9 +19,12 @@ object Paging {
 }
 
 class Paging(component: Component, configuration: Configuration) {
-
   val initialPage: Int = 1
+
+  val pageSize: Var[PageSize] = pageSizeSelect.model
   val page: Var[Int] = Var(initialPage)
+
+
   val validPage: Rx[Int] = page.foldp(initialPage){ case (acc, curr) => if (curr >= initialPage) curr else acc}
 
   lazy val pageSizeSelect =
@@ -39,7 +42,7 @@ class Paging(component: Component, configuration: Configuration) {
       pageSize <- pageSizeSelect.model
     } yield Offset((page - 1) * pageSize.value )
 
-  val pageSize = pageSizeSelect.model
+
   def incIfGtZero(by: Int)(i: Int): Int = (i + by) max 1
 
   val view: Elem = {
@@ -47,7 +50,6 @@ class Paging(component: Component, configuration: Configuration) {
       <legend>Paging</legend>
       <dl class="page">
         <dt><label for={ id("page")(component) } >Page</label></dt>
-        <dd><button onclick={ update(page)(incIfGtZero(-10)) }>{"<<"}</button></dd>
         <dd><button onclick={ update(page)(incIfGtZero(-1)) }>{"<"}</button></dd>
         <dd>
           <input
@@ -60,7 +62,6 @@ class Paging(component: Component, configuration: Configuration) {
           > </input>
         </dd>
         <dd><button onclick={update(page)((incIfGtZero(1)))}>{">"}</button></dd>
-        <dd><button onclick={update(page)((incIfGtZero(10)))}>{">>"}</button></dd>
       </dl>
       { pageSizeSelect.view }
     </fieldset>

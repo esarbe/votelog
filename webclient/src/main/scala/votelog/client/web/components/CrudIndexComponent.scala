@@ -35,7 +35,7 @@ trait CrudIndexComponent[T, Identity] { self =>
     case (acc, curr) => curr.getOrElse(acc)
   }
 
-  private def mountView(e: org.scalajs.dom.Node, renderEntity: (Identity, T) => Rx[Node]): Unit = {
+  private def mountView(e: org.scalajs.dom.Node, renderEntity: (Identity, T) => Node): Unit = {
     println(s"ids: $ids, renderEntity: $renderEntity, renderEntities: ${ renderEntities _} ")
     val cancel = DynamicList.mountOn(ids, renderEntities(renderEntity))(e)
     viewCancelable = Some(cancel)
@@ -60,14 +60,13 @@ trait CrudIndexComponent[T, Identity] { self =>
     }
   }
 
-  def renderIndex(renderEntity: (Identity, T) => Rx[Node]): Elem =  {
-    <content>
-      <ul mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node, renderEntity) }
-          mhtml-onunmount={ (node: org.scalajs.dom.Node) => unmountView(node) } />
-    </content>
+  def renderIndex(renderEntity: (Identity, T) => Node): Elem =  {
+    <ul class="index"
+      mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node, renderEntity) }
+      mhtml-onunmount={ (node: org.scalajs.dom.Node) => unmountView(node) } />
   }
 
-  private def renderEntities(renderEntity: (Identity, T) => Rx[Node]): Identity => Rx[Node] = { (id: Identity) =>
+  private def renderEntities(renderEntity: (Identity, T) => Node): Identity => Rx[Node] = { (id: Identity) =>
     val entity: Rx[Either[Throwable, Option[T]]] =
       for {
         qp <- queryParameters

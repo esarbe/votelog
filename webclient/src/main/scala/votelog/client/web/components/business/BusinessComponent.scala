@@ -2,24 +2,20 @@ package votelog.client.web.components.business
 
 import mhtml.Rx
 import votelog.client.web.components.html.StaticSelect
-import votelog.client.web.components.html.tools.set
-import votelog.client.web.components.{CrudIndexComponent, CrudShowComponent, Paging}
-import votelog.domain.authorization.Component
-import votelog.domain.crudi.ReadOnlyStoreAlg
+import votelog.client.web.components.{CrudIndexComponent, Paging}
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics.{Business, Context, Language, LegislativePeriod}
 import votelog.persistence.BusinessStore
 
 import scala.concurrent.Future
-import scala.xml.{Elem, Group, Node}
+import scala.xml.{Elem, Group}
 
 object BusinessComponent {
   case class Configuration(defaultContext: Context, defaultPageSize: PageSize, pageSizes: Seq[PageSize])
 }
 
 class BusinessComponent(
-  // need to figure out better way to put all of this together
   component: votelog.domain.authorization.Component,
   configuration: BusinessComponent.Configuration,
   val store: BusinessStore[Future],
@@ -37,13 +33,11 @@ class BusinessComponent(
       id = "legislativePeriod"
     )
 
-  val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
-  val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
+  lazy val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
+  lazy val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
+  lazy val queryParameters: Rx[Language] = language
 
-  val queryParameters: Rx[Language] = language
-
-
-  val indexQueryParameters: Rx[store.IndexQueryParameters] =
+  lazy val indexQueryParameters: Rx[store.IndexQueryParameters] =
     for {
       offset <- paging.offset
       pageSize <- paging.pageSize
@@ -51,61 +45,48 @@ class BusinessComponent(
       legislativePeriod <- legislativePeriod.model
     } yield IndexQueryParameters(pageSize, offset, Context(legislativePeriod, language))
 
-  def renderBusinessPreview(id: Business.Id, business: Business): Rx[Elem] = Rx {
+  val errors: Rx[Iterable[Throwable]] = Rx(Nil)
+
+  def renderEntityPreview(id: Business.Id, business: Business): Elem =
     <article class="business entity" data-selected={ self.selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Title</dt>
         <dd>{business.title}</dd>
       </dl>
     </article>
-  }
 
   def renderEntity(maybeBusiness: Option[Business]): Elem = {
     maybeBusiness match {
       case Some(business) =>
-        <article class="business">
-          <dl>
-            <dt>Title</dt>
-            <dd>{business.title.getOrElse("no title")}</dd>
-            <dt>Description</dt>
-            <dd>{business.description.getOrElse("no description")}</dd>
-            <dt>Submitter</dt>
-            <dd>{business.submittedBy.getOrElse("unknown")}</dd>
-            <dt>Submission date</dt>
-            <dd>{business.submissionDate.formatted("yyyy-dd-MM")}</dd>
-          </dl>
-        </article>
+        <dl class="entity business">
+          <dt>Title</dt>
+          <dd>{business.title.getOrElse("no title")}</dd>
+          <dt>Description</dt>
+          <dd>{business.description.getOrElse("no description")}</dd>
+          <dt>Submitter</dt>
+          <dd>{business.submittedBy.getOrElse("unknown")}</dd>
+          <dt>Submission date</dt>
+          <dd>{business.submissionDate.formatted("yyyy-dd-MM")}</dd>
+        </dl>
 
       case None =>
-        <article class="business loading" />
+        <dl class="empty entity business" />
     }
   }
 
-  object index {
-    val model = self.ids
-    lazy val view =
-      <section>
-        <controls>
-          <fieldset>
-            { paging.view }
-          </fieldset>
+  lazy val view = Group {
+    <controls>
+      { paging.view }
+    </controls>
 
-        </controls>
-        { self.renderIndex(renderBusinessPreview) }
-      </section>
-  }
+    <article>
+      { self.renderIndex(renderEntityPreview) }
 
-  object read {
-    val model =  self.selectedId
-    lazy val view: Rx[Elem] = self.selectedEntity.map(renderEntity)
-  }
+      { self.selectedEntity.map(renderEntity) }
+    </article>
 
-  val view = Group {
-    <section id={id("index")} >
-      { index.view }
-    </section>
-    <section id={id("read")} >
-      { read.view }
-    </section>
+    <messages>
+      { errors.map { _.toList.map { error => <error> { error.getMessage } </error> } } }
+    </messages>
   }
 }

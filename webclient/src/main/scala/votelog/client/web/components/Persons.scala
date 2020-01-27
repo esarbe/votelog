@@ -132,7 +132,7 @@ class Persons(
         <dt class="party">Party</dt>
         <dd>{entity.party}</dd>
       </dl>
-    case Some(Left(id)) =>  <dl class="loading entity person" data-id={id.value.toString}></dl>
+    case Some(Left(id)) => <dl class="loading entity person" data-id={id.value.toString}></dl>
     case None => <dl class="empty entity person"></dl>
   }
 
@@ -166,10 +166,11 @@ class Persons(
       { paging.view }
     </controls>
 
-    <article>
+    <article class="person">
       <ul class="index"
-      mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node) }
-      mhtml-onunmount={ (node: org.scalajs.dom.Node) => unountView(node) } />
+        mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node) }
+        mhtml-onunmount={ (node: org.scalajs.dom.Node) => unountView(node) }
+      />
 
       { maybeIdOrEntity.map(renderEntity) }
 

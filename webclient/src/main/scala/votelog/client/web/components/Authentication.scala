@@ -2,38 +2,35 @@ package votelog.client.web.components
 
 import mhtml._
 import mhtml.future.syntax._
-import votelog.client.web.components.Authentication.{Event, State}
-import votelog.client.web.components.Authentication.Event.{Initialized, LoginFailed, LoginSucceeded, LogoutSucceeded, SubmitLogin, SubmitLogout}
+import votelog.client.web.components.Authentication.Event._
 import votelog.client.web.components.Authentication.State.{Authenticated, Unauthenticated}
+import votelog.client.web.components.Authentication.{Event, State}
+import votelog.client.web.components.html.tools._
+import votelog.domain.authentication.Authentication.Credentials
 import votelog.domain.authentication.Authentication.Credentials.UserPassword
 import votelog.domain.authentication.{SessionService, User}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success, Try}
-import scala.xml.{Elem, Node}
-import votelog.client.web.components.html.tools._
-import votelog.domain.authentication.Authentication.Credentials
-
+import scala.concurrent.Future
 import scala.scalajs.js
-class Authentication(
-  auth: SessionService[Future],
-) {
+import scala.util.Success
+import scala.xml.Elem
 
-  val state: Var[Event] = Var(Initialized)
+class Authentication(auth: SessionService[Future]) {
+
+  val event: Var[Event] = Var(Initialized)
 
   private def logout(user: User): Unit = {
-    state := SubmitLogout(user: User)
+    event := SubmitLogout(user: User)
     auth.logout().toRx.impure.run {
-      case Some(Success(())) => state := LogoutSucceeded
+      case Some(Success(())) => event := LogoutSucceeded
       case _ =>
     }
-    ()
   }
 
   val handleAuthentication: Either[SessionService.Error, User] => Unit = {
-    case Right(user) => state := LoginSucceeded(user)
-    case Left(error) => state := LoginFailed(error)
+    case Right(user) => event := LoginSucceeded(user)
+    case Left(error) => event := LoginFailed(error)
   }
 
   private def login(credentials: Credentials): Unit = auth.login(credentials).map(handleAuthentication)
@@ -52,7 +49,7 @@ class Authentication(
       if (username.nonEmpty && password.nonEmpty) Some(UserPassword(username, password))
       else None
 
-  val model: Rx[State] = state.map {
+  val model: Rx[State] = event.map {
     case Initialized => Unauthenticated
     case SubmitLogout(user) => Authenticated(user)
     case SubmitLogin(credentials) => Unauthenticated
@@ -86,7 +83,7 @@ class Authentication(
               <label for="username">Username</label>
             </dt>
             <dd>
-              <input id="username" type="text" disabled={disabled} value={ username }  onchange={ debounce(200)(set(username)) } />
+              <input id="username" type="text" disabled={disabled} value={ username }  onchange={ debounce(10)(set(username)) } />
             </dd>
           </dl>
           <dl>
@@ -94,7 +91,7 @@ class Authentication(
               <label for="password">Password</label>
             </dt>
             <dd>
-              <input id="password" type="password" disabled={disabled} value={ password } onchange={ debounce(200)(set(password)) } />
+              <input id="password" type="password" disabled={disabled} value={ password } onchange={ debounce(10)(set(password)) } />
             </dd>
           </dl>
         {  model.map {

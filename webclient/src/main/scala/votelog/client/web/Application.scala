@@ -11,8 +11,6 @@ import votelog.client.web.components.{CrudIndexComponent, Paging, UserComponent}
 import votelog.client.web.components.ngo.NgoComponent
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component
-import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
 import votelog.domain.politics
 import votelog.domain.politics.{Business, Context, LegislativePeriod, Ngo, Person}
 
@@ -73,20 +71,20 @@ object Application {
         case "user" :: Nil =>
           userComponent.view
         case "user" :: id :: Nil =>
-          userComponent.read.model := Some(User.Id(id))
-          userComponent.index.view
+          userComponent.selectedId := Some(User.Id(id))
+          userComponent.view
 
         case "ngo" :: Nil =>
-          ngoComponent.index.view
+          ngoComponent.view
         case "ngo" :: id :: Nil =>
-          ngoComponent.read.model := Some(Ngo.Id(id))
-          ngoComponent.index.view
+          ngoComponent.selectedId := Some(Ngo.Id(id))
+          ngoComponent.view
 
         case "business" :: Nil =>
-          businessComponent.index.view
+          businessComponent.view
         case "business" :: id :: Nil =>
-          businessComponent.read.model := Some(Business.Id(id.toInt))
-          businessComponent.index.view
+          businessComponent.selectedId := Some(Business.Id(id.toInt))
+          businessComponent.view
 
         case "session" :: Nil => authComponent.view
         case "signup" :: Nil => userComponent.create.form("Sign Up")
