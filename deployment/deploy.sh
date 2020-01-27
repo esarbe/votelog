@@ -20,5 +20,5 @@ sbt fastOptJS
 
 cp webclient/src/main/resources/index.html public/
 cp webclient/src/main/resources/css/* public/css/
-cp webclient/src/main/resources/fonts/* public/fonts/
+cp -R webclient/src/main/resources/fonts/* public/fonts/
 cp webclient/target/scala-*/*.js* public/js/
