@@ -1335,10 +1335,6 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx($t
   return new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$2, seed, step)
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem($thiz, renderEntity) {
-  var jsx$4 = $m_s_xml_Null$();
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   var $$md = $m_s_xml_Null$();
   $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("mhtml-onunmount", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(node$2) {
@@ -1350,12 +1346,11 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__
       $f_Lvotelog_client_web_components_CrudIndexComponent__mountView__pLvotelog_client_web_components_CrudIndexComponent__Lorg_scalajs_dom_raw_Node__F2__V(this$2, node$3$2, renderEntity$1)
     })
   })($thiz, renderEntity)), $$md, null);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("index"), $$md, null);
   var jsx$2 = $$md;
   var jsx$1 = $m_s_xml_TopScope$();
   var array = [];
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "ul", jsx$2, jsx$1, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "content", jsx$4, jsx$3, false, $$buf)
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "ul", jsx$2, jsx$1, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__mountView__pLvotelog_client_web_components_CrudIndexComponent__Lorg_scalajs_dom_raw_Node__F2__V($thiz, e, renderEntity) {
   var x = (((((("ids: " + $thiz.ids__Lmhtml_Rx()) + ", renderEntity: ") + renderEntity) + ", renderEntities: ") + new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -1477,7 +1472,7 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__p
               var jsx$1 = $m_s_xml_TopScope$();
               var $$buf = new $c_s_xml_NodeBuffer().init___();
               $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-              $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(renderEntity$2.apply__O__O__O(id$1, entity$3), null);
+              $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($as_s_xml_Node(renderEntity$2.apply__O__O__O(id$1, entity$3)));
               $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
               return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "div", jsx$2, jsx$1, false, $$buf)
             }
@@ -6505,7 +6500,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var jsx$1 = false
     };
     if (jsx$1) {
-      return $m_Lvotelog_client_web_Application$().userComponent$1.view$1
+      return $m_Lvotelog_client_web_Application$().userComponent$1.view__s_xml_Group()
     }
   };
   if (rc61) {
@@ -6517,8 +6512,8 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var p9 = x8.tl$5;
       var x$3 = $m_sci_Nil$();
       if (x$3.equals__O__Z(p9)) {
-        $m_Lvotelog_client_web_Application$().userComponent$1.read__Lvotelog_client_web_components_UserComponent$read$().model$1.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_authentication_User$Id().init___T(id)));
-        return $m_Lvotelog_client_web_Application$().userComponent$1.index__Lvotelog_client_web_components_UserComponent$index$().view__s_xml_Elem()
+        $m_Lvotelog_client_web_Application$().userComponent$1.selectedId$1.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_authentication_User$Id().init___T(id)));
+        return $m_Lvotelog_client_web_Application$().userComponent$1.view__s_xml_Group()
       }
     }
   };
@@ -6532,7 +6527,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var jsx$2 = false
     };
     if (jsx$2) {
-      return $m_Lvotelog_client_web_Application$().ngoComponent$1.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1
+      return $m_Lvotelog_client_web_Application$().ngoComponent$1.view__s_xml_Group()
     }
   };
   if (rc61) {
@@ -6544,8 +6539,8 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var p17 = x16.tl$5;
       var x$7 = $m_sci_Nil$();
       if (x$7.equals__O__Z(p17)) {
-        $m_Lvotelog_client_web_Application$().ngoComponent$1.read__Lvotelog_client_web_components_ngo_NgoComponent$read$().model$1.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_politics_Ngo$Id().init___T(id$2)));
-        return $m_Lvotelog_client_web_Application$().ngoComponent$1.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1
+        $m_Lvotelog_client_web_Application$().ngoComponent$1.selectedId$1.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_politics_Ngo$Id().init___T(id$2)));
+        return $m_Lvotelog_client_web_Application$().ngoComponent$1.view__s_xml_Group()
       }
     }
   };
@@ -6559,7 +6554,7 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var jsx$3 = false
     };
     if (jsx$3) {
-      return $m_Lvotelog_client_web_Application$().businessComponent$1.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view__s_xml_Elem()
+      return $m_Lvotelog_client_web_Application$().businessComponent$1.view__s_xml_Group()
     }
   };
   if (rc61) {
@@ -6571,12 +6566,12 @@ $c_Lvotelog_client_web_Application$Router$.prototype.apply__T__s_xml_Node = (fun
       var p25 = x24.tl$5;
       var x$11 = $m_sci_Nil$();
       if (x$11.equals__O__Z(p25)) {
-        var jsx$4 = $m_Lvotelog_client_web_Application$().businessComponent$1.read__Lvotelog_client_web_components_business_BusinessComponent$read$().model$1;
+        var jsx$4 = $m_Lvotelog_client_web_Application$().businessComponent$1.selectedId$1;
         var this$12 = new $c_sci_StringOps().init___T(id$3);
         var this$14 = $m_jl_Integer$();
         var $$this$1 = this$12.repr$1;
         jsx$4.$$colon$eq__O__V(new $c_s_Some().init___O(new $c_Lvotelog_domain_politics_Business$Id().init___I(this$14.parseInt__T__I__I($$this$1, 10))));
-        return $m_Lvotelog_client_web_Application$().businessComponent$1.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view__s_xml_Elem()
+        return $m_Lvotelog_client_web_Application$().businessComponent$1.view__s_xml_Group()
       }
     }
   };
@@ -6661,7 +6656,7 @@ function $m_Lvotelog_client_web_Application$Router$() {
 function $c_Lvotelog_client_web_components_Authentication() {
   $c_O.call(this);
   this.auth$1 = null;
-  this.state$1 = null;
+  this.event$1 = null;
   this.handleAuthentication$1 = null;
   this.username$1 = null;
   this.password$1 = null;
@@ -6681,18 +6676,18 @@ $c_Lvotelog_client_web_components_Authentication.prototype.login__p1__Lvotelog_d
 });
 $c_Lvotelog_client_web_components_Authentication.prototype.init___Lvotelog_domain_authentication_SessionService = (function(auth) {
   this.auth$1 = auth;
-  this.state$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($m_Lvotelog_client_web_components_Authentication$Event$Initialized$());
+  this.event$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($m_Lvotelog_client_web_components_Authentication$Event$Initialized$());
   this.handleAuthentication$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(x0$1$2) {
       var x0$1 = $as_s_util_Either(x0$1$2);
       if ((x0$1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x0$1);
         var user = $as_Lvotelog_domain_authentication_User(x2.value$2);
-        $this.state$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded().init___Lvotelog_domain_authentication_User(user))
+        $this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginSucceeded().init___Lvotelog_domain_authentication_User(user))
       } else if ((x0$1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x0$1);
         var error = $as_Lvotelog_domain_authentication_SessionService$Error(x3.value$2);
-        $this.state$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed().init___jl_Throwable($as_jl_Throwable(error)))
+        $this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$LoginFailed().init___jl_Throwable($as_jl_Throwable(error)))
       } else {
         throw new $c_s_MatchError().init___O(x0$1)
       }
@@ -6727,7 +6722,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.init___Lvotelog_domai
     })
   })(this));
   this.loginRequest$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$7, f$1);
-  var this$8 = this.state$1;
+  var this$8 = this.event$1;
   var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
     return (function(x0$2$2) {
       var x0$2 = $as_Lvotelog_client_web_components_Authentication$Event(x0$2$2);
@@ -6760,7 +6755,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.init___Lvotelog_domai
   return this
 });
 $c_Lvotelog_client_web_components_Authentication.prototype.logout__p1__Lvotelog_domain_authentication_User__V = (function(user) {
-  this.state$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout().init___Lvotelog_domain_authentication_User(user));
+  this.event$1.$$colon$eq__O__V(new $c_Lvotelog_client_web_components_Authentication$Event$SubmitLogout().init___Lvotelog_domain_authentication_User(user));
   var this$1 = this.auth$1;
   var f = this$1.logout__s_concurrent_Future();
   var $$this = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext()).impure__Lmhtml_Rx();
@@ -6775,7 +6770,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.logout__p1__Lvotelog_
             var x4 = $as_s_util_Success(p3);
             var p5 = $asUnit(x4.value$2);
             if ((p5 === (void 0))) {
-              $this.state$1.$$colon$eq__O__V($m_Lvotelog_client_web_components_Authentication$Event$LogoutSucceeded$());
+              $this.event$1.$$colon$eq__O__V($m_Lvotelog_client_web_components_Authentication$Event$LogoutSucceeded$());
               break matchEnd8
             }
           }
@@ -6876,7 +6871,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.view__s_xml_Elem = (f
   var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
   $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n              "));
   var $$md$3 = $m_s_xml_Null$();
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", $m_Lvotelog_client_web_components_html_tools$debounce$().apply__D__F1__F1(200.0, $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.username$1)), $$md$3, null);
+  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", $m_Lvotelog_client_web_components_html_tools$debounce$().apply__D__F1__F1(10.0, $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.username$1)), $$md$3, null);
   $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", this.username$1, $$md$3, null);
   $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("disabled", disabled, $$md$3, null);
   $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("text"), $$md$3, null);
@@ -6913,7 +6908,7 @@ $c_Lvotelog_client_web_components_Authentication.prototype.view__s_xml_Elem = (f
   var $$buf$11 = new $c_s_xml_NodeBuffer().init___();
   $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n              "));
   var $$md$5 = $m_s_xml_Null$();
-  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", $m_Lvotelog_client_web_components_html_tools$debounce$().apply__D__F1__F1(200.0, $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.password$1)), $$md$5, null);
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", $m_Lvotelog_client_web_components_html_tools$debounce$().apply__D__F1__F1(10.0, $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.password$1)), $$md$5, null);
   $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", this.password$1, $$md$5, null);
   $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("disabled", disabled, $$md$5, null);
   $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("password"), $$md$5, null);
@@ -7009,10 +7004,10 @@ function $c_Lvotelog_client_web_components_Paging() {
   this.component$1 = null;
   this.configuration$1 = null;
   this.initialPage$1 = 0;
+  this.pageSize$1 = null;
   this.page$1 = null;
   this.validPage$1 = null;
   this.offset$1 = null;
-  this.pageSize$1 = null;
   this.view$1 = null;
   this.bitmap$0$1 = false
 }
@@ -7038,6 +7033,7 @@ $c_Lvotelog_client_web_components_Paging.prototype.init___T__Lvotelog_client_web
   this.component$1 = component;
   this.configuration$1 = configuration;
   this.initialPage$1 = 1;
+  this.pageSize$1 = this.pageSizeSelect__Lvotelog_client_web_components_html_StaticSelect().model$1;
   this.page$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(this.initialPage$1);
   var this$1 = this.page$1;
   var seed = this.initialPage$1;
@@ -7066,11 +7062,10 @@ $c_Lvotelog_client_web_components_Paging.prototype.init___T__Lvotelog_client_web
     })
   })(this));
   this.offset$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$5, f$1);
-  this.pageSize$1 = this.pageSizeSelect__Lvotelog_client_web_components_html_StaticSelect().model$1;
   var $$md = $m_s_xml_Null$();
   $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("control paging"), $$md, null);
-  var jsx$30 = $$md;
-  var jsx$29 = $m_s_xml_TopScope$();
+  var jsx$22 = $$md;
+  var jsx$21 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   var jsx$2 = $m_s_xml_Null$();
@@ -7081,8 +7076,8 @@ $c_Lvotelog_client_web_components_Paging.prototype.init___T__Lvotelog_client_web
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   var $$md$2 = $m_s_xml_Null$();
   $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("page"), $$md$2, null);
-  var jsx$28 = $$md$2;
-  var jsx$27 = $m_s_xml_TopScope$();
+  var jsx$20 = $$md$2;
+  var jsx$19 = $m_s_xml_TopScope$();
   var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
   var jsx$6 = $m_s_xml_Null$();
@@ -7104,41 +7099,24 @@ $c_Lvotelog_client_web_components_Paging.prototype.init___T__Lvotelog_client_web
   $$md$4 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().update__Lmhtml_Var__F1__F1(this.page$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
     return (function(i$2) {
       var i = $uI(i$2);
-      return this$3$1.incIfGtZero__I__I__I((-10), i)
+      return this$3$1.incIfGtZero__I__I__I((-1), i)
     })
   })(this))), $$md$4, null);
   var jsx$8 = $$md$4;
   var jsx$7 = $m_s_xml_TopScope$();
   var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$7.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer("<<", null);
+  $$buf$7.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer("<", null);
   $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "button", jsx$8, jsx$7, false, $$buf$7));
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$10, jsx$9, false, $$buf$6));
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
   var jsx$14 = $m_s_xml_Null$();
   var jsx$13 = $m_s_xml_TopScope$();
   var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   var $$md$5 = $m_s_xml_Null$();
-  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().update__Lmhtml_Var__F1__F1(this.page$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
-    return (function(i$3$2) {
-      var i$3 = $uI(i$3$2);
-      return this$4$1.incIfGtZero__I__I__I((-1), i$3)
-    })
-  })(this))), $$md$5, null);
-  var jsx$12 = $$md$5;
-  var jsx$11 = $m_s_xml_TopScope$();
-  var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$9.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer("<", null);
-  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "button", jsx$12, jsx$11, false, $$buf$9));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$14, jsx$13, false, $$buf$8));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$18 = $m_s_xml_Null$();
-  var jsx$17 = $m_s_xml_TopScope$();
-  var $$buf$10 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  var $$md$6 = $m_s_xml_Null$();
-  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onchange", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
     return (function(e$2) {
-      var vrx = this$5$1.page$1;
+      var vrx = this$4$1.page$1;
       var arg1 = e$2.target.value;
       var x = $as_T(arg1);
       var this$9 = new $c_sci_StringOps().init___T(x);
@@ -7146,65 +7124,48 @@ $c_Lvotelog_client_web_components_Paging.prototype.init___T__Lvotelog_client_web
       var $$this = this$9.repr$1;
       vrx.$$colon$eq__O__V(this$11.parseInt__T__I__I($$this, 10))
     })
-  })(this)), $$md$6, null);
+  })(this)), $$md$5, null);
   var this$13 = this.validPage$1;
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$6$1) {
+  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
     return (function(x$1$2) {
       var x$1 = $uI(x$1$2);
       return ("" + x$1)
     })
   })(this));
-  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$13, f$2), $$md$6, null);
-  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("min", new $c_s_xml_Text().init___T("1"), $$md$6, null);
-  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("number"), $$md$6, null);
-  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", $m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "page"), $$md$6, null);
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$13, f$2), $$md$5, null);
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("min", new $c_s_xml_Text().init___T("1"), $$md$5, null);
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("number"), $$md$5, null);
+  $$md$5 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", $m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "page"), $$md$5, null);
+  var jsx$12 = $$md$5;
+  var jsx$11 = $m_s_xml_TopScope$();
+  var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$12, jsx$11, false, $$buf$9));
+  $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$14, jsx$13, false, $$buf$8));
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  var jsx$18 = $m_s_xml_Null$();
+  var jsx$17 = $m_s_xml_TopScope$();
+  var $$buf$10 = new $c_s_xml_NodeBuffer().init___();
+  var $$md$6 = $m_s_xml_Null$();
+  $$md$6 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().update__Lmhtml_Var__F1__F1(this.page$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$6$1) {
+    return (function(i$3$2) {
+      var i$3 = $uI(i$3$2);
+      return this$6$1.incIfGtZero__I__I__I(1, i$3)
+    })
+  })(this))), $$md$6, null);
   var jsx$16 = $$md$6;
   var jsx$15 = $m_s_xml_TopScope$();
   var $$buf$11 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$11.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
-  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$16, jsx$15, false, $$buf$11));
-  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  $$buf$11.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(">", null);
+  $$buf$10.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "button", jsx$16, jsx$15, false, $$buf$11));
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$18, jsx$17, false, $$buf$10));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$22 = $m_s_xml_Null$();
-  var jsx$21 = $m_s_xml_TopScope$();
-  var $$buf$12 = new $c_s_xml_NodeBuffer().init___();
-  var $$md$7 = $m_s_xml_Null$();
-  $$md$7 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().update__Lmhtml_Var__F1__F1(this.page$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$7$1) {
-    return (function(i$4$2) {
-      var i$4 = $uI(i$4$2);
-      return this$7$1.incIfGtZero__I__I__I(1, i$4)
-    })
-  })(this))), $$md$7, null);
-  var jsx$20 = $$md$7;
-  var jsx$19 = $m_s_xml_TopScope$();
-  var $$buf$13 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$13.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(">", null);
-  $$buf$12.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "button", jsx$20, jsx$19, false, $$buf$13));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$22, jsx$21, false, $$buf$12));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$26 = $m_s_xml_Null$();
-  var jsx$25 = $m_s_xml_TopScope$();
-  var $$buf$14 = new $c_s_xml_NodeBuffer().init___();
-  var $$md$8 = $m_s_xml_Null$();
-  $$md$8 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().update__Lmhtml_Var__F1__F1(this.page$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$8$1) {
-    return (function(i$5$2) {
-      var i$5 = $uI(i$5$2);
-      return this$8$1.incIfGtZero__I__I__I(10, i$5)
-    })
-  })(this))), $$md$8, null);
-  var jsx$24 = $$md$8;
-  var jsx$23 = $m_s_xml_TopScope$();
-  var $$buf$15 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$15.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(">>", null);
-  $$buf$14.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "button", jsx$24, jsx$23, false, $$buf$15));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$26, jsx$25, false, $$buf$14));
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$28, jsx$27, false, $$buf$3));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$20, jsx$19, false, $$buf$3));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.pageSizeSelect__Lvotelog_client_web_components_html_StaticSelect().view__s_xml_Node());
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$30, jsx$29, false, $$buf);
+  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$22, jsx$21, false, $$buf);
   return this
 });
 $c_Lvotelog_client_web_components_Paging.prototype.incIfGtZero__I__I__I = (function(by, i) {
@@ -7821,23 +7782,25 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$11, jsx$10, false, $$buf$2));
-  var jsx$15 = $m_s_xml_Null$();
+  var $$md = $m_s_xml_Null$();
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("person"), $$md, null);
+  var jsx$15 = $$md;
   var jsx$14 = $m_s_xml_TopScope$();
   var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("mhtml-onunmount", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$10$1) {
+  var $$md$2 = $m_s_xml_Null$();
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("mhtml-onunmount", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$10$1) {
     return (function(node$2) {
       this$10$1.unountView__Lorg_scalajs_dom_raw_Node__V(node$2)
     })
-  })(this)), $$md, null);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("mhtml-onmount", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$11$1) {
+  })(this)), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("mhtml-onmount", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$11$1) {
     return (function(node$3$2) {
       this$11$1.mountView__Lorg_scalajs_dom_raw_Node__V(node$3$2)
     })
-  })(this)), $$md, null);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("index"), $$md, null);
-  var jsx$13 = $$md;
+  })(this)), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("index"), $$md$2, null);
+  var jsx$13 = $$md$2;
   var jsx$12 = $m_s_xml_TopScope$();
   var array$1 = [];
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "ul", jsx$13, jsx$12, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1)));
@@ -8224,234 +8187,6 @@ var $d_Lvotelog_client_web_components_UserComponent$create$ = new $TypeData().in
   O: 1
 });
 $c_Lvotelog_client_web_components_UserComponent$create$.prototype.$classData = $d_Lvotelog_client_web_components_UserComponent$create$;
-/** @constructor */
-function $c_Lvotelog_client_web_components_UserComponent$index$() {
-  $c_O.call(this);
-  this.view$1 = null;
-  this.pagingConfiguration$1 = null;
-  this.paging$1 = null;
-  this.model$1 = null;
-  this.bitmap$0$1 = false;
-  this.$$outer$1 = null
-}
-$c_Lvotelog_client_web_components_UserComponent$index$.prototype = new $h_O();
-$c_Lvotelog_client_web_components_UserComponent$index$.prototype.constructor = $c_Lvotelog_client_web_components_UserComponent$index$;
-/** @constructor */
-function $h_Lvotelog_client_web_components_UserComponent$index$() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_UserComponent$index$.prototype = $c_Lvotelog_client_web_components_UserComponent$index$.prototype;
-$c_Lvotelog_client_web_components_UserComponent$index$.prototype.view$lzycompute__p1__s_xml_Elem = (function() {
-  if ((!this.bitmap$0$1)) {
-    var jsx$6 = $m_s_xml_Null$();
-    var jsx$5 = $m_s_xml_TopScope$();
-    var $$buf = new $c_s_xml_NodeBuffer().init___();
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    var jsx$4 = $m_s_xml_Null$();
-    var jsx$3 = $m_s_xml_TopScope$();
-    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    var jsx$2 = $m_s_xml_Null$();
-    var jsx$1 = $m_s_xml_TopScope$();
-    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    var this$1 = this.$$outer$1;
-    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
-      return (function(id$2, user$2) {
-        var id = $as_Lvotelog_domain_authentication_User$Id(id$2).value$1;
-        var user = $as_Lvotelog_domain_authentication_User(user$2);
-        return $this.$$outer$1.renderUserPreview__T__Lvotelog_domain_authentication_User__Lmhtml_Rx(id, user)
-      })
-    })(this));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this$1, renderEntity));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-    this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
-    this.bitmap$0$1 = true
-  };
-  return this.view$1
-});
-$c_Lvotelog_client_web_components_UserComponent$index$.prototype.init___Lvotelog_client_web_components_UserComponent = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$1 = $$outer
-  };
-  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset($$outer.votelog$client$web$components$UserComponent$$configuration$f.defaultPageSize$1, $$outer.votelog$client$web$components$UserComponent$$configuration$f.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
-  this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T($$outer.votelog$client$web$components$UserComponent$$component$f, "paging"), this.pagingConfiguration$1);
-  this.model$1 = $$outer.ids__Lmhtml_Rx();
-  return this
-});
-$c_Lvotelog_client_web_components_UserComponent$index$.prototype.view__s_xml_Elem = (function() {
-  return ((!this.bitmap$0$1) ? this.view$lzycompute__p1__s_xml_Elem() : this.view$1)
-});
-var $d_Lvotelog_client_web_components_UserComponent$index$ = new $TypeData().initClass({
-  Lvotelog_client_web_components_UserComponent$index$: 0
-}, false, "votelog.client.web.components.UserComponent$index$", {
-  Lvotelog_client_web_components_UserComponent$index$: 1,
-  O: 1
-});
-$c_Lvotelog_client_web_components_UserComponent$index$.prototype.$classData = $d_Lvotelog_client_web_components_UserComponent$index$;
-/** @constructor */
-function $c_Lvotelog_client_web_components_UserComponent$read$() {
-  $c_O.call(this);
-  this.model$1 = null;
-  this.view$1 = null;
-  this.$$outer$1 = null
-}
-$c_Lvotelog_client_web_components_UserComponent$read$.prototype = new $h_O();
-$c_Lvotelog_client_web_components_UserComponent$read$.prototype.constructor = $c_Lvotelog_client_web_components_UserComponent$read$;
-/** @constructor */
-function $h_Lvotelog_client_web_components_UserComponent$read$() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_UserComponent$read$.prototype = $c_Lvotelog_client_web_components_UserComponent$read$.prototype;
-$c_Lvotelog_client_web_components_UserComponent$read$.prototype.init___Lvotelog_client_web_components_UserComponent = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$1 = $$outer
-  };
-  this.model$1 = $$outer.selectedId$1;
-  var this$1 = $$outer.selectedEntity$1;
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(user$2) {
-      var user = $as_s_Option(user$2);
-      return $this.$$outer$1.renderFullUser__s_Option__s_xml_Elem(user)
-    })
-  })(this));
-  this.view$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
-  return this
-});
-var $d_Lvotelog_client_web_components_UserComponent$read$ = new $TypeData().initClass({
-  Lvotelog_client_web_components_UserComponent$read$: 0
-}, false, "votelog.client.web.components.UserComponent$read$", {
-  Lvotelog_client_web_components_UserComponent$read$: 1,
-  O: 1
-});
-$c_Lvotelog_client_web_components_UserComponent$read$.prototype.$classData = $d_Lvotelog_client_web_components_UserComponent$read$;
-/** @constructor */
-function $c_Lvotelog_client_web_components_business_BusinessComponent$index$() {
-  $c_O.call(this);
-  this.view$1 = null;
-  this.model$1 = null;
-  this.bitmap$0$1 = false;
-  this.$$outer$1 = null
-}
-$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype = new $h_O();
-$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.constructor = $c_Lvotelog_client_web_components_business_BusinessComponent$index$;
-/** @constructor */
-function $h_Lvotelog_client_web_components_business_BusinessComponent$index$() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype = $c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype;
-$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.view$lzycompute__p1__s_xml_Elem = (function() {
-  if ((!this.bitmap$0$1)) {
-    var jsx$6 = $m_s_xml_Null$();
-    var jsx$5 = $m_s_xml_TopScope$();
-    var $$buf = new $c_s_xml_NodeBuffer().init___();
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    var jsx$4 = $m_s_xml_Null$();
-    var jsx$3 = $m_s_xml_TopScope$();
-    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    var jsx$2 = $m_s_xml_Null$();
-    var jsx$1 = $m_s_xml_TopScope$();
-    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.$$outer$1.paging$1.view$1);
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    var this$1 = this.$$outer$1;
-    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
-      return (function(id$2, business$2) {
-        var id = $as_Lvotelog_domain_politics_Business$Id(id$2);
-        var business = $as_Lvotelog_domain_politics_Business(business$2);
-        return $this.$$outer$1.renderBusinessPreview__Lvotelog_domain_politics_Business$Id__Lvotelog_domain_politics_Business__Lmhtml_Rx(id, business)
-      })
-    })(this));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this$1, renderEntity));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-    this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
-    this.bitmap$0$1 = true
-  };
-  return this.view$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.init___Lvotelog_client_web_components_business_BusinessComponent = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$1 = $$outer
-  };
-  this.model$1 = $$outer.ids__Lmhtml_Rx();
-  return this
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.view__s_xml_Elem = (function() {
-  return ((!this.bitmap$0$1) ? this.view$lzycompute__p1__s_xml_Elem() : this.view$1)
-});
-var $d_Lvotelog_client_web_components_business_BusinessComponent$index$ = new $TypeData().initClass({
-  Lvotelog_client_web_components_business_BusinessComponent$index$: 0
-}, false, "votelog.client.web.components.business.BusinessComponent$index$", {
-  Lvotelog_client_web_components_business_BusinessComponent$index$: 1,
-  O: 1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent$index$.prototype.$classData = $d_Lvotelog_client_web_components_business_BusinessComponent$index$;
-/** @constructor */
-function $c_Lvotelog_client_web_components_business_BusinessComponent$read$() {
-  $c_O.call(this);
-  this.view$1 = null;
-  this.model$1 = null;
-  this.bitmap$0$1 = false;
-  this.$$outer$1 = null
-}
-$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype = new $h_O();
-$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.constructor = $c_Lvotelog_client_web_components_business_BusinessComponent$read$;
-/** @constructor */
-function $h_Lvotelog_client_web_components_business_BusinessComponent$read$() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype = $c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype;
-$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.view__Lmhtml_Rx = (function() {
-  return ((!this.bitmap$0$1) ? this.view$lzycompute__p1__Lmhtml_Rx() : this.view$1)
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.view$lzycompute__p1__Lmhtml_Rx = (function() {
-  if ((!this.bitmap$0$1)) {
-    var this$1 = this.$$outer$1.selectedEntity$1;
-    var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-      return (function(maybeBusiness$2) {
-        var maybeBusiness = $as_s_Option(maybeBusiness$2);
-        return $this.$$outer$1.renderEntity__s_Option__s_xml_Elem(maybeBusiness)
-      })
-    })(this));
-    this.view$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
-    this.bitmap$0$1 = true
-  };
-  return this.view$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.init___Lvotelog_client_web_components_business_BusinessComponent = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$1 = $$outer
-  };
-  this.model$1 = $$outer.selectedId$1;
-  return this
-});
-var $d_Lvotelog_client_web_components_business_BusinessComponent$read$ = new $TypeData().initClass({
-  Lvotelog_client_web_components_business_BusinessComponent$read$: 0
-}, false, "votelog.client.web.components.business.BusinessComponent$read$", {
-  Lvotelog_client_web_components_business_BusinessComponent$read$: 1,
-  O: 1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent$read$.prototype.$classData = $d_Lvotelog_client_web_components_business_BusinessComponent$read$;
 /** @constructor */
 function $c_Lvotelog_client_web_components_html_DynamicList$() {
   $c_O.call(this)
@@ -9067,30 +8802,25 @@ function $h_Lvotelog_client_web_components_ngo_NgoComponent$create$() {
 $h_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype = $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype;
 $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype.form__T__s_xml_Elem = (function(legend) {
   var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("ngo"), $$md, null);
-  var jsx$14 = $$md;
-  var jsx$13 = $m_s_xml_TopScope$();
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onkeyup", $m_Lvotelog_client_web_components_html_tools$().ifEnter__F1__F1($m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submitCreate$1)), $$md, null);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("create entity"), $$md, null);
+  var jsx$12 = $$md;
+  var jsx$11 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onkeyup", $m_Lvotelog_client_web_components_html_tools$().ifEnter__F1__F1($m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submitCreate$1)), $$md$2, null);
-  var jsx$12 = $$md$2;
-  var jsx$11 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
   var jsx$2 = $m_s_xml_Null$();
   var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(legend, null);
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "legend", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$2.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(legend, null);
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "legend", jsx$2, jsx$1, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
   var this$1 = $m_Lvotelog_client_web_components_html_tools$();
   var id = this.id__T__T("name");
   var rx = this.name$1;
   var errors = this.errors$1;
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this$1.input__T__T__T__Lmhtml_Var__Lmhtml_Rx__s_xml_Elem("text", id, "Name", rx, errors));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n          "));
-  var $$md$3 = $m_s_xml_Null$();
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this$1.input__T__T__T__Lmhtml_Var__Lmhtml_Rx__s_xml_Elem("text", id, "Name", rx, errors));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
+  var $$md$2 = $m_s_xml_Null$();
   var this$2 = this.validatedRecipe$1;
   var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(x$1$2) {
@@ -9098,15 +8828,15 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype.form__T__s_
       return x$1.isEmpty__Z()
     })
   })(this));
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("disabled", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$2, f), $$md$3, null);
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submitCreate$1), $$md$3, null);
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_s_xml_Text().init___T("create"), $$md$3, null);
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("button"), $$md$3, null);
-  var jsx$4 = $$md$3;
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("disabled", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$2, f), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", $m_Lvotelog_client_web_components_html_tools$().set__Lmhtml_Var__F1(this.submitCreate$1), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("value", new $c_s_xml_Text().init___T("create"), $$md$2, null);
+  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("type", new $c_s_xml_Text().init___T("button"), $$md$2, null);
+  var jsx$4 = $$md$2;
   var jsx$3 = $m_s_xml_TopScope$();
   var array = [];
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$4, jsx$3, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "input", jsx$4, jsx$3, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array)));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
   var this$7 = this.model$1;
   var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(x0$1$2) {
@@ -9152,11 +8882,9 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype.form__T__s_
       throw new $c_s_MatchError().init___O(x0$1)
     })
   })(this));
-  $$buf$2.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$7, f$1), null);
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$12, jsx$11, false, $$buf$2));
+  $$buf.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$7, f$1), null);
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$14, jsx$13, false, $$buf)
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$12, jsx$11, false, $$buf)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype.init___Lvotelog_client_web_components_ngo_NgoComponent = (function($$outer) {
   if (($$outer === null)) {
@@ -9310,104 +9038,6 @@ var $d_Lvotelog_client_web_components_ngo_NgoComponent$create$ = new $TypeData()
   O: 1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype.$classData = $d_Lvotelog_client_web_components_ngo_NgoComponent$create$;
-/** @constructor */
-function $c_Lvotelog_client_web_components_ngo_NgoComponent$index$() {
-  $c_O.call(this);
-  this.pagingConfiguration$1 = null;
-  this.paging$1 = null;
-  this.view$1 = null;
-  this.$$outer$1 = null
-}
-$c_Lvotelog_client_web_components_ngo_NgoComponent$index$.prototype = new $h_O();
-$c_Lvotelog_client_web_components_ngo_NgoComponent$index$.prototype.constructor = $c_Lvotelog_client_web_components_ngo_NgoComponent$index$;
-/** @constructor */
-function $h_Lvotelog_client_web_components_ngo_NgoComponent$index$() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_ngo_NgoComponent$index$.prototype = $c_Lvotelog_client_web_components_ngo_NgoComponent$index$.prototype;
-$c_Lvotelog_client_web_components_ngo_NgoComponent$index$.prototype.init___Lvotelog_client_web_components_ngo_NgoComponent = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$1 = $$outer
-  };
-  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset($$outer.votelog$client$web$components$ngo$NgoComponent$$configuration$f.defaultPageSize$1, $$outer.votelog$client$web$components$ngo$NgoComponent$$configuration$f.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
-  this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T($$outer.votelog$client$web$components$ngo$NgoComponent$$component$f, "paging"), this.pagingConfiguration$1);
-  var jsx$6 = $m_s_xml_Null$();
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$4 = $m_s_xml_Null$();
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  var jsx$2 = $m_s_xml_Null$();
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "fieldset", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n        "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$4, jsx$3, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
-    return (function(id$2, ngo$2) {
-      var id = $as_Lvotelog_domain_politics_Ngo$Id(id$2);
-      var ngo = $as_Lvotelog_domain_politics_Ngo(ngo$2);
-      return $this.$$outer$1.renderNgoPreview__Lvotelog_domain_politics_Ngo$Id__Lvotelog_domain_politics_Ngo__Lmhtml_Rx(id, ngo)
-    })
-  })(this));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem($$outer, renderEntity));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  this.view$1 = new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf);
-  return this
-});
-var $d_Lvotelog_client_web_components_ngo_NgoComponent$index$ = new $TypeData().initClass({
-  Lvotelog_client_web_components_ngo_NgoComponent$index$: 0
-}, false, "votelog.client.web.components.ngo.NgoComponent$index$", {
-  Lvotelog_client_web_components_ngo_NgoComponent$index$: 1,
-  O: 1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent$index$.prototype.$classData = $d_Lvotelog_client_web_components_ngo_NgoComponent$index$;
-/** @constructor */
-function $c_Lvotelog_client_web_components_ngo_NgoComponent$read$() {
-  $c_O.call(this);
-  this.model$1 = null;
-  this.view$1 = null;
-  this.$$outer$1 = null
-}
-$c_Lvotelog_client_web_components_ngo_NgoComponent$read$.prototype = new $h_O();
-$c_Lvotelog_client_web_components_ngo_NgoComponent$read$.prototype.constructor = $c_Lvotelog_client_web_components_ngo_NgoComponent$read$;
-/** @constructor */
-function $h_Lvotelog_client_web_components_ngo_NgoComponent$read$() {
-  /*<skip>*/
-}
-$h_Lvotelog_client_web_components_ngo_NgoComponent$read$.prototype = $c_Lvotelog_client_web_components_ngo_NgoComponent$read$.prototype;
-$c_Lvotelog_client_web_components_ngo_NgoComponent$read$.prototype.init___Lvotelog_client_web_components_ngo_NgoComponent = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$1 = $$outer
-  };
-  this.model$1 = $$outer.selectedId$1;
-  var this$1 = $$outer.selectedEntity$1;
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(ngo$2) {
-      var ngo = $as_s_Option(ngo$2);
-      return $this.$$outer$1.renderFullNgo__s_Option__s_xml_Elem(ngo)
-    })
-  })(this));
-  this.view$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
-  return this
-});
-var $d_Lvotelog_client_web_components_ngo_NgoComponent$read$ = new $TypeData().initClass({
-  Lvotelog_client_web_components_ngo_NgoComponent$read$: 0
-}, false, "votelog.client.web.components.ngo.NgoComponent$read$", {
-  Lvotelog_client_web_components_ngo_NgoComponent$read$: 1,
-  O: 1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent$read$.prototype.$classData = $d_Lvotelog_client_web_components_ngo_NgoComponent$read$;
 /** @constructor */
 function $c_Lvotelog_domain_diff_ListDiff$() {
   $c_O.call(this)
@@ -10018,7 +9648,12 @@ $c_Lvotelog_persistence_NgoStore$.prototype.init___ = (function() {
   return this
 });
 $c_Lvotelog_persistence_NgoStore$.prototype.validateRecipe__T__Lcats_data_Validated = (function(name) {
-  return new $c_Lcats_data_Validated$Valid().init___O(new $c_Lvotelog_persistence_NgoStore$Recipe().init___T(name))
+  var this$2 = new $c_sci_StringOps().init___T(name);
+  if ($f_sc_TraversableOnce__nonEmpty__Z(this$2)) {
+    return new $c_Lcats_data_Validated$Valid().init___O(new $c_Lvotelog_persistence_NgoStore$Recipe().init___T(name))
+  } else {
+    return new $c_Lcats_data_Validated$Invalid().init___O(new $c_T2().init___O__O("name", "must not be empty")).toValidatedNel__Lcats_data_Validated()
+  }
 });
 var $d_Lvotelog_persistence_NgoStore$ = new $TypeData().initClass({
   Lvotelog_persistence_NgoStore$: 0
@@ -15000,15 +14635,15 @@ $c_Lvotelog_client_web_components_Language.prototype.$classData = $d_Lvotelog_cl
 function $c_Lvotelog_client_web_components_UserComponent() {
   $c_O.call(this);
   this.create$module$1 = null;
-  this.index$module$1 = null;
-  this.read$module$1 = null;
+  this.view$1 = null;
   this.votelog$client$web$components$UserComponent$$component$f = null;
-  this.votelog$client$web$components$UserComponent$$configuration$f = null;
   this.store$1 = null;
   this.indexQueryParameters$1 = null;
   this.queryParameters$1 = null;
   this.queryParametersView$1 = null;
-  this.view$1 = null;
+  this.errors$1 = null;
+  this.pagingConfiguration$1 = null;
+  this.paging$1 = null;
   this.viewCancelable$1 = null;
   this.selectedId$1 = null;
   this.unstableIds$1 = null;
@@ -15024,7 +14659,7 @@ function $h_Lvotelog_client_web_components_UserComponent() {
 }
 $h_Lvotelog_client_web_components_UserComponent.prototype = $c_Lvotelog_client_web_components_UserComponent.prototype;
 $c_Lvotelog_client_web_components_UserComponent.prototype.ids__Lmhtml_Rx = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
+  return (((((4 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.queryParameters__Lmhtml_Rx = (function() {
   return this.queryParameters$1
@@ -15034,129 +14669,12 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.create$lzycompute$1__p
     this.create$module$1 = new $c_Lvotelog_client_web_components_UserComponent$create$().init___Lvotelog_client_web_components_UserComponent(this)
   }
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.index$lzycompute$1__p1__V = (function() {
-  if ((this.index$module$1 === null)) {
-    this.index$module$1 = new $c_Lvotelog_client_web_components_UserComponent$index$().init___Lvotelog_client_web_components_UserComponent(this)
-  }
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.viewCancelable__s_Option = (function() {
-  return this.viewCancelable$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
-  this.selectedId$1 = x$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.unstableIds$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.read$lzycompute$1__p1__V = (function() {
-  if ((this.read$module$1 === null)) {
-    this.read$module$1 = new $c_Lvotelog_client_web_components_UserComponent$read$().init___Lvotelog_client_web_components_UserComponent(this)
-  }
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.renderUserPreview__T__Lvotelog_domain_authentication_User__Lmhtml_Rx = (function(id, user) {
-  var jsx$9 = $m_Lmhtml_Rx$();
-  var $$md = $m_s_xml_Null$();
-  var this$1 = this.selectedId$1;
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, id$1) {
-    return (function(x$2$2) {
-      var x$2 = $as_s_Option(x$2$2);
-      return x$2.contains__O__Z(new $c_Lvotelog_domain_authentication_User$Id().init___T(id$1))
-    })
-  })(this, id));
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("data-selected", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), $$md, null);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("user"), $$md, null);
-  var jsx$8 = $$md;
-  var jsx$7 = $m_s_xml_TopScope$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$6 = $m_s_xml_Null$();
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$2 = $m_s_xml_Null$();
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-  var jsx$4 = $m_s_xml_Null$();
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(user.name$1, null);
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  return jsx$9.apply__O__Lmhtml_Rx(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf))
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.init___T__Lvotelog_client_web_components_UserComponent$Configuration__Lvotelog_persistence_UserStore = (function(component, configuration, store) {
-  this.votelog$client$web$components$UserComponent$$component$f = component;
-  this.votelog$client$web$components$UserComponent$$configuration$f = configuration;
-  this.store$1 = store;
-  $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V(this);
-  this.indexQueryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
-  this.queryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
-  this.queryParametersView$1 = $m_s_None$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T(""), $$md, null);
-  var jsx$2 = $$md;
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_UserComponent$index$().view__s_xml_Elem());
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$2, jsx$1, false, $$buf$2));
-  var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("read"), $$md$2, null);
-  var jsx$4 = $$md$2;
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.read__Lvotelog_client_web_components_UserComponent$read$().view$1, null);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$4, jsx$3, false, $$buf$3));
-  this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
-  return this
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.selectedId__Lmhtml_Var = (function() {
-  return this.selectedId$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.read__Lvotelog_client_web_components_UserComponent$read$ = (function() {
-  if ((this.read$module$1 === null)) {
-    this.read$lzycompute$1__p1__V()
-  };
-  return this.read$module$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
-  return this.indexQueryParameters$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.ids$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg = (function() {
-  return this.store$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.viewCancelable$und$eq__s_Option__V = (function(x$1) {
-  this.viewCancelable$1 = x$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.renderFullUser__s_Option__s_xml_Elem = (function(user) {
+$c_Lvotelog_client_web_components_UserComponent.prototype.renderEntity__s_Option__s_xml_Elem = (function(user) {
   if ((user instanceof $c_s_Some)) {
     var x2 = $as_s_Some(user);
     var user$2 = $as_Lvotelog_domain_authentication_User(x2.value$2);
     var $$md = $m_s_xml_Null$();
-    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("user"), $$md, null);
+    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("entity user"), $$md, null);
     var jsx$23 = $$md;
     var jsx$22 = $m_s_xml_TopScope$();
     var $$buf = new $c_s_xml_NodeBuffer().init___();
@@ -15268,29 +14786,204 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.renderFullUser__s_Opti
     $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$21, jsx$20, false, $$buf$8));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$23, jsx$22, false, $$buf)
+    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$23, jsx$22, false, $$buf)
   } else {
     var x = $m_s_None$();
     if ((x === user)) {
       var $$md$2 = $m_s_xml_Null$();
-      $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("user loading"), $$md$2, null);
+      $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("entity user loading"), $$md$2, null);
       var jsx$25 = $$md$2;
       var jsx$24 = $m_s_xml_TopScope$();
       var array = [];
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$25, jsx$24, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$25, jsx$24, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
     } else {
       throw new $c_s_MatchError().init___O(user)
     }
   }
 });
+$c_Lvotelog_client_web_components_UserComponent.prototype.viewCancelable__s_Option = (function() {
+  return this.viewCancelable$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
+  this.selectedId$1 = x$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.unstableIds$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.init___T__Lvotelog_client_web_components_UserComponent$Configuration__Lvotelog_persistence_UserStore = (function(component, configuration, store) {
+  this.votelog$client$web$components$UserComponent$$component$f = component;
+  this.store$1 = store;
+  $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V(this);
+  this.indexQueryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
+  this.queryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
+  this.queryParametersView$1 = $m_s_None$();
+  this.errors$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_sci_Nil$());
+  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(configuration.defaultPageSize$1, configuration.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+  this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "paging"), this.pagingConfiguration$1);
+  return this
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.selectedId__Lmhtml_Var = (function() {
+  return this.selectedId$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.view__s_xml_Group = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.view$lzycompute__p1__s_xml_Group() : this.view$1)
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.renderEntityPreview__T__Lvotelog_domain_authentication_User__s_xml_Elem = (function(id, user) {
+  var $$md = $m_s_xml_Null$();
+  var this$1 = this.selectedId$1;
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, id$1) {
+    return (function(x$2$2) {
+      var x$2 = $as_s_Option(x$2$2);
+      return x$2.contains__O__Z(new $c_Lvotelog_domain_authentication_User$Id().init___T(id$1))
+    })
+  })(this, id));
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("data-selected", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), $$md, null);
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("user"), $$md, null);
+  var jsx$8 = $$md;
+  var jsx$7 = $m_s_xml_TopScope$();
+  var $$buf = new $c_s_xml_NodeBuffer().init___();
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  var jsx$6 = $m_s_xml_Null$();
+  var jsx$5 = $m_s_xml_TopScope$();
+  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  var jsx$2 = $m_s_xml_Null$();
+  var jsx$1 = $m_s_xml_TopScope$();
+  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  var jsx$4 = $m_s_xml_Null$();
+  var jsx$3 = $m_s_xml_TopScope$();
+  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(user.name$1, null);
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf)
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
+  return this.indexQueryParameters$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((4 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((4 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.ids$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg = (function() {
+  return this.store$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.view$lzycompute__p1__s_xml_Group = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    var $$buf = new $c_s_xml_NodeBuffer().init___();
+    var jsx$2 = $m_s_xml_Null$();
+    var jsx$1 = $m_s_xml_TopScope$();
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$2, jsx$1, false, $$buf$2));
+    var $$md = $m_s_xml_Null$();
+    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("index"), $$md, null);
+    var jsx$4 = $$md;
+    var jsx$3 = $m_s_xml_TopScope$();
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+      return (function(id$2, user$2) {
+        var id = $as_Lvotelog_domain_authentication_User$Id(id$2).value$1;
+        var user = $as_Lvotelog_domain_authentication_User(user$2);
+        return $this.renderEntityPreview__T__Lvotelog_domain_authentication_User__s_xml_Elem(id, user)
+      })
+    })(this));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this, renderEntity));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var this$1 = this.selectedEntity$1;
+    var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+      return (function(user$3$2) {
+        var user$3 = $as_s_Option(user$3$2);
+        return this$2.renderEntity__s_Option__s_xml_Elem(user$3)
+      })
+    })(this));
+    $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), null);
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$4, jsx$3, false, $$buf$3));
+    var jsx$9 = $m_s_xml_Null$();
+    var jsx$8 = $m_s_xml_TopScope$();
+    var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var this$6 = this.errors$1;
+    var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3) {
+      return (function(x$3$2) {
+        var x$3 = $as_sc_Iterable(x$3$2);
+        var this$5 = x$3.toList__sci_List();
+        var f$1 = (function($this$1) {
+          return (function(error$2) {
+            var error = $as_jl_Throwable(error$2);
+            var jsx$6 = $m_s_xml_Null$();
+            var jsx$5 = $m_s_xml_TopScope$();
+            var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(error.getMessage__T(), null);
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "error", jsx$6, jsx$5, false, $$buf$1)
+          })
+        })(this$3);
+        var this$4 = $m_sci_List$();
+        var bf = this$4.ReusableCBFInstance$2;
+        if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+          if ((this$5 === $m_sci_Nil$())) {
+            var jsx$7 = $m_sci_Nil$()
+          } else {
+            var arg1 = this$5.head__O();
+            var h = new $c_sci_$colon$colon().init___O__sci_List(f$1(arg1), $m_sci_Nil$());
+            var t = h;
+            var rest = $as_sci_List(this$5.tail__O());
+            while ((rest !== $m_sci_Nil$())) {
+              var arg1$1 = rest.head__O();
+              var nx = new $c_sci_$colon$colon().init___O__sci_List(f$1(arg1$1), $m_sci_Nil$());
+              t.tl$5 = nx;
+              t = nx;
+              rest = $as_sci_List(rest.tail__O())
+            };
+            var jsx$7 = h
+          }
+        } else {
+          var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$5, bf);
+          var these = this$5;
+          while ((!these.isEmpty__Z())) {
+            var arg1$2 = these.head__O();
+            b.$$plus$eq__O__scm_Builder(f$1(arg1$2));
+            these = $as_sci_List(these.tail__O())
+          };
+          var jsx$7 = b.result__O()
+        };
+        return $as_sci_List(jsx$7)
+      })
+    })(this));
+    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$6, f$2), null);
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "messages", jsx$9, jsx$8, false, $$buf$4));
+    this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.view$1
+});
+$c_Lvotelog_client_web_components_UserComponent.prototype.viewCancelable$und$eq__s_Option__V = (function(x$1) {
+  this.viewCancelable$1 = x$1
+});
 $c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V = (function(x$1) {
   this.selectedEntity$1 = x$1
-});
-$c_Lvotelog_client_web_components_UserComponent.prototype.index__Lvotelog_client_web_components_UserComponent$index$ = (function() {
-  if ((this.index$module$1 === null)) {
-    this.index$lzycompute$1__p1__V()
-  };
-  return this.index$module$1
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.create__Lvotelog_client_web_components_UserComponent$create$ = (function() {
   if ((this.create$module$1 === null)) {
@@ -15312,17 +15005,17 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.$classData = $d_Lvotel
 /** @constructor */
 function $c_Lvotelog_client_web_components_business_BusinessComponent() {
   $c_O.call(this);
-  this.index$module$1 = null;
-  this.read$module$1 = null;
-  this.component$1 = null;
-  this.store$1 = null;
-  this.language$1 = null;
-  this.legislativePeriod$1 = null;
   this.pagingConfiguration$1 = null;
   this.paging$1 = null;
   this.queryParameters$1 = null;
   this.indexQueryParameters$1 = null;
   this.view$1 = null;
+  this.component$1 = null;
+  this.configuration$1 = null;
+  this.store$1 = null;
+  this.language$1 = null;
+  this.legislativePeriod$1 = null;
+  this.errors$1 = null;
   this.viewCancelable$1 = null;
   this.selectedId$1 = null;
   this.unstableIds$1 = null;
@@ -15338,73 +15031,76 @@ function $h_Lvotelog_client_web_components_business_BusinessComponent() {
 }
 $h_Lvotelog_client_web_components_business_BusinessComponent.prototype = $c_Lvotelog_client_web_components_business_BusinessComponent.prototype;
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.ids__Lmhtml_Rx = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
+  return (((((64 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(this.configuration$1.defaultPageSize$1, this.configuration$1.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.pagingConfiguration$1
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.queryParameters__Lmhtml_Rx = (function() {
-  return this.queryParameters$1
+  return (((((4 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.queryParameters$lzycompute__p1__Lmhtml_Rx() : this.queryParameters$1)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderEntity__s_Option__s_xml_Elem = (function(maybeBusiness) {
   if ((maybeBusiness instanceof $c_s_Some)) {
     var x2 = $as_s_Some(maybeBusiness);
     var business = $as_Lvotelog_domain_politics_Business(x2.value$2);
     var $$md = $m_s_xml_Null$();
-    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("business"), $$md, null);
-    var jsx$22 = $$md;
-    var jsx$21 = $m_s_xml_TopScope$();
+    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("entity business"), $$md, null);
+    var jsx$20 = $$md;
+    var jsx$19 = $m_s_xml_TopScope$();
     var $$buf = new $c_s_xml_NodeBuffer().init___();
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    var jsx$20 = $m_s_xml_Null$();
-    var jsx$19 = $m_s_xml_TopScope$();
-    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
     var jsx$2 = $m_s_xml_Null$();
     var jsx$1 = $m_s_xml_TopScope$();
-    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Title"));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Title"));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$2));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$4 = $m_s_xml_Null$();
     var jsx$3 = $m_s_xml_TopScope$();
-    var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
     var this$1 = business.title$1;
-    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$1.isEmpty__Z() ? "no title" : this$1.get__O()), null);
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$1.isEmpty__Z() ? "no title" : this$1.get__O()), null);
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$3));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$6 = $m_s_xml_Null$();
     var jsx$5 = $m_s_xml_TopScope$();
-    var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$5.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Description"));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$6, jsx$5, false, $$buf$5));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Description"));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$6, jsx$5, false, $$buf$4));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$8 = $m_s_xml_Null$();
     var jsx$7 = $m_s_xml_TopScope$();
-    var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
+    var $$buf$5 = new $c_s_xml_NodeBuffer().init___();
     var this$2 = business.description$1;
-    $$buf$6.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$2.isEmpty__Z() ? "no description" : this$2.get__O()), null);
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$8, jsx$7, false, $$buf$6));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    $$buf$5.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$2.isEmpty__Z() ? "no description" : this$2.get__O()), null);
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$8, jsx$7, false, $$buf$5));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$10 = $m_s_xml_Null$();
     var jsx$9 = $m_s_xml_TopScope$();
-    var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$7.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Submitter"));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$10, jsx$9, false, $$buf$7));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var $$buf$6 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$6.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Submitter"));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$10, jsx$9, false, $$buf$6));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$12 = $m_s_xml_Null$();
     var jsx$11 = $m_s_xml_TopScope$();
-    var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
+    var $$buf$7 = new $c_s_xml_NodeBuffer().init___();
     var this$3 = business.submittedBy$1;
-    $$buf$8.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$3.isEmpty__Z() ? "unknown" : this$3.get__O()), null);
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$12, jsx$11, false, $$buf$8));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    $$buf$7.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer((this$3.isEmpty__Z() ? "unknown" : this$3.get__O()), null);
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$12, jsx$11, false, $$buf$7));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$14 = $m_s_xml_Null$();
     var jsx$13 = $m_s_xml_TopScope$();
-    var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$9.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Submission date"));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$14, jsx$13, false, $$buf$9));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var $$buf$8 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$8.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Submission date"));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$14, jsx$13, false, $$buf$8));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$18 = $m_s_xml_Null$();
     var jsx$17 = $m_s_xml_TopScope$();
-    var $$buf$10 = new $c_s_xml_NodeBuffer().init___();
+    var $$buf$9 = new $c_s_xml_NodeBuffer().init___();
     var self = business.submissionDate$1;
     var this$9 = new $c_sci_StringOps().init___T("yyyy-dd-MM");
     var array = [self];
@@ -15445,33 +15141,92 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderEnt
       i$1 = ((1 + i$1) | 0);
       j = ((1 + j) | 0)
     };
-    $$buf$10.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(jsx$16.format__T__AO__T($$this, result), null);
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$18, jsx$17, false, $$buf$10));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$20, jsx$19, false, $$buf$2));
+    $$buf$9.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(jsx$16.format__T__AO__T($$this, result), null);
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$18, jsx$17, false, $$buf$9));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$22, jsx$21, false, $$buf)
+    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$20, jsx$19, false, $$buf)
   } else {
     var x$2 = $m_s_None$();
     if ((x$2 === maybeBusiness)) {
       var $$md$2 = $m_s_xml_Null$();
-      $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("business loading"), $$md$2, null);
-      var jsx$24 = $$md$2;
-      var jsx$23 = $m_s_xml_TopScope$();
+      $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("empty entity business"), $$md$2, null);
+      var jsx$22 = $$md$2;
+      var jsx$21 = $m_s_xml_TopScope$();
       var array$2 = [];
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$24, jsx$23, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2))
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$22, jsx$21, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2))
     } else {
       throw new $c_s_MatchError().init___O(maybeBusiness)
     }
   }
 });
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.index$lzycompute$1__p1__V = (function() {
-  if ((this.index$module$1 === null)) {
-    this.index$module$1 = new $c_Lvotelog_client_web_components_business_BusinessComponent$index$().init___Lvotelog_client_web_components_business_BusinessComponent(this)
-  }
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.paging$lzycompute__p1__Lvotelog_client_web_components_Paging = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(this.component$1, "paging"), this.pagingConfiguration__Lvotelog_client_web_components_Paging$Configuration());
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.paging$1
 });
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderBusinessPreview__Lvotelog_domain_politics_Business$Id__Lvotelog_domain_politics_Business__Lmhtml_Rx = (function(id, business) {
-  var jsx$9 = $m_Lmhtml_Rx$();
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.viewCancelable__s_Option = (function() {
+  return this.viewCancelable$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
+  this.selectedId$1 = x$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((32 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((32 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.unstableIds$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+  return (((((32 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.indexQueryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((8 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    var this$4 = this.paging__Lvotelog_client_web_components_Paging().offset$1;
+    var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+      return (function(offset$2) {
+        var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
+        var this$3 = $this.paging__Lvotelog_client_web_components_Paging().pageSize$1;
+        var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, offset$1) {
+          return (function(pageSize$2) {
+            var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
+            var this$2 = $this$1.language$1;
+            var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, pageSize$1, offset$1$1) {
+              return (function(language$2) {
+                var language = $as_Lvotelog_domain_politics_Language(language$2);
+                var this$1 = $this$2.legislativePeriod$1.model$1;
+                var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, pageSize$1$1, offset$1$2, language$1) {
+                  return (function(legislativePeriod$2) {
+                    var legislativePeriod = $as_Lvotelog_domain_politics_LegislativePeriod$Id(legislativePeriod$2);
+                    return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1$1, offset$1$2, new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language(legislativePeriod, language$1))
+                  })
+                })($this$2, pageSize$1, offset$1$1, language));
+                return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f)
+              })
+            })($this$1, pageSize, offset$1));
+            return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$2, f$1)
+          })
+        })($this, offset));
+        return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$3, f$2)
+      })
+    })(this));
+    this.indexQueryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$3);
+    this.bitmap$0$1 = (((8 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.indexQueryParameters$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.paging__Lvotelog_client_web_components_Paging = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.paging$lzycompute__p1__Lvotelog_client_web_components_Paging() : this.paging$1)
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.selectedId__Lmhtml_Var = (function() {
+  return this.selectedId$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.view__s_xml_Group = (function() {
+  return (((((16 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.view$lzycompute__p1__s_xml_Group() : this.view$1)
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderEntityPreview__Lvotelog_domain_politics_Business$Id__Lvotelog_domain_politics_Business__s_xml_Elem = (function(id, business) {
   var $$md = $m_s_xml_Null$();
   var this$1 = this.selectedId$1;
   var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, id$1) {
@@ -15504,125 +15259,140 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.renderBus
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  return jsx$9.apply__O__Lmhtml_Rx(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf))
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.index__Lvotelog_client_web_components_business_BusinessComponent$index$ = (function() {
-  if ((this.index$module$1 === null)) {
-    this.index$lzycompute$1__p1__V()
-  };
-  return this.index$module$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.viewCancelable__s_Option = (function() {
-  return this.viewCancelable$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
-  this.selectedId$1 = x$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.unstableIds$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.read$lzycompute$1__p1__V = (function() {
-  if ((this.read$module$1 === null)) {
-    this.read$module$1 = new $c_Lvotelog_client_web_components_business_BusinessComponent$read$().init___Lvotelog_client_web_components_business_BusinessComponent(this)
-  }
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.selectedId__Lmhtml_Var = (function() {
-  return this.selectedId$1
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
-  return this.indexQueryParameters$1
+  return (((((8 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.indexQueryParameters$lzycompute__p1__Lmhtml_Rx() : this.indexQueryParameters$1)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+  if (((((64 & this.bitmap$0$1) << 24) >> 24) === 0)) {
     this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+    this.bitmap$0$1 = (((64 | this.bitmap$0$1) << 24) >> 24)
   };
   return this.ids$1
 });
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.read__Lvotelog_client_web_components_business_BusinessComponent$read$ = (function() {
-  if ((this.read$module$1 === null)) {
-    this.read$lzycompute$1__p1__V()
-  };
-  return this.read$module$1
-});
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.init___T__Lvotelog_client_web_components_business_BusinessComponent$Configuration__Lvotelog_persistence_BusinessStore__Lmhtml_Rx = (function(component, configuration, store, language) {
   this.component$1 = component;
+  this.configuration$1 = configuration;
   this.store$1 = store;
   this.language$1 = language;
   $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V(this);
   this.legislativePeriod$1 = new $c_Lvotelog_client_web_components_html_StaticSelect().init___T__sc_Seq__O__T__T__Lcats_Show__s_math_Ordering("legislative period", $m_Lvotelog_domain_politics_LegislativePeriod$().ids$1, $m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, "legislativePeriod", "legislativePeriod", $m_Lvotelog_domain_politics_LegislativePeriod$Id$().legislativePeriodShow$1, $m_Lvotelog_domain_politics_LegislativePeriod$Id$().legislativeIdOrdering$1);
-  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(configuration.defaultPageSize$1, configuration.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
-  this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "paging"), this.pagingConfiguration$1);
-  this.queryParameters$1 = language;
-  var this$6 = this.paging$1.offset$1;
-  var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(offset$2) {
-      var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
-      var this$5 = $this.paging$1.pageSize$1;
-      var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, offset$1) {
-        return (function(pageSize$2) {
-          var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
-          var this$4 = $this$1.language$1;
-          var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, pageSize$1, offset$1$1) {
-            return (function(language$2) {
-              var language$1 = $as_Lvotelog_domain_politics_Language(language$2);
-              var this$3 = $this$2.legislativePeriod$1.model$1;
-              var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, pageSize$1$1, offset$1$2, language$3) {
-                return (function(legislativePeriod$2) {
-                  var legislativePeriod = $as_Lvotelog_domain_politics_LegislativePeriod$Id(legislativePeriod$2);
-                  return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1$1, offset$1$2, new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language(legislativePeriod, language$3))
-                })
-              })($this$2, pageSize$1, offset$1$1, language$1));
-              return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$3, f)
-            })
-          })($this$1, pageSize, offset$1));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$1)
-        })
-      })($this, offset));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$5, f$2)
-    })
-  })(this));
-  this.indexQueryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$3);
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("index"), $$md, null);
-  var jsx$2 = $$md;
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_business_BusinessComponent$index$().view__s_xml_Elem());
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$2, jsx$1, false, $$buf$2));
-  var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("read"), $$md$2, null);
-  var jsx$4 = $$md$2;
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.read__Lvotelog_client_web_components_business_BusinessComponent$read$().view__Lmhtml_Rx(), null);
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$4, jsx$3, false, $$buf$3));
-  this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
+  this.errors$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_sci_Nil$());
   return this
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.pagingConfiguration__Lvotelog_client_web_components_Paging$Configuration = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration() : this.pagingConfiguration$1)
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.queryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((4 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.queryParameters$1 = this.language$1;
+    this.bitmap$0$1 = (((4 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.queryParameters$1
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg = (function() {
   return this.store$1
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.view$lzycompute__p1__s_xml_Group = (function() {
+  if (((((16 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    var $$buf = new $c_s_xml_NodeBuffer().init___();
+    var jsx$2 = $m_s_xml_Null$();
+    var jsx$1 = $m_s_xml_TopScope$();
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging__Lvotelog_client_web_components_Paging().view$1);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$2, jsx$1, false, $$buf$2));
+    var jsx$4 = $m_s_xml_Null$();
+    var jsx$3 = $m_s_xml_TopScope$();
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+      return (function(id$2, business$2) {
+        var id = $as_Lvotelog_domain_politics_Business$Id(id$2);
+        var business = $as_Lvotelog_domain_politics_Business(business$2);
+        return $this.renderEntityPreview__Lvotelog_domain_politics_Business$Id__Lvotelog_domain_politics_Business__s_xml_Elem(id, business)
+      })
+    })(this));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this, renderEntity));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n      "));
+    var this$1 = this.selectedEntity$1;
+    var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+      return (function(maybeBusiness$2) {
+        var maybeBusiness = $as_s_Option(maybeBusiness$2);
+        return this$2.renderEntity__s_Option__s_xml_Elem(maybeBusiness)
+      })
+    })(this));
+    $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), null);
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$4, jsx$3, false, $$buf$3));
+    var jsx$9 = $m_s_xml_Null$();
+    var jsx$8 = $m_s_xml_TopScope$();
+    var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var this$6 = this.errors$1;
+    var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3) {
+      return (function(x$2$2) {
+        var x$2 = $as_sc_Iterable(x$2$2);
+        var this$5 = x$2.toList__sci_List();
+        var f$1 = (function($this$1) {
+          return (function(error$2) {
+            var error = $as_jl_Throwable(error$2);
+            var jsx$6 = $m_s_xml_Null$();
+            var jsx$5 = $m_s_xml_TopScope$();
+            var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(error.getMessage__T(), null);
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "error", jsx$6, jsx$5, false, $$buf$1)
+          })
+        })(this$3);
+        var this$4 = $m_sci_List$();
+        var bf = this$4.ReusableCBFInstance$2;
+        if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+          if ((this$5 === $m_sci_Nil$())) {
+            var jsx$7 = $m_sci_Nil$()
+          } else {
+            var arg1 = this$5.head__O();
+            var h = new $c_sci_$colon$colon().init___O__sci_List(f$1(arg1), $m_sci_Nil$());
+            var t = h;
+            var rest = $as_sci_List(this$5.tail__O());
+            while ((rest !== $m_sci_Nil$())) {
+              var arg1$1 = rest.head__O();
+              var nx = new $c_sci_$colon$colon().init___O__sci_List(f$1(arg1$1), $m_sci_Nil$());
+              t.tl$5 = nx;
+              t = nx;
+              rest = $as_sci_List(rest.tail__O())
+            };
+            var jsx$7 = h
+          }
+        } else {
+          var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$5, bf);
+          var these = this$5;
+          while ((!these.isEmpty__Z())) {
+            var arg1$2 = these.head__O();
+            b.$$plus$eq__O__scm_Builder(f$1(arg1$2));
+            these = $as_sci_List(these.tail__O())
+          };
+          var jsx$7 = b.result__O()
+        };
+        return $as_sci_List(jsx$7)
+      })
+    })(this));
+    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$6, f$2), null);
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "messages", jsx$9, jsx$8, false, $$buf$4));
+    this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
+    this.bitmap$0$1 = (((16 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.view$1
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.viewCancelable$und$eq__s_Option__V = (function(x$1) {
   this.viewCancelable$1 = x$1
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V = (function(x$1) {
   this.selectedEntity$1 = x$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.id__T__T = (function(id) {
-  return $m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(this.component$1, id)
 });
 var $d_Lvotelog_client_web_components_business_BusinessComponent = new $TypeData().initClass({
   Lvotelog_client_web_components_business_BusinessComponent: 0
@@ -15635,16 +15405,17 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.$classDat
 /** @constructor */
 function $c_Lvotelog_client_web_components_ngo_NgoComponent() {
   $c_O.call(this);
-  this.create$module$1 = null;
-  this.index$module$1 = null;
-  this.read$module$1 = null;
-  this.votelog$client$web$components$ngo$NgoComponent$$component$f = null;
-  this.votelog$client$web$components$ngo$NgoComponent$$configuration$f = null;
-  this.store$1 = null;
   this.indexQueryParameters$1 = null;
   this.queryParameters$1 = null;
   this.queryParametersView$1 = null;
+  this.create$module$1 = null;
+  this.errors$1 = null;
+  this.pagingConfiguration$1 = null;
+  this.paging$1 = null;
   this.view$1 = null;
+  this.votelog$client$web$components$ngo$NgoComponent$$component$f = null;
+  this.configuration$1 = null;
+  this.store$1 = null;
   this.viewCancelable$1 = null;
   this.selectedId$1 = null;
   this.unstableIds$1 = null;
@@ -15659,50 +15430,37 @@ function $h_Lvotelog_client_web_components_ngo_NgoComponent() {
   /*<skip>*/
 }
 $h_Lvotelog_client_web_components_ngo_NgoComponent.prototype = $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype;
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.index__Lvotelog_client_web_components_ngo_NgoComponent$index$ = (function() {
-  if ((this.index$module$1 === null)) {
-    this.index$lzycompute$1__p1__V()
-  };
-  return this.index$module$1
-});
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.ids__Lmhtml_Rx = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
+  return (((256 & this.bitmap$0$1) === 0) ? this.ids$lzycompute__p1__Lmhtml_Rx() : this.ids$1)
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration = (function() {
+  if (((16 & this.bitmap$0$1) === 0)) {
+    this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(this.configuration$1.defaultPageSize$1, this.configuration$1.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+    this.bitmap$0$1 = (16 | this.bitmap$0$1)
+  };
+  return this.pagingConfiguration$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.queryParameters__Lmhtml_Rx = (function() {
-  return this.queryParameters$1
+  return (((2 & this.bitmap$0$1) === 0) ? this.queryParameters$lzycompute__p1__Lmhtml_Rx() : this.queryParameters$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.create$lzycompute$1__p1__V = (function() {
   if ((this.create$module$1 === null)) {
     this.create$module$1 = new $c_Lvotelog_client_web_components_ngo_NgoComponent$create$().init___Lvotelog_client_web_components_ngo_NgoComponent(this)
   }
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.index$lzycompute$1__p1__V = (function() {
-  if ((this.index$module$1 === null)) {
-    this.index$module$1 = new $c_Lvotelog_client_web_components_ngo_NgoComponent$index$().init___Lvotelog_client_web_components_ngo_NgoComponent(this)
-  }
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
-  this.selectedId$1 = x$1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.viewCancelable__s_Option = (function() {
-  return this.viewCancelable$1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.paging$lzycompute__p1__Lvotelog_client_web_components_Paging = (function() {
+  if (((32 & this.bitmap$0$1) === 0)) {
+    this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(this.votelog$client$web$components$ngo$NgoComponent$$component$f, "paging"), this.pagingConfiguration__Lvotelog_client_web_components_Paging$Configuration());
+    this.bitmap$0$1 = (32 | this.bitmap$0$1)
   };
-  return this.unstableIds$1
+  return this.paging$1
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderFullNgo__s_Option__s_xml_Elem = (function(ngo) {
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderEntity__s_Option__s_xml_Elem = (function(ngo) {
   if ((ngo instanceof $c_s_Some)) {
     var x2 = $as_s_Some(ngo);
     var ngo$2 = $as_Lvotelog_domain_politics_Ngo(x2.value$2);
     var $$md = $m_s_xml_Null$();
-    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("ngo"), $$md, null);
+    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("entity ngo"), $$md, null);
     var jsx$8 = $$md;
     var jsx$7 = $m_s_xml_TopScope$();
     var $$buf = new $c_s_xml_NodeBuffer().init___();
@@ -15725,25 +15483,53 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderFullNgo__s_Op
     $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf)
+    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$8, jsx$7, false, $$buf)
   } else {
     var x = $m_s_None$();
     if ((x === ngo)) {
       var $$md$2 = $m_s_xml_Null$();
-      $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("ngo loading"), $$md$2, null);
+      $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("loading entity ngo"), $$md$2, null);
       var jsx$10 = $$md$2;
       var jsx$9 = $m_s_xml_TopScope$();
       var array = [];
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$10, jsx$9, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$10, jsx$9, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
     } else {
       throw new $c_s_MatchError().init___O(ngo)
     }
   }
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.read$lzycompute$1__p1__V = (function() {
-  if ((this.read$module$1 === null)) {
-    this.read$module$1 = new $c_Lvotelog_client_web_components_ngo_NgoComponent$read$().init___Lvotelog_client_web_components_ngo_NgoComponent(this)
-  }
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.viewCancelable__s_Option = (function() {
+  return this.viewCancelable$1
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
+  this.selectedId$1 = x$1
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((128 & this.bitmap$0$1) === 0)) {
+    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (128 | this.bitmap$0$1)
+  };
+  return this.unstableIds$1
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.errors$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((8 & this.bitmap$0$1) === 0)) {
+    this.errors$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_sci_Nil$());
+    this.bitmap$0$1 = (8 | this.bitmap$0$1)
+  };
+  return this.errors$1
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
+  return (((128 & this.bitmap$0$1) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.indexQueryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((1 & this.bitmap$0$1) === 0)) {
+    this.indexQueryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
+    this.bitmap$0$1 = (1 | this.bitmap$0$1)
+  };
+  return this.indexQueryParameters$1
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.paging__Lvotelog_client_web_components_Paging = (function() {
+  return (((32 & this.bitmap$0$1) === 0) ? this.paging$lzycompute__p1__Lvotelog_client_web_components_Paging() : this.paging$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.selectedId__Lmhtml_Var = (function() {
   return this.selectedId$1
@@ -15754,14 +15540,10 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.create__Lvotelog_cl
   };
   return this.create$module$1
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.read__Lvotelog_client_web_components_ngo_NgoComponent$read$ = (function() {
-  if ((this.read$module$1 === null)) {
-    this.read$lzycompute$1__p1__V()
-  };
-  return this.read$module$1
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.view__s_xml_Group = (function() {
+  return (((64 & this.bitmap$0$1) === 0) ? this.view$lzycompute__p1__s_xml_Group() : this.view$1)
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderNgoPreview__Lvotelog_domain_politics_Ngo$Id__Lvotelog_domain_politics_Ngo__Lmhtml_Rx = (function(id, ngo) {
-  var jsx$9 = $m_Lmhtml_Rx$();
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderEntityPreview__Lvotelog_domain_politics_Ngo$Id__Lvotelog_domain_politics_Ngo__s_xml_Elem = (function(id, ngo) {
   var $$md = $m_s_xml_Null$();
   var this$1 = this.selectedId$1;
   var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, id$1) {
@@ -15794,17 +15576,30 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderNgoPreview__L
   $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  return jsx$9.apply__O__Lmhtml_Rx(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$8, jsx$7, false, $$buf))
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$8, jsx$7, false, $$buf)
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
+  return (((1 & this.bitmap$0$1) === 0) ? this.indexQueryParameters$lzycompute__p1__Lmhtml_Rx() : this.indexQueryParameters$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.ids$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+  if (((256 & this.bitmap$0$1) === 0)) {
     this.ids$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+    this.bitmap$0$1 = (256 | this.bitmap$0$1)
   };
   return this.ids$1
 });
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
-  return this.indexQueryParameters$1
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.errors__Lmhtml_Rx = (function() {
+  return (((8 & this.bitmap$0$1) === 0) ? this.errors$lzycompute__p1__Lmhtml_Rx() : this.errors$1)
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.pagingConfiguration__Lvotelog_client_web_components_Paging$Configuration = (function() {
+  return (((16 & this.bitmap$0$1) === 0) ? this.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration() : this.pagingConfiguration$1)
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.queryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((2 & this.bitmap$0$1) === 0)) {
+    this.queryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
+    this.bitmap$0$1 = (2 | this.bitmap$0$1)
+  };
+  return this.queryParameters$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg = (function() {
   return this.store$1
@@ -15812,50 +15607,113 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.store__Lvotelog_dom
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.viewCancelable$und$eq__s_Option__V = (function(x$1) {
   this.viewCancelable$1 = x$1
 });
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.view$lzycompute__p1__s_xml_Group = (function() {
+  if (((64 & this.bitmap$0$1) === 0)) {
+    var $$buf = new $c_s_xml_NodeBuffer().init___();
+    var jsx$2 = $m_s_xml_Null$();
+    var jsx$1 = $m_s_xml_TopScope$();
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging__Lvotelog_client_web_components_Paging().view$1);
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$2, jsx$1, false, $$buf$2));
+    var $$md = $m_s_xml_Null$();
+    $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.votelog$client$web$components$ngo$NgoComponent$$component$f, $$md, null);
+    var jsx$4 = $$md;
+    var jsx$3 = $m_s_xml_TopScope$();
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var renderEntity = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+      return (function(id$2, ngo$2) {
+        var id = $as_Lvotelog_domain_politics_Ngo$Id(id$2);
+        var ngo = $as_Lvotelog_domain_politics_Ngo(ngo$2);
+        return $this.renderEntityPreview__Lvotelog_domain_politics_Ngo$Id__Lvotelog_domain_politics_Ngo__s_xml_Elem(id, ngo)
+      })
+    })(this));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer($f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem(this, renderEntity));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var this$1 = this.selectedEntity$1;
+    var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+      return (function(ngo$3$2) {
+        var ngo$3 = $as_s_Option(ngo$3$2);
+        return this$2.renderEntity__s_Option__s_xml_Elem(ngo$3)
+      })
+    })(this));
+    $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), null);
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.create__Lvotelog_client_web_components_ngo_NgoComponent$create$().form__T__s_xml_Elem("create ngo"));
+    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$4, jsx$3, false, $$buf$3));
+    var jsx$9 = $m_s_xml_Null$();
+    var jsx$8 = $m_s_xml_TopScope$();
+    var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
+    var this$6 = this.errors__Lmhtml_Rx();
+    var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3) {
+      return (function(x$3$2) {
+        var x$3 = $as_sc_Iterable(x$3$2);
+        var this$5 = x$3.toList__sci_List();
+        var f$1 = (function($this$1) {
+          return (function(error$2) {
+            var error = $as_jl_Throwable(error$2);
+            var jsx$6 = $m_s_xml_Null$();
+            var jsx$5 = $m_s_xml_TopScope$();
+            var $$buf$1 = new $c_s_xml_NodeBuffer().init___();
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            $$buf$1.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(error.getMessage__T(), null);
+            $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T(" "));
+            return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "error", jsx$6, jsx$5, false, $$buf$1)
+          })
+        })(this$3);
+        var this$4 = $m_sci_List$();
+        var bf = this$4.ReusableCBFInstance$2;
+        if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+          if ((this$5 === $m_sci_Nil$())) {
+            var jsx$7 = $m_sci_Nil$()
+          } else {
+            var arg1 = this$5.head__O();
+            var h = new $c_sci_$colon$colon().init___O__sci_List(f$1(arg1), $m_sci_Nil$());
+            var t = h;
+            var rest = $as_sci_List(this$5.tail__O());
+            while ((rest !== $m_sci_Nil$())) {
+              var arg1$1 = rest.head__O();
+              var nx = new $c_sci_$colon$colon().init___O__sci_List(f$1(arg1$1), $m_sci_Nil$());
+              t.tl$5 = nx;
+              t = nx;
+              rest = $as_sci_List(rest.tail__O())
+            };
+            var jsx$7 = h
+          }
+        } else {
+          var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$5, bf);
+          var these = this$5;
+          while ((!these.isEmpty__Z())) {
+            var arg1$2 = these.head__O();
+            b.$$plus$eq__O__scm_Builder(f$1(arg1$2));
+            these = $as_sci_List(these.tail__O())
+          };
+          var jsx$7 = b.result__O()
+        };
+        return $as_sci_List(jsx$7)
+      })
+    })(this));
+    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$6, f$2), null);
+    $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "messages", jsx$9, jsx$8, false, $$buf$4));
+    this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
+    this.bitmap$0$1 = (64 | this.bitmap$0$1)
+  };
+  return this.view$1
+});
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedEntity$und$eq__Lmhtml_Rx__V = (function(x$1) {
   this.selectedEntity$1 = x$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.init___T__Lvotelog_client_web_components_ngo_NgoComponent$Configuration__Lvotelog_persistence_NgoStore = (function(component, configuration, store) {
   this.votelog$client$web$components$ngo$NgoComponent$$component$f = component;
-  this.votelog$client$web$components$ngo$NgoComponent$$configuration$f = configuration;
+  this.configuration$1 = configuration;
   this.store$1 = store;
   $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V(this);
-  this.indexQueryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
-  this.queryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
-  this.queryParametersView$1 = $m_s_None$();
-  var $$buf = new $c_s_xml_NodeBuffer().init___();
-  var $$md = $m_s_xml_Null$();
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("index"), $$md, null);
-  var jsx$2 = $$md;
-  var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.index__Lvotelog_client_web_components_ngo_NgoComponent$index$().view$1);
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$2, jsx$1, false, $$buf$2));
-  var $$md$2 = $m_s_xml_Null$();
-  $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("create"), $$md$2, null);
-  var jsx$4 = $$md$2;
-  var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.create__Lvotelog_client_web_components_ngo_NgoComponent$create$().form__T__s_xml_Elem("Create"));
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$4, jsx$3, false, $$buf$3));
-  var $$md$3 = $m_s_xml_Null$();
-  $$md$3 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("id", this.id__T__T("read"), $$md$3, null);
-  var jsx$6 = $$md$3;
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.read__Lvotelog_client_web_components_ngo_NgoComponent$read$().view$1, null);
-  $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$6, jsx$5, false, $$buf$4));
-  this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf);
   return this
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.id__T__T = (function(id) {
-  return $m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(this.votelog$client$web$components$ngo$NgoComponent$$component$f, id)
 });
 var $d_Lvotelog_client_web_components_ngo_NgoComponent = new $TypeData().initClass({
   Lvotelog_client_web_components_ngo_NgoComponent: 0
