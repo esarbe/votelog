@@ -6,7 +6,7 @@ import doobie.util.{Put, Read}
 import votelog.domain.authentication.User
 import votelog.domain.politics.Person.Gender
 import votelog.domain.politics.Person.Gender.{Female, Male}
-import votelog.domain.politics.{Language, Votum}
+import votelog.domain.politics.{Language, Ngo, Votum}
 import doobie.postgres.implicits._
 
 object implicits {
@@ -30,4 +30,7 @@ object implicits {
   implicit val votumPut: Put[Votum] =  Put[String].contramap(Votum.asString)
   implicit val UserIdPut: Put[User.Id] = Put[UUID].contramap(uid => UUID.fromString(uid.value))
   implicit val UserIdRead: Read[User.Id] = Read[UUID].map(v => User.Id(v.toString))
+
+  implicit val ngoIdPut: Put[Ngo.Id] = Put[UUID].contramap(uid => UUID.fromString(uid.value))
+  implicit val ngoIdRead: Read[Ngo.Id] = Read[UUID].map(v => Ngo.Id(v.toString))
 }

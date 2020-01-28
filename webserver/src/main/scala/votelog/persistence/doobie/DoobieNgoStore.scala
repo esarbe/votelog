@@ -4,11 +4,11 @@ import cats._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
-import votelog.domain.politics.Scoring.{Score, Weight}
+import votelog.domain.politics.Scoring.Score
 import votelog.domain.politics.{Business, Ngo}
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
+import votelog.orphans.doobie.implicits._
 
 class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
   transactor: Transactor[F],
