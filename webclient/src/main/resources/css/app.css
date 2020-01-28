@@ -48,10 +48,16 @@ application {
 
 a {
   color: #fff;
+  text-underline-offset: 0.15em;
 }
 
 fieldset {
   border: 0;
+}
+
+dl {
+  margin-top: 10pt;
+  margin-bottom: 10pt;
 }
 
 fieldset legend {
@@ -145,17 +151,31 @@ application > header + * {
   margin-top: 1rem;
 }
 
+application > article {
+  padding-top: 10pt;
+}
+
 .paging .page input[type=number] {
   width: 2em;
   text-align: right;
   -moz-appearance: textfield;
 }
 
-application > controls > fieldset.paging {
+
+fieldset.paging {
+  padding: 0;
   display: flex;
 }
 
-application > controls> fieldset.paging > dl {
+fieldset.paging dt {
+  margin-left: 0;
+}
+
+fieldset.paging legend {
+  padding-left: 0;
+}
+
+fieldset.paging > dl {
   display: flex;
   width: 100%;
 }
@@ -195,7 +215,8 @@ ul.index li {
 dl.entity {
   background-color: var(--color-primary-shade);
   border-radius: 5pt;
-  margin: 10pt;
+  margin-top: 10pt;
+  margin-bottom: 10pt;
   padding: 5pt;
   box-shadow: var(--shadow-primary-0);
 }
