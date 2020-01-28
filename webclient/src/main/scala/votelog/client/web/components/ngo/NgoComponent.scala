@@ -72,44 +72,42 @@ class NgoComponent(
     def id(id: String): String = component.child("create").child(id).location
 
     def form(legend: String): Elem = {
-      <article class="ngo">
-        <fieldset onkeyup={ ifEnter(set(submitCreate)) }>
-          <legend>{legend}</legend>
-          { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
+      <fieldset class="create entity" onkeyup={ ifEnter(set(submitCreate)) }>
+        <legend>{legend}</legend>
+        { inputText(id = id("name"), label = "Name", rx = name, errors = errors) }
 
-          <input type="button" value="create" onclick={ set(submitCreate) } disabled={ validatedRecipe.map(_.isEmpty) } />
-          {
-            model.map {
-              case Some(Right(id)) => <p>Ngo {id.value} created</p>
-              case Some(Left(error)) => <p>Error creating new Ngo: {error.getMessage}</p>
-              case None => <p></p>
-            }
+        <input type="button" value="create" onclick={ set(submitCreate) } disabled={ validatedRecipe.map(_.isEmpty) } />
+        {
+          model.map {
+            case Some(Right(id)) => <p>Ngo {id.value} created</p>
+            case Some(Left(error)) => <p>Error creating new Ngo: {error.getMessage}</p>
+            case None => <p></p>
           }
-        </fieldset>
-      </article>
+        }
+      </fieldset>
     }
   }
 
   def renderEntityPreview(id: Ngo.Id, ngo: Ngo): Elem =
-    <article class="ngo preview" data-selected={ selectedId.map(_.contains(id)) }>
+    <section class="ngo preview" data-selected={ selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Name</dt>
         <dd>{ngo.name}</dd>
       </dl>
-    </article>
+    </section>
 
   def renderEntity(ngo: Option[Ngo]): Elem = {
     ngo match {
       case Some(ngo) =>
-        <article class="entity ngo">
+        <section class="entity ngo">
           <dl>
             <dd>NGO</dd>
             <dt>{ngo.name}</dt>
           </dl>
-        </article>
+        </section>
 
       case None =>
-        <article class="loading entity ngo" />
+        <section class="loading entity ngo" />
     }
   }
 
@@ -123,9 +121,10 @@ class NgoComponent(
       { paging.view }
     </controls>
 
-    <article id={id("index")} >
+    <article id={component.location} >
       { self.renderIndex(renderEntityPreview) }
       { self.selectedEntity.map(renderEntity) }
+      { self.create.form("create ngo") }
     </article>
 
     <messages>
