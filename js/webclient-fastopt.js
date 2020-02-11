@@ -15461,38 +15461,32 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderEntity__s_Opt
     var ngo$2 = $as_Lvotelog_domain_politics_Ngo(x2.value$2);
     var $$md = $m_s_xml_Null$();
     $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("entity ngo"), $$md, null);
-    var jsx$8 = $$md;
-    var jsx$7 = $m_s_xml_TopScope$();
+    var jsx$6 = $$md;
+    var jsx$5 = $m_s_xml_TopScope$();
     var $$buf = new $c_s_xml_NodeBuffer().init___();
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    var jsx$6 = $m_s_xml_Null$();
-    var jsx$5 = $m_s_xml_TopScope$();
-    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
     var jsx$2 = $m_s_xml_Null$();
     var jsx$1 = $m_s_xml_TopScope$();
-    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("NGO"));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$2, jsx$1, false, $$buf$3));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n            "));
+    var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$2));
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
     var jsx$4 = $m_s_xml_Null$();
     var jsx$3 = $m_s_xml_TopScope$();
-    var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-    $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(ngo$2.name$1, null);
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$4, jsx$3, false, $$buf$4));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n          "));
-    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
+    var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+    $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(ngo$2.name$1, null);
+    $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$3));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
-    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$8, jsx$7, false, $$buf)
+    return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf)
   } else {
     var x = $m_s_None$();
     if ((x === ngo)) {
       var $$md$2 = $m_s_xml_Null$();
       $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("loading entity ngo"), $$md$2, null);
-      var jsx$10 = $$md$2;
-      var jsx$9 = $m_s_xml_TopScope$();
+      var jsx$8 = $$md$2;
+      var jsx$7 = $m_s_xml_TopScope$();
       var array = [];
-      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$10, jsx$9, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
+      return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$8, jsx$7, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))
     } else {
       throw new $c_s_MatchError().init___O(ngo)
     }
@@ -15553,30 +15547,24 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderEntityPreview
     })
   })(this, id));
   $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("data-selected", new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f), $$md, null);
-  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("ngo preview"), $$md, null);
-  var jsx$8 = $$md;
-  var jsx$7 = $m_s_xml_TopScope$();
+  $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("preview entity ngo"), $$md, null);
+  var jsx$6 = $$md;
+  var jsx$5 = $m_s_xml_TopScope$();
   var $$buf = new $c_s_xml_NodeBuffer().init___();
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var jsx$6 = $m_s_xml_Null$();
-  var jsx$5 = $m_s_xml_TopScope$();
-  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
   var jsx$2 = $m_s_xml_Null$();
   var jsx$1 = $m_s_xml_TopScope$();
-  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$3));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n        "));
+  var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("Name"));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dt", jsx$2, jsx$1, false, $$buf$2));
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
   var jsx$4 = $m_s_xml_Null$();
   var jsx$3 = $m_s_xml_TopScope$();
-  var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
-  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(ngo.name$1, null);
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$4));
-  $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf$2));
+  var $$buf$3 = new $c_s_xml_NodeBuffer().init___();
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(ngo.name$1, null);
+  $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dd", jsx$4, jsx$3, false, $$buf$3));
   $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
-  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "section", jsx$8, jsx$7, false, $$buf)
+  return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "dl", jsx$6, jsx$5, false, $$buf)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.indexQueryParameters__Lmhtml_Rx = (function() {
   return (((1 & this.bitmap$0$1) === 0) ? this.indexQueryParameters$lzycompute__p1__Lmhtml_Rx() : this.indexQueryParameters$1)
