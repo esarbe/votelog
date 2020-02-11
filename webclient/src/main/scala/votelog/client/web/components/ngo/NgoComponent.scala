@@ -89,25 +89,21 @@ class NgoComponent(
   }
 
   def renderEntityPreview(id: Ngo.Id, ngo: Ngo): Elem =
-    <section class="ngo preview" data-selected={ selectedId.map(_.contains(id)) }>
-      <dl>
-        <dt>Name</dt>
-        <dd>{ngo.name}</dd>
-      </dl>
-    </section>
+    <dl class="preview entity ngo" data-selected={ selectedId.map(_.contains(id)) }>
+      <dt>Name</dt>
+      <dd>{ngo.name}</dd>
+    </dl>
 
   def renderEntity(ngo: Option[Ngo]): Elem = {
     ngo match {
       case Some(ngo) =>
-        <section class="entity ngo">
-          <dl>
-            <dd>NGO</dd>
-            <dt>{ngo.name}</dt>
-          </dl>
-        </section>
+        <dl class="entity ngo">
+          <dt>Name</dt>
+          <dd>{ngo.name}</dd>
+        </dl>
 
       case None =>
-        <section class="loading entity ngo" />
+        <dl class="loading entity ngo" />
     }
   }
 
