@@ -38,6 +38,7 @@ class AuthenticationService(
   val fetchGuest = userStore.findByName(FallbackUsername).map(_.toRight(UnknownUser(FallbackUsername)))
 
   val fallbackUser: Kleisli[IO, Either[Error, User], Either[Error, User]] = Kleisli {
+    case Left(CookieInvalid) => fetchGuest
     case Left(NoAuthHeader) => fetchGuest
     case Left(NoAuthCookie) => fetchGuest
     case otherwise => IO.pure(otherwise)

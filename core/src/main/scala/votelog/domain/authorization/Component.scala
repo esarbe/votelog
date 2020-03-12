@@ -28,6 +28,8 @@ case class Component(location: String) extends AnyVal {
     this != other && compared.forall(identity)
   }
 
+  def containsOrSelf(other: Component): Boolean = contains(other) || other == this
+
   def child(name: String): Component = Component(s"$location$Separator$name")
   def name: String = location.split(Separator).lastOption.getOrElse(s"")
 }

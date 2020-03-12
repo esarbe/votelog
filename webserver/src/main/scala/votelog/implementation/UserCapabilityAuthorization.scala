@@ -9,7 +9,7 @@ class UserCapabilityAuthorization[F[_]: Applicative] extends AuthorizationAlg[F]
     Applicative[F].pure(
       user
         .permissions
-        .filter(_.component.contains(component))
+        .filter(_.component.containsOrSelf(component))
         .map(_.capability)
         .contains(capability)
     )
