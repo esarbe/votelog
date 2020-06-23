@@ -1322,17 +1322,30 @@ function $asArrayOf_Lvotelog_client_web_components_Authentication$State(obj, dep
   return (($isArrayOf_Lvotelog_client_web_components_Authentication$State(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.client.web.components.Authentication$State;", depth))
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__ids__Lmhtml_Rx($thiz) {
-  var this$2 = $thiz.unstableIds__Lmhtml_Rx();
+  var this$1 = $thiz.unstableIndex__Lmhtml_Rx();
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x$1$2) {
+      var x$1 = $as_s_Option(x$1$2);
+      if (x$1.isEmpty__Z()) {
+        return $m_s_None$()
+      } else {
+        var arg1 = x$1.get__O();
+        var x$2 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(arg1);
+        return new $c_s_Some().init___O(x$2.entities$1)
+      }
+    })
+  })($thiz));
+  var this$3 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
   $m_sci_List$();
   var seed = $m_sci_Nil$();
-  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function($this) {
+  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$2$1) {
     return (function(x0$1$2, x1$1$2) {
       var x0$1 = $as_sci_List(x0$1$2);
       var x1$1 = $as_s_Option(x1$1$2);
       return $as_sci_List((x1$1.isEmpty__Z() ? x0$1 : x1$1.get__O()))
     })
   })($thiz));
-  return new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$2, seed, step)
+  return new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$3, seed, step)
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__renderIndex__F2__s_xml_Elem($thiz, renderEntity) {
   var $$md = $m_s_xml_Null$();
@@ -1365,43 +1378,29 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__mountView__pLvote
   var cancel = $m_Lvotelog_client_web_components_html_DynamicList$().mountOn__Lmhtml_Rx__F1__Lorg_scalajs_dom_raw_Node__F0($thiz.ids__Lmhtml_Rx(), $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__pLvotelog_client_web_components_CrudIndexComponent__F2__F1($thiz, renderEntity), e);
   $thiz.viewCancelable$und$eq__s_Option__V(new $c_s_Some().init___O(new $c_Lmhtml_Cancelable().init___F0(cancel)))
 }
-function $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx($thiz) {
-  var this$6 = $thiz.indexQueryParameters__Lmhtml_Rx();
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(indexQueryParameters$2) {
-      var f = $as_s_concurrent_Future($this.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg().index__O__O(indexQueryParameters$2));
-      var this$5 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
-        return (function(ids$2) {
-          var ids = $as_s_Option(ids$2);
-          if (ids.isEmpty__Z()) {
-            return $m_s_None$()
-          } else {
-            var arg1 = ids.get__O();
-            var x0$1 = $as_s_util_Try(arg1);
-            if ((x0$1 instanceof $c_s_util_Success)) {
-              var x2 = $as_s_util_Success(x0$1);
-              var ids$1 = $as_sci_List(x2.value$2);
-              return new $c_s_Some().init___O(ids$1)
-            } else {
-              if ((!(x0$1 instanceof $c_s_util_Failure))) {
-                throw new $c_s_MatchError().init___O(x0$1)
-              };
-              var x3 = $as_s_util_Failure(x0$1);
-              var error = x3.exception$2;
-              var x = ((("error: " + error) + ", ") + error.getMessage__T());
-              var this$3 = $m_s_Console$();
-              var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
-              this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-              return $m_s_None$()
-            }
-          }
-        })
-      })($this));
-      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$1)
+function $f_Lvotelog_client_web_components_CrudIndexComponent__entitiesCount__Lmhtml_Rx($thiz) {
+  var this$1 = $thiz.unstableIndex__Lmhtml_Rx();
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x$3$2) {
+      var x$3 = $as_s_Option(x$3$2);
+      if (x$3.isEmpty__Z()) {
+        return $m_s_None$()
+      } else {
+        var arg1 = x$3.get__O();
+        var x$4 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(arg1);
+        return new $c_s_Some().init___O(x$4.totalEntities$1)
+      }
     })
   })($thiz));
-  return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$2)
+  var this$3 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f);
+  var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$2) {
+    return (function(x0$1$2, x1$1$2) {
+      var x0$1 = $uI(x0$1$2);
+      var x1$1 = $as_s_Option(x1$1$2);
+      return $uI((x1$1.isEmpty__Z() ? x0$1 : x1$1.get__O()))
+    })
+  })($thiz));
+  return new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$3, 0, step)
 }
 function $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__pLvotelog_client_web_components_CrudIndexComponent__F2__F1($thiz, renderEntity) {
   return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, renderEntity$1) {
@@ -1464,7 +1463,7 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__p
               var entity$3 = x4$1.value$2;
               var $$md = $m_s_xml_Null$();
               $$md = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, id$1$1) {
-                return (function(x$2$2) {
+                return (function(x$6$2) {
                   $this$3.selectedId__Lmhtml_Var().$$colon$eq__O__V(new $c_s_Some().init___O(id$1$1))
                 })
               })(this$2$1, id$1)), $$md, null);
@@ -1484,7 +1483,7 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__renderEntities__p
               var $$md$2 = $m_s_xml_Null$();
               $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("loading"), $$md$2, null);
               $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("onclick", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$2, id$1$2) {
-                return (function(x$3$2$2) {
+                return (function(x$7$2) {
                   this$2$2.selectedId__Lmhtml_Var().$$colon$eq__O__V(new $c_s_Some().init___O(id$1$2))
                 })
               })(this$2$1, id$1)), $$md$2, null);
@@ -1560,10 +1559,48 @@ function $f_Lvotelog_client_web_components_CrudIndexComponent__unmountView__pLvo
   var this$1 = $thiz.viewCancelable__s_Option();
   if ((!this$1.isEmpty__Z())) {
     var arg1 = this$1.get__O();
-    var x$1 = $as_Lmhtml_Cancelable(arg1).cancelFunction$1;
+    var x$5 = $as_Lmhtml_Cancelable(arg1).cancelFunction$1;
     $m_Lmhtml_Cancelable$();
-    x$1.apply__O()
+    x$5.apply__O()
   }
+}
+function $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIndex__Lmhtml_Rx($thiz) {
+  var this$6 = $thiz.indexQueryParameters__Lmhtml_Rx();
+  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(indexQueryParameters$2) {
+      var f = $as_s_concurrent_Future($this.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg().index__O__O(indexQueryParameters$2));
+      var this$5 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+      var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
+        return (function(ids$2) {
+          var ids = $as_s_Option(ids$2);
+          if (ids.isEmpty__Z()) {
+            return $m_s_None$()
+          } else {
+            var arg1 = ids.get__O();
+            var x0$1 = $as_s_util_Try(arg1);
+            if ((x0$1 instanceof $c_s_util_Success)) {
+              var x2 = $as_s_util_Success(x0$1);
+              var ids$1 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(x2.value$2);
+              return new $c_s_Some().init___O(ids$1)
+            } else {
+              if ((!(x0$1 instanceof $c_s_util_Failure))) {
+                throw new $c_s_MatchError().init___O(x0$1)
+              };
+              var x3 = $as_s_util_Failure(x0$1);
+              var error = x3.exception$2;
+              var x = ((("error: " + error) + ", ") + error.getMessage__T());
+              var this$3 = $m_s_Console$();
+              var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
+              this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+              return $m_s_None$()
+            }
+          }
+        })
+      })($this));
+      return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f$1)
+    })
+  })($thiz));
+  return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$2)
 }
 function $is_Lvotelog_domain_authentication_SessionService$Error(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lvotelog_domain_authentication_SessionService$Error)))
@@ -6213,7 +6250,7 @@ $h_Lvotelog_client_web_Application$.prototype = $c_Lvotelog_client_web_Applicati
 $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   $n_Lvotelog_client_web_Application$ = this;
   this.RxUnit$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_Unit$());
-  this.paging$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(20), $m_Lvotelog_client_web_components_Paging$Configuration$().apply$default$2__sc_Seq(), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+  this.paging$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I(new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(20), $m_Lvotelog_client_web_components_Paging$Configuration$().apply$default$2__sc_Seq(), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()), 0);
   var rx = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($as_T($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.href));
   var listener = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, rx$1) {
     return (function(e$2) {
@@ -6267,7 +6304,7 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   this.location$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$17);
   this.defaultContext$1 = new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language($m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, $m_Lvotelog_domain_politics_Language$English$());
   this.context$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(this.defaultContext$1);
-  this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("https://votelog.herokuapp.com/api/v0");
+  this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("http://localhost:8080/api/v0");
   this.root$1 = $m_Lvotelog_domain_authorization_Component$().Root$1;
   this.authService$1 = new $c_Lvotelog_client_service_SessionServiceXhr().init___Lvotelog_client_Configuration(this.configuration$1);
   this.personsStore$1 = new $c_Lvotelog_client_service_PersonStoreXhr().init___Lvotelog_client_Configuration(this.configuration$1);
@@ -7313,9 +7350,9 @@ $c_Lvotelog_client_web_components_Persons.prototype.unountView__Lorg_scalajs_dom
   var this$1 = this.viewCancelable$1;
   if ((!this$1.isEmpty__Z())) {
     var arg1 = this$1.get__O();
-    var x$9 = $as_Lmhtml_Cancelable(arg1).cancelFunction$1;
+    var x$10 = $as_Lmhtml_Cancelable(arg1).cancelFunction$1;
     $m_Lmhtml_Cancelable$();
-    x$9.apply__O()
+    x$10.apply__O()
   }
 });
 $c_Lvotelog_client_web_components_Persons.prototype.previewPerson__F1 = (function() {
@@ -7383,7 +7420,7 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   var jsx$2 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(10);
   var jsx$1 = $m_sc_Seq$();
   var array = [new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(10), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(20), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(40)];
-  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(jsx$2, $as_sc_Seq(jsx$1.apply__sc_Seq__sc_GenTraversable(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I(jsx$2, $as_sc_Seq(jsx$1.apply__sc_Seq__sc_GenTraversable(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array))), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()), 0);
   this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "paging"), this.pagingConfiguration$1);
   this.cache$1 = new $c_scm_HashMap().init___();
   this.viewCancelable$1 = $m_s_None$();
@@ -7415,9 +7452,14 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
             return (function(queryParameters$2) {
               var queryParameters = $as_Lvotelog_domain_politics_Context(queryParameters$2);
               var indexQueryParams = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1, offset$1$1, queryParameters);
-              var f$2 = $m_Lvotelog_client_web_Application$().personsStore$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams);
+              var f$2 = $m_Lvotelog_client_web_Application$().personsStore$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$4) {
+                return (function(x$1$2) {
+                  var x$1 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(x$1$2);
+                  return x$1.entities$1
+                })
+              })($this$3)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
               var this$10 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$2).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-              var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$4) {
+              var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$2) {
                 return (function(ids$2) {
                   var ids = $as_s_Option(ids$2);
                   var rc10 = false;
@@ -7479,15 +7521,15 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   this.ids$1 = new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$15, seed, step);
   var this$23 = this.unstableIds$1;
   var f$8 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
-    return (function(x$2$2) {
-      var x$2 = $as_s_Option(x$2$2);
-      var this$18 = x$2.toList__sci_List();
+    return (function(x$3$2) {
+      var x$3 = $as_s_Option(x$3$2);
+      var this$18 = x$3.toList__sci_List();
       var f$7 = (function($this$5) {
-        return (function(x$3$2) {
-          var x$3 = $as_s_util_Either(x$3$2);
+        return (function(x$4$2) {
+          var x$4 = $as_s_util_Either(x$4$2);
           var jsx$3 = $m_Lcats_syntax_EitherOps$();
           $m_Lcats_implicits$();
-          var eab = x$3.swap__s_util_Either();
+          var eab = x$4.swap__s_util_Either();
           return jsx$3.toList$extension__s_util_Either__sci_List(eab)
         })
       })(this$4$1);
@@ -7559,21 +7601,21 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
             var rx = $as_Lmhtml_Rx(x2$1.value$2);
             var this$26 = rx
           } else {
-            var x$1 = $m_s_None$();
-            if ((!(x$1 === entity))) {
+            var x$2 = $m_s_None$();
+            if ((!(x$2 === entity))) {
               throw new $c_s_MatchError().init___O(entity)
             };
             var this$26 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
           };
-          var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$2) {
+          var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$3) {
             return (function(maybeResult$2) {
               var maybeResult = $as_s_Option(maybeResult$2);
               if (maybeResult.isEmpty__Z()) {
                 return $m_s_None$()
               } else {
                 var arg1$3 = maybeResult.get__O();
-                var x$4 = $as_s_util_Try(arg1$3);
-                return new $c_s_Some().init___O(x$4.toEither__s_util_Either())
+                var x$5 = $as_s_util_Try(arg1$3);
+                return new $c_s_Some().init___O(x$5.toEither__s_util_Either())
               }
             })
           })($this$7));
@@ -7590,12 +7632,12 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   this.maybeEntity$1 = new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$29, f$13, b$1);
   var this$31 = this.maybeSelected$1;
   var f$14 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$6$1) {
-    return (function(x$6$2) {
-      var x$6 = $as_s_Option(x$6$2);
-      if (x$6.isEmpty__Z()) {
+    return (function(x$7$2) {
+      var x$7 = $as_s_Option(x$7$2);
+      if (x$7.isEmpty__Z()) {
         return $m_s_None$()
       } else {
-        var arg1$4 = x$6.get__O();
+        var arg1$4 = x$7.get__O();
         var value = $as_Lvotelog_domain_politics_Person$Id(arg1$4).value$1;
         $m_s_package$();
         var value$1 = new $c_Lvotelog_domain_politics_Person$Id().init___I(value);
@@ -7606,12 +7648,12 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   var this$34 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$31, f$14);
   var this$33 = this.maybeEntity$1;
   var f$15 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$7$1) {
-    return (function(x$7$2) {
-      var x$7 = $as_s_Option(x$7$2);
-      if (x$7.isEmpty__Z()) {
+    return (function(x$8$2) {
+      var x$8 = $as_s_Option(x$8$2);
+      if (x$8.isEmpty__Z()) {
         return $m_s_None$()
       } else {
-        var arg1$5 = x$7.get__O();
+        var arg1$5 = x$8.get__O();
         var value$2 = $as_Lvotelog_domain_politics_Person(arg1$5);
         $m_s_package$();
         return new $c_s_Some().init___O(new $c_s_util_Right().init___O(value$2))
@@ -7624,24 +7666,25 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   var f$16 = new $c_Lvotelog_client_web_components_Persons$$anonfun$2().init___Lvotelog_client_web_components_Persons(this);
   var b$3 = $m_sci_Nil$();
   this.entityError$1 = new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$35, f$16, b$3);
-  var this$42 = this.paging$1.offset$1;
+  var this$43 = this.paging$1.offset$1;
   var f$22 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$8$1) {
     return (function(offset$3$2) {
       var offset$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$3$2);
-      var this$41 = this$8$1.paging$1.pageSize$1;
+      var this$42 = this$8$1.paging$1.pageSize$1;
       var f$21 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$8, offset$4) {
         return (function(pageSize$2$1) {
           var pageSize$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2$1);
-          var this$40 = $this$8.queryParameters$1;
+          var this$41 = $this$8.queryParameters$1;
           var f$20 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$9, pageSize$4, offset$2$1) {
             return (function(queryParameters$2$1) {
               var queryParameters$1 = $as_Lvotelog_domain_politics_Context(queryParameters$2$1);
               var indexQueryParams$1 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$4, offset$2$1, queryParameters$1);
               var ids$3 = $m_Lvotelog_client_web_Application$().personsStore$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams$1);
               var f$18 = ids$3.flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$10, queryParameters$3) {
-                return (function(ids$2$2) {
-                  var ids$2$3 = $as_sci_List(ids$2$2);
+                return (function(index$2) {
+                  var index = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(index$2);
                   var jsx$7 = $m_s_concurrent_Future$();
+                  var this$37 = index.entities$1;
                   var f$17 = (function($this$11, queryParameters$1$1) {
                     return (function(id$2) {
                       var id$1 = $as_Lvotelog_domain_politics_Person$Id(id$2).value$1;
@@ -7651,13 +7694,13 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                   var this$36 = $m_sci_List$();
                   var bf$1 = this$36.ReusableCBFInstance$2;
                   if ((bf$1 === $m_sci_List$().ReusableCBFInstance$2)) {
-                    if ((ids$2$3 === $m_sci_Nil$())) {
+                    if ((this$37 === $m_sci_Nil$())) {
                       var jsx$6 = $m_sci_Nil$()
                     } else {
-                      var arg1$6 = ids$2$3.head__O();
+                      var arg1$6 = this$37.head__O();
                       var h$2 = new $c_sci_$colon$colon().init___O__sci_List(f$17(arg1$6), $m_sci_Nil$());
                       var t$2 = h$2;
-                      var rest$1 = $as_sci_List(ids$2$3.tail__O());
+                      var rest$1 = $as_sci_List(this$37.tail__O());
                       while ((rest$1 !== $m_sci_Nil$())) {
                         var arg1$7 = rest$1.head__O();
                         var nx$1 = new $c_sci_$colon$colon().init___O__sci_List(f$17(arg1$7), $m_sci_Nil$());
@@ -7668,8 +7711,8 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                       var jsx$6 = h$2
                     }
                   } else {
-                    var b$4 = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(ids$2$3, bf$1);
-                    var these$1 = ids$2$3;
+                    var b$4 = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$37, bf$1);
+                    var these$1 = this$37;
                     while ((!these$1.isEmpty__Z())) {
                       var arg1$8 = these$1.head__O();
                       b$4.$$plus$eq__O__scm_Builder(f$17(arg1$8));
@@ -7678,35 +7721,35 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                     var jsx$6 = b$4.result__O()
                   };
                   var jsx$5 = $as_sc_TraversableOnce(jsx$6);
-                  var this$37 = $m_sci_List$();
-                  return jsx$7.sequence__sc_TraversableOnce__scg_CanBuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$5, this$37.ReusableCBFInstance$2, $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
+                  var this$38 = $m_sci_List$();
+                  return jsx$7.sequence__sc_TraversableOnce__scg_CanBuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$5, this$38.ReusableCBFInstance$2, $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
                 })
               })($this$9, queryParameters$1)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-              var this$39 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$18).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+              var this$40 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$18).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
               var f$19 = new $c_Lvotelog_client_web_components_Persons$$anonfun$$nestedInanonfun$model$3$1().init___Lvotelog_client_web_components_Persons($this$9);
               var b$5 = $m_sci_Nil$();
-              return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$39, f$19, b$5)
+              return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$40, f$19, b$5)
             })
           })($this$8, pageSize$3, offset$4));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$40, f$20)
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$41, f$20)
         })
       })(this$8$1, offset$3));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$41, f$21)
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$42, f$21)
     })
   })(this));
-  this.model$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$42, f$22);
-  var this$43 = this.indexError$1;
+  this.model$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$43, f$22);
+  var this$44 = this.indexError$1;
   var other$1 = this.entityError$1;
-  this.errors$1 = new $c_Lmhtml_Rx$Merge().init___Lmhtml_Rx__Lmhtml_Rx(this$43, other$1);
+  this.errors$1 = new $c_Lmhtml_Rx$Merge().init___Lmhtml_Rx__Lmhtml_Rx(this$44, other$1);
   this.render$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$9$1) {
     return (function(id$2$1) {
       var id$3 = $as_Lvotelog_domain_politics_Person$Id(id$2$1).value$1;
-      var this$51 = this$9$1.language$1;
+      var this$52 = this$9$1.language$1;
       var f$25 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$12, id$4) {
         return (function(language$2$3) {
           var language$4 = $as_Lvotelog_domain_politics_Language(language$2$3);
           var f$23 = $m_Lvotelog_client_web_Application$().personsStore$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(language$4, id$4);
-          var this$50 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$23).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+          var this$51 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$23).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
           var f$24 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$13, id$1$1) {
             return (function(person$2) {
               var person = $as_s_Option(person$2);
@@ -7734,8 +7777,8 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                   return new $c_s_util_Left().init___O(exception)
                 }
               };
-              var x$5 = $m_s_None$();
-              if ((x$5 === person)) {
+              var x$6 = $m_s_None$();
+              if ((x$6 === person)) {
                 $m_s_package$();
                 $m_s_package$();
                 var value$4 = new $c_Lvotelog_domain_politics_Person$Id().init___I(id$1$1);
@@ -7745,17 +7788,17 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
               throw new $c_s_MatchError().init___O(person)
             })
           })($this$12, id$4));
-          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$50, f$24)
+          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$51, f$24)
         })
       })(this$9$1, id$3));
-      var person$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$51, f$25);
-      var f$26 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$3) {
+      var person$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$52, f$25);
+      var f$26 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$4) {
         return (function(x0$2$2) {
           var x0$2 = $as_s_util_Either(x0$2$2);
           if ((x0$2 instanceof $c_s_util_Right)) {
             var x2$3 = $as_s_util_Right(x0$2);
             var person$3 = $as_s_util_Either(x2$3.value$2);
-            return $as_s_xml_Node(this$2$3.previewPerson__F1().apply__O__O(person$3))
+            return $as_s_xml_Node(this$2$4.previewPerson__F1().apply__O__O(person$3))
           } else if ((x0$2 instanceof $c_s_util_Left)) {
             var x3 = $as_s_util_Left(x0$2);
             var exception$1 = $as_jl_Throwable(x3.value$2);
@@ -7805,20 +7848,20 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   var array$1 = [];
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "ul", jsx$13, jsx$12, true, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1)));
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n      "));
-  var this$54 = this.maybeIdOrEntity$1;
+  var this$55 = this.maybeIdOrEntity$1;
   var f$27 = this.renderEntity__F1();
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$54, f$27), null);
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$55, f$27), null);
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n    "));
   $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "article", jsx$15, jsx$14, false, $$buf$3));
   var jsx$20 = $m_s_xml_Null$();
   var jsx$19 = $m_s_xml_TopScope$();
   var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
   $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var this$57 = this.errors$1;
+  var this$58 = this.errors$1;
   var f$29 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$12$1) {
-    return (function(x$10$2) {
-      var x$10 = $as_sc_Iterable(x$10$2);
-      var this$56 = x$10.toList__sci_List();
+    return (function(x$11$2) {
+      var x$11 = $as_sc_Iterable(x$11$2);
+      var this$57 = x$11.toList__sci_List();
       var f$28 = (function($this$14) {
         return (function(error$2) {
           var error$1 = $as_jl_Throwable(error$2);
@@ -7831,16 +7874,16 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
           return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "error", jsx$17, jsx$16, false, $$buf$5)
         })
       })(this$12$1);
-      var this$55 = $m_sci_List$();
-      var bf$2 = this$55.ReusableCBFInstance$2;
+      var this$56 = $m_sci_List$();
+      var bf$2 = this$56.ReusableCBFInstance$2;
       if ((bf$2 === $m_sci_List$().ReusableCBFInstance$2)) {
-        if ((this$56 === $m_sci_Nil$())) {
+        if ((this$57 === $m_sci_Nil$())) {
           var jsx$18 = $m_sci_Nil$()
         } else {
-          var arg1$9 = this$56.head__O();
+          var arg1$9 = this$57.head__O();
           var h$3 = new $c_sci_$colon$colon().init___O__sci_List(f$28(arg1$9), $m_sci_Nil$());
           var t$3 = h$3;
-          var rest$2 = $as_sci_List(this$56.tail__O());
+          var rest$2 = $as_sci_List(this$57.tail__O());
           while ((rest$2 !== $m_sci_Nil$())) {
             var arg1$10 = rest$2.head__O();
             var nx$2 = new $c_sci_$colon$colon().init___O__sci_List(f$28(arg1$10), $m_sci_Nil$());
@@ -7851,8 +7894,8 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
           var jsx$18 = h$3
         }
       } else {
-        var b$6 = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$56, bf$2);
-        var these$2 = this$56;
+        var b$6 = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$57, bf$2);
+        var these$2 = this$57;
         while ((!these$2.isEmpty__Z())) {
           var arg1$11 = these$2.head__O();
           b$6.$$plus$eq__O__scm_Builder(f$28(arg1$11));
@@ -7863,7 +7906,7 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
       return $as_sci_List(jsx$18)
     })
   })(this));
-  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$57, f$29), null);
+  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$58, f$29), null);
   $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "messages", jsx$20, jsx$19, false, $$buf$4));
   this.view$1 = new $c_s_xml_Group().init___sc_Seq($$buf$1);
@@ -14323,8 +14366,8 @@ $c_Lvotelog_client_service_NgoStoreXhr$$Lambda$2.prototype.$classData = $d_Lvote
 function $c_Lvotelog_client_service_ReadOnlyStoreXhr() {
   $c_O.call(this);
   this.evidence$1$1 = null;
-  this.evidence$2$1 = null;
-  this.evidence$3$1 = null
+  this.evidence$3$1 = null;
+  this.indexDecoder$1 = null
 }
 $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype = new $h_O();
 $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.constructor = $c_Lvotelog_client_service_ReadOnlyStoreXhr;
@@ -14367,17 +14410,17 @@ $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.read__O__O__s_concurrent_F
     })
   })(this)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
 });
+$c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Decoder = (function(evidence$1, evidence$2, evidence$3, indexDecoder) {
+  this.evidence$1$1 = evidence$1;
+  this.evidence$3$1 = evidence$3;
+  this.indexDecoder$1 = indexDecoder;
+  return this
+});
 $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.encode__O__Lvotelog_client_service_HttpQueryParameter__T = (function(p, evidence$4) {
   return evidence$4.encode__O__T(p)
 });
 $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.read__O__O__O = (function(queryParameters, id) {
   return this.read__O__O__s_concurrent_Future(queryParameters, id)
-});
-$c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder = (function(evidence$1, evidence$2, evidence$3) {
-  this.evidence$1$1 = evidence$1;
-  this.evidence$2$1 = evidence$2;
-  this.evidence$3$1 = evidence$3;
-  return this
 });
 $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.index__O__s_concurrent_Future = (function(queryParameters) {
   var x = ("" + this.indexUrl$2);
@@ -14389,22 +14432,20 @@ $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.index__O__s_concurrent_Fut
   var this$6 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$6.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(res$2) {
-      var this$8 = $m_Lio_circe_parser_package$();
+      var this$7 = $m_Lio_circe_parser_package$();
       var input = $as_T(res$2.responseText);
-      $m_Lio_circe_Decoder$();
-      var decodeA = $this.evidence$2$1;
-      var evidence$1 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA);
-      var this$9 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$8, input, evidence$1);
-      if ((this$9 instanceof $c_s_util_Right)) {
-        var x2 = $as_s_util_Right(this$9);
+      var evidence$1 = $this.indexDecoder$1;
+      var this$8 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$7, input, evidence$1);
+      if ((this$8 instanceof $c_s_util_Right)) {
+        var x2 = $as_s_util_Right(this$8);
         var b = x2.value$2;
-        var result = $as_sci_List(b);
+        var result = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(b);
         return $m_s_concurrent_Future$().successful__O__s_concurrent_Future(result)
       } else {
-        if ((!(this$9 instanceof $c_s_util_Left))) {
-          throw new $c_s_MatchError().init___O(this$9)
+        if ((!(this$8 instanceof $c_s_util_Left))) {
+          throw new $c_s_MatchError().init___O(this$8)
         };
-        var x3 = $as_s_util_Left(this$9);
+        var x3 = $as_s_util_Left(this$8);
         var a = x3.value$2;
         var exception = $as_jl_Throwable(a);
         return $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(exception)
@@ -14637,17 +14678,18 @@ function $c_Lvotelog_client_web_components_UserComponent() {
   this.create$module$1 = null;
   this.view$1 = null;
   this.votelog$client$web$components$UserComponent$$component$f = null;
+  this.configuration$1 = null;
   this.store$1 = null;
   this.indexQueryParameters$1 = null;
   this.queryParameters$1 = null;
   this.queryParametersView$1 = null;
   this.errors$1 = null;
-  this.pagingConfiguration$1 = null;
   this.paging$1 = null;
   this.viewCancelable$1 = null;
   this.selectedId$1 = null;
-  this.unstableIds$1 = null;
+  this.unstableIndex$1 = null;
   this.ids$1 = null;
+  this.entitiesCount$1 = null;
   this.selectedEntity$1 = null;
   this.bitmap$0$1 = 0
 }
@@ -14801,32 +14843,50 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.renderEntity__s_Option
     }
   }
 });
+$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIndex$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIndex$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIndex__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.unstableIndex$1
+});
 $c_Lvotelog_client_web_components_UserComponent.prototype.viewCancelable__s_Option = (function() {
   return this.viewCancelable$1
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
   this.selectedId$1 = x$1
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+$c_Lvotelog_client_web_components_UserComponent.prototype.entitiesCount$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((8 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.entitiesCount$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__entitiesCount__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((8 | this.bitmap$0$1) << 24) >> 24)
   };
-  return this.unstableIds$1
+  return this.entitiesCount$1
 });
-$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
+$c_Lvotelog_client_web_components_UserComponent.prototype.entitiesCount__Lmhtml_Rx = (function() {
+  return (((((8 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.entitiesCount$lzycompute__p1__Lmhtml_Rx() : this.entitiesCount$1)
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.init___T__Lvotelog_client_web_components_UserComponent$Configuration__Lvotelog_persistence_UserStore = (function(component, configuration, store) {
   this.votelog$client$web$components$UserComponent$$component$f = component;
+  this.configuration$1 = configuration;
   this.store$1 = store;
   $f_Lvotelog_client_web_components_CrudIndexComponent__$$init$__V(this);
   this.indexQueryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
   this.queryParameters$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx((void 0));
   this.queryParametersView$1 = $m_s_None$();
   this.errors$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_sci_Nil$());
-  this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(configuration.defaultPageSize$1, configuration.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
-  this.paging$1 = new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T(component, "paging"), this.pagingConfiguration$1);
+  var this$3 = this.entitiesCount__Lmhtml_Rx();
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(totalEntities$2) {
+      var totalEntities = $uI(totalEntities$2);
+      var x$1 = $this.configuration$1.defaultPageSize$1;
+      var x$2 = $this.configuration$1.pageSizes$1;
+      var x$4 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong());
+      var pagingConfiguration = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I(x$1, x$2, x$4, totalEntities);
+      return new $c_Lvotelog_client_web_components_Paging().init___T__Lvotelog_client_web_components_Paging$Configuration($m_Lvotelog_domain_authorization_Component$().child$extension__T__T__T($this.votelog$client$web$components$UserComponent$$component$f, "paging"), pagingConfiguration).view$1
+    })
+  })(this));
+  this.paging$1 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$3, f);
   return this
 });
 $c_Lvotelog_client_web_components_UserComponent.prototype.selectedId__Lmhtml_Var = (function() {
@@ -14880,6 +14940,9 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.ids$lzycompute__p1__Lm
   };
   return this.ids$1
 });
+$c_Lvotelog_client_web_components_UserComponent.prototype.unstableIndex__Lmhtml_Rx = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIndex$lzycompute__p1__Lmhtml_Rx() : this.unstableIndex$1)
+});
 $c_Lvotelog_client_web_components_UserComponent.prototype.store__Lvotelog_domain_crudi_ReadOnlyStoreAlg = (function() {
   return this.store$1
 });
@@ -14890,7 +14953,7 @@ $c_Lvotelog_client_web_components_UserComponent.prototype.view$lzycompute__p1__s
     var jsx$1 = $m_s_xml_TopScope$();
     var $$buf$2 = new $c_s_xml_NodeBuffer().init___();
     $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-    $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(this.paging$1.view$1);
+    $$buf$2.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(this.paging$1, null);
     $$buf$2.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
     $$buf.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sc_Seq(null, "controls", jsx$2, jsx$1, false, $$buf$2));
     var $$md = $m_s_xml_Null$();
@@ -15018,8 +15081,9 @@ function $c_Lvotelog_client_web_components_business_BusinessComponent() {
   this.errors$1 = null;
   this.viewCancelable$1 = null;
   this.selectedId$1 = null;
-  this.unstableIds$1 = null;
+  this.unstableIndex$1 = null;
   this.ids$1 = null;
+  this.entitiesCount$1 = null;
   this.selectedEntity$1 = null;
   this.bitmap$0$1 = 0
 }
@@ -15035,7 +15099,7 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.ids__Lmht
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration = (function() {
   if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(this.configuration$1.defaultPageSize$1, this.configuration$1.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+    this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I(this.configuration$1.defaultPageSize$1, this.configuration$1.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()), 0);
     this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
   };
   return this.pagingConfiguration$1
@@ -15166,21 +15230,18 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.paging$lz
   };
   return this.paging$1
 });
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIndex$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((((32 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.unstableIndex$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIndex__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (((32 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.unstableIndex$1
+});
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.viewCancelable__s_Option = (function() {
   return this.viewCancelable$1
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
   this.selectedId$1 = x$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((((32 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (((32 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.unstableIds$1
-});
-$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
-  return (((((32 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.indexQueryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
   if (((((8 & this.bitmap$0$1) << 24) >> 24) === 0)) {
@@ -15280,6 +15341,9 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.init___T_
   this.legislativePeriod$1 = new $c_Lvotelog_client_web_components_html_StaticSelect().init___T__sc_Seq__O__T__T__Lcats_Show__s_math_Ordering("legislative period", $m_Lvotelog_domain_politics_LegislativePeriod$().ids$1, $m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, "legislativePeriod", "legislativePeriod", $m_Lvotelog_domain_politics_LegislativePeriod$Id$().legislativePeriodShow$1, $m_Lvotelog_domain_politics_LegislativePeriod$Id$().legislativeIdOrdering$1);
   this.errors$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_sci_Nil$());
   return this
+});
+$c_Lvotelog_client_web_components_business_BusinessComponent.prototype.unstableIndex__Lmhtml_Rx = (function() {
+  return (((((32 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.unstableIndex$lzycompute__p1__Lmhtml_Rx() : this.unstableIndex$1)
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.pagingConfiguration__Lvotelog_client_web_components_Paging$Configuration = (function() {
   return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration() : this.pagingConfiguration$1)
@@ -15418,8 +15482,9 @@ function $c_Lvotelog_client_web_components_ngo_NgoComponent() {
   this.store$1 = null;
   this.viewCancelable$1 = null;
   this.selectedId$1 = null;
-  this.unstableIds$1 = null;
+  this.unstableIndex$1 = null;
   this.ids$1 = null;
+  this.entitiesCount$1 = null;
   this.selectedEntity$1 = null;
   this.bitmap$0$1 = 0
 }
@@ -15435,7 +15500,7 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.ids__Lmhtml_Rx = (f
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration = (function() {
   if (((16 & this.bitmap$0$1) === 0)) {
-    this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(this.configuration$1.defaultPageSize$1, this.configuration$1.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()));
+    this.pagingConfiguration$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I(this.configuration$1.defaultPageSize$1, this.configuration$1.pageSizes$1, new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()), 0);
     this.bitmap$0$1 = (16 | this.bitmap$0$1)
   };
   return this.pagingConfiguration$1
@@ -15492,18 +15557,18 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.renderEntity__s_Opt
     }
   }
 });
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIndex$lzycompute__p1__Lmhtml_Rx = (function() {
+  if (((128 & this.bitmap$0$1) === 0)) {
+    this.unstableIndex$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIndex__Lmhtml_Rx(this);
+    this.bitmap$0$1 = (128 | this.bitmap$0$1)
+  };
+  return this.unstableIndex$1
+});
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.viewCancelable__s_Option = (function() {
   return this.viewCancelable$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.votelog$client$web$components$CrudIndexComponent$$undsetter$und$selectedId$und$eq__Lmhtml_Var__V = (function(x$1) {
   this.selectedId$1 = x$1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds$lzycompute__p1__Lmhtml_Rx = (function() {
-  if (((128 & this.bitmap$0$1) === 0)) {
-    this.unstableIds$1 = $f_Lvotelog_client_web_components_CrudIndexComponent__unstableIds__Lmhtml_Rx(this);
-    this.bitmap$0$1 = (128 | this.bitmap$0$1)
-  };
-  return this.unstableIds$1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.errors$lzycompute__p1__Lmhtml_Rx = (function() {
   if (((8 & this.bitmap$0$1) === 0)) {
@@ -15511,9 +15576,6 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.errors$lzycompute__
     this.bitmap$0$1 = (8 | this.bitmap$0$1)
   };
   return this.errors$1
-});
-$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIds__Lmhtml_Rx = (function() {
-  return (((128 & this.bitmap$0$1) === 0) ? this.unstableIds$lzycompute__p1__Lmhtml_Rx() : this.unstableIds$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.indexQueryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
   if (((1 & this.bitmap$0$1) === 0)) {
@@ -15578,6 +15640,9 @@ $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.ids$lzycompute__p1_
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.errors__Lmhtml_Rx = (function() {
   return (((8 & this.bitmap$0$1) === 0) ? this.errors$lzycompute__p1__Lmhtml_Rx() : this.errors$1)
+});
+$c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.unstableIndex__Lmhtml_Rx = (function() {
+  return (((128 & this.bitmap$0$1) === 0) ? this.unstableIndex$lzycompute__p1__Lmhtml_Rx() : this.unstableIndex$1)
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.pagingConfiguration__Lvotelog_client_web_components_Paging$Configuration = (function() {
   return (((16 & this.bitmap$0$1) === 0) ? this.pagingConfiguration$lzycompute__p1__Lvotelog_client_web_components_Paging$Configuration() : this.pagingConfiguration$1)
@@ -17109,16 +17174,16 @@ $c_sr_AbstractFunction2.prototype.toString__T = (function() {
   return "<function2>"
 });
 /** @constructor */
-function $c_sr_AbstractFunction3() {
+function $c_sr_AbstractFunction4() {
   $c_O.call(this)
 }
-$c_sr_AbstractFunction3.prototype = new $h_O();
-$c_sr_AbstractFunction3.prototype.constructor = $c_sr_AbstractFunction3;
+$c_sr_AbstractFunction4.prototype = new $h_O();
+$c_sr_AbstractFunction4.prototype.constructor = $c_sr_AbstractFunction4;
 /** @constructor */
-function $h_sr_AbstractFunction3() {
+function $h_sr_AbstractFunction4() {
   /*<skip>*/
 }
-$h_sr_AbstractFunction3.prototype = $c_sr_AbstractFunction3.prototype;
+$h_sr_AbstractFunction4.prototype = $c_sr_AbstractFunction4.prototype;
 /** @constructor */
 function $c_sr_BooleanRef() {
   $c_O.call(this);
@@ -19283,11 +19348,11 @@ $c_Lio_circe_Json$.prototype.arrayEq__p1__sc_Seq__sc_Seq__Z = (function(x, y) {
   };
   return (it0.hasNext__Z() === it1.hasNext__Z())
 });
-$c_Lio_circe_Json$.prototype.fromLong__J__Lio_circe_Json = (function(value) {
-  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonLong().init___J(value))
-});
 $c_Lio_circe_Json$.prototype.fromFloatOrNull__F__Lio_circe_Json = (function(value) {
   return (((value === value) && (!((value === Infinity) || (value === (-Infinity))))) ? new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonFloat().init___F(value)) : this.Null$1)
+});
+$c_Lio_circe_Json$.prototype.fromLong__J__Lio_circe_Json = (function(value) {
+  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonLong().init___J(value))
 });
 $c_Lio_circe_Json$.prototype.fromBigDecimal__s_math_BigDecimal__Lio_circe_Json = (function(value) {
   return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonBigDecimal().init___Ljava_math_BigDecimal(value.bigDecimal$3))
@@ -22506,9 +22571,9 @@ $c_Lvotelog_client_service_PersonStoreXhr.prototype.index__Lvotelog_domain_crudi
   var jsx$1 = this$3.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "");
   var eta$0$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(res$2) {
-      $m_Lio_circe_Decoder$();
-      var decodeA = $m_Lvotelog_orphans_circe_implicits$().personIdCodec$1;
-      return $this.asJson__Lorg_scalajs_dom_raw_XMLHttpRequest__Lio_circe_Decoder__s_concurrent_Future(res$2, new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA))
+      $m_Lvotelog_orphans_circe_implicits$();
+      var evidence$1 = $m_Lvotelog_orphans_circe_implicits$().personIdCodec$1;
+      return $this.asJson__Lorg_scalajs_dom_raw_XMLHttpRequest__Lio_circe_Decoder__s_concurrent_Future(res$2, new $c_Lvotelog_orphans_circe_implicits$$anon$37().init___Lio_circe_Codec(evidence$1))
     })
   })(this));
   return jsx$1.flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, eta$0$1$1) {
@@ -22655,7 +22720,8 @@ function $c_Lvotelog_client_service_StoreXhr() {
   this.evidence$1$1 = null;
   this.evidence$2$1 = null;
   this.evidence$3$1 = null;
-  this.evidence$4$1 = null
+  this.evidence$4$1 = null;
+  this.indexDecoder$1 = null
 }
 $c_Lvotelog_client_service_StoreXhr.prototype = new $h_O();
 $c_Lvotelog_client_service_StoreXhr.prototype.constructor = $c_Lvotelog_client_service_StoreXhr;
@@ -22668,6 +22734,14 @@ $c_Lvotelog_client_service_StoreXhr.prototype.param__O__T = (function(id) {
   $m_Lio_circe_KeyEncoder$();
   var A = this.evidence$3$1;
   return ("/" + A.apply__O__T(id))
+});
+$c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Decoder = (function(evidence$1, evidence$2, evidence$3, evidence$4, indexDecoder) {
+  this.evidence$1$1 = evidence$1;
+  this.evidence$2$1 = evidence$2;
+  this.evidence$3$1 = evidence$3;
+  this.evidence$4$1 = evidence$4;
+  this.indexDecoder$1 = indexDecoder;
+  return this
 });
 $c_Lvotelog_client_service_StoreXhr.prototype.index__O__O = (function(queryParameters) {
   return this.index__O__s_concurrent_Future(queryParameters)
@@ -22692,8 +22766,8 @@ $c_Lvotelog_client_service_StoreXhr.prototype.read__O__O__s_concurrent_Future = 
         };
         var x3 = $as_s_util_Left(this$5);
         var a = x3.value$2;
-        var exception = $as_jl_Throwable(a);
-        return $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(exception)
+        var x$5$1 = $as_Lio_circe_Error(a);
+        return $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(x$5$1)
       }
     })
   })(this)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
@@ -22730,38 +22804,29 @@ $c_Lvotelog_client_service_StoreXhr.prototype.create__O__s_concurrent_Future = (
 $c_Lvotelog_client_service_StoreXhr.prototype.read__O__O__O = (function(queryParameters, id) {
   return this.read__O__O__s_concurrent_Future(queryParameters, id)
 });
-$c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder = (function(evidence$1, evidence$2, evidence$3, evidence$4) {
-  this.evidence$1$1 = evidence$1;
-  this.evidence$2$1 = evidence$2;
-  this.evidence$3$1 = evidence$3;
-  this.evidence$4$1 = evidence$4;
-  return this
-});
 $c_Lvotelog_client_service_StoreXhr.prototype.index__O__s_concurrent_Future = (function(queryParameters) {
   var x$1 = (("" + this.indexUrl__T()) + this.queryParam__O__Lvotelog_client_service_HttpQueryParameter__T(queryParameters, this.indexQueryParameterBuilder__Lvotelog_client_service_HttpQueryParameter()));
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$3 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$3.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(res$2) {
-      var this$5 = $m_Lio_circe_parser_package$();
+      var this$4 = $m_Lio_circe_parser_package$();
       var input = $as_T(res$2.responseText);
-      $m_Lio_circe_Decoder$();
-      var decodeA = $this.evidence$2$1;
-      var evidence$1 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA);
-      var this$6 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$5, input, evidence$1);
-      if ((this$6 instanceof $c_s_util_Right)) {
-        var x2 = $as_s_util_Right(this$6);
+      var evidence$1 = $this.indexDecoder$1;
+      var this$5 = $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$4, input, evidence$1);
+      if ((this$5 instanceof $c_s_util_Right)) {
+        var x2 = $as_s_util_Right(this$5);
         var b = x2.value$2;
-        var result = $as_sci_List(b);
-        return $m_s_concurrent_Future$().successful__O__s_concurrent_Future(result)
+        var x$4 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(b);
+        return $m_s_concurrent_Future$().successful__O__s_concurrent_Future(x$4)
       } else {
-        if ((!(this$6 instanceof $c_s_util_Left))) {
-          throw new $c_s_MatchError().init___O(this$6)
+        if ((!(this$5 instanceof $c_s_util_Left))) {
+          throw new $c_s_MatchError().init___O(this$5)
         };
-        var x3 = $as_s_util_Left(this$6);
+        var x3 = $as_s_util_Left(this$5);
         var a = x3.value$2;
-        var exception = $as_jl_Throwable(a);
-        return $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(exception)
+        var x$3 = $as_Lio_circe_Error(a);
+        return $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future(x$3)
       }
     })
   })(this)), $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext())
@@ -28871,6 +28936,15 @@ $h_Lio_circe_Error.prototype = $c_Lio_circe_Error.prototype;
 $c_Lio_circe_Error.prototype.fillInStackTrace__jl_Throwable = (function() {
   return this
 });
+function $as_Lio_circe_Error(obj) {
+  return (((obj instanceof $c_Lio_circe_Error) || (obj === null)) ? obj : $throwClassCastException(obj, "io.circe.Error"))
+}
+function $isArrayOf_Lio_circe_Error(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lio_circe_Error)))
+}
+function $asArrayOf_Lio_circe_Error(obj, depth) {
+  return (($isArrayOf_Lio_circe_Error(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.Error;", depth))
+}
 /** @constructor */
 function $c_Lio_circe_Json() {
   $c_O.call(this)
@@ -31877,7 +31951,12 @@ function $h_Lvotelog_client_service_BusinessStoreXhr() {
 }
 $h_Lvotelog_client_service_BusinessStoreXhr.prototype = $c_Lvotelog_client_service_BusinessStoreXhr.prototype;
 $c_Lvotelog_client_service_BusinessStoreXhr.prototype.init___Lvotelog_client_Configuration = (function(configuration) {
-  $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder.call(this, $m_Lvotelog_orphans_circe_implicits$().businessCodec$1, $m_Lvotelog_orphans_circe_implicits$().businessIdCodec$1, $m_Lvotelog_orphans_circe_implicits$().businessIdKeyEncoder$1);
+  var jsx$3 = $m_Lvotelog_orphans_circe_implicits$().businessCodec$1;
+  var jsx$2 = $m_Lvotelog_orphans_circe_implicits$().businessIdCodec$1;
+  var jsx$1 = $m_Lvotelog_orphans_circe_implicits$().businessIdKeyEncoder$1;
+  $m_Lvotelog_orphans_circe_implicits$();
+  var evidence$1 = $m_Lvotelog_orphans_circe_implicits$().businessIdCodec$1;
+  $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Decoder.call(this, jsx$3, jsx$2, jsx$1, new $c_Lvotelog_orphans_circe_implicits$$anon$37().init___Lio_circe_Codec(evidence$1));
   this.indexUrl$2 = (configuration.url$1 + "/business");
   this.contextParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().contextParams$1;
   this.queryParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().langParam$1;
@@ -36657,8 +36736,7 @@ $c_Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder.prototype.init___Lio_cir
 $c_Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder.prototype.encodeArray__O__sci_Vector = (function(a) {
   $m_s_package$();
   var builder = new $c_sci_VectorBuilder().init___();
-  var a$1 = $as_sci_Set(a);
-  var iterator = a$1.iterator__sc_Iterator();
+  var iterator = this.toIterator__O__sc_Iterator(a);
   while (iterator.hasNext__Z()) {
     var elem = this.encodeA$1.apply__O__Lio_circe_Json(iterator.next__O());
     builder.$$plus$eq__O__sci_VectorBuilder(elem)
@@ -38077,7 +38155,13 @@ $c_Lvotelog_client_service_UserStoreXhr.prototype.indexQueryParameterBuilder__Lv
   return this.indexQueryParameterBuilder$2
 });
 $c_Lvotelog_client_service_UserStoreXhr.prototype.init___Lvotelog_client_Configuration = (function(configuration) {
-  $c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder.call(this, $m_Lvotelog_orphans_circe_implicits$().userCodec$1, $m_Lvotelog_orphans_circe_implicits$().userIdDecoder$1, $m_Lvotelog_orphans_circe_implicits$().keyEncoderUserId$1, $m_Lvotelog_orphans_circe_implicits$().userStoreRecipleCodec$1);
+  var jsx$4 = $m_Lvotelog_orphans_circe_implicits$().userCodec$1;
+  var jsx$3 = $m_Lvotelog_orphans_circe_implicits$().userIdDecoder$1;
+  var jsx$2 = $m_Lvotelog_orphans_circe_implicits$().keyEncoderUserId$1;
+  var jsx$1 = $m_Lvotelog_orphans_circe_implicits$().userStoreRecipleCodec$1;
+  $m_Lvotelog_orphans_circe_implicits$();
+  var evidence$1 = $m_Lvotelog_orphans_circe_implicits$().userIdDecoder$1;
+  $c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Decoder.call(this, jsx$4, jsx$3, jsx$2, jsx$1, new $c_Lvotelog_orphans_circe_implicits$$anon$37().init___Lio_circe_Codec(evidence$1));
   this.indexUrl$2 = (configuration.url$1 + "/user");
   this.indexQueryParameterBuilder$2 = new $c_Lvotelog_client_service_UserStoreXhr$$Lambda$1().init___O((function($this) {
     return (function(x$1$2) {
@@ -38112,7 +38196,8 @@ function $c_Lvotelog_client_web_components_Paging$Configuration() {
   $c_O.call(this);
   this.defaultPageSize$1 = null;
   this.pageSizes$1 = null;
-  this.defaultOffset$1 = null
+  this.defaultOffset$1 = null;
+  this.totalEntities$1 = 0
 }
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype = new $h_O();
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype.constructor = $c_Lvotelog_client_web_components_Paging$Configuration;
@@ -38125,7 +38210,7 @@ $c_Lvotelog_client_web_components_Paging$Configuration.prototype.productPrefix__
   return "Configuration"
 });
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype.productArity__I = (function() {
-  return 3
+  return 4
 });
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
@@ -38137,14 +38222,19 @@ $c_Lvotelog_client_web_components_Paging$Configuration.prototype.equals__O__Z = 
     if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
       var x$3 = this.pageSizes$1;
       var x$4 = Configuration$1.pageSizes$1;
-      var jsx$1 = ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+      var jsx$2 = ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+    } else {
+      var jsx$2 = false
+    };
+    if (jsx$2) {
+      var x$5 = this.defaultOffset$1;
+      var x$6 = Configuration$1.defaultOffset$1;
+      var jsx$1 = ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
     } else {
       var jsx$1 = false
     };
     if (jsx$1) {
-      var x$5 = this.defaultOffset$1;
-      var x$6 = Configuration$1.defaultOffset$1;
-      return ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
+      return (this.totalEntities$1 === Configuration$1.totalEntities$1)
     } else {
       return false
     }
@@ -38166,23 +38256,32 @@ $c_Lvotelog_client_web_components_Paging$Configuration.prototype.productElement_
       return this.defaultOffset$1;
       break
     }
+    case 3: {
+      return this.totalEntities$1;
+      break
+    }
     default: {
       throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
     }
   }
 });
-$c_Lvotelog_client_web_components_Paging$Configuration.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
-});
-$c_Lvotelog_client_web_components_Paging$Configuration.prototype.init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset = (function(defaultPageSize, pageSizes, defaultOffset) {
+$c_Lvotelog_client_web_components_Paging$Configuration.prototype.init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I = (function(defaultPageSize, pageSizes, defaultOffset, totalEntities) {
   this.defaultPageSize$1 = defaultPageSize;
   this.pageSizes$1 = pageSizes;
   this.defaultOffset$1 = defaultOffset;
+  this.totalEntities$1 = totalEntities;
   return this
 });
+$c_Lvotelog_client_web_components_Paging$Configuration.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype.hashCode__I = (function() {
-  var this$2 = $m_s_util_hashing_MurmurHash3$();
-  return this$2.productHash__s_Product__I__I(this, (-889275714))
+  var acc = (-889275714);
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.defaultPageSize$1));
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.pageSizes$1));
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.defaultOffset$1));
+  acc = $m_sr_Statics$().mix__I__I__I(acc, this.totalEntities$1);
+  return $m_sr_Statics$().finalizeHash__I__I__I(acc, 4)
 });
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype.productIterator__sc_Iterator = (function() {
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
@@ -38209,9 +38308,9 @@ var $d_Lvotelog_client_web_components_Paging$Configuration = new $TypeData().ini
 $c_Lvotelog_client_web_components_Paging$Configuration.prototype.$classData = $d_Lvotelog_client_web_components_Paging$Configuration;
 /** @constructor */
 function $c_Lvotelog_client_web_components_Paging$Configuration$() {
-  $c_sr_AbstractFunction3.call(this)
+  $c_sr_AbstractFunction4.call(this)
 }
-$c_Lvotelog_client_web_components_Paging$Configuration$.prototype = new $h_sr_AbstractFunction3();
+$c_Lvotelog_client_web_components_Paging$Configuration$.prototype = new $h_sr_AbstractFunction4();
 $c_Lvotelog_client_web_components_Paging$Configuration$.prototype.constructor = $c_Lvotelog_client_web_components_Paging$Configuration$;
 /** @constructor */
 function $h_Lvotelog_client_web_components_Paging$Configuration$() {
@@ -38233,9 +38332,9 @@ var $d_Lvotelog_client_web_components_Paging$Configuration$ = new $TypeData().in
   Lvotelog_client_web_components_Paging$Configuration$: 0
 }, false, "votelog.client.web.components.Paging$Configuration$", {
   Lvotelog_client_web_components_Paging$Configuration$: 1,
-  sr_AbstractFunction3: 1,
+  sr_AbstractFunction4: 1,
   O: 1,
-  F3: 1,
+  F4: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
@@ -39059,6 +39158,93 @@ var $d_Lvotelog_domain_authorization_Component = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lvotelog_domain_authorization_Component.prototype.$classData = $d_Lvotelog_domain_authorization_Component;
+/** @constructor */
+function $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index() {
+  $c_O.call(this);
+  this.totalEntities$1 = 0;
+  this.entities$1 = null
+}
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype = new $h_O();
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.constructor = $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index;
+/** @constructor */
+function $h_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype = $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype;
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.productPrefix__T = (function() {
+  return "Index"
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.productArity__I = (function() {
+  return 2
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.equals__O__Z = (function(x$1) {
+  if ((this === x$1)) {
+    return true
+  } else if ((x$1 instanceof $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index)) {
+    var Index$1 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(x$1);
+    if ((this.totalEntities$1 === Index$1.totalEntities$1)) {
+      var x = this.entities$1;
+      var x$2 = Index$1.entities$1;
+      return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.productElement__I__O = (function(x$1) {
+  switch (x$1) {
+    case 0: {
+      return this.totalEntities$1;
+      break
+    }
+    case 1: {
+      return this.entities$1;
+      break
+    }
+    default: {
+      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
+    }
+  }
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.hashCode__I = (function() {
+  var acc = (-889275714);
+  acc = $m_sr_Statics$().mix__I__I__I(acc, this.totalEntities$1);
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.entities$1));
+  return $m_sr_Statics$().finalizeHash__I__I__I(acc, 2)
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.init___I__sci_List = (function(totalEntities, entities) {
+  this.totalEntities$1 = totalEntities;
+  this.entities$1 = entities;
+  return this
+});
+function $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(obj) {
+  return (((obj instanceof $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index) || (obj === null)) ? obj : $throwClassCastException(obj, "votelog.domain.crudi.ReadOnlyStoreAlg$Index"))
+}
+function $isArrayOf_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index)))
+}
+function $asArrayOf_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(obj, depth) {
+  return (($isArrayOf_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.crudi.ReadOnlyStoreAlg$Index;", depth))
+}
+var $d_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index = new $TypeData().initClass({
+  Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index: 0
+}, false, "votelog.domain.crudi.ReadOnlyStoreAlg$Index", {
+  Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index.prototype.$classData = $d_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index;
 /** @constructor */
 function $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters() {
   $c_O.call(this);
@@ -40647,6 +40833,75 @@ function $m_Lvotelog_domain_politics_Person$Name$() {
   };
   return $n_Lvotelog_domain_politics_Person$Name$
 }
+/** @constructor */
+function $c_Lvotelog_orphans_circe_implicits$$anon$37() {
+  $c_O.call(this);
+  this.evidence$1$1$1 = null
+}
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype = new $h_O();
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.constructor = $c_Lvotelog_orphans_circe_implicits$$anon$37;
+/** @constructor */
+function $h_Lvotelog_orphans_circe_implicits$$anon$37() {
+  /*<skip>*/
+}
+$h_Lvotelog_orphans_circe_implicits$$anon$37.prototype = $c_Lvotelog_orphans_circe_implicits$$anon$37.prototype;
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
+  return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
+});
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.apply__Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index__Lio_circe_Json = (function(index) {
+  var this$5 = $m_Lio_circe_Json$();
+  var jsx$1 = new $c_T2().init___O__O("totalEntities", $m_Lio_circe_Json$().fromInt__I__Lio_circe_Json(index.totalEntities$1));
+  $m_Lio_circe_Encoder$();
+  var encodeA = this.evidence$1$1$1;
+  var this$2 = new $c_Lio_circe_Encoder$$anon$25().init___Lio_circe_Encoder(encodeA);
+  var a = index.entities$1;
+  var array = [jsx$1, new $c_T2().init___O__O("entities", $f_Lio_circe_Encoder$AsArray__apply__O__Lio_circe_Json(this$2, a))];
+  var fields = new $c_sjs_js_WrappedArray().init___sjs_js_Array(array);
+  return this$5.fromFields__sc_Iterable__Lio_circe_Json(fields)
+});
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+  var this$1 = c.downField__T__Lio_circe_ACursor("totalEntities");
+  var d = $m_Lio_circe_Decoder$().decodeInt$1;
+  var this$2 = d.tryDecode__Lio_circe_ACursor__s_util_Either(this$1);
+  if ((this$2 instanceof $c_s_util_Right)) {
+    var x2 = $as_s_util_Right(this$2);
+    var b = x2.value$2;
+    var totalEntities = $uI(b);
+    var this$4 = c.downField__T__Lio_circe_ACursor("entities");
+    $m_Lio_circe_Decoder$();
+    var decodeA = this.evidence$1$1$1;
+    var d$1 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA);
+    var this$5 = $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(d$1, this$4);
+    if ((this$5 instanceof $c_s_util_Right)) {
+      var x2$1 = $as_s_util_Right(this$5);
+      var b$1 = x2$1.value$2;
+      var entities = $as_sci_List(b$1);
+      return new $c_s_util_Right().init___O(new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index().init___I__sci_List(totalEntities, entities))
+    } else {
+      return this$5
+    }
+  } else {
+    return this$2
+  }
+});
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.init___Lio_circe_Codec = (function(evidence$1$1) {
+  this.evidence$1$1$1 = evidence$1$1;
+  return this
+});
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.apply__O__Lio_circe_Json = (function(a) {
+  return this.apply__Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index__Lio_circe_Json($as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(a))
+});
+var $d_Lvotelog_orphans_circe_implicits$$anon$37 = new $TypeData().initClass({
+  Lvotelog_orphans_circe_implicits$$anon$37: 0
+}, false, "votelog.orphans.circe.implicits$$anon$37", {
+  Lvotelog_orphans_circe_implicits$$anon$37: 1,
+  O: 1,
+  Lio_circe_Codec: 1,
+  Lio_circe_Decoder: 1,
+  Ljava_io_Serializable: 1,
+  Lio_circe_Encoder: 1
+});
+$c_Lvotelog_orphans_circe_implicits$$anon$37.prototype.$classData = $d_Lvotelog_orphans_circe_implicits$$anon$37;
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$117$1$$anon$23() {
   $c_O.call(this)
@@ -44682,6 +44937,10 @@ function $h_Lio_circe_Encoder$$anon$24() {
   /*<skip>*/
 }
 $h_Lio_circe_Encoder$$anon$24.prototype = $c_Lio_circe_Encoder$$anon$24.prototype;
+$c_Lio_circe_Encoder$$anon$24.prototype.toIterator__O__sc_Iterator = (function(a) {
+  var a$1 = $as_sci_Set(a);
+  return a$1.iterator__sc_Iterator()
+});
 $c_Lio_circe_Encoder$$anon$24.prototype.init___Lio_circe_Encoder = (function(encodeA$2) {
   $c_Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder.prototype.init___Lio_circe_MidPriorityEncoders__Lio_circe_Encoder.call(this, $m_Lio_circe_Encoder$(), encodeA$2);
   return this
@@ -44698,6 +44957,37 @@ var $d_Lio_circe_Encoder$$anon$24 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lio_circe_Encoder$$anon$24.prototype.$classData = $d_Lio_circe_Encoder$$anon$24;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$25() {
+  $c_Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder.call(this)
+}
+$c_Lio_circe_Encoder$$anon$25.prototype = new $h_Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder();
+$c_Lio_circe_Encoder$$anon$25.prototype.constructor = $c_Lio_circe_Encoder$$anon$25;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$25() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$25.prototype = $c_Lio_circe_Encoder$$anon$25.prototype;
+$c_Lio_circe_Encoder$$anon$25.prototype.toIterator__O__sc_Iterator = (function(a) {
+  var a$1 = $as_sci_List(a);
+  return new $c_sc_LinearSeqLike$$anon$1().init___sc_LinearSeqLike(a$1)
+});
+$c_Lio_circe_Encoder$$anon$25.prototype.init___Lio_circe_Encoder = (function(encodeA$3) {
+  $c_Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder.prototype.init___Lio_circe_MidPriorityEncoders__Lio_circe_Encoder.call(this, $m_Lio_circe_Encoder$(), encodeA$3);
+  return this
+});
+var $d_Lio_circe_Encoder$$anon$25 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$25: 0
+}, false, "io.circe.Encoder$$anon$25", {
+  Lio_circe_Encoder$$anon$25: 1,
+  Lio_circe_MidPriorityEncoders$IterableAsArrayEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsArray: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$25.prototype.$classData = $d_Lio_circe_Encoder$$anon$25;
 /** @constructor */
 function $c_Lio_circe_Encoder$$anon$34() {
   $c_Lio_circe_Encoder$IterableAsObjectEncoder.call(this);
@@ -47068,7 +47358,13 @@ $c_Lvotelog_client_service_NgoStoreXhr.prototype.indexQueryParameterBuilder__Lvo
   return this.indexQueryParameterBuilder$2
 });
 $c_Lvotelog_client_service_NgoStoreXhr.prototype.init___Lvotelog_client_Configuration = (function(configuration) {
-  $c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder.call(this, $m_Lvotelog_orphans_circe_implicits$().ngoCodec$1, $m_Lvotelog_orphans_circe_implicits$().ngoIdCodec$1, $m_Lvotelog_orphans_circe_implicits$().keyEncoderNgoId$1, $m_Lvotelog_orphans_circe_implicits$().ngoStoreRecipeCodec$1);
+  var jsx$4 = $m_Lvotelog_orphans_circe_implicits$().ngoCodec$1;
+  var jsx$3 = $m_Lvotelog_orphans_circe_implicits$().ngoIdCodec$1;
+  var jsx$2 = $m_Lvotelog_orphans_circe_implicits$().keyEncoderNgoId$1;
+  var jsx$1 = $m_Lvotelog_orphans_circe_implicits$().ngoStoreRecipeCodec$1;
+  $m_Lvotelog_orphans_circe_implicits$();
+  var evidence$1 = $m_Lvotelog_orphans_circe_implicits$().ngoIdCodec$1;
+  $c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Decoder.call(this, jsx$4, jsx$3, jsx$2, jsx$1, new $c_Lvotelog_orphans_circe_implicits$$anon$37().init___Lio_circe_Codec(evidence$1));
   this.indexUrl$2 = (configuration.url$1 + "/ngo");
   this.indexQueryParameterBuilder$2 = new $c_Lvotelog_client_service_NgoStoreXhr$$Lambda$1().init___O((function($this) {
     return (function(x$1$2) {
