@@ -1,7 +1,11 @@
 package votelog.orphans.circe
 
+import io.circe.Decoder.Result
 import io.circe._
+import io.circe.generic.extras.encoding.UnwrappedEncoder
+import shapeless.Lazy
 import votelog.domain.authentication.User
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.Person.Gender.{Female, Male}
 import votelog.domain.politics._
 //import io.circe.generic.semiauto._
@@ -64,5 +68,19 @@ object implicits {
     Encoder.encodeString.contramap {
       case Female => "female"
       case Male => "male"
+    }
+
+  implicit def indexCodec[T: Codec]: Codec[Index[T]] =
+    new Codec[Index[T]] {
+      override def apply(index: Index[T]): Json = Json.obj(
+        ("totalEntities", Json.fromInt(index.totalEntities)),
+        ("entities", Encoder.encodeList[T].apply(index.entities))
+      )
+
+      override def apply(c: HCursor): Result[Index[T]] =
+        for {
+          totalEntities <- c.downField("totalEntities").as[Int]
+          entities <- c.downField("entities").as[List[T]]
+        } yield Index(totalEntities, entities)
     }
 }

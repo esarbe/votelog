@@ -31,8 +31,8 @@ object Application {
   val defaultContext = Context(LegislativePeriod.Default.id, politics.Language.English)
   val context: Var[Context] = Var(defaultContext)
 
-  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
-  //val configuration = Configuration("http://localhost:8080/api/v0")
+  //val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  val configuration = Configuration("http://localhost:8080/api/v0")
 
   val root = Component.Root
 
@@ -65,7 +65,7 @@ object Application {
 
   object Router {
 
-    // TODO: mabye reuse http4s dsl path for 'location's
+    // TODO: maybe reuse http4s dsl path for 'location's
     def apply(location: String): Node = {
       location.drop(1).split('/').toList match {
         case "user" :: Nil =>

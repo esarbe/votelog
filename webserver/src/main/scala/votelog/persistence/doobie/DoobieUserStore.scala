@@ -11,11 +11,12 @@ import doobie.util.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.orphans.doobie.implicits._
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 
-class DoobieUserStore[F[_]: Sync](
+class DoobieUserStore[F[_]: NonEmptyParallel: Sync](
   transactor: doobie.util.transactor.Transactor[F],
   passwordHasher: PasswordHasherAlg[F],
 ) extends UserStore[F] {
@@ -119,9 +120,14 @@ class DoobieUserStore[F[_]: Sync](
   override def read(q: QueryParameters)(id: User.Id): F[User] =
     readQuery(id).transact(transactor)
 
+  private def countQuery = sql"select count(id) from users".query[Int].unique
 
-  override def index(q: IndexQueryParameters): F[List[User.Id]] =
-    indexQuery.transact(transactor)
+  override def index(q: IndexQueryParameters): F[Index[User.Id]] = {
+    val entities = indexQuery.transact(transactor)
+    val count = countQuery.transact(transactor)
+
+    (count, entities).parMapN(Index.apply)
+  }
 
   override def findByName(name: String): F[Option[User]] =
     findIdByNameQuery(name)

@@ -137,13 +137,14 @@ class UserComponent(
   }
 
   val errors: Rx[Iterable[Throwable]] = Rx(Nil)
-  val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes)
-  val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
-
+  val paging = self.entitiesCount.map { totalEntities =>
+    val pagingConfiguration = Paging.Configuration(self.configuration.defaultPageSize, configuration.pageSizes, totalEntities = totalEntities)
+    new Paging(self.component.child("paging"), pagingConfiguration).view
+  }
 
   lazy val view = Group {
     <controls>
-      { paging.view }
+      { paging }
     </controls>
 
     <article id={id("index")} >

@@ -7,6 +7,7 @@ import org.scalajs.dom.ext.Ajax
 import votelog.client.Configuration
 import votelog.client.service.ReadOnlyStoreXhr.indexQueryParam
 import votelog.client.service.params.Politics._
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Context, Language, Person}
 import votelog.orphans.circe.implicits._
 import votelog.persistence.PersonStore
@@ -17,10 +18,10 @@ import scala.concurrent.Future
 class PersonStoreXhr(configuration: Configuration)
   extends PersonStore[Future] {
 
-  override def index(qp: IndexQueryParameters): Future[List[Person.Id]] = {
+  override def index(qp: IndexQueryParameters): Future[Index[Person.Id]] = {
     Ajax
       .get(configuration.url + s"/person/?" + indexQueryParam(qp), withCredentials = true)
-      .flatMap(ifSuccess(asJson[List[Person.Id]]))
+      .flatMap(ifSuccess(asJson[Index[Person.Id]]))
   }
 
   override def read(queryParameters: Language)(id: Person.Id): Future[Person] =

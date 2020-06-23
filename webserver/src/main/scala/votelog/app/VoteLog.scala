@@ -43,7 +43,7 @@ abstract class VoteLog[F[_]: Applicative] {
 
 object VoteLog {
 
-  def apply[F[_]: Async: ContextShift: Logger](configuration: Configuration): Resource[F, VoteLog[F]] = {
+  def apply[F[_]: ContextShift: Logger: NonEmptyParallel: Async](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
     val db = buildTransactor(configuration.database)
     val cv = buildTransactor(configuration.curiaVista)
@@ -51,7 +51,7 @@ object VoteLog {
     Resource.pure(buildAppAlg(hasher, db, cv))
   }
 
-  def buildAppAlg[F[_]: Sync: ThrowableBracket](
+  def buildAppAlg[F[_]: NonEmptyParallel: Async](
     hasher: PasswordHasherAlg[F],
     votelogDatabase: Transactor[F],
     curiaVistaDatabase: Transactor[F]

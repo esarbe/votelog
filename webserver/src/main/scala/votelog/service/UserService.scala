@@ -1,10 +1,8 @@
 package votelog.service
 
 import cats.effect.IO
+import io.circe.Encoder
 import votelog.orphans.circe.implicits._
-import org.http4s.circe._
-import io.circe.generic.auto._
-import io.circe.syntax._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.infrastructure.{Param, StoreService}
@@ -15,7 +13,6 @@ class UserService(
   val store: UserStore[IO],
   val authAlg: AuthorizationAlg[IO],
 ) extends StoreService[User, User.Id, UserStore.Recipe] {
-
   override implicit val queryParamDecoder: Param[store.QueryParameters] = Param.always(Unit)
   override implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters] = Param.always(Unit)
 }

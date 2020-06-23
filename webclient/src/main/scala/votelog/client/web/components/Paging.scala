@@ -15,6 +15,7 @@ object Paging {
     defaultPageSize: PageSize = PageSize(20),
     pageSizes: Seq[PageSize] = Seq(PageSize(20), PageSize(50), PageSize(100), PageSize(200)),
     defaultOffset: Offset = Offset(0),
+    totalEntities: Int = 0
   )
 }
 
@@ -23,8 +24,6 @@ class Paging(component: Component, configuration: Configuration) {
 
   val pageSize: Var[PageSize] = pageSizeSelect.model
   val page: Var[Int] = Var(initialPage)
-
-
   val validPage: Rx[Int] = page.foldp(initialPage){ case (acc, curr) => if (curr >= initialPage) curr else acc}
 
   lazy val pageSizeSelect =

@@ -1,8 +1,11 @@
 package votelog.client.service
 
+import io.circe.Decoder
 import votelog.client.Configuration
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
+import votelog.domain.crudi.ReadOnlyStoreAlg
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.persistence.UserStore
 
 import scala.concurrent.Future

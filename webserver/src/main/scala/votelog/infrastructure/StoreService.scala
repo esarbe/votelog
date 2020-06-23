@@ -11,19 +11,21 @@ import org.http4s.circe._
 import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.crudi.StoreAlg
 
-// TODO: it would be nice for testing if StoreService had a type parameter for the
-// effect type
-abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,  Recipe: Decoder] {
+// TODO: it would be nice for testing if StoreService had a type parameter for the effect type
+abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,  Recipe: Decoder](
+  implicit indexEncoder: Encoder[Index[Identity]]
+) {
   val authAlg: AuthorizationAlg[IO]
   val store: StoreAlg[IO, T, Identity, Recipe]
   val component: Component
 
   implicit val queryParamDecoder: Param[store.QueryParameters]
   implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters]
+
 
   object iqp extends QueryParameterExtractor[store.IndexQueryParameters]
   object qp extends QueryParameterExtractor[store.QueryParameters]

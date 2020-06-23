@@ -4,13 +4,14 @@ import cats._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.Scoring.Score
 import votelog.domain.politics.{Business, Ngo}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
 import votelog.orphans.doobie.implicits._
 
-class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
+class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: Transactor[F],
 ) extends NgoStore[F] {
 
@@ -53,9 +54,14 @@ class DoobieNgoStore[F[_]: Monad: ThrowableBracket](
       .query[(Business.Id, Score)]
       .accumulate[List]
 
+  private val countQuery = sql"select count(id) from ngos".query[Int].unique
 
-  override def index(params: IndexQueryParameters): F[List[Ngo.Id]] =
-    indexQuery.transact(transactor)
+
+  override def index(params: IndexQueryParameters): F[Index[Ngo.Id]] = {
+    val count = countQuery.transact(transactor)
+    val entities = indexQuery.transact(transactor)
+    (count, entities).parMapN(Index.apply)
+  }
 
 
   override def create(r: Recipe): F[Ngo.Id] = {

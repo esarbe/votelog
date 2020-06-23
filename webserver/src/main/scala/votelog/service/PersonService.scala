@@ -3,12 +3,9 @@ package votelog.service
 import cats.effect.IO
 import cats.implicits._
 import io.circe._
-import io.circe.generic.semiauto._
 import io.circe.generic.auto._
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.VoteAlg
-//import io.circe.generic.semiauto._
-import io.circe.generic.extras.semiauto._
-import io.circe.generic.extras.defaults._
 import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.circe._

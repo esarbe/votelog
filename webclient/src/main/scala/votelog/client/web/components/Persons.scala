@@ -51,7 +51,7 @@ class Persons(
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
-      ids <- personsStore.index(indexQueryParams).toRx
+      ids <- personsStore.index(indexQueryParams).map(_.entities).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(Right(ids))
       case Some(Failure(error)) => Some(Left(error))
@@ -102,7 +102,7 @@ class Persons(
       ids = personsStore.index(indexQueryParams)
       persons <-
         ids
-          .flatMap { ids => Future.sequence(ids.map(personsStore.read(queryParameters.language))) }
+          .flatMap { index => Future.sequence(index.entities.map(personsStore.read(queryParameters.language))) }
           .toRx
           .collect { case Some(Success(persons)) => persons }(Nil)
     } yield persons

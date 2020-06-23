@@ -4,6 +4,7 @@ import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
 import votelog.client.web.components.html.DynamicList
 import votelog.domain.crudi.ReadOnlyStoreAlg
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -21,7 +22,7 @@ trait CrudIndexComponent[T, Identity] { self =>
 
   // will run like: None -> Some(List) -> None -> Some(List)
   // TODO: add better error handling
-  lazy val unstableIds: Rx[Option[List[Identity]]] =
+  lazy val unstableIndex: Rx[Option[Index[Identity]]] =
     for {
       indexQueryParameters <- indexQueryParameters
       ids <- store.index(indexQueryParameters).toRx
@@ -31,7 +32,11 @@ trait CrudIndexComponent[T, Identity] { self =>
     }
 
   // keeps last list, None doesn't appear
-  lazy val ids: Rx[List[Identity]] = unstableIds.foldp(List.empty[Identity]){
+  lazy val ids: Rx[List[Identity]] = unstableIndex.map(_.map(_.entities)).foldp(List.empty[Identity]){
+    case (acc, curr) => curr.getOrElse(acc)
+  }
+
+  lazy val entitiesCount = unstableIndex.map(_.map(_.totalEntities)).foldp(0) {
     case (acc, curr) => curr.getOrElse(acc)
   }
 

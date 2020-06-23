@@ -12,7 +12,7 @@ import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.Business
-import votelog.domain.crudi.ReadOnlyStoreAlg.{IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
 import votelog.persistence.BusinessStore
 import votelog.service.BusinessServiceSpec.check
 
@@ -21,7 +21,7 @@ class BusinessServiceSpec extends FlatSpec with Matchers {
 
   val store =
     new BusinessStore[IO] {
-      override def index(queryParameters: IndexQueryParameters): IO[List[Business.Id]] = IO.pure(Nil)
+      override def index(queryParameters: IndexQueryParameters): IO[Index[Business.Id]] = IO.pure(Index(0, Nil))
       override def read(queryParameters: QueryParameters)(id: Business.Id): IO[Business] = ???
     }
 

@@ -10,10 +10,12 @@ import org.http4s.dsl.io._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 
-// TODO: it would be nice for testing if StoreService had a type parameter for the
-// effect type
-abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyDecoder] {
+// TODO: it would be nice for testing if StoreService had a type parameter for the effect type
+abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyDecoder](
+  implicit val indexEncoder: Encoder[Index[Identity]]
+) {
 
   val store: ReadOnlyStoreAlg[IO, T, Identity]
   implicit val queryParamDecoder: Param[store.QueryParameters]
@@ -46,7 +48,7 @@ abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyD
   def service: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root :? iqp(params) as user =>
       checkAuthorization(user, Capability.Read, component) {
-        store.index(params).flatMap(id => Ok(id.asJson))
+        store.index(params).flatMap(index => Ok(index.asJson))
       }
 
     case GET -> Root / Id(id) :? qp(params) as user =>

@@ -6,11 +6,12 @@ import cats.Monad
 import cats.implicits._
 import doobie._
 import doobie.implicits._
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Language, Person}
 import votelog.persistence.PersonStore
 import votelog.orphans.doobie.implicits._
 
-class DoobiePersonStore[F[_]: Monad: ThrowableBracket](
+class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends PersonStore[F] {
 
@@ -37,9 +38,15 @@ class DoobiePersonStore[F[_]: Monad: ThrowableBracket](
       """
       .query[Person.Id].accumulate[List]
 
+  val count = sql"select count(id) from person".query[Int].unique
+
   override def read(lang: Language)(id: Person.Id): F[Person] =
     selectQuery(id, lang).transact(transactor)
 
-  override def index(p: IndexQueryParameters): F[List[Person.Id]] =
-    indexQuery(p).transact(transactor)
+  override def index(p: IndexQueryParameters): F[Index[Person.Id]] = {
+    val index = indexQuery(p).transact(transactor)
+    val count = this.count.transact(transactor)
+
+    (count, index).parMapN(Index.apply)
+  }
 }
