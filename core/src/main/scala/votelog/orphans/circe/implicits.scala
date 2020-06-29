@@ -28,7 +28,7 @@ object implicits {
   implicit val userCodec: Codec[User] = deriveConfiguredCodec
   implicit val personIdCodec: Codec[Person.Id] = deriveUnwrappedCodec
   implicit val personNameCodec: Codec[Person.Name] = deriveUnwrappedCodec
-  implicit val passwordClarCodec: Codec[Password.Clear] = deriveUnwrappedCodec
+  implicit val passwordClearCodec: Codec[Password.Clear] = deriveUnwrappedCodec
   implicit val cantonCodec: Codec[Canton] = deriveUnwrappedCodec
   implicit val userStoreRecipleCodec: Codec[UserStore.Recipe] = deriveConfiguredCodec
 
@@ -40,6 +40,7 @@ object implicits {
 
   implicit val partyIdCirceKeyDecoder: KeyDecoder[Party.Id] = KeyDecoder.decodeKeyInt.map(Party.Id)
   implicit val personIdCirceKeyDecoder: KeyDecoder[Person.Id] = KeyDecoder.decodeKeyInt.map(Person.Id)
+  implicit val personIdCirceKeyEncoder: KeyEncoder[Person.Id] = KeyEncoder.encodeKeyInt.contramap(_.value)
   implicit val lpKeyDecoder: KeyDecoder[LegislativePeriod.Id] = KeyDecoder.decodeKeyInt.map(LegislativePeriod.Id.apply)
   implicit val langKeyDecoder: KeyDecoder[Language] = (key: String) => Language.fromIso639_1(key)
 

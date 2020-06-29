@@ -4,7 +4,6 @@ import cats.effect.IO
 import cats.implicits._
 import io.circe._
 import io.circe.generic.auto._
-import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.VoteAlg
 import io.circe.syntax._
 import org.http4s.AuthedRoutes
@@ -41,12 +40,14 @@ class PersonService(
 
   lazy val voting: AuthedRoutes[User, IO] =  AuthedRoutes.of {
 
-    case GET -> Root / Id(id) / "votes" as user =>
-      voteAlg.getVotesForPerson(id).attempt.flatMap {
-        case Right(votes) =>
-          implicitly[Encoder[votelog.domain.politics.Votum]]
-          implicitly[Encoder[votelog.domain.politics.Business.Id]]
-          Ok(votes.toMap.asJson)
+    case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>
+      voteAlg
+        .getVotesForPerson(
+          legislativePeriod = params.queryParameters.legislativePeriod,
+          language = params.queryParameters.language,
+          person = id,
+      ).attempt.flatMap {
+        case Right(votes) => Ok(votes.toMap.asJson)
         case Left(error) => InternalServerError(error.getMessage)
       }
   }

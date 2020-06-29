@@ -2,7 +2,7 @@ package votelog.orphans.doobie
 
 import java.util.UUID
 
-import doobie.util.{Put, Read}
+import doobie.util.{Meta, Put, Read}
 import votelog.domain.authentication.User
 import votelog.domain.politics.Person.Gender
 import votelog.domain.politics.Person.Gender.{Female, Male}
@@ -33,4 +33,19 @@ object implicits {
 
   implicit val ngoIdPut: Put[Ngo.Id] = Put[UUID].contramap(uid => UUID.fromString(uid.value))
   implicit val ngoIdRead: Read[Ngo.Id] = Read[UUID].map(v => Ngo.Id(v.toString))
+
+  implicit val languageMeta: Meta[Language] =
+    Meta[String].imap {
+      case "EN" => Language.English
+      case "FR" => Language.French
+      case "RM" => Language.Romansh
+      case "IT" => Language.Italian
+      case "DE" => Language.German
+    } {
+      case Language.English => "EN"
+      case Language.French => "FR"
+      case Language.Romansh => "RM"
+      case Language.Italian => "IT"
+      case Language.German => "DE"
+    }
 }

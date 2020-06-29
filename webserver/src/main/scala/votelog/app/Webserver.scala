@@ -70,7 +70,7 @@ object Webserver extends IOApp {
         authAlg = votelog.authorization
       )
 
-    val bws = new BusinessService(component.business, votelog.motion, votelog.authorization)
+    val bws = new BusinessService(component.business, votelog.motion, votelog.authorization, votelog.vote)
     val uws = new UserService(component.user, votelog.user, votelog.authorization)
     val nws = new NgoService(component.ngo, votelog.ngo, votelog.authorization)
 
