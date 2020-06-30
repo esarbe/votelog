@@ -6219,7 +6219,6 @@ function $m_Lvotelog_client_service_params_Politics$() {
 /** @constructor */
 function $c_Lvotelog_client_web_Application$() {
   $c_O.call(this);
-  this.RxUnit$1 = null;
   this.paging$1 = null;
   this.url$1 = null;
   this.location$1 = null;
@@ -6249,7 +6248,6 @@ function $h_Lvotelog_client_web_Application$() {
 $h_Lvotelog_client_web_Application$.prototype = $c_Lvotelog_client_web_Application$.prototype;
 $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   $n_Lvotelog_client_web_Application$ = this;
-  this.RxUnit$1 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_Unit$());
   this.paging$1 = new $c_Lvotelog_client_web_components_Paging$Configuration().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__sc_Seq__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__I(new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize().init___I(20), $m_Lvotelog_client_web_components_Paging$Configuration$().apply$default$2__sc_Seq(), new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset().init___J($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()), 0);
   var rx = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($as_T($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.href));
   var listener = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, rx$1) {
@@ -6304,7 +6302,7 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   this.location$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$17);
   this.defaultContext$1 = new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language($m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, $m_Lvotelog_domain_politics_Language$English$());
   this.context$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(this.defaultContext$1);
-  this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("http://localhost:8080/api/v0");
+  this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("https://votelog.herokuapp.com/api/v0");
   this.root$1 = $m_Lvotelog_domain_authorization_Component$().Root$1;
   this.authService$1 = new $c_Lvotelog_client_service_SessionServiceXhr().init___Lvotelog_client_Configuration(this.configuration$1);
   this.personsStore$1 = new $c_Lvotelog_client_service_PersonStoreXhr().init___Lvotelog_client_Configuration(this.configuration$1);
@@ -26483,39 +26481,6 @@ var $d_s_Symbol = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_s_Symbol.prototype.$classData = $d_s_Symbol;
-/** @constructor */
-function $c_s_Unit$() {
-  $c_O.call(this)
-}
-$c_s_Unit$.prototype = new $h_O();
-$c_s_Unit$.prototype.constructor = $c_s_Unit$;
-/** @constructor */
-function $h_s_Unit$() {
-  /*<skip>*/
-}
-$h_s_Unit$.prototype = $c_s_Unit$.prototype;
-$c_s_Unit$.prototype.init___ = (function() {
-  return this
-});
-$c_s_Unit$.prototype.toString__T = (function() {
-  return "object scala.Unit"
-});
-var $d_s_Unit$ = new $TypeData().initClass({
-  s_Unit$: 0
-}, false, "scala.Unit$", {
-  s_Unit$: 1,
-  O: 1,
-  s_AnyValCompanion: 1,
-  s_Specializable: 1
-});
-$c_s_Unit$.prototype.$classData = $d_s_Unit$;
-var $n_s_Unit$ = (void 0);
-function $m_s_Unit$() {
-  if ((!$n_s_Unit$)) {
-    $n_s_Unit$ = new $c_s_Unit$().init___()
-  };
-  return $n_s_Unit$
-}
 /** @constructor */
 function $c_s_concurrent_BatchingExecutor$Batch() {
   $c_O.call(this);
