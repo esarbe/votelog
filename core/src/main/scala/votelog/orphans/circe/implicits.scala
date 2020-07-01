@@ -49,13 +49,20 @@ object implicits {
   implicit val businessIdKeyEncoder: KeyEncoder[Business.Id] = KeyEncoder.encodeKeyInt.contramap(_.value)
   implicit val businessIdCodec: Codec[Business.Id] = deriveUnwrappedCodec
 
-  implicit val votumCodec: Encoder[Votum] =
-    Encoder.encodeString.contramap {
+  implicit val votumCodec: Codec[Votum] = Codec.from(
+    Decoder.decodeString.map {
+      case "yes" => Votum.Yes
+      case "no" => Votum.No
+      case "abstain" => Votum.Abstain
+      case "absent" => Votum.Absent
+    },
+    Encoder.encodeString.contramap[Votum] {
       case Votum.Yes => "yes"
       case Votum.No => "no"
       case Votum.Abstain => "abstain"
       case Votum.Absent => "absent"
     }
+  )
 
   implicit val businessVotumEncoder: Encoder[Map[Business.Id, Votum]] = Encoder.encodeMap
 
