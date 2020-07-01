@@ -1,30 +1,30 @@
 package votelog.client.web.components
 
-import mhtml.future.syntax._
-import mhtml.implicits.cats._
 import cats.implicits._
+import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
-import votelog.client.web.Application.{personsComponent, personsStore}
+import votelog.client.web.Application.personsStore
 import votelog.client.web.components.html.{DynamicList, StaticSelect}
 import votelog.domain.authorization.Component
-import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.politics.{Context, LegislativePeriod, Person, VoteAlg}
-import votelog.persistence.PersonStore
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.politics.{Business, Context, LegislativePeriod, Person, Vote, VoteAlg, Votum}
+import votelog.persistence.{BusinessStore, PersonStore}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
-import scala.xml.{Group, Node, NodeBuffer}
+import scala.xml.{Group, Node}
 
 class Persons(
   component: Component,
   persons: PersonStore[Future],
+  businesses: BusinessStore[Future],
+  voting: VoteAlg[Future],
   language: Rx[votelog.domain.politics.Language],
 ) {
 
-  val pagingConfiguration = Paging.Configuration(PageSize(10), Seq(PageSize(10), PageSize(20), PageSize(40)))
+  val pagingConfiguration: Paging.Configuration = Paging.Configuration(PageSize(10), Seq(PageSize(10), PageSize(20), PageSize(40)))
   val paging: Paging = new Paging(component.child("paging"), pagingConfiguration)
   var cache = collection.mutable.Map.empty[Person.Id, Rx[Person]]
   var viewCancelable: Option[Cancelable] = None
@@ -84,7 +84,7 @@ class Persons(
       case Some(Right(person)) => Option(person)
     }(None)
 
-  val maybeIdOrEntity =
+  val maybeIdOrEntity: Rx[Option[Either[Person.Id, Person]]] =
     maybeSelected.map(_.map(Left.apply))
         .merge(maybeEntity.map(_.map(Right.apply)))
 
@@ -122,6 +122,42 @@ class Persons(
       <dl class="entity person loading" data-id={id.value.toString}></dl>
   }
 
+  val votes =
+    for {
+      maybeSelected <- maybeSelected
+      context <- queryParameters
+      language <- language
+      votes <- maybeSelected match {
+        case Some(id) =>
+          voting
+            .getVotesForPerson(context)(id)
+            .flatMap { votes =>
+              Future.sequence(votes.map { case (businessId, votum) =>
+                businesses.read(language)(businessId).map(business => (business, votum))
+              })
+            }.toRx.collect {
+            case Some(Success(votes)) => Right(votes)
+            case Some(Failure(error)) => Left(error)
+          }(Right(Nil))
+        case None => Rx(Right(Nil))
+      }
+    } yield votes
+
+  def renderVotes: Either[Throwable, List[(Business, Votum)]] => Node = {
+    case Right(votes) =>
+        Group(votes.map {
+          case (business, votum) =>
+            <dl class="entity list vote">
+              <dt> {business.title.getOrElse("Unknown business")} </dt>
+              <dd> {Votum.asString(votum)} </dd>
+            </dl>
+          })
+    case Left(error) =>
+      <p>
+        Error occured: {error.getMessage}
+      </p>
+  }
+
   def renderEntity: Option[Either[Person.Id , Person]] => Node = {
     case Some(Right(entity)) =>
       <dl class="entity person" data-id={entity.id.value.toString}>
@@ -135,6 +171,8 @@ class Persons(
     case Some(Left(id)) => <dl class="loading entity person" data-id={id.value.toString}></dl>
     case None => <dl class="empty entity person"></dl>
   }
+
+
 
   val render: Person.Id => Rx[Node] = { (id: Person.Id) =>
     val person: Rx[Either[Throwable, Either[Person.Id, Person]]] =
@@ -157,7 +195,7 @@ class Persons(
     viewCancelable = Some(DynamicList.mountOn(ids, render)(e))
   }
 
-  def unountView(e: org.scalajs.dom.Node): Unit = {
+  def umountView(e: org.scalajs.dom.Node): Unit = {
     viewCancelable.foreach(_.cancel)
   }
 
@@ -169,10 +207,11 @@ class Persons(
     <article class="person">
       <ul class="index"
         mhtml-onmount={ (node: org.scalajs.dom.Node) => mountView(node) }
-        mhtml-onunmount={ (node: org.scalajs.dom.Node) => unountView(node) }
+        mhtml-onunmount={ (node: org.scalajs.dom.Node) => umountView(node) }
       />
 
       { maybeIdOrEntity.map(renderEntity) }
+      { votes.map(renderVotes) }
 
     </article>
 
