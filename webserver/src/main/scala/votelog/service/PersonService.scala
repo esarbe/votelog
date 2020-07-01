@@ -42,14 +42,11 @@ class PersonService(
 
     case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>
       voteAlg
-        .getVotesForPerson(
-          legislativePeriod = params.queryParameters.legislativePeriod,
-          language = params.queryParameters.language,
-          person = id,
-      ).attempt.flatMap {
-        case Right(votes) => Ok(votes.toMap.asJson)
-        case Left(error) => InternalServerError(error.getMessage)
-      }
+        .getVotesForPerson(params.queryParameters)(id)
+        .attempt.flatMap {
+          case Right(votes) => Ok(votes.toMap.asJson)
+          case Left(error) => InternalServerError(error.getMessage)
+        }
   }
 
   override def service: AuthedRoutes[User, IO] = super.service <+> voting

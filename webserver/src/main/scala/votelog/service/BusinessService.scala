@@ -1,8 +1,6 @@
 package votelog.service
 
 import cats.effect.IO
-import io.circe._
-import io.circe.generic.auto._
 import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.dsl.io._
@@ -21,6 +19,7 @@ class BusinessService(
   val authAlg: AuthorizationAlg[IO],
   val voteAlg: VoteAlg[IO],
 ) extends ReadOnlyStoreService[Business, Business.Id] {
+
   implicit val contextParamDecoder: Param[Context] = Params.contextParam
   override implicit val queryParamDecoder: Param[Language] = Params.languageParam
   override implicit val indexQueryParamDecoder: Param[IndexQueryParameters[Context]] = Params.indexQueryParam
@@ -28,13 +27,10 @@ class BusinessService(
   lazy val voting: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>
       voteAlg
-        .getVotesForBusiness(
-          legislativePeriod = params.queryParameters.legislativePeriod,
-          language = params.queryParameters.language,
-          business = id,
-        ).attempt.flatMap {
-        case Right(votes) => Ok(votes.toMap.asJson)
-        case Left(error) => InternalServerError(error.getMessage)
-      }
+        .getVotesForBusiness(params.queryParameters)(id)
+        .attempt.flatMap {
+          case Right(votes) => Ok(votes.toMap.asJson)
+          case Left(error) => InternalServerError(error.getMessage)
+        }
   }
 }
