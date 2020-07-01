@@ -4,7 +4,7 @@ import mhtml.{Rx, Var}
 import org.scalajs.dom
 import org.scalajs.dom.HashChangeEvent
 import votelog.client.Configuration
-import votelog.client.service.{BusinessStoreXhr, NgoStoreXhr, PersonStoreXhr, SessionServiceXhr, UserStoreXhr}
+import votelog.client.service.{BusinessStoreXhr, NgoStoreXhr, PersonStoreXhr, SessionServiceXhr, UserStoreXhr, VoteStoreXhr}
 import votelog.client.web.components.Authentication.State.{Authenticated, Unauthenticated}
 import votelog.client.web.components.business.BusinessComponent
 import votelog.client.web.components.{CrudIndexComponent, Paging, UserComponent}
@@ -40,10 +40,12 @@ object Application {
   val userStore = new UserStoreXhr(configuration)
   val ngoStore = new NgoStoreXhr(configuration)
   val businessStore = new BusinessStoreXhr(configuration)
+  val votesStore = new VoteStoreXhr(configuration)
 
   val authComponent = new components.Authentication(authService)
   val languageComponent = new components.Language
-  val personsComponent = new components.Persons(root.child("person"), personsStore, languageComponent.model)
+  val personsComponent =
+    new components.Persons(root.child("person"), personsStore, businessStore, votesStore, languageComponent.model)
 
   val ngoComponent = {
     val configuration = NgoComponent.Configuration(defaultContext, paging.defaultPageSize, paging.pageSizes)
