@@ -11,7 +11,7 @@ import org.scalatest.{FlatSpec, Inside, Matchers}
 import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
-import votelog.domain.politics.Business
+import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Person, VoteAlg, Votum}
 import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
 import votelog.persistence.BusinessStore
 import votelog.service.BusinessServiceSpec.check
@@ -21,14 +21,19 @@ class BusinessServiceSpec extends FlatSpec with Matchers {
 
   val store =
     new BusinessStore[IO] {
-      override def index(queryParameters: IndexQueryParameters): IO[Index[Business.Id]] = IO.pure(Index(0, Nil))
+      override def index(queryParameters: IndexQueryParameters): IO[Index[Business.Id]] = IO.pure(Index(1, List(Business.Id(0))))
       override def read(queryParameters: QueryParameters)(id: Business.Id): IO[Business] = ???
     }
+
+  val vote = new VoteAlg[IO] {
+    override def getVotesForBusiness(context: Context)(business: Business.Id): IO[List[(Person.Id, Votum)]] = IO.pure(Nil)
+    override def getVotesForPerson(context: Context)(person: Person.Id): IO[List[(Business.Id, Votum)]] = IO.pure(Nil)
+  }
 
   val auth: AuthorizationAlg[IO] = (_, _, _) => IO.pure(true)
   val user = User("unprivileged", User.Email("mail"), "qux", Set.empty)
 
-  val service = new BusinessService(Component.Root, store, auth).service
+  val service = new BusinessService(Component.Root, store, auth, vote).service
 
   it should "serve requests" in {
     val request = AuthedRequest(user, Request[IO](method = Method.GET, uri = Uri.uri("index")))
