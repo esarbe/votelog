@@ -7,6 +7,7 @@ import org.http4s.EntityEncoder._
 import org.http4s.{AuthedRoutes, _}
 import org.http4s.circe._
 import org.http4s.dsl.io._
+import votelog.domain.Param
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg

@@ -2,10 +2,10 @@ package votelog.service
 
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.politics.{Context, Language, LegislativePeriod}
-import votelog.infrastructure.Param
 import votelog.orphans.circe.implicits._
 import cats.implicits._
 import io.circe.KeyDecoder
+import votelog.domain.Param
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.infrastructure.Param.combine
@@ -22,7 +22,7 @@ object Params {
     implicit val offsetDecoder: KeyDecoder[Offset] = KeyDecoder.decodeKeyLong.map(Offset.apply)
 
     combine(combine(Param[PageSize]("ps"), Param[Offset]("os")), ev)
-        .map{ case (ps, os, t) => IndexQueryParameters[T](ps, os, t) }
+        .map { case (ps, os, t) => IndexQueryParameters[T](ps, os, t) }
   }
 
 }

@@ -4,10 +4,11 @@ import cats.effect.IO
 import io.circe.Encoder
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.{Business, Ngo}
-import votelog.infrastructure.{Param, StoreService}
+import votelog.infrastructure.StoreService
 import votelog.persistence.NgoStore
 import votelog.orphans.circe.implicits._
 import io.circe.generic.auto._
+import votelog.domain.Param
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 
 class NgoService(

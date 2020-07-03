@@ -2,10 +2,11 @@ package votelog.service
 
 import cats.effect.IO
 import io.circe.Encoder
+import votelog.domain.Param
 import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
-import votelog.infrastructure.{Param, StoreService}
+import votelog.infrastructure.StoreService
 import votelog.persistence.UserStore
 
 class UserService(

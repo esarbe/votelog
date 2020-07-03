@@ -9,13 +9,14 @@ import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
+import votelog.domain.Param
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.politics.{Context, Language, LegislativePeriod, Business, Person}
+import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Person}
 import votelog.infrastructure.logging.Logger
-import votelog.infrastructure.{Param, ReadOnlyStoreService}
+import votelog.infrastructure.ReadOnlyStoreService
 import votelog.orphans.circe.implicits._
 import votelog.persistence.PersonStore
 
