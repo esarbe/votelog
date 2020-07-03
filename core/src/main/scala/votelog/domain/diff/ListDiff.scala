@@ -3,41 +3,34 @@ package votelog.domain.diff
 import java.lang.Math.min
 import java.lang.Math.max
 
-import votelog.domain.diff.ListDiff.Op
-
-import scala.annotation.tailrec
-import scala.collection.immutable.Range
-import scala.reflect.ClassTag
-
-
-
+/**
+ * Builds an list of instructions to turn list A into list B
+ */
 object ListDiff {
 
-  implicit class ArrOps[T: ClassTag](arr: Array[T]) {
-    def cslice(start: Int, len: Int): Array[T] = {
-      val slice = Array.ofDim[T](len)
-      arr.slice(start, start + len).copyToArray(slice, start, len)
-      slice
-    }
-  }
+  implicit class IntOps(a: Int) {
 
-  implicit class IntOps(i: Int) {
+    /**
+     * Returns the non-negative modulo
+     * @param m divisor for modulo operation
+     * @return non-negative remainder of euclidian division of a by m
+     */
     def mod(m: Int): Int = {
-      val res = i % m
-      if (res < 0) m + res
-      else res
+      val rem = a % m
+      if (rem < 0) m + rem
+      else rem
     }
   }
 
   sealed trait Op
   object Op {
-    case class Insert(oldPosition: Int, newPosition: Int) extends Op
-    case class Delete(position: Int) extends Op
+    final case class Insert(oldPosition: Int, newPosition: Int) extends Op
+    final case class Delete(position: Int) extends Op
   }
 
   /*
    * Returns a minimal list of differences between 2 lists e and f
-   * requring O(min(len(e),len(f))) space and O(min(len(e),len(f)) * D)
+   * requiring O(min(len(e),len(f))) space and O(min(len(e),len(f)) * D)
    * worst-case execution time where D is the number of differences.
    *
    * https://neil.fraser.name/writing/diff/myers.pdf
