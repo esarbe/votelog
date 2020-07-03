@@ -1,7 +1,5 @@
 package votelog.client.service
 
-import votelog.domain.politics.Context
-
 /**
  * TODO: check if/how to reuse the Param infrastructure from votelog.webserver
   */
