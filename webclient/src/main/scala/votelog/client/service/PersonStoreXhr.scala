@@ -1,8 +1,6 @@
 package votelog.client.service
 
 import io.circe.generic.auto._
-import io.circe.{Decoder, parser}
-import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax
 import votelog.client.Configuration
 import votelog.client.service.ReadOnlyStoreXhr.indexQueryParam
@@ -12,7 +10,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Language, Person}
 import votelog.orphans.circe.implicits._
 import votelog.persistence.PersonStore
-import HttpQueryParameter._
+import votelog.domain.param.Encoder._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

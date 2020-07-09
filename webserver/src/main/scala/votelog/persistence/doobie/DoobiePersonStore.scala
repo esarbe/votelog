@@ -31,11 +31,13 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
 
   def indexQuery(p: IndexQueryParameters): doobie.ConnectionIO[List[Person.Id]] =
     sql"""
-      SELECT id
-        FROM person
-        WHERE language=${p.queryParameters.language.iso639_1}
-        LIMIT ${p.offset.value}, ${p.pageSize.value}
-      """
+      SELECT distinct p.* from person p, voting v
+      WHERE p.person_number = v.person_number
+      AND v.id_legislative_period = ${p.queryParameters.legislativePeriod}
+      AND v.`language` = ${p.queryParameters.language.iso639_1}
+      AND p.`language` = ${p.queryParameters.language.iso639_1}
+      LIMIT ${p.offset.value}, ${p.pageSize.value}
+    """
       .query[Person.Id].accumulate[List]
 
   val count = sql"select count(id) from person".query[Int].unique

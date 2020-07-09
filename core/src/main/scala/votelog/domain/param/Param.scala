@@ -1,6 +1,7 @@
 package votelog.domain.param
 
-import cats.Functor
+import cats._
+import cats.implicits._
 import io.circe.KeyDecoder
 import votelog.Tupler
 
@@ -11,32 +12,58 @@ import votelog.Tupler
  * WARNING: this is very simple code that does not try to
  * mitigate programmer errors like duplicated keys.
  */
-trait Param[T] {
-  def decode(params: Map[String, Iterable[String]]): Option[T]
-  def encode(t: T): String
+case class Param[T](label: String, key: String, description: String)
+case class Params(entries: Map[String, Iterable[String]]) {
+  def urlEncode: String =
+    entries.mapValues(_.mkString(",")).toList.map { case (key, values) => s"$key=$values"}.mkString("?", ";", "")
 }
 
-object Param {
+object Params {
 
-  implicit class ParamOps[T](t: T)(implicit ev: Param[T]) {
-    def urlEncode: String = ev.encode(t)
+  def empty: Params = ParamsMonoid.empty
+
+  implicit object ParamsMonoid extends Monoid[Params] {
+    override def empty: Params = Params(Map.empty[String, Seq[String]])
+
+    override def combine(x: Params, y: Params): Params = Params(x.entries |+| y.entries)
+  }
+}
+
+trait Encoder[T] {
+  def encode(t: T): Params
+}
+
+object Encoder {
+  implicit final class ParamDecoderOps[T](t: T)(implicit ev: Encoder[T]) {
+    def urlEncode: String = ev.encode(t).urlEncode
   }
 
-  def always[T](value: T): Param[T]  = new Param[T] {
-    def decode(params: Map[String, Iterable[String]]) = Some(value)
-    def encode
+  def unit[T]: Encoder[T] = _ => Params.empty
+}
+
+
+trait Decoder[T] {
+  def decode(p: Params): Option[T]
+}
+
+object Decoder {
+
+  implicit class DecoderOps[T: Param](t: T)(implicit ev: Encoder[T]) {
+    def urlEncode: String = ev.encode(t).urlEncode
   }
 
-  implicit object paramFunctor extends Functor[Param] {
-    override def map[A, B](param: Param[A])(f: A => B): Param[B] =
-      params => param.decode(params).map(f)
+  def always[T](value: T): Decoder[T]  = (params: Params) => Some(value)
+
+  implicit object decoderFunctor extends Functor[Decoder] {
+    override def map[A, B](decoder: Decoder[A])(f: A => B): Decoder[B] =
+      params => decoder.decode(params).map(f)
   }
 
-  def apply[T: KeyDecoder](name: String): Param[T] =
-    params => params.get(name).flatMap(vs => KeyDecoder[T].apply(vs.head))
+  def apply[T: KeyDecoder](key: String): Decoder[T] =
+    params => params.entries.get(key).flatMap(vs => KeyDecoder[T].apply(vs.head))
 
-  def combine[A, B](a: Param[A], b: Param[B])(implicit ev: Tupler[A, B]): Param[ev.Out] = {
-    params: Map[String, Iterable[String]] =>
+  def combine[A, B](a: Decoder[A], b: Decoder[B])(implicit ev: Tupler[A, B]): Decoder[ev.Out] = {
+    params: Params =>
       for {
         a <- a.decode(params)
         b <- b.decode(params)

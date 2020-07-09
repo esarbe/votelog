@@ -5,7 +5,7 @@ import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.dsl.io._
 import org.http4s.circe._
-import votelog.domain.Param
+import votelog.domain.param
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.{Business, Context, Language, Person, VoteAlg, Votum}
@@ -21,9 +21,9 @@ class BusinessService(
   val voteAlg: VoteAlg[IO],
 ) extends ReadOnlyStoreService[Business, Business.Id] {
 
-  implicit val contextParamDecoder: Param[Context] = Params.contextParam
-  override implicit val queryParamDecoder: Param[Language] = Params.languageParam
-  override implicit val indexQueryParamDecoder: Param[IndexQueryParameters[Context]] = Params.indexQueryParam
+  implicit val contextParamDecoder: param.Decoder[Context] = Params.contextParam
+  override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
+  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context]] = Params.indexQueryParam
 
   lazy val voting: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>

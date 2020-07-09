@@ -6,6 +6,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.politics.{Business, Context, Language}
 import votelog.persistence.BusinessStore
 import votelog.orphans.circe.implicits._
+import votelog.domain.param.{Encoder => ParamEncoder}
 
 import scala.concurrent.Future
 
@@ -15,8 +16,8 @@ class BusinessStoreXhr(configuration: Configuration)
 
   override val indexUrl: String = configuration.url + "/business"
 
-  implicit val contextParameterBuilder: HttpQueryParameter[Context] = params.Politics.contextParams
-  override implicit val queryParameterBuilder: HttpQueryParameter[Language] = params.Politics.langParam
-  override implicit val indexQueryParameterBuilder: HttpQueryParameter[ReadOnlyStoreAlg.IndexQueryParameters[Context]] =
+  implicit val contextParameterBuilder: ParamEncoder[Context] = params.Politics.contextParamEncoder
+  override implicit val queryParameterBuilder: ParamEncoder[Language] = params.Politics.langParam
+  override implicit val indexQueryParameterBuilder: ParamEncoder[ReadOnlyStoreAlg.IndexQueryParameters[Context]] =
     indexQueryParam
 }

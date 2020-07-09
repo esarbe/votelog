@@ -7,10 +7,10 @@ import votelog.client.service.AjaxRequest.{fromJson, ifSuccess}
 import votelog.client.service.ReadOnlyStoreXhr.indexQueryParam
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Person, VoteAlg, Votum}
-import HttpQueryParameter._
 import io.circe.Decoder
 import votelog.client.service.params.Politics._
 import votelog.orphans.circe.implicits._
+import votelog.domain.param.Encoder._
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -7,20 +7,19 @@ import io.circe._
 import io.circe.parser._
 import io.circe.syntax._
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
+import votelog.domain.param.{Encoder => ParamEncoder}
+import votelog.domain.param.Encoder._
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encoder](
   implicit indexDecoder: Decoder[Index[Identity]]
-)
-  extends StoreAlg[Future, T, Identity, Recipe]{
+) extends StoreAlg[Future, T, Identity, Recipe]{
 
   val indexUrl: String // TODO: maybe reuse [[Component]]?!!!
-  implicit val indexQueryParameterBuilder: HttpQueryParameter[IndexQueryParameters]
-  implicit val queryParameterBuilder: HttpQueryParameter[QueryParameters]
-
-  def queryParam[T: HttpQueryParameter](t: T): String = HttpQueryParameter[T].encode(t)
+  implicit val indexQueryParameterEncoder: ParamEncoder[IndexQueryParameters]
+  implicit val queryParameterEncoder: ParamEncoder[QueryParameters]
 
   def param(id: Identity): String =
     s"/${KeyEncoder[Identity].apply(id)}"
@@ -44,14 +43,14 @@ abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encod
   }
 
   override def index(queryParameters: IndexQueryParameters): Future[Index[Identity]] = {
-    Ajax.get(indexUrl + queryParam(queryParameters), withCredentials = true)
+    Ajax.get(indexUrl + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
         decode[Index[Identity]](res.responseText).fold(Future.failed(_), Future.successful(_))
       }
   }
 
   override def read(queryParameters: QueryParameters)(id: Identity): Future[T] = {
-    Ajax.get(indexUrl + param(id) + queryParam(queryParameters), withCredentials = true)
+    Ajax.get(indexUrl + param(id) + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
         decode[T](res.responseText).fold(Future.failed(_), Future.successful(_))
       }

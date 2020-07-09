@@ -7,7 +7,7 @@ import org.http4s.EntityEncoder._
 import org.http4s.{AuthedRoutes, _}
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.domain.Param
+import votelog.domain.param
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg
@@ -19,8 +19,8 @@ abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyD
 ) {
 
   val store: ReadOnlyStoreAlg[IO, T, Identity]
-  implicit val queryParamDecoder: Param[store.QueryParameters]
-  implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters]
+  implicit val queryParamDecoder: param.Decoder[store.QueryParameters]
+  implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters]
 
   val authAlg: AuthorizationAlg[IO]
   val component: Component

@@ -9,7 +9,7 @@ import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.domain.Param
+import votelog.domain.param
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
@@ -52,8 +52,8 @@ class PersonService(
 
   override def service: AuthedRoutes[User, IO] = super.service <+> voting
 
-  override implicit val queryParamDecoder: Param[Language] = Params.languageParam
-  override implicit val indexQueryParamDecoder: Param[IndexQueryParameters[Context]] =
+  override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
+  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context]] =
     iqpc => Params.indexQueryParam(Params.contextParam).decode(iqpc)
       .orElse(Some(defaultIndexQueryParameters)) // TODO: redirect in case of missing required parameters would be better
 }

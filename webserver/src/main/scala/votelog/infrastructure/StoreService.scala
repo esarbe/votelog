@@ -9,7 +9,7 @@ import org.http4s.{AuthedRoutes, _}
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.domain.Param
+import votelog.domain.param
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
@@ -24,9 +24,8 @@ abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,
   val store: StoreAlg[IO, T, Identity, Recipe]
   val component: Component
 
-  implicit val queryParamDecoder: Param[store.QueryParameters]
-  implicit val indexQueryParamDecoder: Param[store.IndexQueryParameters]
-
+  implicit val queryParamDecoder: param.Decoder[store.QueryParameters]
+  implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters]
 
   object iqp extends QueryParameterExtractor[store.IndexQueryParameters]
   object qp extends QueryParameterExtractor[store.QueryParameters]

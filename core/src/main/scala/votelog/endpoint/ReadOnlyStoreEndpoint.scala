@@ -43,7 +43,6 @@ trait ReadOnlyStoreEndpoint
     )
 }
 
-
 object ReadOnlyStoreEndpoint {
   case class Paging(offset: Long, pageSize: Int)
 }

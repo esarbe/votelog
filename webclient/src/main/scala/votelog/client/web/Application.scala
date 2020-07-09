@@ -31,7 +31,8 @@ object Application {
   val defaultContext = Context(LegislativePeriod.Default.id, politics.Language.English)
   val context: Var[Context] = Var(defaultContext)
 
-  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  //val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  val configuration = Configuration("http://localhost:8080/api/v0")
 
   val root = Component.Root
 
@@ -83,6 +84,7 @@ object Application {
 
         case "business" :: Nil =>
           businessComponent.view
+
         case "business" :: id :: Nil =>
           businessComponent.selectedId := Some(Business.Id(id.toInt))
           businessComponent.view

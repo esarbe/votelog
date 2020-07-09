@@ -10,6 +10,9 @@ import votelog.persistence.UserStore
 
 import scala.concurrent.Future
 import votelog.orphans.circe.implicits._
+import votelog.domain.param.Encoder
+import votelog.domain.param.Params
+
 
 class UserStoreXhr(configuration: Configuration)
   extends StoreXhr[User, User.Id, UserStore.Recipe]
@@ -26,6 +29,6 @@ class UserStoreXhr(configuration: Configuration)
   override def revokePermission(userId: User.Id, component: Component, capability: Capability): Future[Unit] =
     Future.failed(???)
 
-  override implicit val indexQueryParameterBuilder: HttpQueryParameter[Unit] = _ => ""
-  override implicit val queryParameterBuilder: HttpQueryParameter[Unit] = _ => ""
+  override implicit val indexQueryParameterEncoder: Encoder[Unit] = _ => Params.empty
+  override implicit val queryParameterEncoder: Encoder[Unit] = _ => Params.empty
 }
