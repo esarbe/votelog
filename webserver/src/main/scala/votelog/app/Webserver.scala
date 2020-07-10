@@ -11,12 +11,14 @@ import org.http4s.server.middleware.authentication.BasicAuth
 import org.http4s.server.{AuthMiddleware, Router}
 import org.http4s.{AuthedRequest, BasicCredentials, HttpRoutes, Request, Response}
 import org.reactormonk.{CryptoBits, PrivateKey}
+import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 import votelog.app
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component.Root
 import votelog.implementation.Log4SLogger
 import votelog.service._
+import scala.concurrent.ExecutionContext
 
 object Webserver extends IOApp {
 
@@ -39,7 +41,7 @@ object Webserver extends IOApp {
       routes: HttpRoutes[IO],
   ): IO[ExitCode] =
     log.info(s"attempting to bind to port ${config.port}") *>
-      BlazeServerBuilder[IO]
+      BlazeServerBuilder[IO](ExecutionContext.global)
         .bindHttp(config.port, config.interface)
         .withHttpApp(routes.orNotFound)
         .serve
@@ -100,13 +102,13 @@ object Webserver extends IOApp {
         component.auth.child("user").location -> auth(session.service),
       )
 
-    Router(services.mapValues(CORS(_)).toSeq:_*)
+    Router(services.view.mapValues(CORS(_)).toSeq:_*)
   }
 
   lazy val loadConfiguration =
     for {
-      votelog <- IO(pureconfig.loadConfigOrThrow[app.Configuration]("votelog"))
-      http <- IO(pureconfig.loadConfigOrThrow[Configuration.Http]("webapp.http"))
+      votelog <- IO(ConfigSource.default.at("votelog").loadOrThrow[app.Configuration])
+      http <- IO(ConfigSource.default.at("webapp.http").loadOrThrow[Configuration.Http])
     } yield Configuration(votelog, http)
 
   case class Configuration(votelog: app.Configuration, http: Configuration.Http)

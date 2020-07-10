@@ -5,6 +5,7 @@ package app
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.effect.implicits._
 import doobie.util.transactor.Transactor
+import pureconfig.ConfigSource
 import votelog.implementation.Log4SLogger
 import votelog.persistence.{PersonStore, UserStore}
 import votelog.domain.authorization.{Capability, Component}
@@ -19,7 +20,7 @@ object Console extends IOApp {
 
   case class Configuration(votelog: app.Configuration)
 
-  val loadConfiguration: IO[Configuration] =  IO(pureconfig.loadConfigOrThrow[Configuration]("console"))
+  val loadConfiguration: IO[Configuration] =  IO(ConfigSource.default.at("console").loadOrThrow[Configuration])
 
   def run(args: List[String]): IO[ExitCode] =
     for {

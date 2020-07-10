@@ -7,23 +7,23 @@ object Dependencies {
 
   lazy val common =
     libraryDependencies ++= Seq(
-      "com.beachape" %% "enumeratum" % "1.5.13",
-      "com.github.pureconfig" %% "pureconfig" % "0.11.1",
+      "com.beachape" %% "enumeratum" % "1.6.1",
+      "com.github.pureconfig" %% "pureconfig" % "0.13.0",
     )
   
   lazy val circe =
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
-      "io.circe" %% "circe-generic-extras" % "0.12.2",
+      "io.circe" %% "circe-generic-extras" % "0.13.0",
       "io.circe" %% "circe-parser" % circeVersion,
     )
 
   lazy val logging =
     libraryDependencies ++= Seq(
       "org.log4s" %% "log4s" % "1.8.2",
-      "ch.qos.logback" % "logback-classic" % "1.1.2",
-      "org.slf4j" % "slf4j-simple" % "1.7.25"
+      "ch.qos.logback" % "logback-classic" % "1.2.3",
+      "org.slf4j" % "slf4j-simple" % "1.7.30"
     )
 
   lazy val crypto =
@@ -40,15 +40,15 @@ object Dependencies {
     )
 
   lazy val decline =
-    libraryDependencies += "com.monovore" %% "decline" % "1.0.0"
+    libraryDependencies += "com.monovore" %% "decline" % "1.2.0"
 
   lazy val postgres =
     libraryDependencies += "org.postgresql" % "postgresql" % "42.2.2"
 
   lazy val cats =
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-core" % "2.0.0" withSources(),
-      "org.typelevel" %% "cats-effect" % "2.0.0" withSources(),
+      "org.typelevel" %% "cats-core" % "2.1.1" withSources(),
+      "org.typelevel" %% "cats-effect" % "2.1.3" withSources(),
     )
 
   val web =
@@ -60,10 +60,10 @@ object Dependencies {
 
   val test =
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.5" % Test,
-      "org.scalacheck" %% "scalacheck" % "1.14.0" % Test,
+      "org.scalatest" %% "scalatest" % "3.2.0" % Test,
+      "org.scalacheck" %% "scalacheck" % "1.14.3" % Test,
     )
 
-  val mariaDb = libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "2.4.2"
+  val mariaDb = libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "2.6.1"
 
 }

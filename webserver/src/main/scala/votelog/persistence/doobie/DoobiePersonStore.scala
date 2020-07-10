@@ -10,6 +10,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Language, Person}
 import votelog.persistence.PersonStore
 import votelog.orphans.doobie.implicits._
+import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta
 
 class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]

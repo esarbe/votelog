@@ -7,7 +7,7 @@ import cats.effect.Sync
 import cats.implicits._
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
-import doobie.util.Meta
+import doobie.util.meta.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{Capability, Component}
@@ -16,7 +16,7 @@ import votelog.orphans.doobie.implicits._
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, PreparedRecipe, Recipe}
 
-class DoobieUserStore[F[_]: NonEmptyParallel: Sync](
+class DoobieUserStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F],
   passwordHasher: PasswordHasherAlg[F],
 ) extends UserStore[F] {

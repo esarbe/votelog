@@ -14,6 +14,6 @@ class UserService(
   val store: UserStore[IO],
   val authAlg: AuthorizationAlg[IO],
 ) extends StoreService[User, User.Id, UserStore.Recipe] {
-  override implicit val queryParamDecoder: param.Decoder[store.QueryParameters] = param.Decoder.always(Unit)
-  override implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters] = param.Decoder.always(Unit)
+  override implicit val queryParamDecoder: param.Decoder[store.QueryParameters] = param.Decoder.always(())
+  override implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters] = param.Decoder.always(())
 }

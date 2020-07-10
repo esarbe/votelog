@@ -1,13 +1,17 @@
 package votelog.persistence.doobie
 
-import cats.{Monad, NonEmptyParallel}
+import java.time.LocalDate
+
+import cats._
+import cats.data._
 import cats.implicits._
 import doobie.free.connection.ConnectionIO
+import doobie._
 import doobie.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Business, Language}
 import votelog.persistence.BusinessStore
-import votelog.orphans.doobie.implicits._
+import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta
 
 class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]

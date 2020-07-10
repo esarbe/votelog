@@ -15,7 +15,7 @@ object tools {
 
   def input(ofType: String)(id: String, label: String, rx: Var[String], errors: Rx[List[(String, String)]]) = {
     val filteredErrors: Rx[List[String]] =
-      errors.map(_.toMap.filterKeys(_ == id).values.toList).dropRepeats
+      errors.map(_.toMap.view.filterKeys(_ == id).values.toList).dropRepeats
 
     <dl>
       <dt><label for={id}>{label}</label></dt>
@@ -50,7 +50,7 @@ object tools {
   }
 
   def trigger(vrx: Var[Unit]): js.Dynamic => Unit = {
-    _ => vrx := Unit
+    _ => vrx := ()
   }
 
   def setAs[T](vrx: Var[T])(f: js.Dynamic => T) = {

@@ -6,7 +6,7 @@ import cats.effect.IO
 import cats.implicits._
 import org.http4s.dsl.io._
 import org.http4s.server.AuthMiddleware
-import org.http4s.{AuthedRequest, AuthedRoutes, AuthedService, Request, Response, headers}
+import org.http4s.{AuthedRequest, AuthedRoutes, Request, Response, headers}
 import org.reactormonk.CryptoBits
 import votelog.domain.authentication.User
 import votelog.persistence.UserStore
@@ -33,7 +33,7 @@ class AuthenticationService(
   })
 
   val onFailure: AuthedRoutes[String, IO] =
-    AuthedRoutes(req => OptionT.liftF(Forbidden(req.authInfo)))
+    AuthedRoutes(req => OptionT.liftF(Forbidden(req.context)))
 
   val fetchGuest = userStore.findByName(FallbackUsername).map(_.toRight(UnknownUser(FallbackUsername)))
 

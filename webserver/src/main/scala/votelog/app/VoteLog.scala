@@ -5,18 +5,17 @@ import cats.effect._
 import cats.implicits._
 import doobie.util.transactor.Transactor
 import votelog.app.Database.buildTransactor
-import votelog.app.Webserver.log
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 import votelog.crypto.{PasswordHasherAlg, PasswordHasherJavaxCrypto}
 import votelog.domain.authorization.AuthorizationAlg
 import votelog.domain.politics.Scoring.{Score, Weight}
-import votelog.domain.politics.{Business, Ngo, VoteAlg, Votum}
+import votelog.domain.politics.{Business, Ngo, VoteAlg}
 import votelog.implementation.UserCapabilityAuthorization
 import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
 import votelog.persistence._
 
-abstract class VoteLog[F[_]: Applicative] {
+abstract class VoteLog[F[_]] {
   val vote: VoteAlg[F]
   val politician: PersonStore[F]
   val motion: BusinessStore[F]
@@ -24,21 +23,6 @@ abstract class VoteLog[F[_]: Applicative] {
   val ngo: NgoStore[F]
   val authorization: AuthorizationAlg[F]
   val passwordHasher: PasswordHasherAlg[F]
-
-  // TODO: this should not be part of the store. extract into separate
-  // service/alg and use stores from there
-  def politiciansScoredBy(ngos: Map[Ngo.Id, Weight]): F[List[(Business.Id, Score)]] = {
-
-    ngos
-      .toList
-      .traverse { case (id, weight) =>
-        ngo.motionsScoredBy(id)
-      }
-
-
-    ???
-  }
-
 }
 
 object VoteLog {
@@ -48,10 +32,14 @@ object VoteLog {
     val db = buildTransactor(configuration.database)
     val cv = buildTransactor(configuration.curiaVista)
 
-    Resource.pure(buildAppAlg(hasher, db, cv))
+    val nep = implicitly[NonEmptyParallel[F]]
+    val async = implicitly[Async[F]]
+    val app = implicitly[Applicative[F]]
+
+    Resource.pure(buildAppAlg(hasher, db, cv)(nep, async))(app)
   }
 
-  def buildAppAlg[F[_]: NonEmptyParallel: Async](
+  def buildAppAlg[F[_]: NonEmptyParallel: Sync](
     hasher: PasswordHasherAlg[F],
     votelogDatabase: Transactor[F],
     curiaVistaDatabase: Transactor[F]

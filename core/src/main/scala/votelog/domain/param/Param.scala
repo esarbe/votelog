@@ -15,7 +15,7 @@ import votelog.Tupler
 case class Param[T](label: String, key: String, description: String)
 case class Params(entries: Map[String, Iterable[String]]) {
   def urlEncode: String =
-    entries.mapValues(_.mkString(",")).toList.map { case (key, values) => s"$key=$values"}.mkString("?", ";", "")
+    entries.view.mapValues(_.mkString(",")).toList.map { case (key, values) => s"$key=$values"}.mkString("?", ";", "")
 }
 
 object Params {
@@ -25,7 +25,7 @@ object Params {
   implicit object ParamsMonoid extends Monoid[Params] {
     override def empty: Params = Params(Map.empty[String, Seq[String]])
 
-    override def combine(x: Params, y: Params): Params = Params(x.entries |+| y.entries)
+    override def combine(x: Params, y: Params): Params = Params(x.entries <+> y.entries)
   }
 }
 

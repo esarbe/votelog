@@ -2,12 +2,13 @@ package votelog.orphans.doobie
 
 import java.util.UUID
 
-import doobie.util.{Meta, Put, Read}
+import doobie.util.{Put, Read}
 import votelog.domain.authentication.User
 import votelog.domain.politics.Person.Gender
 import votelog.domain.politics.Person.Gender.{Female, Male}
 import votelog.domain.politics.{Language, Ngo, Votum}
 import doobie.postgres.implicits._
+import doobie.util.meta.Meta
 
 object implicits {
 

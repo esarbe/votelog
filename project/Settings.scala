@@ -3,9 +3,10 @@ import sbt.Keys._
 
 object Settings {
 
-  val httpsVersion = "0.21.0-M5"
-  val circeVersion = "0.13.0-M1"
-  val doobieVersion = "0.8.6"
+  val httpsVersion = "1.0.0-M3"
+  val circeVersion = "0.13.0"
+  val doobieVersion = "0.9.0"
+  val catsVersion = "2.1.1"
 
   val compiler =
     scalacOptions ++= Seq(
@@ -16,15 +17,14 @@ object Settings {
       "-language:implicitConversions",
       "-language:higherKinds",
       "-language:postfixOps",
-      "-Ypartial-unification",
     )
 
   val common =
     Seq(
-      scalaVersion := "2.12.10",
+      scalaVersion := "2.13.3",
       organization := "org.esarbe.votelog",
       version := "0.0.1-SNAPSHOT",
       addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"),
-      addCompilerPlugin("com.olegpy" %% "better-monadic-for"  % "0.3.0"),
+      addCompilerPlugin("com.olegpy" %% "better-monadic-for"  % "0.3.1"),
     )
 }

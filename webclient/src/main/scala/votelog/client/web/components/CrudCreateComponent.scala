@@ -24,7 +24,7 @@ trait CrudCreateComponent[F, T, Identity, Recipe] {
   type Error = (String, String)
   def validateRecipe(recipe: Recipe): Validated[NonEmptyList[Error], Recipe]
   val recipe: Var[Option[Recipe]] = Var(None)
-  val submitCreate: Var[Unit] = Var(Unit)
+  val submitCreate: Var[Unit] = Var(())
 
   private val validatedRecipe: Rx[Option[Validated[NonEmptyList[(String, String)], Recipe]]] =
     recipe.map(_.map(validateRecipe))

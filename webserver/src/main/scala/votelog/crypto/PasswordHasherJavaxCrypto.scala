@@ -1,5 +1,6 @@
 package votelog.crypto
 
+import cats.Defer
 import cats.effect.Sync
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec

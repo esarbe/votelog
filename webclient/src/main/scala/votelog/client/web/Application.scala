@@ -135,7 +135,7 @@ object Application {
         </footer>
       </application>
 
-    votelog.client.mhtml.mount(dom.document.body, content)
+    mhtml.mount(dom.document.body, content)
   }
 
 }

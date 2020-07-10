@@ -14,6 +14,6 @@ class NgoService(
   val store: NgoStore[IO],
   val authAlg: AuthorizationAlg[IO],
 ) extends StoreService[Ngo, Ngo.Id, NgoStore.Recipe] {
-  override implicit val queryParamDecoder: param.Decoder[store.QueryParameters] = param.Decoder.always(Unit)
-  override implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters] = param.Decoder.always(Unit)
+  override implicit val queryParamDecoder: param.Decoder[store.QueryParameters] = param.Decoder.always(())
+  override implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters] = param.Decoder.always(())
 }
