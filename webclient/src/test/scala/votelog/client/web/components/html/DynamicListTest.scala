@@ -2,11 +2,12 @@ package votelog.client.web.components.html
 
 import mhtml.{Rx, Var}
 import org.scalajs.dom
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.xml.Elem
 
-class DynamicListTest extends WordSpec with Matchers {
+class DynamicListTest extends AnyWordSpec with Matchers {
 
   "diff" ignore {
     val section = dom.document.createElement("section")

@@ -3,7 +3,8 @@ package votelog.persistence.doobie
 import cats.effect.{ContextShift, IO}
 import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import votelog.domain.politics.{Business, Ngo}
 import votelog.domain.politics.Scoring.Score
 import votelog.persistence.NgoStore.Recipe
@@ -12,7 +13,7 @@ import votelog.persistence.{BusinessStore, NgoStore, PersonStore, StoreSpec}
 import scala.concurrent.ExecutionContext
 
 class DoobieNgoStoreSpec
-  extends FlatSpec
+  extends AnyFlatSpec
     with StoreSpec
     with ScalaFutures
     with Matchers {

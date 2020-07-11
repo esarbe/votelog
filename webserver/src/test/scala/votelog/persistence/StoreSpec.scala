@@ -1,13 +1,15 @@
 package votelog.persistence
 
 import cats.effect.IO
-import org.scalatest.{BeforeAndAfterAll, FlatSpec, Inside, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.{BeforeAndAfterAll, Inside}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
 import votelog.domain.crudi.StoreAlg
 import votelog.domain.politics.Language
 
-trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAll {
+trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfterAll {
 
   def aStore[Entity, Id, Recipe](
     store: StoreAlg[IO, Entity, Id, Recipe],
@@ -35,7 +37,6 @@ trait StoreSpec extends FlatSpec with Matchers with Inside with BeforeAndAfterAl
 
     it should "be able to read a stored entity" in {
       val entities = store.index(indexQueryParams).unsafeRunSync()
-      println(entities)
 
       inside(entities) {
         case Index(_, List(id)) =>

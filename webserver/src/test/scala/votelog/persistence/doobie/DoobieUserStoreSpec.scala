@@ -4,7 +4,9 @@ import cats.effect.{ContextShift, IO}
 import cats.implicits._
 import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.{FlatSpec, Inside, Matchers}
+import org.scalatest.Inside
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import votelog.app.Database
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
@@ -15,7 +17,7 @@ import scala.concurrent.ExecutionContext
 
 
 class DoobieUserStoreSpec
-  extends FlatSpec
+  extends AnyFlatSpec
     with StoreSpec
     with ScalaFutures
     with Matchers

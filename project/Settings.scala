@@ -7,6 +7,8 @@ object Settings {
   val circeVersion = "0.13.0"
   val doobieVersion = "0.9.0"
   val catsVersion = "2.1.1"
+  val scalatestVersion = "3.1.2"
+  val scalacheckVersion = "1.14.3"
 
   val compiler =
     scalacOptions ++= Seq(

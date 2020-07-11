@@ -1,8 +1,10 @@
 package votelog.domain.authorization
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class ComponentSpec extends WordSpec with Matchers {
+
+class ComponentSpec extends AnyWordSpec with Matchers {
 
   "Component" should {
 

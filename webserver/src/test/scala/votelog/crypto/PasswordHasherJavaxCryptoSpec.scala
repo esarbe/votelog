@@ -1,19 +1,17 @@
 package votelog.crypto
 
-import doobie.scalatest.IOChecker
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{Matchers, WordSpec}
-import org.scalatest._
-import Matchers._
-import cats.Id
 import cats.effect.IO
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import votelog.crypto.PasswordHasherJavaxCrypto.Salt
 
 class PasswordHasherJavaxCryptoSpec
-  extends WordSpec
+  extends AnyWordSpec
     with ScalaFutures
-    with GeneratorDrivenPropertyChecks {
+    with Matchers
+    with ScalaCheckDrivenPropertyChecks {
 
   "PasswordHasherJavaxCrypto" should {
     "salt and hash a given password" in forAll { (salt: String, password: String) =>

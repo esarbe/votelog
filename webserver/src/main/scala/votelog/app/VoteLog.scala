@@ -11,7 +11,6 @@ import votelog.domain.authorization.AuthorizationAlg
 import votelog.domain.politics.Scoring.{Score, Weight}
 import votelog.domain.politics.{Business, Ngo, VoteAlg}
 import votelog.implementation.UserCapabilityAuthorization
-import votelog.infrastructure.logging.Logger
 import votelog.persistence.doobie._
 import votelog.persistence._
 
@@ -27,16 +26,12 @@ abstract class VoteLog[F[_]] {
 
 object VoteLog {
 
-  def apply[F[_]: ContextShift: Logger: NonEmptyParallel: Async](configuration: Configuration): Resource[F, VoteLog[F]] = {
+  def apply[F[_]: ContextShift: NonEmptyParallel: Async](configuration: Configuration): Resource[F, VoteLog[F]] = {
     val hasher = new PasswordHasherJavaxCrypto[F](Salt(configuration.security.passwordSalt))
     val db = buildTransactor(configuration.database)
     val cv = buildTransactor(configuration.curiaVista)
 
-    val nep = implicitly[NonEmptyParallel[F]]
-    val async = implicitly[Async[F]]
-    val app = implicitly[Applicative[F]]
-
-    Resource.pure(buildAppAlg(hasher, db, cv)(nep, async))(app)
+    Resource.pure[F, VoteLog[F]](buildAppAlg(hasher, db, cv))
   }
 
   def buildAppAlg[F[_]: NonEmptyParallel: Sync](

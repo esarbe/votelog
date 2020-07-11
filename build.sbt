@@ -1,7 +1,7 @@
 import sbt.Keys.libraryDependencies
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossType
-import Settings.circeVersion
+import Settings.{circeVersion, scalatestVersion, scalacheckVersion}
 
 val core =
   crossProject(JSPlatform, JVMPlatform)
@@ -20,8 +20,8 @@ val core =
           "io.circe" %%% "circe-generic-extras"  % circeVersion,
           "org.julienrf" %%% "endpoints-algebra" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.13"),
           "org.julienrf" %%% "endpoints-json-schema-generic" % "0.13.0"
-            exclude("org.scala-lang.modules", "scala-xml_2.12"),
-          "org.scalatest" %%% "scalatest" % "3.2.0" % Test,
+            exclude("org.scala-lang.modules", "scala-xml_2.13"),
+          "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
           "org.scalacheck" %%% "scalacheck" % "1.14.0" % Test,
         )
     )
@@ -46,7 +46,7 @@ val webclient =
           "in.nvilla" %%% "monadic-html" % "0.4.0",
           "in.nvilla" %%% "monadic-rx-cats" % "0.4.0",
           "org.scalatest" %% "scalatest" % "3.2.0" % Test,
-          "org.scalacheck" %% "scalacheck" % "1.14.3" % Test,
+          "org.scalacheck" %% "scalacheck" % scalacheckVersion % Test,
         )
     )
     .dependsOn(core.js)

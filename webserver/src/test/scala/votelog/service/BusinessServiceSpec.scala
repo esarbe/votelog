@@ -7,7 +7,9 @@ import io.circe.generic.auto._
 import org.http4s.circe._
 import org.http4s.dsl.io._
 import org.http4s.{AuthedRequest, EntityDecoder, Method, Request, Response, Status, Uri}
-import org.scalatest.{FlatSpec, Inside, Matchers}
+import org.scalatest.Inside
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
@@ -16,8 +18,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, Query
 import votelog.persistence.BusinessStore
 import votelog.service.BusinessServiceSpec.check
 
-
-class BusinessServiceSpec extends FlatSpec with Matchers {
+class BusinessServiceSpec extends AnyFlatSpec with Matchers {
 
   val store =
     new BusinessStore[IO] {
@@ -51,13 +52,13 @@ object BusinessServiceSpec extends Matchers with Inside {
     expectedBody: Option[A])(
     implicit ev: EntityDecoder[IO, A]
   ): Boolean =  {
-    val response = eventualResponse.unsafeRunSync
+    val response = eventualResponse.unsafeRunSync()
     val statusCheck = response.forall(_.status == expectedStatus)
     val bodyCheck =
       expectedBody.
-        fold(response.forall(_.body.compile.toVector.unsafeRunSync.isEmpty)){
+        fold(response.forall(_.body.compile.toVector.unsafeRunSync().isEmpty)){
           expected =>
-            response.forall(_.as[A].unsafeRunSync == expected)
+            response.forall(_.as[A].unsafeRunSync() == expected)
         }
 
     statusCheck && bodyCheck

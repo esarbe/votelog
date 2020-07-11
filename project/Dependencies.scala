@@ -3,7 +3,7 @@ import sbt.Keys._
 
 object Dependencies {
 
-  import Settings.{circeVersion, httpsVersion, doobieVersion}
+  import Settings.{circeVersion, httpsVersion, doobieVersion, scalatestVersion, scalacheckVersion}
 
   lazy val common =
     libraryDependencies ++= Seq(
@@ -60,8 +60,9 @@ object Dependencies {
 
   val test =
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.2.0" % Test,
-      "org.scalacheck" %% "scalacheck" % "1.14.3" % Test,
+      "org.scalatest" %% "scalatest" % scalatestVersion % Test,
+      "org.scalacheck" %% "scalacheck" % scalacheckVersion % Test,
+      "org.scalatestplus" %% "scalacheck-1-14" % "3.1.2.0" % Test,
     )
 
   val mariaDb = libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "2.6.1"
