@@ -9,7 +9,7 @@ import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware.CORS
 import org.http4s.server.middleware.authentication.BasicAuth
 import org.http4s.server.{AuthMiddleware, Router}
-import org.http4s.{AuthedRequest, BasicCredentials, HttpRoutes, Request, Response}
+import org.http4s.{AuthedRequest, AuthedRoutes, BasicCredentials, HttpRoutes, Request, Response, Status}
 import org.reactormonk.{CryptoBits, PrivateKey}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
@@ -55,12 +55,12 @@ object Webserver extends IOApp {
   ): HttpRoutes[IO] = {
 
     object component {
-      val root = Root.child("api").child("v0")
-      val person = root.child("person")
-      val business = root.child("business")
-      val user = root.child("user")
-      val ngo = root.child("ngo")
-      val auth = root.child("auth")
+      val api = Root.child("api").child("v0")
+      val person = api.child("person")
+      val business = api.child("business")
+      val user = api.child("user")
+      val ngo = api.child("ngo")
+      val auth = api.child("auth")
     }
 
     val pws =
@@ -90,7 +90,8 @@ object Webserver extends IOApp {
     }
 
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
-    val session = new SessionService(crypto, clock, component.root)
+    val session = new SessionService(crypto, clock, component.api)
+
 
     val services =
       Map(
