@@ -20,12 +20,12 @@ class PersonStoreXhr(configuration: Configuration)
 
   override def index(qp: IndexQueryParameters): Future[Index[Person.Id]] = {
     Ajax
-      .get(configuration.url + s"/person/?" + qp.urlEncode, withCredentials = true)
+      .get(configuration.url + s"/person/" + qp.urlEncode, withCredentials = true)
       .flatMap(ifSuccess(fromJson[Index[Person.Id]]))
   }
 
-  override def read(queryParameters: Language)(id: Person.Id): Future[Person] =
+  override def read(language: Language)(id: Person.Id): Future[Person] =
     Ajax
-      .get(configuration.url + s"/person/${id.value.toString}?lang=${queryParameters.iso639_1}", withCredentials = true)
+      .get(configuration.url + s"/person/" + id.value + language.urlEncode, withCredentials = true)
       .flatMap(ifSuccess(fromJson[Person]))
 }

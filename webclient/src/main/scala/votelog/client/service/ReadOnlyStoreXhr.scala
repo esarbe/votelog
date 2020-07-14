@@ -24,7 +24,7 @@ abstract class ReadOnlyStoreXhr[T: Decoder, Identity: Decoder: KeyEncoder](
 
   override def index(queryParameters: IndexQueryParameters): Future[Index[Identity]] = {
     println(s"$indexUrl")
-    Ajax.get(indexUrl + "?" + queryParameters.urlEncode, withCredentials = true)
+    Ajax.get(indexUrl + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
         decode[Index[Identity]](res.responseText).fold(Future.failed, Future.successful)
       }
@@ -32,7 +32,7 @@ abstract class ReadOnlyStoreXhr[T: Decoder, Identity: Decoder: KeyEncoder](
 
 
   override def read(queryParameters: QueryParameters)(id: Identity): Future[T] = {
-    Ajax.get(indexUrl + param(id) + "?" + queryParameters.urlEncode, withCredentials = true)
+    Ajax.get(indexUrl + param(id) + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
         decode[T](res.responseText).fold(Future.failed, Future.successful)
       }

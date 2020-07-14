@@ -19,13 +19,13 @@ class VoteStoreXhr(configuration: Configuration) extends VoteAlg[Future] {
 
   override def getVotesForBusiness(context: Context)(business: Business.Id): Future[List[(Person.Id, Votum)]] = {
     Ajax
-      .get(configuration.url + s"/person/$business/votes?" + context.urlEncode, withCredentials = true)
+      .get(configuration.url + s"/person/$business/votes" + context.urlEncode, withCredentials = true)
       .flatMap(ifSuccess(fromJson[List[(Person.Id, Votum)]]))
   }
 
   override def getVotesForPerson(context: Context)(person: Person.Id): Future[List[(Business.Id, Votum)]] = {
     Ajax
-      .get(configuration.url + s"/person/$person/votes?" + context.urlEncode, withCredentials = true)
+      .get(configuration.url + s"/person/$person/votes" + context.urlEncode, withCredentials = true)
       .flatMap(ifSuccess(fromJson[List[(Business.Id, Votum)]]))
   }
 }
