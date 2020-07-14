@@ -15,7 +15,7 @@ import votelog.Tupler
 case class Param[T](label: String, key: String, description: String)
 case class Params(entries: Map[String, Iterable[String]]) {
   def urlEncode: String =
-    entries.view.mapValues(_.mkString(",")).toList.map { case (key, values) => s"$key=$values"}.mkString("?", ";", "")
+    entries.view.mapValues(_.mkString(",")).toList.map { case (key, values) => s"$key=$values"}.mkString("?", "&", "")
 }
 
 object Params {
