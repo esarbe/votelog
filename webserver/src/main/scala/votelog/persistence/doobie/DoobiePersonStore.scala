@@ -35,7 +35,6 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       SELECT distinct p.* from person p, voting v
       WHERE p.person_number = v.person_number
       AND v.id_legislative_period = ${p.queryParameters.legislativePeriod}
-      AND v.`language` = ${p.queryParameters.language.iso639_1}
       AND p.`language` = ${p.queryParameters.language.iso639_1}
       LIMIT ${p.offset.value}, ${p.pageSize.value}
     """
