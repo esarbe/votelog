@@ -92,7 +92,6 @@ object Webserver extends IOApp {
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
     val session = new SessionService(crypto, clock, component.api)
 
-
     val services =
       Map(
         component.person.location -> auth(pws.service),
