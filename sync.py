@@ -201,7 +201,7 @@ def main():
     parser.add_argument("-p", "--password", type=str, required=True)
     parser.add_argument("-H", "--host", type=str, default="localhost")
     parser.add_argument("-P", "--port", type=int, default=3306)
-    parser.add_argument("-d", "--database", type=str, default=3306)
+    parser.add_argument("-d", "--database", type=str)
     args = parser.parse_args()
     log_level = max(3 - args.verbose_count, 0) * 10
     logger.info("Setting loglevel to {}".format(log_level))
