@@ -1,0 +1,28 @@
+# system-specific temp, backup, thumbnail etc. files
+.~lock*
+*.backup
+~$*
+.DS_Store
+Thumbs.db
+
+# Vim
+*.swp
+
+# PyCharm
+/.idea/
+*.sqlite3
+*.sqlite3-journal
+
+# Python
+__pycache__
+
+# R(Studio) specific (temp) files
+*.Rproj
+.RData
+.Rhistory
+.Rproj.user
+.Ruserdata
+
+# API keys
+.google_API_keys
+.httr-oauth
