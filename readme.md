@@ -16,8 +16,10 @@ For M1 the following features are planned:
 - [ ] Querying parlamentarian by user rating
 
 
-`votelog` is written in the Scala programming language and uses `sbt` for building the software. To 
+The server part of `votelog` is written in Scala and uses `sbt` for building the software. To 
 build `votelog` locally, install sbt.
+
+The `votelog` part facing the Curia Vista database is written in Python.
 
 ## Running votelog web server
 
@@ -50,8 +52,8 @@ overwritten by setting the corresponding environment variables.
 ## Votelog REST interface
 | Method | Path |- Function |
 |  --    | --   | -- |
-|`GET` | `/api/politican/index` | get politician ids |
-| `POST` | `/api/politician/{id}` | get politician identified by `id`
+|`GET` | `/api/v0/person/` | get index of parlamentarians |
+| `POST` | `/api/v0/person/{id}` | get parlamentarian identified by `id`
 ...
 
 ## Starting local docker for testing
