@@ -51,7 +51,7 @@ overwritten by setting the corresponding environment variables.
 | CURIAVISTA_DATABASE_USER | CuriaVista dump database user |
 | SECURITY_PASSWORD_SALT | application security salt |
 | SECURITY_SECRET | application security secret |
-| VOTELOG_DATABASE_URL | votelog databse url |
+| VOTELOG_DATABASE_URL | votelog database url |
 | VOTELOG_DATABASE_USER | votelog database user |
 | VOTELOG_DATABASE_PASSWORD | votelog database password |
 
