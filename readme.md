@@ -5,13 +5,13 @@
 
 **`votelog`** is a http server application that provides a convenient interface for the Swiss parlaments's CuriaVista datase (https://www.parlament.ch/de/ratsbetrieb/curia-vista). Work on the M1 Milestone is ongoing, for M1 the following features are planned:
 
-[X] Creation of user accounts
-[X] Protection of resources using permission framework
-[X] Querying parlamentarian by name, by legislative period and by busines
-[X] Querying businesses by name, legislative period and by parlamentarian
+- [X] Creation of user accounts
+- [X] Protection of resources using permission framework
+- [X] Querying parlamentarian by name, by legislative period and by busines
+- [X] Querying businesses by name, legislative period and by parlamentarian
 
-[ ] Rating of businesses by users, assignment of 'prefered' results by users
-[ ] Querying parlamentarian by user rating
+- [ ] Rating of businesses by users, assignment of 'prefered' results by users
+- [ ] Querying parlamentarian by user rating
 
 
 `votelog` is written in the Scala programming language and uses `sbt` for building the software. To 
