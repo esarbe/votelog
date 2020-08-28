@@ -3,7 +3,9 @@
 # Votelog
 
 
-**`votelog`** is a http server application that provides a convenient interface for the Swiss parlaments's CuriaVista datase (https://www.parlament.ch/de/ratsbetrieb/curia-vista). Work on the M1 Milestone is ongoing, for M1 the following features are planned:
+**`votelog`** is a http server application that provides a convenient interface for the Swiss parlaments's CuriaVista datase (https://www.parlament.ch/de/ratsbetrieb/curia-vista). Work on the M1 Milestone is ongoing.
+
+For M1 the following features are planned:
 
 - [X] Creation of user accounts
 - [X] Protection of resources using permission framework
