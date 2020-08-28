@@ -3,7 +3,16 @@
 # Votelog
 
 
-**`votelog`** is a http server application to record, query and rate the voting behaviour of politicians. 
+**`votelog`** is a http server application that provides a convenient interface for the Swiss parlaments's CuriaVista datase (https://www.parlament.ch/de/ratsbetrieb/curia-vista). Work on the M1 Milestone is ongoing, for M1 the following features are planned:
+
+[x] Creation of user accounts
+[x] Protection of resources using permission framework
+[x] Querying parlamentarian by name, by legislative period and by busines
+[x] Querying businesses by name, legislative period and by parlamentarian
+
+[] Rating of businesses by users, assignment of 'prefered' results by users
+[] Querying parlamentarian by user rating
+
 
 `votelog` is written in the Scala programming language and uses `sbt` for building the software. To 
 build `votelog` locally, install sbt.
