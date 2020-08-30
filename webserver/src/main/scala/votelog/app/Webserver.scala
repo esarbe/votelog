@@ -16,8 +16,14 @@ import pureconfig.generic.auto._
 import votelog.app
 import votelog.domain.authentication.User
 import votelog.domain.authorization.Component.Root
+import votelog.domain.crudi.ReadOnlyStoreAlg
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.politics.{Context, Person}
+import votelog.endpoint.PersonStoreEndpoint
 import votelog.implementation.Log4SLogger
 import votelog.service._
+
 import scala.concurrent.ExecutionContext
 
 object Webserver extends IOApp {
@@ -66,7 +72,7 @@ object Webserver extends IOApp {
     val pws =
       new PersonService(
         component = component.person,
-        store = votelog.politician,
+        store = votelog.person,
         voteAlg = votelog.vote,
         log = log,
         authAlg = votelog.authorization
@@ -92,8 +98,11 @@ object Webserver extends IOApp {
     val basicAuth: AuthMiddleware[IO, User] = BasicAuth("votelog", validateCredentials)
     val session = new SessionService(crypto, clock, component.api)
 
+    val personStoreEndpoint = new PersonStoreHttp4sEndpoint(votelog.person)
+
     val services =
       Map(
+        //"qux" -> personStoreEndpoint.routes,
         component.person.location -> auth(pws.service),
         component.business.location -> auth(bws.service),
         component.user.location -> auth(uws.service),
@@ -102,7 +111,8 @@ object Webserver extends IOApp {
         component.auth.child("user").location -> auth(session.service),
       )
 
-    Router(services.view.mapValues(CORS(_)).toSeq:_*)
+    Router(services.view.mapValues(CORS(_)).toSeq:_*) <+>
+      HttpRoutes.of(personStoreEndpoint.routes)
   }
 
   lazy val loadConfiguration =
