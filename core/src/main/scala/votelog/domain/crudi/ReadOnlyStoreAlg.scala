@@ -23,6 +23,11 @@ object ReadOnlyStoreAlg {
   object QueryParameters {
     case class PageSize(value: Int) { override def toString: String = value.toString }
     object PageSize {
+      def apply(value: Int): PageSize = {
+        assert(value >= 1, "page size must be equal to or larger than 1")
+        new PageSize(value)
+      }
+
       implicit val pageSizeOrdering: Ordering[PageSize] =
         (lhs: PageSize, rhs: PageSize) => lhs.value.compareTo(rhs.value)
       implicit val pageSizeShow: Show[PageSize] = _.value.toString
@@ -31,7 +36,7 @@ object ReadOnlyStoreAlg {
     case class Offset private (value: Long) { override def toString: String = value.toString }
     object Offset {
       def apply(value: Long): Offset = {
-        //assert(value <= 0, "offset must be equal to or larger than 0")
+        assert(value >= 0, "offset must be equal to or larger than 0")
         new Offset(value)
       }
     }
