@@ -18,8 +18,8 @@ val core =
           "io.circe" %%% "circe-generic" % circeVersion,
           "io.circe" %%% "circe-parser" % circeVersion,
           "io.circe" %%% "circe-generic-extras"  % circeVersion,
-          "org.julienrf" %%% "endpoints-algebra" % "0.12.0" exclude("org.scala-lang.modules", "scala-xml_2.13"),
-          "org.julienrf" %%% "endpoints-json-schema-generic" % "0.13.0"
+          "org.endpoints4s" %%% "algebra" % "1.0.0" exclude("org.scala-lang.modules", "scala-xml_2.13"),
+          "org.endpoints4s" %%% "json-schema-generic" % "1.0.0"
             exclude("org.scala-lang.modules", "scala-xml_2.13"),
           "org.scalatest" %%% "scalatest" % scalatestVersion % Test,
           "org.scalacheck" %%% "scalacheck" % "1.14.0" % Test,
@@ -69,6 +69,11 @@ val webserver =
       Dependencies.test,
       Dependencies.mariaDb,
       Dependencies.decline,
+      libraryDependencies ++=
+        Seq(
+          "org.endpoints4s" %% "http4s-server" % "1.0.0",
+          "org.endpoints4s" %% "openapi" % "1.0.0",
+        )
     )
     .enablePlugins(JavaAppPackaging)
     .dependsOn(coreJvm)
