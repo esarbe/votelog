@@ -16,7 +16,7 @@ import votelog.persistence._
 
 abstract class VoteLog[F[_]] {
   val vote: VoteAlg[F]
-  val politician: PersonStore[F]
+  val person: PersonStore[F]
   val motion: BusinessStore[F]
   val user: UserStore[F]
   val ngo: NgoStore[F]
@@ -40,7 +40,7 @@ object VoteLog {
     curiaVistaDatabase: Transactor[F]
   ): VoteLog[F] =
     new VoteLog[F] {
-      val politician = new DoobiePersonStore(curiaVistaDatabase)
+      val person = new DoobiePersonStore(curiaVistaDatabase)
       val vote = new DoobieVoteStore(curiaVistaDatabase)
       val motion = new DoobieBusinessStore(curiaVistaDatabase)
       val user = new DoobieUserStore(votelogDatabase, hasher)
