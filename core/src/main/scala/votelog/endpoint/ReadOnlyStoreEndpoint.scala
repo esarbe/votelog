@@ -5,7 +5,7 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 
 trait ReadOnlyStoreEndpoint
-  extends algebra.Endpoints
+  extends UserAuthentication
     with algebra.JsonEntitiesFromSchemas
     with algebra.JsonSchemas {
 
@@ -33,15 +33,19 @@ trait ReadOnlyStoreEndpoint
 
   lazy val idSegment = segment[Id]("id", docs = Some("Entity Id"))
 
-  lazy val index: Endpoint[(Offset, PageSize, IndexContext), Index[Id]] =
-    endpoint(
-      get(rootPath /? contextualizedPagedQuery),
+  lazy val index: Endpoint[(Offset, PageSize, IndexContext, AuthenticationToken), Index[Id]] =
+    authenticatedEndpoint(
+      Get,
+      rootPath /? contextualizedPagedQuery,
+      emptyRequest,
       ok(jsonResponse[Index[Id]])
     )
 
-  lazy val read: Endpoint[(Id, EntityContext), Option[Entity]] =
-    endpoint(
-      get(rootPath / idSegment /? entityContextQuery),
+  lazy val read: Endpoint[(Id, EntityContext, AuthenticationToken), Option[Entity]] =
+    authenticatedEndpoint(
+      Get,
+      rootPath / idSegment /? entityContextQuery,
+      emptyRequest,
       ok(jsonResponse[Entity]).orNotFound()
     )
 
