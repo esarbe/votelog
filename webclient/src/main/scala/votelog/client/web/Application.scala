@@ -28,10 +28,9 @@ object Application {
 
   val location = url.map(_.dropWhile(_ != '#').drop(1)).dropRepeats
 
-  val defaultContext = Context(LegislativePeriod.Default.id, politics.Language.English)
+  val defaultContext = Context(LegislativePeriod.Default.id, politics.Language.German)
   val context: Var[Context] = Var(defaultContext)
 
-  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
 
   val root = Component.Root
 
