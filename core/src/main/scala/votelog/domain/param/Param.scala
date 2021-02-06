@@ -34,7 +34,7 @@ trait Encoder[T] {
 }
 
 object Encoder {
-  implicit final class ParamDecoderOps[T](t: T)(implicit ev: Encoder[T]) {
+  implicit final class ParamEncoderOps[T](t: T)(implicit ev: Encoder[T]) {
     def urlEncode: String = ev.encode(t).urlEncode
   }
 
@@ -42,17 +42,28 @@ object Encoder {
 }
 
 
-trait Decoder[T] {
-  def decode(p: Params): Option[T]
+trait Decoder[A] {
+  def decode(p: Params): Option[A]
+  def zip[B](other: Decoder[B]): Decoder[(A, B)] = Decoder.combineDecoder(this, other)
 }
 
 object Decoder {
 
-  implicit class DecoderOps[T: Param](t: T)(implicit ev: Encoder[T]) {
-    def urlEncode: String = ev.encode(t).urlEncode
+  implicit class Ops[A](val decoder: Decoder[A]) extends AnyVal {
+    def decode(params: Params): Option[A] = decoder.decode(params)
+    def zip [B](other: Decoder[B]): Decoder[(A, B)] = combineDecoder[A, B](decoder, other)
   }
 
-  def always[T](value: T): Decoder[T]  = (params: Params) => Some(value)
+  implicit def listKeyDecoder[A](implicit ev: KeyDecoder[A]): KeyDecoder[List[A]] =
+    new KeyDecoder[List[A]] {
+      def apply(key: String): Option[List[A]] =
+        key.split(',').map(ev.apply).toList.sequence
+    }
+
+  def always[T](value: T): Decoder[T] =
+    new Decoder[T]{
+      override def decode(p: Params): Option[T] = Some(value)
+    }
 
   implicit object decoderFunctor extends Functor[Decoder] {
     override def map[A, B](decoder: Decoder[A])(f: A => B): Decoder[B] =
@@ -62,7 +73,7 @@ object Decoder {
   def apply[T: KeyDecoder](key: String): Decoder[T] =
     params => params.entries.get(key).flatMap(vs => KeyDecoder[T].apply(vs.head))
 
-  def combine[A, B](a: Decoder[A], b: Decoder[B])(implicit ev: Tupler[A, B]): Decoder[ev.Out] = {
+  def combineDecoder[A, B](a: Decoder[A], b: Decoder[B])(implicit ev: Tupler[A, B]): Decoder[ev.Out] = {
     params: Params =>
       for {
         a <- a.decode(params)

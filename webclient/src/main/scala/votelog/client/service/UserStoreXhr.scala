@@ -15,7 +15,7 @@ import votelog.domain.param.Params
 
 
 class UserStoreXhr(configuration: Configuration)
-  extends StoreXhr[User, User.Id, UserStore.Recipe]
+  extends StoreXhr[User, User.Id, UserStore.Recipe, User.Ordering]
     with UserStore[Future] {
 
   val indexUrl =  configuration.url + "/user"

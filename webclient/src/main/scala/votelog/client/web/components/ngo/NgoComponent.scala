@@ -24,10 +24,10 @@ class NgoComponent(
   component: votelog.domain.authorization.Component,
   configuration: NgoComponent.Configuration,
   val store: NgoStore[Future],
-) extends CrudIndexComponent[Ngo, Ngo.Id] { self =>
+) extends CrudIndexComponent[Ngo, Ngo.Id, Ngo.Ordering] { self =>
 
-  lazy val indexQueryParameters: Rx[store.IndexQueryParameters] = Rx(())
-  lazy val queryParameters: Rx[store.QueryParameters] = Rx(())
+  lazy val indexQueryParameters: Rx[store.IndexParameters] = Rx(())
+  lazy val queryParameters: Rx[store.ReadParameters] = Rx(())
   lazy val queryParametersView: Option[Node] = None
 
   def id(id: String): String = component.child(id).location

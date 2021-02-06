@@ -1,9 +1,9 @@
 package votelog.persistence
 
 import votelog.domain.crudi.ReadOnlyStoreAlg
-import votelog.domain.politics.{Business, Context, Language}
+import votelog.domain.politics.{Context, Language, Business}
 
-trait BusinessStore[F[_]] extends ReadOnlyStoreAlg[F, Business, Business.Id] {
-  type QueryParameters = Language
-  type IndexQueryParameters = ReadOnlyStoreAlg.IndexQueryParameters[Context]
+trait BusinessStore[F[_]] extends ReadOnlyStoreAlg[F, Business, Business.Id, Business.Ordering] {
+  type ReadParameters = Language
+  type IndexParameters = ReadOnlyStoreAlg.IndexQueryParameters[Context, Business.Ordering]
 }

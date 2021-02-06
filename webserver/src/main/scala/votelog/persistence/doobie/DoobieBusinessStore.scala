@@ -21,11 +21,11 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
     sql"select title, description, submitted_by, submission_date from business where id=${id} and language=${language.iso639_1}"
       .query[Business].unique
 
-  def indexQuery(qp: IndexQueryParameters): doobie.ConnectionIO[List[Business.Id]] =
+  def indexQuery(qp: IndexParameters): doobie.ConnectionIO[List[Business.Id]] =
     sql"""select id from business
          |where business_type in (3, 4, 5)
-         |and submission_legislative_period = ${qp.queryParameters.legislativePeriod}
-         |and language = ${qp.queryParameters.language.iso639_1.toUpperCase}
+         |and submission_legislative_period = ${qp.indexContext.legislativePeriod}
+         |and language = ${qp.indexContext.language.iso639_1.toUpperCase}
          |LIMIT ${qp.pageSize}
          |""".stripMargin
       .query[Business.Id]
@@ -34,10 +34,10 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
   val count: doobie.ConnectionIO[Int] =
     sql"select count(id) from business".query[Int].unique
 
-  override def read(queryParameters: QueryParameters)(id: Business.Id): F[Business] =
+  override def read(queryParameters: ReadParameters)(id: Business.Id): F[Business] =
     selectQuery(queryParameters)(id).transact(transactor)
 
-  override def index(indexQueryParameters: IndexQueryParameters): F[Index[Business.Id]] = {
+  override def index(indexQueryParameters: IndexParameters): F[Index[Business.Id]] = {
     val index = indexQuery(indexQueryParameters).transact(transactor)
     val count = this.count.transact(transactor)
 

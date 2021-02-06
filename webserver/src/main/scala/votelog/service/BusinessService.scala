@@ -19,16 +19,18 @@ class BusinessService(
   val store: BusinessStore[IO],
   val authAlg: AuthorizationAlg[IO],
   val voteAlg: VoteAlg[IO],
-) extends ReadOnlyStoreService[Business, Business.Id] {
+) extends ReadOnlyStoreService[Business, Business.Id, Business.Ordering] {
 
+  implicit val orderingParamDecoder: param.Decoder[List[Business.Ordering]] = Params.orderDecoder
   implicit val contextParamDecoder: param.Decoder[Context] = Params.contextParam
   override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
-  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context]] = Params.indexQueryParam
+  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Business.Ordering]] =
+    Params.indexParamsDecoder(contextParamDecoder, orderingParamDecoder)
 
   lazy val voting: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>
       voteAlg
-        .getVotesForBusiness(params.queryParameters)(id)
+        .getVotesForBusiness(params.indexContext)(id)
         .attempt.flatMap {
           case Right(votes) => Ok(votes.toMap.asJson)
           case Left(error) => InternalServerError(error.getMessage)

@@ -20,7 +20,7 @@ class BusinessComponent(
   configuration: BusinessComponent.Configuration,
   val store: BusinessStore[Future],
   language: Rx[Language]
-) extends CrudIndexComponent[Business, Business.Id] { self =>
+) extends CrudIndexComponent[Business, Business.Id, Business.Ordering] { self =>
 
   def id(id: String): String = component.child(id).location
 
@@ -37,13 +37,13 @@ class BusinessComponent(
   lazy val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
   lazy val queryParameters: Rx[Language] = language
 
-  lazy val indexQueryParameters: Rx[store.IndexQueryParameters] =
+  lazy val indexQueryParameters: Rx[store.IndexParameters] =
     for {
       offset <- paging.offset
       pageSize <- paging.pageSize
       language <- language
       legislativePeriod <- legislativePeriod.model
-    } yield IndexQueryParameters(pageSize, offset, Context(legislativePeriod, language))
+    } yield IndexQueryParameters(pageSize, offset, Context(legislativePeriod, language), List(Business.Ordering.Title))
 
   val errors: Rx[Iterable[Throwable]] = Rx(Nil)
 

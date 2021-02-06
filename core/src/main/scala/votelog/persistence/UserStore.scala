@@ -11,10 +11,10 @@ import votelog.domain.authentication.User.Email
 import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.crudi.StoreAlg
 
-trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe] {
+trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe, User.Ordering] {
 
-  type QueryParameters = Unit
-  type IndexQueryParameters = Unit
+  type ReadParameters = Unit
+  type IndexParameters = Unit
 
   def findByName(name: String): F[Option[User]]
   def grantPermission(userId: User.Id, component: Component, capability: Capability): F[Unit]

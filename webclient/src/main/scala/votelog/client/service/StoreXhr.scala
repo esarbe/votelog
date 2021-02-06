@@ -13,13 +13,13 @@ import votelog.domain.param.Encoder._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encoder](
+abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encoder, Ordering](
   implicit indexDecoder: Decoder[Index[Identity]]
-) extends StoreAlg[Future, T, Identity, Recipe]{
+) extends StoreAlg[Future, T, Identity, Recipe, Ordering]{
 
   val indexUrl: String // TODO: maybe reuse [[Component]]?!!!
-  implicit val indexQueryParameterEncoder: ParamEncoder[IndexQueryParameters]
-  implicit val queryParameterEncoder: ParamEncoder[QueryParameters]
+  implicit val indexQueryParameterEncoder: ParamEncoder[IndexParameters]
+  implicit val queryParameterEncoder: ParamEncoder[ReadParameters]
 
   def param(id: Identity): String =
     s"/${KeyEncoder[Identity].apply(id)}"
@@ -42,14 +42,14 @@ abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encod
       }
   }
 
-  override def index(queryParameters: IndexQueryParameters): Future[Index[Identity]] = {
+  override def index(queryParameters: IndexParameters): Future[Index[Identity]] = {
     Ajax.get(indexUrl + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
         decode[Index[Identity]](res.responseText).fold(Future.failed(_), Future.successful(_))
       }
   }
 
-  override def read(queryParameters: QueryParameters)(id: Identity): Future[T] = {
+  override def read(queryParameters: ReadParameters)(id: Identity): Future[T] = {
     Ajax.get(indexUrl + param(id) + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
         decode[T](res.responseText).fold(Future.failed(_), Future.successful(_))

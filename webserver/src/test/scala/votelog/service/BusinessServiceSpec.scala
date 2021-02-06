@@ -22,8 +22,8 @@ class BusinessServiceSpec extends AnyFlatSpec with Matchers {
 
   val store =
     new BusinessStore[IO] {
-      override def index(queryParameters: IndexQueryParameters): IO[Index[Business.Id]] = IO.pure(Index(1, List(Business.Id(0))))
-      override def read(queryParameters: QueryParameters)(id: Business.Id): IO[Business] = ???
+      override def index(queryParameters: IndexParameters): IO[Index[Business.Id]] = IO.pure(Index(1, List(Business.Id(0))))
+      override def read(queryParameters: ReadParameters)(id: Business.Id): IO[Business] = ???
     }
 
   val vote = new VoteAlg[IO] {

@@ -26,13 +26,18 @@ class PersonService(
   val voteAlg: VoteAlg[IO],
   val log: Logger[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends ReadOnlyStoreService[Person, Person.Id] {
+) extends ReadOnlyStoreService[Person, Person.Id, Person.Ordering] {
 
   implicit val motionIdCirceKeyEncoder: KeyEncoder[Business.Id] =
     KeyEncoder.instance[Business.Id](_.value.toString)
 
-  val defaultIndexQueryParameters: IndexQueryParameters[Context] =
-    IndexQueryParameters[Context](PageSize(20), Offset(0), Context(LegislativePeriod.Id(50), Language.English))
+  val defaultIndexQueryParameters: IndexQueryParameters[Context, Person.Ordering] =
+    IndexQueryParameters(
+      PageSize(20),
+      Offset(0),
+      Context(LegislativePeriod.Id(50), Language.English),
+      List(Person.Ordering.LastName, Person.Ordering.FirstName, Person.Ordering.DateOfBirth, Person.Ordering.Id)
+    )
 
   object MotionId {
     def unapply(str: String): Option[Business.Id] =
@@ -43,7 +48,7 @@ class PersonService(
 
     case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>
       voteAlg
-        .getVotesForPerson(params.queryParameters)(id)
+        .getVotesForPerson(params.indexContext)(id)
         .attempt.flatMap {
           case Right(votes) => Ok(votes.toMap.asJson)
           case Left(error) => InternalServerError(error.getMessage)
@@ -53,7 +58,9 @@ class PersonService(
   override def service: AuthedRoutes[User, IO] = super.service <+> voting
 
   override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
-  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context]] =
-    iqpc => Params.indexQueryParam(Params.contextParam).decode(iqpc)
-      .orElse(Some(defaultIndexQueryParameters)) // TODO: redirect in case of missing required parameters would be better
+
+  // TODO: redirect in case of missing required parameters would be better
+  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Person.Ordering]] =
+    params => Params.indexParamsDecoder(Params.contextParam, Params.orderDecoder[Person.Ordering]).decode(params)
+      .orElse(Some(defaultIndexQueryParameters))
 }

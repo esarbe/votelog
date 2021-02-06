@@ -30,12 +30,12 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .query[Person]
       .unique
 
-  def indexQuery(p: IndexQueryParameters): doobie.ConnectionIO[List[Person.Id]] =
+  def indexQuery(p: IndexParameters): doobie.ConnectionIO[List[Person.Id]] =
     sql"""
       SELECT distinct p.* from person p, voting v
       WHERE p.person_number = v.person_number
-      AND v.id_legislative_period = ${p.queryParameters.legislativePeriod}
-      AND p.`language` = ${p.queryParameters.language.iso639_1}
+      AND v.id_legislative_period = ${p.indexContext.legislativePeriod}
+      AND p.`language` = ${p.indexContext.language.iso639_1}
       LIMIT ${p.offset.value}, ${p.pageSize.value}
     """
       .query[Person.Id].accumulate[List]
@@ -45,7 +45,7 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
   override def read(lang: Language)(id: Person.Id): F[Person] =
     selectQuery(id, lang).transact(transactor)
 
-  override def index(p: IndexQueryParameters): F[Index[Person.Id]] = {
+  override def index(p: IndexParameters): F[Index[Person.Id]] = {
     val index = indexQuery(p).transact(transactor)
     val count = this.count.transact(transactor)
 

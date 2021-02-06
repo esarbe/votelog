@@ -50,8 +50,9 @@ class Persons(
       offset <- paging.offset
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
-      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
-      ids <- personsStore.index(indexQueryParams).map(_.entities).toRx
+      orderings = List(Person.Ordering.LastName, Person.Ordering.FirstName)
+      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings)
+      ids <- persons.index(indexQueryParams).map(_.entities).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(Right(ids))
       case Some(Failure(error)) => Some(Left(error))
@@ -72,7 +73,7 @@ class Persons(
     for {
       selectedId <- maybeSelected
       language <- language
-      entity = selectedId.map(id => personsStore.read(language)(id).toRx)
+      entity = selectedId.map(id => persons.read(language)(id).toRx)
       maybeResult <- entity match {
         case Some(rx) => rx
         case None => Rx(None)
@@ -98,8 +99,9 @@ class Persons(
       offset <- paging.offset
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
-      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters)
-      ids = personsStore.index(indexQueryParams)
+      orderings = List(Person.Ordering.LastName, Person.Ordering.FirstName)
+      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings)
+      ids = persons.index(indexQueryParams)
       persons <-
         ids
           .flatMap { index => Future.sequence(index.entities.map(personsStore.read(queryParameters.language))) }

@@ -10,9 +10,9 @@ import votelog.domain.politics.{Ngo, Scoring}
 import votelog.persistence.NgoStore.Recipe
 
 //TODO: Scoring should be it's own store
-trait NgoStore[F[_]] extends StoreAlg[F, Ngo, Ngo.Id, Recipe] with Scoring[F] {
-  type QueryParameters = Unit
-  type IndexQueryParameters = Unit
+trait NgoStore[F[_]] extends StoreAlg[F, Ngo, Ngo.Id, Recipe, Ngo.Ordering] with Scoring[F] {
+  type ReadParameters = Unit
+  type IndexParameters = Unit
 }
 
 object NgoStore {

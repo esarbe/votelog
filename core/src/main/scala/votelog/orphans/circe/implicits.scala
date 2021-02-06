@@ -26,16 +26,22 @@ object implicits {
   implicit val capabilityCodec: Codec[Capability] = deriveConfiguredCodec
   implicit val permissionCodec: Codec[Permission] = deriveConfiguredCodec
   implicit val userCodec: Codec[User] = deriveConfiguredCodec
+  implicit val userOrderingKeyDecoder: KeyDecoder[User.Ordering] =
+    KeyDecoder.decodeKeyString.map(User.Ordering.fromString)
+
   implicit val personIdCodec: Codec[Person.Id] = deriveUnwrappedCodec
   implicit val personNameCodec: Codec[Person.Name] = deriveUnwrappedCodec
   implicit val passwordClearCodec: Codec[Password.Clear] = deriveUnwrappedCodec
   implicit val cantonCodec: Codec[Canton] = deriveUnwrappedCodec
-  implicit val userStoreRecipleCodec: Codec[UserStore.Recipe] = deriveConfiguredCodec
+  implicit val userStoreRecipeCodec: Codec[UserStore.Recipe] = deriveConfiguredCodec
 
   implicit val ngoCodec: Codec[Ngo] = deriveConfiguredCodec
   implicit val ngoIdCodec: Codec[Ngo.Id] = deriveUnwrappedCodec
   implicit val ngoStoreRecipeCodec: Codec[NgoStore.Recipe] = deriveConfiguredCodec
   implicit val ngoIdCirceKeyDecoder: KeyDecoder[Ngo.Id] = KeyDecoder.decodeKeyString.map(Ngo.Id)
+  implicit val ngoOrderingKeyDecoder: KeyDecoder[Ngo.Ordering] =
+    KeyDecoder.decodeKeyString.map(Ngo.Ordering.fromString)
+
   implicit val keyEncoderNgoId: KeyEncoder[Ngo.Id] = KeyEncoder.encodeKeyString.contramap(_.value)
 
   implicit val partyIdCirceKeyDecoder: KeyDecoder[Party.Id] = KeyDecoder.decodeKeyInt.map(Party.Id)
@@ -48,6 +54,16 @@ object implicits {
   implicit val businessIdKeyDecoder: KeyDecoder[Business.Id] = KeyDecoder.decodeKeyInt.map(Business.Id)
   implicit val businessIdKeyEncoder: KeyEncoder[Business.Id] = KeyEncoder.encodeKeyInt.contramap(_.value)
   implicit val businessIdCodec: Codec[Business.Id] = deriveUnwrappedCodec
+
+  implicit val businessOrderingKeyDecoder: KeyDecoder[Business.Ordering] =
+    KeyDecoder.decodeKeyString.map(Business.Ordering.fromString)
+  implicit val businessOrderingKeyEncoder: KeyEncoder[Business.Ordering] =
+    KeyEncoder.encodeKeyString.contramap(_.toString)
+
+  implicit val personOrderingKeyDecoder: KeyDecoder[Person.Ordering] =
+    KeyDecoder.decodeKeyString.map(Person.Ordering.fromString)
+  implicit val personOrderingKeyEncoder: KeyEncoder[Person.Ordering] =
+    KeyEncoder.encodeKeyString.contramap(_.toString)
 
   implicit val votumCodec: Codec[Votum] = Codec.from(
     Decoder.decodeString.map {

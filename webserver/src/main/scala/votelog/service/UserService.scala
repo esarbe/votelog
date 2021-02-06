@@ -1,7 +1,6 @@
 package votelog.service
 
 import cats.effect.IO
-import io.circe.Encoder
 import votelog.domain.param
 import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
@@ -13,7 +12,7 @@ class UserService(
   val component: Component,
   val store: UserStore[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends StoreService[User, User.Id, UserStore.Recipe] {
-  override implicit val queryParamDecoder: param.Decoder[store.QueryParameters] = param.Decoder.always(())
-  override implicit val indexQueryParamDecoder: param.Decoder[store.IndexQueryParameters] = param.Decoder.always(())
+) extends StoreService[User, User.Id, UserStore.Recipe, User.Ordering] {
+  override implicit val queryParamDecoder: param.Decoder[store.ReadParameters] = param.Decoder.always(())
+  override implicit val indexQueryParamDecoder: param.Decoder[store.IndexParameters] = param.Decoder.always(())
 }

@@ -117,12 +117,12 @@ class DoobieUserStore[F[_]: NonEmptyParallel: ThrowableBracket](
     } yield p
   }
 
-  override def read(q: QueryParameters)(id: User.Id): F[User] =
+  override def read(q: ReadParameters)(id: User.Id): F[User] =
     readQuery(id).transact(transactor)
 
   private def countQuery = sql"select count(id) from users".query[Int].unique
 
-  override def index(q: IndexQueryParameters): F[Index[User.Id]] = {
+  override def index(q: IndexParameters): F[Index[User.Id]] = {
     val entities = indexQuery.transact(transactor)
     val count = countQuery.transact(transactor)
 

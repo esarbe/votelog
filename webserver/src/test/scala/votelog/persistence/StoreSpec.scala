@@ -17,8 +17,8 @@ trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfte
     createdEntity: Id => Entity,
     updatedRecipe: Recipe,
     updatedEntity: Id => Entity)(
-    queryParams: store.QueryParameters,
-    indexQueryParams: store.IndexQueryParameters,
+    queryParams: store.ReadParameters,
+    indexQueryParams: store.IndexParameters,
   ): IO[Unit] = IO {
 
     it should "be able to store an entity" in {

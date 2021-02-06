@@ -8,7 +8,9 @@ import votelog.orphans.circe.implicits._
 import votelog.domain.param.Encoder
 import scala.concurrent.Future
 
-class NgoStoreXhr(configuration: Configuration) extends StoreXhr[Ngo, Ngo.Id, NgoStore.Recipe] with NgoStore[Future] {
+class NgoStoreXhr(configuration: Configuration)
+  extends StoreXhr[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Ordering]
+    with NgoStore[Future] {
 
   override val indexUrl: String = configuration.url + "/ngo"
   override implicit val indexQueryParameterEncoder: Encoder[Unit] = Encoder.unit

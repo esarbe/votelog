@@ -6,23 +6,39 @@ import votelog.orphans.circe.implicits._
 import cats.implicits._
 import io.circe.KeyDecoder
 import votelog.domain.param
-import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.param.Decoder.combine
+import votelog.domain.param.Decoder.listKeyDecoder
+import param.Decoder
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 
 object Params {
-  val languageParam: param.Decoder[Language] = param.Decoder[Language]("lang")
 
-  val contextParam: param.Decoder[Context] =
-    combine(param.Decoder[LegislativePeriod.Id]("lp"), languageParam)
+  val languageParam: Decoder[Language] = param.Decoder[Language]("lang")
+
+  val contextParam: Decoder[Context] =
+    (param.Decoder[LegislativePeriod.Id]("lp") zip languageParam)
       .map(Context.tupled)
 
-  def indexQueryParam[T](implicit ev: param.Decoder[T]): param.Decoder[ReadOnlyStoreAlg.IndexQueryParameters[T]] = {
+  def orderDecoder[Order: KeyDecoder]: Decoder[List[Order]] =
+    Decoder[List[Order]]("orderBy")(listKeyDecoder[Order])
+
+  def indexParamsDecoder[T, Order](
+    contextDecoder: Decoder[T],
+    orderDecoder: Decoder[List[Order]]
+  ): Decoder[ReadOnlyStoreAlg.IndexQueryParameters[T, Order]] = {
+
     implicit val pageSizeKeyDecoder: KeyDecoder[PageSize] = KeyDecoder.decodeKeyInt.map(PageSize.apply)
     implicit val offsetDecoder: KeyDecoder[Offset] = KeyDecoder.decodeKeyLong.map(Offset.apply)
 
-    combine(combine(param.Decoder[PageSize]("ps"), param.Decoder[Offset]("os")), ev)
-        .map { case (ps, os, t) => IndexQueryParameters[T](ps, os, t) }
+    import param.Decoder._
+
+    (Decoder[PageSize]("ps")
+      zip Decoder[Offset]("os")
+      zip contextDecoder
+      zip orderDecoder)
+      .map { case (((ps, os), t), order) =>
+        IndexQueryParameters[T, Order](ps, os, t, order)
+    }
   }
 
 }
