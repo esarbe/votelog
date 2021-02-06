@@ -4,9 +4,9 @@ import java.util.UUID
 
 import doobie.util.{Put, Read}
 import votelog.domain.authentication.User
-import votelog.domain.politics.Person.Gender
+import votelog.domain.politics.Person.{Gender, Ordering}
 import votelog.domain.politics.Person.Gender.{Female, Male}
-import votelog.domain.politics.{Language, Ngo, Votum}
+import votelog.domain.politics.{Language, Ngo, Person, Votum}
 import doobie.postgres.implicits._
 import doobie.util.meta.Meta
 

@@ -6,6 +6,7 @@ import cats.Monad
 import cats.implicits._
 import doobie._
 import doobie.implicits._
+
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Language, Person}
 import votelog.persistence.PersonStore
@@ -30,25 +31,47 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .query[Person]
       .unique
 
-  def indexQuery(p: IndexParameters): doobie.ConnectionIO[List[Person.Id]] =
+  def indexQuery(p: IndexParameters): doobie.ConnectionIO[List[Person.Id]] = {
+
+    val orderBy = buildOrderBy(p.orderings.map(toFieldName))
+
     sql"""
-      SELECT distinct p.* from person p, voting v
-      WHERE p.person_number = v.person_number
-      AND v.id_legislative_period = ${p.indexContext.legislativePeriod}
-      AND p.`language` = ${p.indexContext.language.iso639_1}
+      SELECT p.id from person p
+      WHERE p.`language` = ${p.indexContext.language.iso639_1}
+      AND p.person_number in (
+        select distinct person_number
+        from voting v
+        where v.id_legislative_period = ${p.indexContext.legislativePeriod}
+        and v.`language` = ${p.indexContext.language.iso639_1}
+      )
+      $orderBy
       LIMIT ${p.offset.value}, ${p.pageSize.value}
     """
-      .query[Person.Id].accumulate[List]
+      .queryWithLogHandler[Person.Id](LogHandler.jdkLogHandler)
+      .accumulate[List]
+  }
 
-  val count = sql"select count(id) from person".query[Int].unique
+  def count(p: IndexParameters) = {
+    sql"""
+      select count(distinct person_number)
+      from voting v
+      where v.id_legislative_period = ${p.indexContext.legislativePeriod}
+      and v.`language` = ${p.indexContext.language.iso639_1}
+    """.query[Int].unique
+  }
 
   override def read(lang: Language)(id: Person.Id): F[Person] =
     selectQuery(id, lang).transact(transactor)
 
   override def index(p: IndexParameters): F[Index[Person.Id]] = {
-    val index = indexQuery(p).transact(transactor)
-    val count = this.count.transact(transactor)
-
-    (count, index).parMapN(Index.apply)
+    (count(p), indexQuery(p)).mapN(Index.apply).transact(transactor)
   }
+
+  val toFieldName: Person.Ordering => String = {
+    case Person.Ordering.FirstName => "first_name"
+    case Person.Ordering.LastName => "last_name"
+    case Person.Ordering.Id => "id"
+    case Person.Ordering.DateOfBirth => "date_of_birth"
+  }
+
 }

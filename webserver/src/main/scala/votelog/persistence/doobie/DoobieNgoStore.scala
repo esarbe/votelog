@@ -37,7 +37,6 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
         sql"select count(*) > 0 from motions_scores where ngoid = $ngoId and motionid = $motionId"
           .query[Boolean]
           .unique
-
       _ <-
         if (scored)
           sql"update motions_scores set score = $score where ngoid = $ngoId and motionid = $motionId".update.run
