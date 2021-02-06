@@ -1658,6 +1658,18 @@ function $isArrayOf_Lvotelog_domain_diff_ListDiff$Op(obj, depth) {
 function $asArrayOf_Lvotelog_domain_diff_ListDiff$Op(obj, depth) {
   return (($isArrayOf_Lvotelog_domain_diff_ListDiff$Op(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.diff.ListDiff$Op;", depth))
 }
+function $is_Lvotelog_domain_politics_Ngo$Ordering(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lvotelog_domain_politics_Ngo$Ordering)))
+}
+function $as_Lvotelog_domain_politics_Ngo$Ordering(obj) {
+  return (($is_Lvotelog_domain_politics_Ngo$Ordering(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "votelog.domain.politics.Ngo$Ordering"))
+}
+function $isArrayOf_Lvotelog_domain_politics_Ngo$Ordering(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lvotelog_domain_politics_Ngo$Ordering)))
+}
+function $asArrayOf_Lvotelog_domain_politics_Ngo$Ordering(obj, depth) {
+  return (($isArrayOf_Lvotelog_domain_politics_Ngo$Ordering(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.politics.Ngo$Ordering;", depth))
+}
 function $is_Lvotelog_domain_politics_Person$Gender(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lvotelog_domain_politics_Person$Gender)))
 }
@@ -5270,11 +5282,13 @@ $h_Lvotelog_client_service_ReadOnlyStoreXhr$.prototype = $c_Lvotelog_client_serv
 $c_Lvotelog_client_service_ReadOnlyStoreXhr$.prototype.init___ = (function() {
   return this
 });
-$c_Lvotelog_client_service_ReadOnlyStoreXhr$.prototype.indexQueryParam__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder = (function(ev) {
-  return new $c_Lvotelog_client_service_ReadOnlyStoreXhr$$$Lambda$1().init___O((function($this, ev$1) {
+$c_Lvotelog_client_service_ReadOnlyStoreXhr$.prototype.indexQueryParam__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder = (function(ev, ev1) {
+  return new $c_Lvotelog_client_service_ReadOnlyStoreXhr$$$Lambda$1().init___O((function($this, ev$1, ev1$1) {
     return (function(qp$2) {
       var qp = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters(qp$2);
-      var tParam = ev$1.encode__O__Lvotelog_domain_param_Params(qp.queryParameters$1);
+      var tParam = ev$1.encode__O__Lvotelog_domain_param_Params(qp.indexContext$1);
+      var oParam = ev1$1.encode__O__Lvotelog_domain_param_Params(qp.orderings$1);
+      $m_Lcats_implicits$();
       $m_Lcats_implicits$();
       var this$16 = $m_s_Predef$().Map$3;
       var jsx$2 = $m_sci_Seq$();
@@ -5292,9 +5306,11 @@ $c_Lvotelog_client_service_ReadOnlyStoreXhr$.prototype.indexQueryParam__Lvotelog
       var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array$2);
       var a = new $c_Lvotelog_domain_param_Params().init___sci_Map(this$16.from__sc_IterableOnce__sci_Map(elems));
       var evidence$1 = $m_Lvotelog_domain_param_Params$ParamsMonoid$();
-      return $as_Lvotelog_domain_param_Params(new $c_Lcats_syntax_SemigroupOps().init___O__Lcats_kernel_Semigroup(a, evidence$1).$$bar$plus$bar__O__O(tParam))
+      var a$1 = new $c_Lcats_syntax_SemigroupOps().init___O__Lcats_kernel_Semigroup(a, evidence$1).$$bar$plus$bar__O__O(tParam);
+      var evidence$1$1 = $m_Lvotelog_domain_param_Params$ParamsMonoid$();
+      return $as_Lvotelog_domain_param_Params(new $c_Lcats_syntax_SemigroupOps().init___O__Lcats_kernel_Semigroup(a$1, evidence$1$1).$$bar$plus$bar__O__O(oParam))
     })
-  })(this, ev))
+  })(this, ev, ev1))
 });
 var $d_Lvotelog_client_service_ReadOnlyStoreXhr$ = new $TypeData().initClass({
   Lvotelog_client_service_ReadOnlyStoreXhr$: 0
@@ -5325,7 +5341,7 @@ function $h_Lvotelog_client_service_params_Politics$() {
 $h_Lvotelog_client_service_params_Politics$.prototype = $c_Lvotelog_client_service_params_Politics$.prototype;
 $c_Lvotelog_client_service_params_Politics$.prototype.init___ = (function() {
   $n_Lvotelog_client_service_params_Politics$ = this;
-  this.contextParamEncoder$1 = new $c_Lvotelog_client_service_params_Politics$$$Lambda$1().init___O((function($this) {
+  this.contextParamEncoder$1 = new $c_Lvotelog_client_service_params_Politics$$$Lambda$2().init___O((function($this) {
     return (function(context$2) {
       var context = $as_Lvotelog_domain_politics_Context(context$2);
       var this$16 = $m_s_Predef$().Map$3;
@@ -5342,7 +5358,7 @@ $c_Lvotelog_client_service_params_Politics$.prototype.init___ = (function() {
       return new $c_Lvotelog_domain_param_Params().init___sci_Map(this$16.from__sc_IterableOnce__sci_Map(elems))
     })
   })(this));
-  this.langParam$1 = new $c_Lvotelog_client_service_params_Politics$$$Lambda$2().init___O((function(this$2$1) {
+  this.langParam$1 = new $c_Lvotelog_client_service_params_Politics$$$Lambda$3().init___O((function(this$2$1) {
     return (function(lang$2) {
       var lang = $as_Lvotelog_domain_politics_Language(lang$2);
       var this$25 = $m_s_Predef$().Map$3;
@@ -5355,6 +5371,38 @@ $c_Lvotelog_client_service_params_Politics$.prototype.init___ = (function() {
     })
   })(this));
   return this
+});
+$c_Lvotelog_client_service_params_Politics$.prototype.orderEncoder__Lio_circe_KeyEncoder__Lvotelog_domain_param_Encoder = (function(ev) {
+  return new $c_Lvotelog_client_service_params_Politics$$$Lambda$1().init___O((function($this, ev$1) {
+    return (function(ordering$2) {
+      var ordering = $as_sci_List(ordering$2);
+      var this$6 = $m_s_Predef$().Map$3;
+      var f = (function($this$1, ev$1$1) {
+        return (function(key$2) {
+          return ev$1$1.apply__O__T(key$2)
+        })
+      })($this, ev$1);
+      if ((ordering === $m_sci_Nil$())) {
+        var y = $m_sci_Nil$()
+      } else {
+        var arg1 = ordering.head__O();
+        var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
+        var t = h;
+        var rest = $as_sci_List(ordering.tail__O());
+        while ((rest !== $m_sci_Nil$())) {
+          var arg1$1 = rest.head__O();
+          var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
+          t.next$5 = nx;
+          t = nx;
+          rest = $as_sci_List(rest.tail__O())
+        };
+        var y = h
+      };
+      var array = [new $c_T2().init___O__O("orderBy", y)];
+      var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array);
+      return new $c_Lvotelog_domain_param_Params().init___sci_Map(this$6.from__sc_IterableOnce__sci_Map(elems))
+    })
+  })(this, ev))
 });
 var $d_Lvotelog_client_service_params_Politics$ = new $TypeData().initClass({
   Lvotelog_client_service_params_Politics$: 0
@@ -5449,7 +5497,7 @@ $c_Lvotelog_client_web_Application$.prototype.init___ = (function() {
   })(this));
   var this$19 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$18, f$1);
   this.location$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$19);
-  this.defaultContext$1 = new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language($m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, $m_Lvotelog_domain_politics_Language$English$());
+  this.defaultContext$1 = new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language($m_Lvotelog_domain_politics_LegislativePeriod$().Default$1.id$1, $m_Lvotelog_domain_politics_Language$German$());
   this.context$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var(this.defaultContext$1);
   this.configuration$1 = new $c_Lvotelog_client_Configuration().init___T("https://votelog.herokuapp.com/api/v0");
   this.root$1 = $m_Lvotelog_domain_authorization_Component$().Root$1;
@@ -6344,6 +6392,7 @@ $c_Lvotelog_client_web_components_Paging.prototype.$classData = $d_Lvotelog_clie
 function $c_Lvotelog_client_web_components_Persons() {
   $c_O.call(this);
   this.component$1 = null;
+  this.persons$1 = null;
   this.businesses$1 = null;
   this.voting$1 = null;
   this.language$1 = null;
@@ -6466,6 +6515,7 @@ $c_Lvotelog_client_web_components_Persons.prototype.renderEntity__F1 = (function
 });
 $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persistence_PersonStore__Lvotelog_persistence_BusinessStore__Lvotelog_domain_politics_VoteAlg__Lmhtml_Rx = (function(component, persons, businesses, voting, language) {
   this.component$1 = component;
+  this.persons$1 = persons;
   this.businesses$1 = businesses;
   this.voting$1 = voting;
   this.language$1 = language;
@@ -6491,26 +6541,31 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
     })
   })(this));
   this.queryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(language, f$1);
-  var this$15 = this.paging$1.offset$1;
+  var this$20 = this.paging$1.offset$1;
   var f$6 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(offset$2) {
       var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
-      var this$14 = this$2$1.paging$1.pageSize$1;
+      var this$19 = this$2$1.paging$1.pageSize$1;
       var f$5 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, offset$1) {
         return (function(pageSize$2) {
           var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
-          var this$13 = $this$2.queryParameters$1;
+          var this$18 = $this$2.queryParameters$1;
           var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, pageSize$1, offset$1$1) {
             return (function(queryParameters$2) {
               var queryParameters = $as_Lvotelog_domain_politics_Context(queryParameters$2);
-              var indexQueryParams = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1, offset$1$1, queryParameters);
-              var f$2 = $m_Lvotelog_client_web_Application$().personsStore$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$4) {
+              $m_sci_List$();
+              var array$1 = [$m_Lvotelog_domain_politics_Person$Ordering$LastName$(), $m_Lvotelog_domain_politics_Person$Ordering$FirstName$()];
+              var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array$1);
+              var orderings = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems);
+              var indexQueryParams = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O__sci_List(pageSize$1, offset$1$1, queryParameters, orderings);
+              var this$11 = $this$3.persons$1;
+              var f$2 = this$11.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$4) {
                 return (function(x$1$2) {
                   var x$1 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(x$1$2);
                   return x$1.entities$1
                 })
               })($this$3)), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
-              var this$12 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$2).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
+              var this$17 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$2).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
               var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$2) {
                 return (function(ids$2) {
                   var ids = $as_s_Option(ids$2);
@@ -6541,17 +6596,17 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                   throw new $c_s_MatchError().init___O(ids)
                 })
               })($this$3));
-              return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$12, f$3)
+              return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$17, f$3)
             })
           })($this$2, pageSize, offset$1));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$13, f$4)
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$18, f$4)
         })
       })(this$2$1, offset));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$14, f$5)
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$19, f$5)
     })
   })(this));
-  this.unstableIds$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$15, f$6);
-  var this$17 = this.unstableIds$1;
+  this.unstableIds$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$20, f$6);
+  var this$22 = this.unstableIds$1;
   $m_sci_List$();
   var seed = $m_sci_Nil$();
   var step = new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$3$1) {
@@ -6570,13 +6625,13 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
       return x0$2
     })
   })(this));
-  this.ids$1 = new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$17, seed, step);
-  var this$20 = this.unstableIds$1;
+  this.ids$1 = new $c_Lmhtml_Rx$Foldp().init___Lmhtml_Rx__O__F2(this$22, seed, step);
+  var this$25 = this.unstableIds$1;
   var f$7 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
     return (function(x$3$2) {
       var x$3 = $as_s_Option(x$3$2);
-      var this$18 = x$3.toList__sci_List();
-      var rest = this$18;
+      var this$23 = x$3.toList__sci_List();
+      var rest = this$23;
       var h = null;
       var t = null;
       while ((rest !== $m_sci_Nil$())) {
@@ -6600,14 +6655,14 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
       return ((h === null) ? $m_sci_Nil$() : h)
     })
   })(this));
-  var this$21 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$20, f$7);
-  this.indexError$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$21);
+  var this$26 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$25, f$7);
+  this.indexError$1 = new $c_Lmhtml_Rx$DropRep().init___Lmhtml_Rx(this$26);
   this.maybeSelected$1 = $m_Lmhtml_Var$().apply__O__Lmhtml_Var($m_s_None$());
-  var this$26 = this.maybeSelected$1;
+  var this$31 = this.maybeSelected$1;
   var f$11 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
     return (function(selectedId$2) {
       var selectedId = $as_s_Option(selectedId$2);
-      var this$25 = this$5$1.language$1;
+      var this$30 = this$5$1.language$1;
       var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$5, selectedId$1) {
         return (function(language$2$1) {
           var language$3 = $as_Lvotelog_domain_politics_Language(language$2$1);
@@ -6616,19 +6671,19 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
           } else {
             var arg1$1 = selectedId$1.get__O();
             var id = $as_Lvotelog_domain_politics_Person$Id(arg1$1).value$1;
-            var f$8 = $m_Lvotelog_client_web_Application$().personsStore$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(language$3, id);
+            var f$8 = $as_s_concurrent_Future($this$5.persons$1.read__O__O__O(language$3, new $c_Lvotelog_domain_politics_Person$Id().init___I(id)));
             var entity = new $c_s_Some().init___O(new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$8).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor()))
           };
           if ((entity instanceof $c_s_Some)) {
             var x2$1 = $as_s_Some(entity);
             var rx = $as_Lmhtml_Rx(x2$1.value$2);
-            var this$24 = rx
+            var this$29 = rx
           } else {
             var x$2 = $m_s_None$();
             if ((!(x$2 === entity))) {
               throw new $c_s_MatchError().init___O(entity)
             };
-            var this$24 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
+            var this$29 = $m_Lmhtml_Rx$().apply__O__Lmhtml_Rx($m_s_None$())
           };
           var f$9 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$3) {
             return (function(maybeResult$2) {
@@ -6642,18 +6697,18 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
               }
             })
           })($this$5));
-          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$24, f$9)
+          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$29, f$9)
         })
       })(this$5$1, selectedId));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$25, f$10)
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$30, f$10)
     })
   })(this));
-  this.selectedEntity$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$26, f$11);
-  var this$27 = this.selectedEntity$1;
+  this.selectedEntity$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$31, f$11);
+  var this$32 = this.selectedEntity$1;
   var f$12 = new $c_Lvotelog_client_web_components_Persons$$anonfun$1().init___Lvotelog_client_web_components_Persons(this);
   var b = $m_s_None$();
-  this.maybeEntity$1 = new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$27, f$12, b);
-  var this$29 = this.maybeSelected$1;
+  this.maybeEntity$1 = new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$32, f$12, b);
+  var this$34 = this.maybeSelected$1;
   var f$13 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$6$1) {
     return (function(x$7$2) {
       var x$7 = $as_s_Option(x$7$2);
@@ -6668,8 +6723,8 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
       }
     })
   })(this));
-  var this$32 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$29, f$13);
-  var this$31 = this.maybeEntity$1;
+  var this$37 = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$34, f$13);
+  var this$36 = this.maybeEntity$1;
   var f$14 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$7$1) {
     return (function(x$8$2) {
       var x$8 = $as_s_Option(x$8$2);
@@ -6683,44 +6738,49 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
       }
     })
   })(this));
-  var other = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$31, f$14);
-  this.maybeIdOrEntity$1 = new $c_Lmhtml_Rx$Merge().init___Lmhtml_Rx__Lmhtml_Rx(this$32, other);
-  var this$33 = this.selectedEntity$1;
+  var other = new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$36, f$14);
+  this.maybeIdOrEntity$1 = new $c_Lmhtml_Rx$Merge().init___Lmhtml_Rx__Lmhtml_Rx(this$37, other);
+  var this$38 = this.selectedEntity$1;
   var f$15 = new $c_Lvotelog_client_web_components_Persons$$anonfun$2().init___Lvotelog_client_web_components_Persons(this);
   var b$1 = $m_sci_Nil$();
-  this.entityError$1 = new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$33, f$15, b$1);
-  var this$43 = this.paging$1.offset$1;
+  this.entityError$1 = new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$38, f$15, b$1);
+  var this$53 = this.paging$1.offset$1;
   var f$21 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$8$1) {
     return (function(offset$3$2) {
       var offset$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$3$2);
-      var this$42 = this$8$1.paging$1.pageSize$1;
+      var this$52 = this$8$1.paging$1.pageSize$1;
       var f$20 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$6, offset$4) {
         return (function(pageSize$2$1) {
           var pageSize$3 = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2$1);
-          var this$41 = $this$6.queryParameters$1;
+          var this$51 = $this$6.queryParameters$1;
           var f$19 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$7, pageSize$4, offset$2$1) {
             return (function(queryParameters$2$1) {
               var queryParameters$1 = $as_Lvotelog_domain_politics_Context(queryParameters$2$1);
-              var indexQueryParams$1 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$4, offset$2$1, queryParameters$1);
-              var ids$3 = $m_Lvotelog_client_web_Application$().personsStore$1.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams$1);
+              $m_sci_List$();
+              var array$2 = [$m_Lvotelog_domain_politics_Person$Ordering$LastName$(), $m_Lvotelog_domain_politics_Person$Ordering$FirstName$()];
+              var elems$1 = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array$2);
+              var orderings$1 = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1);
+              var indexQueryParams$1 = new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O__sci_List(pageSize$4, offset$2$1, queryParameters$1, orderings$1);
+              var this$43 = $this$7.persons$1;
+              var ids$3 = this$43.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future(indexQueryParams$1);
               var f$17 = ids$3.flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$8, queryParameters$3) {
                 return (function(index$2) {
                   var index = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$Index(index$2);
                   var jsx$5 = $m_s_concurrent_Future$();
-                  var this$34 = index.entities$1;
+                  var this$44 = index.entities$1;
                   var f$16 = (function($this$9, queryParameters$1$1) {
                     return (function(id$2) {
                       var id$1 = $as_Lvotelog_domain_politics_Person$Id(id$2).value$1;
                       return $m_Lvotelog_client_web_Application$().personsStore$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(queryParameters$1$1.language$1, id$1)
                     })
                   })($this$8, queryParameters$3);
-                  if ((this$34 === $m_sci_Nil$())) {
+                  if ((this$44 === $m_sci_Nil$())) {
                     var jsx$4 = $m_sci_Nil$()
                   } else {
-                    var arg1$5 = this$34.head__O();
+                    var arg1$5 = this$44.head__O();
                     var h$1 = new $c_sci_$colon$colon().init___O__sci_List(f$16(arg1$5), $m_sci_Nil$());
                     var t$1 = h$1;
-                    var rest$1 = $as_sci_List(this$34.tail__O());
+                    var rest$1 = $as_sci_List(this$44.tail__O());
                     while ((rest$1 !== $m_sci_Nil$())) {
                       var arg1$6 = rest$1.head__O();
                       var nx$1 = new $c_sci_$colon$colon().init___O__sci_List(f$16(arg1$6), $m_sci_Nil$());
@@ -6730,43 +6790,43 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                     };
                     var jsx$4 = h$1
                   };
-                  var this$35 = $m_sc_BuildFrom$();
-                  return jsx$5.sequence__sc_IterableOnce__sc_BuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$4, new $c_sc_BuildFromLowPriority2$$anon$11().init___sc_BuildFromLowPriority2(this$35), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor())
+                  var this$45 = $m_sc_BuildFrom$();
+                  return jsx$5.sequence__sc_IterableOnce__sc_BuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$4, new $c_sc_BuildFromLowPriority2$$anon$11().init___sc_BuildFromLowPriority2(this$45), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor())
                 })
               })($this$7, queryParameters$1)), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
-              var this$40 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$17).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
+              var this$50 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$17).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
               var f$18 = new $c_Lvotelog_client_web_components_Persons$$anonfun$$nestedInanonfun$model$3$1().init___Lvotelog_client_web_components_Persons($this$7);
               var b$2 = $m_sci_Nil$();
-              return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$40, f$18, b$2)
+              return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$50, f$18, b$2)
             })
           })($this$6, pageSize$3, offset$4));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$41, f$19)
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$51, f$19)
         })
       })(this$8$1, offset$3));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$42, f$20)
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$52, f$20)
     })
   })(this));
-  this.model$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$43, f$21);
-  var this$44 = this.indexError$1;
+  this.model$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$53, f$21);
+  var this$54 = this.indexError$1;
   var other$1 = this.entityError$1;
-  this.errors$1 = new $c_Lmhtml_Rx$Merge().init___Lmhtml_Rx__Lmhtml_Rx(this$44, other$1);
-  var this$58 = this.maybeSelected$1;
+  this.errors$1 = new $c_Lmhtml_Rx$Merge().init___Lmhtml_Rx__Lmhtml_Rx(this$54, other$1);
+  var this$68 = this.maybeSelected$1;
   var f$27 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$9$1) {
     return (function(maybeSelected$2) {
       var maybeSelected = $as_s_Option(maybeSelected$2);
-      var this$57 = this$9$1.queryParameters$1;
+      var this$67 = this$9$1.queryParameters$1;
       var f$26 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$10, maybeSelected$1) {
         return (function(context$2) {
           var context = $as_Lvotelog_domain_politics_Context(context$2);
-          var this$56 = $this$10.language$1;
+          var this$66 = $this$10.language$1;
           var f$25 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$11, maybeSelected$1$1, context$1) {
             return (function(language$2$3) {
               var language$4 = $as_Lvotelog_domain_politics_Language(language$2$3);
               if ((maybeSelected$1$1 instanceof $c_s_Some)) {
                 var x2$2 = $as_s_Some(maybeSelected$1$1);
                 var id$3 = $as_Lvotelog_domain_politics_Person$Id(x2$2.value$2).value$1;
-                var this$45 = $this$11.voting$1;
-                var f$23 = this$45.getVotesForPerson__Lvotelog_domain_politics_Context__I__s_concurrent_Future(context$1, id$3).flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$12, language$5) {
+                var this$55 = $this$11.voting$1;
+                var f$23 = this$55.getVotesForPerson__Lvotelog_domain_politics_Context__I__s_concurrent_Future(context$1, id$3).flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$12, language$5) {
                   return (function(votes$2) {
                     var votes = $as_sci_List(votes$2);
                     var jsx$7 = $m_s_concurrent_Future$();
@@ -6776,8 +6836,8 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                         if ((x0$1 !== null)) {
                           var businessId = $as_Lvotelog_domain_politics_Business$Id(x0$1.$$und1__O());
                           var votum = $as_Lvotelog_domain_politics_Votum(x0$1.$$und2__O());
-                          var this$46 = $this$13.businesses$1;
-                          return this$46.read__O__O__s_concurrent_Future(language$3$1, businessId).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$14, votum$1) {
+                          var this$56 = $this$13.businesses$1;
+                          return this$56.read__O__O__s_concurrent_Future(language$3$1, businessId).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$14, votum$1) {
                             return (function(business$2) {
                               var business = $as_Lvotelog_domain_politics_Business(business$2);
                               return new $c_T2().init___O__O(business, votum$1)
@@ -6804,16 +6864,16 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
                       };
                       var jsx$6 = h$2
                     };
-                    var this$48 = $m_sc_BuildFrom$();
-                    return jsx$7.sequence__sc_IterableOnce__sc_BuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$6, new $c_sc_BuildFromLowPriority2$$anon$11().init___sc_BuildFromLowPriority2(this$48), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor())
+                    var this$58 = $m_sc_BuildFrom$();
+                    return jsx$7.sequence__sc_IterableOnce__sc_BuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(jsx$6, new $c_sc_BuildFromLowPriority2$$anon$11().init___sc_BuildFromLowPriority2(this$58), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor())
                   })
                 })($this$11, language$4)), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
-                var this$54 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$23).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
+                var this$64 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$23).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
                 var f$24 = new $c_Lvotelog_client_web_components_Persons$$anonfun$$nestedInanonfun$votes$3$1().init___Lvotelog_client_web_components_Persons($this$11);
                 $m_s_package$();
                 var value$3 = $m_sci_Nil$();
                 var b$3 = new $c_s_util_Right().init___O(value$3);
-                return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$54, f$24, b$3)
+                return new $c_Lmhtml_Rx$Collect().init___Lmhtml_Rx__s_PartialFunction__O(this$64, f$24, b$3)
               } else {
                 var x$6 = $m_s_None$();
                 if ((x$6 === maybeSelected$1$1)) {
@@ -6827,22 +6887,22 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
               }
             })
           })($this$10, maybeSelected$1, context));
-          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$56, f$25)
+          return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$66, f$25)
         })
       })(this$9$1, maybeSelected));
-      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$57, f$26)
+      return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$67, f$26)
     })
   })(this));
-  this.votes$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$58, f$27);
+  this.votes$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$68, f$27);
   this.render$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$10$1) {
     return (function(id$2$1) {
       var id$4 = $as_Lvotelog_domain_politics_Person$Id(id$2$1).value$1;
-      var this$67 = this$10$1.language$1;
+      var this$77 = this$10$1.language$1;
       var f$30 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$15, id$5) {
         return (function(language$2$4) {
           var language$6 = $as_Lvotelog_domain_politics_Language(language$2$4);
           var f$28 = $m_Lvotelog_client_web_Application$().personsStore$1.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future(language$6, id$5);
-          var this$66 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$28).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
+          var this$76 = new $c_Lmhtml_future_syntax$FutureToRxSyntax().init___s_concurrent_Future(f$28).toRx__s_concurrent_ExecutionContext__Lmhtml_Rx($m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor());
           var f$29 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$16, id$1$1) {
             return (function(person$2) {
               var person = $as_s_Option(person$2);
@@ -6881,10 +6941,10 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
               throw new $c_s_MatchError().init___O(person)
             })
           })($this$15, id$5));
-          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$66, f$29)
+          return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$76, f$29)
         })
       })(this$10$1, id$4));
-      var person$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$67, f$30);
+      var person$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$77, f$30);
       var f$31 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$4) {
         return (function(x0$3$2) {
           var x0$3 = $as_s_util_Either(x0$3$2);
@@ -6938,24 +6998,24 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
   $$md$2 = new $c_s_xml_UnprefixedAttribute().init___T__O__s_xml_MetaData__s_xml_XmlAttributeEmbeddable("class", new $c_s_xml_Text().init___T("index"), $$md$2, null);
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sci_Seq(null, "ul", $$md$2, $m_s_xml_TopScope$(), true, $m_sci_Nil$()));
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n      "));
-  var this$68 = this.maybeIdOrEntity$1;
+  var this$78 = this.maybeIdOrEntity$1;
   var f$32 = this.renderEntity__F1();
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$68, f$32), null);
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$78, f$32), null);
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var this$69 = this.votes$1;
+  var this$79 = this.votes$1;
   var f$33 = this.renderVotes__F1();
-  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$69, f$33), null);
+  $$buf$3.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$79, f$33), null);
   $$buf$3.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n\n    "));
   $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sci_Seq(null, "article", jsx$14, jsx$13, false, $$buf$3));
   var jsx$18 = $m_s_xml_Null$();
   var jsx$17 = $m_s_xml_TopScope$();
   var $$buf$4 = new $c_s_xml_NodeBuffer().init___();
   $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n      "));
-  var this$71 = this.errors$1;
+  var this$81 = this.errors$1;
   var f$35 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$13$1) {
     return (function(x$11$2) {
       var x$11 = $as_sc_Iterable(x$11$2);
-      var this$70 = x$11.toList__sci_List();
+      var this$80 = x$11.toList__sci_List();
       var f$34 = (function($this$17) {
         return (function(error$2) {
           var error$1 = $as_jl_Throwable(error$2);
@@ -6968,13 +7028,13 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
           return new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sci_Seq(null, "error", jsx$16, jsx$15, false, $$buf$5)
         })
       })(this$13$1);
-      if ((this$70 === $m_sci_Nil$())) {
+      if ((this$80 === $m_sci_Nil$())) {
         return $m_sci_Nil$()
       } else {
-        var arg1$9 = this$70.head__O();
+        var arg1$9 = this$80.head__O();
         var h$3 = new $c_sci_$colon$colon().init___O__sci_List(f$34(arg1$9), $m_sci_Nil$());
         var t$3 = h$3;
-        var rest$3 = $as_sci_List(this$70.tail__O());
+        var rest$3 = $as_sci_List(this$80.tail__O());
         while ((rest$3 !== $m_sci_Nil$())) {
           var arg1$10 = rest$3.head__O();
           var nx$3 = new $c_sci_$colon$colon().init___O__sci_List(f$34(arg1$10), $m_sci_Nil$());
@@ -6986,7 +7046,7 @@ $c_Lvotelog_client_web_components_Persons.prototype.init___T__Lvotelog_persisten
       }
     })
   })(this));
-  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$71, f$35), null);
+  $$buf$4.$$amp$plus__O__s_xml_XmlElementEmbeddable__s_xml_NodeBuffer(new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$81, f$35), null);
   $$buf$4.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Text().init___T("\n    "));
   $$buf$1.$$amp$plus__s_xml_Node__s_xml_NodeBuffer(new $c_s_xml_Elem().init___T__T__s_xml_MetaData__s_xml_Scope__Z__sci_Seq(null, "messages", jsx$18, jsx$17, false, $$buf$4));
   this.view$1 = new $c_s_xml_Group().init___sci_Seq($$buf$1);
@@ -8184,6 +8244,61 @@ var $d_Lvotelog_client_web_components_ngo_NgoComponent$create$ = new $TypeData()
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent$create$.prototype.$classData = $d_Lvotelog_client_web_components_ngo_NgoComponent$create$;
 /** @constructor */
+function $c_Lvotelog_domain_authentication_User$Ordering$() {
+  $c_O.call(this);
+  this.values$1 = null;
+  this.fromString$1 = null
+}
+$c_Lvotelog_domain_authentication_User$Ordering$.prototype = new $h_O();
+$c_Lvotelog_domain_authentication_User$Ordering$.prototype.constructor = $c_Lvotelog_domain_authentication_User$Ordering$;
+/** @constructor */
+function $h_Lvotelog_domain_authentication_User$Ordering$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_authentication_User$Ordering$.prototype = $c_Lvotelog_domain_authentication_User$Ordering$.prototype;
+$c_Lvotelog_domain_authentication_User$Ordering$.prototype.init___ = (function() {
+  $n_Lvotelog_domain_authentication_User$Ordering$ = this;
+  var this$4 = $m_s_Predef$().Set$3;
+  var array = [$m_Lvotelog_domain_authentication_User$Ordering$Name$(), $m_Lvotelog_domain_authentication_User$Ordering$Email$()];
+  var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array);
+  this.values$1 = this$4.from__sc_IterableOnce__sci_Set(elems);
+  var jsx$1 = $as_sc_IterableOnceOps($as_sc_IterableOps(this.values$1.zip__sc_IterableOnce__O(this.values$1)).map__F1__O(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_T2(x0$1$2);
+      if ((x0$1 !== null)) {
+        var key = $as_Lvotelog_domain_authentication_User$Ordering(x0$1.$$und1__O());
+        var value = $as_Lvotelog_domain_authentication_User$Ordering(x0$1.$$und2__O());
+        return new $c_T2().init___O__O(key.toString__T(), value)
+      } else {
+        throw new $c_s_MatchError().init___O(x0$1)
+      }
+    })
+  })(this))));
+  var this$5 = $m_s_$less$colon$less$();
+  var eta$0$1 = jsx$1.toMap__s_$less$colon$less__sci_Map(this$5.singleton$1);
+  this.fromString$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, eta$0$1$1) {
+    return (function(key$2) {
+      var key$1 = $as_T(key$2);
+      return $as_Lvotelog_domain_authentication_User$Ordering(eta$0$1$1.apply__O__O(key$1))
+    })
+  })(this, eta$0$1));
+  return this
+});
+var $d_Lvotelog_domain_authentication_User$Ordering$ = new $TypeData().initClass({
+  Lvotelog_domain_authentication_User$Ordering$: 0
+}, false, "votelog.domain.authentication.User$Ordering$", {
+  Lvotelog_domain_authentication_User$Ordering$: 1,
+  O: 1
+});
+$c_Lvotelog_domain_authentication_User$Ordering$.prototype.$classData = $d_Lvotelog_domain_authentication_User$Ordering$;
+var $n_Lvotelog_domain_authentication_User$Ordering$ = (void 0);
+function $m_Lvotelog_domain_authentication_User$Ordering$() {
+  if ((!$n_Lvotelog_domain_authentication_User$Ordering$)) {
+    $n_Lvotelog_domain_authentication_User$Ordering$ = new $c_Lvotelog_domain_authentication_User$Ordering$().init___()
+  };
+  return $n_Lvotelog_domain_authentication_User$Ordering$
+}
+/** @constructor */
 function $c_Lvotelog_domain_diff_ListDiff$() {
   $c_O.call(this)
 }
@@ -8489,33 +8604,163 @@ function $m_Lvotelog_domain_param_Encoder$() {
   return $n_Lvotelog_domain_param_Encoder$
 }
 /** @constructor */
-function $c_Lvotelog_domain_param_Encoder$ParamDecoderOps() {
+function $c_Lvotelog_domain_param_Encoder$ParamEncoderOps() {
   $c_O.call(this);
   this.t$1 = null;
   this.ev$1 = null
 }
-$c_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype = new $h_O();
-$c_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype.constructor = $c_Lvotelog_domain_param_Encoder$ParamDecoderOps;
+$c_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype = new $h_O();
+$c_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype.constructor = $c_Lvotelog_domain_param_Encoder$ParamEncoderOps;
 /** @constructor */
-function $h_Lvotelog_domain_param_Encoder$ParamDecoderOps() {
+function $h_Lvotelog_domain_param_Encoder$ParamEncoderOps() {
   /*<skip>*/
 }
-$h_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype = $c_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype;
-$c_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype.init___O__Lvotelog_domain_param_Encoder = (function(t, ev) {
+$h_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype = $c_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype;
+$c_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype.init___O__Lvotelog_domain_param_Encoder = (function(t, ev) {
   this.t$1 = t;
   this.ev$1 = ev;
   return this
 });
-$c_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype.urlEncode__T = (function() {
+$c_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype.urlEncode__T = (function() {
   return this.ev$1.encode__O__Lvotelog_domain_param_Params(this.t$1).urlEncode__T()
 });
-var $d_Lvotelog_domain_param_Encoder$ParamDecoderOps = new $TypeData().initClass({
-  Lvotelog_domain_param_Encoder$ParamDecoderOps: 0
-}, false, "votelog.domain.param.Encoder$ParamDecoderOps", {
-  Lvotelog_domain_param_Encoder$ParamDecoderOps: 1,
+var $d_Lvotelog_domain_param_Encoder$ParamEncoderOps = new $TypeData().initClass({
+  Lvotelog_domain_param_Encoder$ParamEncoderOps: 0
+}, false, "votelog.domain.param.Encoder$ParamEncoderOps", {
+  Lvotelog_domain_param_Encoder$ParamEncoderOps: 1,
   O: 1
 });
-$c_Lvotelog_domain_param_Encoder$ParamDecoderOps.prototype.$classData = $d_Lvotelog_domain_param_Encoder$ParamDecoderOps;
+$c_Lvotelog_domain_param_Encoder$ParamEncoderOps.prototype.$classData = $d_Lvotelog_domain_param_Encoder$ParamEncoderOps;
+/** @constructor */
+function $c_Lvotelog_domain_politics_Business$Ordering$() {
+  $c_O.call(this);
+  this.fromString$1 = null;
+  this.values$1 = null;
+  this.bitmap$0$1 = false
+}
+$c_Lvotelog_domain_politics_Business$Ordering$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Business$Ordering$.prototype.constructor = $c_Lvotelog_domain_politics_Business$Ordering$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Business$Ordering$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Business$Ordering$.prototype = $c_Lvotelog_domain_politics_Business$Ordering$.prototype;
+$c_Lvotelog_domain_politics_Business$Ordering$.prototype.init___ = (function() {
+  $n_Lvotelog_domain_politics_Business$Ordering$ = this;
+  var this$4 = $m_s_Predef$().Set$3;
+  var array = [$m_Lvotelog_domain_politics_Business$Ordering$Title$(), $m_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$(), $m_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$()];
+  var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array);
+  this.values$1 = this$4.from__sc_IterableOnce__sci_Set(elems);
+  return this
+});
+$c_Lvotelog_domain_politics_Business$Ordering$.prototype.fromString$lzycompute__p1__F1 = (function() {
+  if ((!this.bitmap$0$1)) {
+    var jsx$1 = $as_sc_IterableOnceOps($as_sc_IterableOps(this.values$1.zip__sc_IterableOnce__O(this.values$1)).map__F1__O(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+      return (function(x0$1$2) {
+        var x0$1 = $as_T2(x0$1$2);
+        if ((x0$1 !== null)) {
+          var key = $as_Lvotelog_domain_politics_Business$Ordering(x0$1.$$und1__O());
+          var value = $as_Lvotelog_domain_politics_Business$Ordering(x0$1.$$und2__O());
+          return new $c_T2().init___O__O(key.toString__T(), value)
+        } else {
+          throw new $c_s_MatchError().init___O(x0$1)
+        }
+      })
+    })(this))));
+    var this$1 = $m_s_$less$colon$less$();
+    var eta$0$1 = jsx$1.toMap__s_$less$colon$less__sci_Map(this$1.singleton$1);
+    this.fromString$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2, eta$0$1$1) {
+      return (function(key$2) {
+        var key$1 = $as_T(key$2);
+        return $as_Lvotelog_domain_politics_Business$Ordering(eta$0$1$1.apply__O__O(key$1))
+      })
+    })(this, eta$0$1));
+    this.bitmap$0$1 = true
+  };
+  return this.fromString$1
+});
+$c_Lvotelog_domain_politics_Business$Ordering$.prototype.fromString__F1 = (function() {
+  return ((!this.bitmap$0$1) ? this.fromString$lzycompute__p1__F1() : this.fromString$1)
+});
+var $d_Lvotelog_domain_politics_Business$Ordering$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Business$Ordering$: 0
+}, false, "votelog.domain.politics.Business$Ordering$", {
+  Lvotelog_domain_politics_Business$Ordering$: 1,
+  O: 1
+});
+$c_Lvotelog_domain_politics_Business$Ordering$.prototype.$classData = $d_Lvotelog_domain_politics_Business$Ordering$;
+var $n_Lvotelog_domain_politics_Business$Ordering$ = (void 0);
+function $m_Lvotelog_domain_politics_Business$Ordering$() {
+  if ((!$n_Lvotelog_domain_politics_Business$Ordering$)) {
+    $n_Lvotelog_domain_politics_Business$Ordering$ = new $c_Lvotelog_domain_politics_Business$Ordering$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Business$Ordering$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Ngo$Ordering$() {
+  $c_O.call(this);
+  this.fromString$1 = null;
+  this.values$1 = null;
+  this.bitmap$0$1 = false
+}
+$c_Lvotelog_domain_politics_Ngo$Ordering$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Ngo$Ordering$.prototype.constructor = $c_Lvotelog_domain_politics_Ngo$Ordering$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Ngo$Ordering$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Ngo$Ordering$.prototype = $c_Lvotelog_domain_politics_Ngo$Ordering$.prototype;
+$c_Lvotelog_domain_politics_Ngo$Ordering$.prototype.init___ = (function() {
+  $n_Lvotelog_domain_politics_Ngo$Ordering$ = this;
+  var this$4 = $m_s_Predef$().Set$3;
+  var array = [$m_Lvotelog_domain_politics_Ngo$Ordering$Name$()];
+  var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array);
+  this.values$1 = this$4.from__sc_IterableOnce__sci_Set(elems);
+  return this
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$.prototype.fromString$lzycompute__p1__F1 = (function() {
+  if ((!this.bitmap$0$1)) {
+    var jsx$1 = $as_sc_IterableOnceOps($as_sc_IterableOps(this.values$1.zip__sc_IterableOnce__O(this.values$1)).map__F1__O(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+      return (function(x0$1$2) {
+        var x0$1 = $as_T2(x0$1$2);
+        if ((x0$1 !== null)) {
+          $as_Lvotelog_domain_politics_Ngo$Ordering(x0$1.$$und1__O());
+          var value = $as_Lvotelog_domain_politics_Ngo$Ordering(x0$1.$$und2__O());
+          return new $c_T2().init___O__O("Name", value)
+        } else {
+          throw new $c_s_MatchError().init___O(x0$1)
+        }
+      })
+    })(this))));
+    var this$1 = $m_s_$less$colon$less$();
+    var eta$0$1 = jsx$1.toMap__s_$less$colon$less__sci_Map(this$1.singleton$1);
+    this.fromString$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2, eta$0$1$1) {
+      return (function(key$2) {
+        var key$1 = $as_T(key$2);
+        return $as_Lvotelog_domain_politics_Ngo$Ordering(eta$0$1$1.apply__O__O(key$1))
+      })
+    })(this, eta$0$1));
+    this.bitmap$0$1 = true
+  };
+  return this.fromString$1
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$.prototype.fromString__F1 = (function() {
+  return ((!this.bitmap$0$1) ? this.fromString$lzycompute__p1__F1() : this.fromString$1)
+});
+var $d_Lvotelog_domain_politics_Ngo$Ordering$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Ngo$Ordering$: 0
+}, false, "votelog.domain.politics.Ngo$Ordering$", {
+  Lvotelog_domain_politics_Ngo$Ordering$: 1,
+  O: 1
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$.prototype.$classData = $d_Lvotelog_domain_politics_Ngo$Ordering$;
+var $n_Lvotelog_domain_politics_Ngo$Ordering$ = (void 0);
+function $m_Lvotelog_domain_politics_Ngo$Ordering$() {
+  if ((!$n_Lvotelog_domain_politics_Ngo$Ordering$)) {
+    $n_Lvotelog_domain_politics_Ngo$Ordering$ = new $c_Lvotelog_domain_politics_Ngo$Ordering$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Ngo$Ordering$
+}
 /** @constructor */
 function $c_Lvotelog_domain_politics_Votum$() {
   $c_O.call(this);
@@ -8637,15 +8882,17 @@ function $c_Lvotelog_orphans_circe_implicits$() {
   this.capabilityCodec$1 = null;
   this.permissionCodec$1 = null;
   this.userCodec$1 = null;
+  this.userOrderingKeyDecoder$1 = null;
   this.personIdCodec$1 = null;
   this.personNameCodec$1 = null;
   this.passwordClearCodec$1 = null;
   this.cantonCodec$1 = null;
-  this.userStoreRecipleCodec$1 = null;
+  this.userStoreRecipeCodec$1 = null;
   this.ngoCodec$1 = null;
   this.ngoIdCodec$1 = null;
   this.ngoStoreRecipeCodec$1 = null;
   this.ngoIdCirceKeyDecoder$1 = null;
+  this.ngoOrderingKeyDecoder$1 = null;
   this.keyEncoderNgoId$1 = null;
   this.partyIdCirceKeyDecoder$1 = null;
   this.personIdCirceKeyDecoder$1 = null;
@@ -8656,6 +8903,10 @@ function $c_Lvotelog_orphans_circe_implicits$() {
   this.businessIdKeyDecoder$1 = null;
   this.businessIdKeyEncoder$1 = null;
   this.businessIdCodec$1 = null;
+  this.businessOrderingKeyDecoder$1 = null;
+  this.businessOrderingKeyEncoder$1 = null;
+  this.personOrderingKeyDecoder$1 = null;
+  this.personOrderingKeyEncoder$1 = null;
   this.votumCodec$1 = null;
   this.businessVotumEncoder$1 = null;
   this.personGenderDecoder$1 = null;
@@ -8727,6 +8978,9 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
   })(this, inst$macro$118));
   var codec$5 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$5);
   this.userCodec$1 = $as_Lio_circe_Codec$AsObject(codec$5.value__O());
+  var this$15 = $m_Lio_circe_KeyDecoder$().decodeKeyString$1;
+  var f$1 = $m_Lvotelog_domain_authentication_User$Ordering$().fromString$1;
+  this.userOrderingKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$15, f$1);
   var inst$macro$126 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$125$1().init___().inst$macro$119__Lio_circe_generic_extras_codec_UnwrappedCodec();
   var t$6 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$8$1, inst$macro$126$1) {
     return (function() {
@@ -8766,7 +9020,7 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
     })
   })(this, inst$macro$170));
   var codec$10 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$10);
-  this.userStoreRecipleCodec$1 = $as_Lio_circe_Codec$AsObject(codec$10.value__O());
+  this.userStoreRecipeCodec$1 = $as_Lio_circe_Codec$AsObject(codec$10.value__O());
   var inst$macro$182 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$181$1().init___().inst$macro$171__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec();
   var t$11 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$13$1, inst$macro$182$1) {
     return (function() {
@@ -8791,39 +9045,42 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
   })(this, inst$macro$202));
   var codec$13 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$13);
   this.ngoStoreRecipeCodec$1 = $as_Lio_circe_Codec$AsObject(codec$13.value__O());
-  var this$31 = $m_Lio_circe_KeyDecoder$().decodeKeyString$1;
-  var f$1 = $m_Lvotelog_domain_politics_Ngo$Id$();
-  this.ngoIdCirceKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$31, f$1);
-  var this$32 = $m_Lio_circe_KeyEncoder$().encodeKeyString$1;
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$16$1) {
+  var this$32 = $m_Lio_circe_KeyDecoder$().decodeKeyString$1;
+  var f$2 = $m_Lvotelog_domain_politics_Ngo$Id$();
+  this.ngoIdCirceKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$32, f$2);
+  var this$33 = $m_Lio_circe_KeyDecoder$().decodeKeyString$1;
+  var f$3 = $m_Lvotelog_domain_politics_Ngo$Ordering$().fromString__F1();
+  this.ngoOrderingKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$33, f$3);
+  var this$34 = $m_Lio_circe_KeyEncoder$().encodeKeyString$1;
+  var f$4 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$16$1) {
     return (function(x$2$2) {
       var x$2 = $as_Lvotelog_domain_politics_Ngo$Id(x$2$2);
       return x$2.value$1
     })
   })(this));
-  this.keyEncoderNgoId$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$32, f$2);
-  var this$33 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
-  var f$3 = $m_Lvotelog_domain_politics_Party$Id$();
-  this.partyIdCirceKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$33, f$3);
-  var this$34 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
-  var f$4 = $m_Lvotelog_domain_politics_Person$Id$();
-  this.personIdCirceKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$34, f$4);
-  var this$35 = $m_Lio_circe_KeyEncoder$().encodeKeyInt$1;
-  var f$5 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$17$1) {
+  this.keyEncoderNgoId$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$34, f$4);
+  var this$35 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
+  var f$5 = $m_Lvotelog_domain_politics_Party$Id$();
+  this.partyIdCirceKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$35, f$5);
+  var this$36 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
+  var f$6 = $m_Lvotelog_domain_politics_Person$Id$();
+  this.personIdCirceKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$36, f$6);
+  var this$37 = $m_Lio_circe_KeyEncoder$().encodeKeyInt$1;
+  var f$7 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$17$1) {
     return (function(x$3$2) {
       var x$3 = $as_Lvotelog_domain_politics_Person$Id(x$3$2).value$1;
       return x$3
     })
   })(this));
-  this.personIdCirceKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$35, f$5);
-  var this$36 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
-  var f$6 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$18$1) {
+  this.personIdCirceKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$37, f$7);
+  var this$38 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
+  var f$8 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$18$1) {
     return (function(value$2) {
       var value = $uI(value$2);
       return new $c_Lvotelog_domain_politics_LegislativePeriod$Id().init___I(value)
     })
   })(this));
-  this.lpKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$36, f$6);
+  this.lpKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$38, f$8);
   this.langKeyDecoder$1 = new $c_Lvotelog_orphans_circe_implicits$$anonfun$2().init___();
   var inst$macro$226 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$225$1().init___().inst$macro$203__Lio_circe_generic_extras_codec_ConfiguredAsObjectCodec();
   var t$14 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$19$1, inst$macro$226$1) {
@@ -8833,17 +9090,17 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
   })(this, inst$macro$226));
   var codec$14 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$14);
   this.businessCodec$1 = $as_Lio_circe_Codec$AsObject(codec$14.value__O());
-  var this$39 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
-  var f$7 = $m_Lvotelog_domain_politics_Business$Id$();
-  this.businessIdKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$39, f$7);
-  var this$40 = $m_Lio_circe_KeyEncoder$().encodeKeyInt$1;
-  var f$8 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$20$1) {
+  var this$41 = $m_Lio_circe_KeyDecoder$().decodeKeyInt$1;
+  var f$9 = $m_Lvotelog_domain_politics_Business$Id$();
+  this.businessIdKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$41, f$9);
+  var this$42 = $m_Lio_circe_KeyEncoder$().encodeKeyInt$1;
+  var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$20$1) {
     return (function(x$4$2) {
       var x$4 = $as_Lvotelog_domain_politics_Business$Id(x$4$2);
       return x$4.value$1
     })
   })(this));
-  this.businessIdKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$40, f$8);
+  this.businessIdKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$42, f$10);
   var inst$macro$234 = new $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$233$1().init___().inst$macro$227__Lio_circe_generic_extras_codec_UnwrappedCodec();
   var t$15 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$21$1, inst$macro$234$1) {
     return (function() {
@@ -8852,8 +9109,30 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
   })(this, inst$macro$234));
   var codec$15 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$15);
   this.businessIdCodec$1 = $as_Lio_circe_Codec(codec$15.value__O());
-  var this$43 = $m_Lio_circe_Decoder$().decodeString$1;
-  var f$9 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$22$1) {
+  var this$45 = $m_Lio_circe_KeyDecoder$().decodeKeyString$1;
+  var f$11 = $m_Lvotelog_domain_politics_Business$Ordering$().fromString__F1();
+  this.businessOrderingKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$45, f$11);
+  var this$46 = $m_Lio_circe_KeyEncoder$().encodeKeyString$1;
+  var f$12 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$22$1) {
+    return (function(x$5$2) {
+      var x$5 = $as_Lvotelog_domain_politics_Business$Ordering(x$5$2);
+      return x$5.toString__T()
+    })
+  })(this));
+  this.businessOrderingKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$46, f$12);
+  var this$47 = $m_Lio_circe_KeyDecoder$().decodeKeyString$1;
+  var f$13 = $m_Lvotelog_domain_politics_Person$Ordering$().fromString__F1();
+  this.personOrderingKeyDecoder$1 = new $c_Lio_circe_KeyDecoder$$anon$1().init___Lio_circe_KeyDecoder__F1(this$47, f$13);
+  var this$48 = $m_Lio_circe_KeyEncoder$().encodeKeyString$1;
+  var f$14 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$23$1) {
+    return (function(x$6$2) {
+      var x$6 = $as_Lvotelog_domain_politics_Person$Ordering(x$6$2);
+      return x$6.toString__T()
+    })
+  })(this));
+  this.personOrderingKeyEncoder$1 = new $c_Lio_circe_KeyEncoder$$anon$1().init___Lio_circe_KeyEncoder__F1(this$48, f$14);
+  var this$49 = $m_Lio_circe_Decoder$().decodeString$1;
+  var f$15 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$24$1) {
     return (function(x0$1$2) {
       var x0$1 = $as_T(x0$1$2);
       switch (x0$1) {
@@ -8879,9 +9158,9 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
       }
     })
   })(this));
-  var decodeA = new $c_Lio_circe_Decoder$$anon$1().init___Lio_circe_Decoder__F1(this$43, f$9);
-  var this$44 = $m_Lio_circe_Encoder$().encodeString$1;
-  var f$10 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$23$1) {
+  var decodeA = new $c_Lio_circe_Decoder$$anon$1().init___Lio_circe_Decoder__F1(this$49, f$15);
+  var this$50 = $m_Lio_circe_Encoder$().encodeString$1;
+  var f$16 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$25$1) {
     return (function(x0$2$2) {
       var x0$2 = $as_Lvotelog_domain_politics_Votum(x0$2$2);
       var x = $m_Lvotelog_domain_politics_Votum$Yes$();
@@ -8892,8 +9171,8 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
         if ((x$3$1 === x0$2)) {
           return "no"
         } else {
-          var x$5 = $m_Lvotelog_domain_politics_Votum$Abstain$();
-          if ((x$5 === x0$2)) {
+          var x$5$1 = $m_Lvotelog_domain_politics_Votum$Abstain$();
+          if ((x$5$1 === x0$2)) {
             return "abstain"
           } else {
             var x$7 = $m_Lvotelog_domain_politics_Votum$Absent$();
@@ -8907,11 +9186,11 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
       }
     })
   })(this));
-  var encodeA = new $c_Lio_circe_Encoder$$anon$1().init___Lio_circe_Encoder__F1(this$44, f$10);
+  var encodeA = new $c_Lio_circe_Encoder$$anon$1().init___Lio_circe_Encoder__F1(this$50, f$16);
   this.votumCodec$1 = new $c_Lio_circe_Codec$$anon$3().init___Lio_circe_Decoder__Lio_circe_Encoder(decodeA, encodeA);
   this.businessVotumEncoder$1 = $m_Lio_circe_Encoder$().encodeMap__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Encoder$AsObject(this.businessIdKeyEncoder$1, this.votumCodec$1);
-  var this$46 = $m_Lio_circe_Decoder$().decodeString$1;
-  var f$11 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$24$1) {
+  var this$52 = $m_Lio_circe_Decoder$().decodeString$1;
+  var f$17 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$26$1) {
     return (function(x0$3$2) {
       var x0$3 = $as_T(x0$3$2);
       switch (x0$3) {
@@ -8929,13 +9208,13 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
       }
     })
   })(this));
-  this.personGenderDecoder$1 = new $c_Lio_circe_Decoder$$anon$1().init___Lio_circe_Decoder__F1(this$46, f$11);
-  var this$47 = $m_Lio_circe_Encoder$().encodeString$1;
-  var f$12 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$25$1) {
+  this.personGenderDecoder$1 = new $c_Lio_circe_Decoder$$anon$1().init___Lio_circe_Decoder__F1(this$52, f$17);
+  var this$53 = $m_Lio_circe_Encoder$().encodeString$1;
+  var f$18 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$27$1) {
     return (function(x0$4$2) {
       var x0$4 = $as_Lvotelog_domain_politics_Person$Gender(x0$4$2);
-      var x$6 = $m_Lvotelog_domain_politics_Person$Gender$Female$();
-      if ((x$6 === x0$4)) {
+      var x$8 = $m_Lvotelog_domain_politics_Person$Gender$Female$();
+      if ((x$8 === x0$4)) {
         return "female"
       } else {
         var x$3$3 = $m_Lvotelog_domain_politics_Person$Gender$Male$();
@@ -8947,7 +9226,7 @@ $c_Lvotelog_orphans_circe_implicits$.prototype.init___ = (function() {
       }
     })
   })(this));
-  this.personGenderEncoder$1 = new $c_Lio_circe_Encoder$$anon$1().init___Lio_circe_Encoder__F1(this$47, f$12);
+  this.personGenderEncoder$1 = new $c_Lio_circe_Encoder$$anon$1().init___Lio_circe_Encoder__F1(this$53, f$18);
   return this
 });
 var $d_Lvotelog_orphans_circe_implicits$ = new $TypeData().initClass({
@@ -18285,7 +18564,7 @@ $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.read__O__O__s_concurrent_F
   var jsx$2 = this.indexUrl$2;
   var jsx$1 = this.param__O__T(id);
   var ev = this.queryParameterBuilder$2;
-  var x$1 = ((("" + jsx$2) + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
+  var x$1 = ((("" + jsx$2) + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$4 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$4.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -18326,7 +18605,7 @@ $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.index__O__s_concurrent_Fut
   this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var jsx$1 = this.indexUrl$2;
   var ev = this.indexQueryParameterBuilder$2;
-  var x$1 = (("" + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
+  var x$1 = (("" + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$7 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$7.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -18534,7 +18813,7 @@ $c_Lvotelog_client_service_VoteStoreXhr.prototype.getVotesForPerson__Lvotelog_do
   var jsx$3 = this.configuration$1.url$1;
   var jsx$2 = new $c_Lvotelog_domain_politics_Person$Id().init___I(person);
   var ev = $m_Lvotelog_client_service_params_Politics$().contextParamEncoder$1;
-  var x$1 = (((jsx$3 + ("/person/" + jsx$2)) + "/votes") + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(context, ev).urlEncode__T());
+  var x$1 = (((jsx$3 + ("/person/" + jsx$2)) + "/votes") + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(context, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$4 = $m_Lorg_scalajs_dom_ext_Ajax$();
   var jsx$4 = this$4.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "");
@@ -18617,6 +18896,33 @@ var $d_Lvotelog_client_service_params_Politics$$$Lambda$2 = new $TypeData().init
   Lvotelog_domain_param_Encoder: 1
 });
 $c_Lvotelog_client_service_params_Politics$$$Lambda$2.prototype.$classData = $d_Lvotelog_client_service_params_Politics$$$Lambda$2;
+/** @constructor */
+function $c_Lvotelog_client_service_params_Politics$$$Lambda$3() {
+  $c_O.call(this);
+  this.f$1 = null
+}
+$c_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype = new $h_O();
+$c_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype.constructor = $c_Lvotelog_client_service_params_Politics$$$Lambda$3;
+/** @constructor */
+function $h_Lvotelog_client_service_params_Politics$$$Lambda$3() {
+  /*<skip>*/
+}
+$h_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype = $c_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype;
+$c_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype.encode__O__Lvotelog_domain_param_Params = (function(t) {
+  return $as_Lvotelog_domain_param_Params((0, this.f$1)(t))
+});
+$c_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype.init___O = (function(f) {
+  this.f$1 = f;
+  return this
+});
+var $d_Lvotelog_client_service_params_Politics$$$Lambda$3 = new $TypeData().initClass({
+  Lvotelog_client_service_params_Politics$$$Lambda$3: 0
+}, false, "votelog.client.service.params.Politics$$$Lambda$3", {
+  Lvotelog_client_service_params_Politics$$$Lambda$3: 1,
+  O: 1,
+  Lvotelog_domain_param_Encoder: 1
+});
+$c_Lvotelog_client_service_params_Politics$$$Lambda$3.prototype.$classData = $d_Lvotelog_client_service_params_Politics$$$Lambda$3;
 /** @constructor */
 function $c_Lvotelog_client_web_components_Language() {
   $c_Lvotelog_client_web_components_html_DynamicSelect.call(this)
@@ -19142,35 +19448,39 @@ $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.votelog$c
 });
 $c_Lvotelog_client_web_components_business_BusinessComponent.prototype.indexQueryParameters$lzycompute__p1__Lmhtml_Rx = (function() {
   if (((((8 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    var this$4 = this.paging__Lvotelog_client_web_components_Paging().offset$1;
+    var this$8 = this.paging__Lvotelog_client_web_components_Paging().offset$1;
     var f$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
       return (function(offset$2) {
         var offset = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset(offset$2);
-        var this$3 = $this.paging__Lvotelog_client_web_components_Paging().pageSize$1;
+        var this$7 = $this.paging__Lvotelog_client_web_components_Paging().pageSize$1;
         var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, offset$1) {
           return (function(pageSize$2) {
             var pageSize = $as_Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize(pageSize$2);
-            var this$2 = $this$1.language$1;
+            var this$6 = $this$1.language$1;
             var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2, pageSize$1, offset$1$1) {
               return (function(language$2) {
                 var language = $as_Lvotelog_domain_politics_Language(language$2);
-                var this$1 = $this$2.legislativePeriod$1.model$1;
+                var this$5 = $this$2.legislativePeriod$1.model$1;
                 var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$3, pageSize$1$1, offset$1$2, language$1) {
                   return (function(legislativePeriod$2) {
                     var legislativePeriod = $as_Lvotelog_domain_politics_LegislativePeriod$Id(legislativePeriod$2);
-                    return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O(pageSize$1$1, offset$1$2, new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language(legislativePeriod, language$1))
+                    var jsx$1 = new $c_Lvotelog_domain_politics_Context().init___Lvotelog_domain_politics_LegislativePeriod$Id__Lvotelog_domain_politics_Language(legislativePeriod, language$1);
+                    $m_sci_List$();
+                    var array = [$m_Lvotelog_domain_politics_Business$Ordering$Title$()];
+                    var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array);
+                    return new $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters().init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O__sci_List(pageSize$1$1, offset$1$2, jsx$1, $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems))
                   })
                 })($this$2, pageSize$1, offset$1$1, language));
-                return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$1, f)
+                return new $c_Lmhtml_Rx$Map().init___Lmhtml_Rx__F1(this$5, f)
               })
             })($this$1, pageSize, offset$1));
-            return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$2, f$1)
+            return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$6, f$1)
           })
         })($this, offset));
-        return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$3, f$2)
+        return new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$7, f$2)
       })
     })(this));
-    this.indexQueryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$4, f$3);
+    this.indexQueryParameters$1 = new $c_Lmhtml_Rx$FlatMap().init___Lmhtml_Rx__F1(this$8, f$3);
     this.bitmap$0$1 = (((8 | this.bitmap$0$1) << 24) >> 24)
   };
   return this.indexQueryParameters$1
@@ -19642,6 +19952,18 @@ var $d_Lvotelog_client_web_components_ngo_NgoComponent = new $TypeData().initCla
   Lvotelog_client_web_components_CrudIndexComponent: 1
 });
 $c_Lvotelog_client_web_components_ngo_NgoComponent.prototype.$classData = $d_Lvotelog_client_web_components_ngo_NgoComponent;
+function $is_Lvotelog_domain_authentication_User$Ordering(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lvotelog_domain_authentication_User$Ordering)))
+}
+function $as_Lvotelog_domain_authentication_User$Ordering(obj) {
+  return (($is_Lvotelog_domain_authentication_User$Ordering(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "votelog.domain.authentication.User$Ordering"))
+}
+function $isArrayOf_Lvotelog_domain_authentication_User$Ordering(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lvotelog_domain_authentication_User$Ordering)))
+}
+function $asArrayOf_Lvotelog_domain_authentication_User$Ordering(obj, depth) {
+  return (($isArrayOf_Lvotelog_domain_authentication_User$Ordering(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.authentication.User$Ordering;", depth))
+}
 /** @constructor */
 function $c_Lvotelog_domain_authorization_Component$() {
   $c_O.call(this);
@@ -19777,6 +20099,18 @@ var $d_Lvotelog_domain_param_Encoder$$$Lambda$1 = new $TypeData().initClass({
   Lvotelog_domain_param_Encoder: 1
 });
 $c_Lvotelog_domain_param_Encoder$$$Lambda$1.prototype.$classData = $d_Lvotelog_domain_param_Encoder$$$Lambda$1;
+function $is_Lvotelog_domain_politics_Business$Ordering(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lvotelog_domain_politics_Business$Ordering)))
+}
+function $as_Lvotelog_domain_politics_Business$Ordering(obj) {
+  return (($is_Lvotelog_domain_politics_Business$Ordering(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "votelog.domain.politics.Business$Ordering"))
+}
+function $isArrayOf_Lvotelog_domain_politics_Business$Ordering(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lvotelog_domain_politics_Business$Ordering)))
+}
+function $asArrayOf_Lvotelog_domain_politics_Business$Ordering(obj, depth) {
+  return (($isArrayOf_Lvotelog_domain_politics_Business$Ordering(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.politics.Business$Ordering;", depth))
+}
 /** @constructor */
 function $c_Lvotelog_domain_politics_Language$() {
   $c_O.call(this);
@@ -19959,6 +20293,72 @@ function $m_Lvotelog_domain_politics_LegislativePeriod$Id$() {
     $n_Lvotelog_domain_politics_LegislativePeriod$Id$ = new $c_Lvotelog_domain_politics_LegislativePeriod$Id$().init___()
   };
   return $n_Lvotelog_domain_politics_LegislativePeriod$Id$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Person$Ordering$() {
+  $c_O.call(this);
+  this.fromString$1 = null;
+  this.values$1 = null;
+  this.bitmap$0$1 = false
+}
+$c_Lvotelog_domain_politics_Person$Ordering$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Person$Ordering$.prototype.constructor = $c_Lvotelog_domain_politics_Person$Ordering$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Person$Ordering$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Person$Ordering$.prototype = $c_Lvotelog_domain_politics_Person$Ordering$.prototype;
+$c_Lvotelog_domain_politics_Person$Ordering$.prototype.init___ = (function() {
+  $n_Lvotelog_domain_politics_Person$Ordering$ = this;
+  var this$4 = $m_s_Predef$().Set$3;
+  var array = [$m_Lvotelog_domain_politics_Person$Ordering$FirstName$(), $m_Lvotelog_domain_politics_Person$Ordering$LastName$(), $m_Lvotelog_domain_politics_Person$Ordering$Id$(), $m_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$()];
+  var elems = new $c_sjsr_WrappedVarArgs().init___sjs_js_Array(array);
+  this.values$1 = this$4.from__sc_IterableOnce__sci_Set(elems);
+  return this
+});
+$c_Lvotelog_domain_politics_Person$Ordering$.prototype.fromString$lzycompute__p1__F1 = (function() {
+  if ((!this.bitmap$0$1)) {
+    var jsx$1 = $as_sc_IterableOnceOps($as_sc_IterableOps(this.values$1.zip__sc_IterableOnce__O(this.values$1)).map__F1__O(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+      return (function(x0$1$2) {
+        var x0$1 = $as_T2(x0$1$2);
+        if ((x0$1 !== null)) {
+          var key = $as_Lvotelog_domain_politics_Person$Ordering(x0$1.$$und1__O());
+          var value = $as_Lvotelog_domain_politics_Person$Ordering(x0$1.$$und2__O());
+          return new $c_T2().init___O__O(key.toString__T(), value)
+        } else {
+          throw new $c_s_MatchError().init___O(x0$1)
+        }
+      })
+    })(this))));
+    var this$1 = $m_s_$less$colon$less$();
+    var eta$0$1 = jsx$1.toMap__s_$less$colon$less__sci_Map(this$1.singleton$1);
+    this.fromString$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2, eta$0$1$1) {
+      return (function(key$2) {
+        var key$1 = $as_T(key$2);
+        return $as_Lvotelog_domain_politics_Person$Ordering(eta$0$1$1.apply__O__O(key$1))
+      })
+    })(this, eta$0$1));
+    this.bitmap$0$1 = true
+  };
+  return this.fromString$1
+});
+$c_Lvotelog_domain_politics_Person$Ordering$.prototype.fromString__F1 = (function() {
+  return ((!this.bitmap$0$1) ? this.fromString$lzycompute__p1__F1() : this.fromString$1)
+});
+var $d_Lvotelog_domain_politics_Person$Ordering$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Person$Ordering$: 0
+}, false, "votelog.domain.politics.Person$Ordering$", {
+  Lvotelog_domain_politics_Person$Ordering$: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Person$Ordering$.prototype.$classData = $d_Lvotelog_domain_politics_Person$Ordering$;
+var $n_Lvotelog_domain_politics_Person$Ordering$ = (void 0);
+function $m_Lvotelog_domain_politics_Person$Ordering$() {
+  if ((!$n_Lvotelog_domain_politics_Person$Ordering$)) {
+    $n_Lvotelog_domain_politics_Person$Ordering$ = new $c_Lvotelog_domain_politics_Person$Ordering$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Person$Ordering$
 }
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$anon$lazy$macro$117$1() {
@@ -29338,7 +29738,7 @@ $c_Lvotelog_client_service_PersonStoreXhr.prototype.init___Lvotelog_client_Confi
 $c_Lvotelog_client_service_PersonStoreXhr.prototype.read__Lvotelog_domain_politics_Language__I__s_concurrent_Future = (function(language, id) {
   var jsx$2 = this.configuration$1.url$1;
   var ev = $m_Lvotelog_client_service_params_Politics$().langParam$1;
-  var x$1 = (((jsx$2 + "/person/") + id) + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(language, ev).urlEncode__T());
+  var x$1 = (((jsx$2 + "/person/") + id) + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(language, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$4 = $m_Lorg_scalajs_dom_ext_Ajax$();
   var jsx$3 = this$4.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "");
@@ -29368,8 +29768,8 @@ $c_Lvotelog_client_service_PersonStoreXhr.prototype.read__O__O__O = (function(qu
 });
 $c_Lvotelog_client_service_PersonStoreXhr.prototype.index__Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters__s_concurrent_Future = (function(qp) {
   var jsx$2 = this.configuration$1.url$1;
-  var ev = $m_Lvotelog_client_service_ReadOnlyStoreXhr$().indexQueryParam__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder($m_Lvotelog_client_service_params_Politics$().contextParamEncoder$1);
-  var x$1 = ((jsx$2 + "/person/") + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(qp, ev).urlEncode__T());
+  var ev = $m_Lvotelog_client_service_ReadOnlyStoreXhr$().indexQueryParam__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder($m_Lvotelog_client_service_params_Politics$().contextParamEncoder$1, $m_Lvotelog_client_service_params_Politics$().orderEncoder__Lio_circe_KeyEncoder__Lvotelog_domain_param_Encoder($m_Lvotelog_orphans_circe_implicits$().personOrderingKeyEncoder$1));
+  var x$1 = ((jsx$2 + "/person/") + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(qp, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$4 = $m_Lorg_scalajs_dom_ext_Ajax$();
   var jsx$3 = this$4.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "");
@@ -29515,7 +29915,7 @@ $c_Lvotelog_client_service_StoreXhr.prototype.read__O__O__s_concurrent_Future = 
   var jsx$2 = this.indexUrl__T();
   var jsx$1 = this.param__O__T(id);
   var ev = this.queryParameterEncoder__Lvotelog_domain_param_Encoder();
-  var x$1 = ((("" + jsx$2) + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
+  var x$1 = ((("" + jsx$2) + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$4 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$4.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -29575,7 +29975,7 @@ $c_Lvotelog_client_service_StoreXhr.prototype.read__O__O__O = (function(queryPar
 $c_Lvotelog_client_service_StoreXhr.prototype.index__O__s_concurrent_Future = (function(queryParameters) {
   var jsx$1 = this.indexUrl__T();
   var ev = this.indexQueryParameterEncoder__Lvotelog_domain_param_Encoder();
-  var x$1 = (("" + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamDecoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
+  var x$1 = (("" + jsx$1) + new $c_Lvotelog_domain_param_Encoder$ParamEncoderOps().init___O__Lvotelog_domain_param_Encoder(queryParameters, ev).urlEncode__T());
   var x$5 = $m_sci_Map$EmptyMap$();
   var this$4 = $m_Lorg_scalajs_dom_ext_Ajax$();
   return this$4.apply__T__T__Lorg_scalajs_dom_ext_Ajax$InputData__I__sci_Map__Z__T__s_concurrent_Future("GET", x$1, null, 0, x$5, true, "").flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -29612,6 +30012,18 @@ function $isArrayOf_Lvotelog_domain_politics_Language(obj, depth) {
 }
 function $asArrayOf_Lvotelog_domain_politics_Language(obj, depth) {
   return (($isArrayOf_Lvotelog_domain_politics_Language(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.politics.Language;", depth))
+}
+function $is_Lvotelog_domain_politics_Person$Ordering(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lvotelog_domain_politics_Person$Ordering)))
+}
+function $as_Lvotelog_domain_politics_Person$Ordering(obj) {
+  return (($is_Lvotelog_domain_politics_Person$Ordering(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "votelog.domain.politics.Person$Ordering"))
+}
+function $isArrayOf_Lvotelog_domain_politics_Person$Ordering(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lvotelog_domain_politics_Person$Ordering)))
+}
+function $asArrayOf_Lvotelog_domain_politics_Person$Ordering(obj, depth) {
+  return (($isArrayOf_Lvotelog_domain_politics_Person$Ordering(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lvotelog.domain.politics.Person$Ordering;", depth))
 }
 /** @constructor */
 function $c_Lvotelog_orphans_circe_implicits$$anonfun$1() {
@@ -40094,7 +40506,6 @@ $c_Lvotelog_client_Configuration.prototype.$classData = $d_Lvotelog_client_Confi
 function $c_Lvotelog_client_service_BusinessStoreXhr() {
   $c_Lvotelog_client_service_ReadOnlyStoreXhr.call(this);
   this.indexUrl$2 = null;
-  this.contextParameterBuilder$2 = null;
   this.queryParameterBuilder$2 = null;
   this.indexQueryParameterBuilder$2 = null
 }
@@ -40113,9 +40524,8 @@ $c_Lvotelog_client_service_BusinessStoreXhr.prototype.init___Lvotelog_client_Con
   var evidence$1 = $m_Lvotelog_orphans_circe_implicits$().businessIdCodec$1;
   $c_Lvotelog_client_service_ReadOnlyStoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Decoder.call(this, jsx$3, jsx$2, jsx$1, new $c_Lvotelog_orphans_circe_implicits$$anon$37().init___Lio_circe_Codec(evidence$1));
   this.indexUrl$2 = (configuration.url$1 + "/business");
-  this.contextParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().contextParamEncoder$1;
   this.queryParameterBuilder$2 = $m_Lvotelog_client_service_params_Politics$().langParam$1;
-  this.indexQueryParameterBuilder$2 = $m_Lvotelog_client_service_ReadOnlyStoreXhr$().indexQueryParam__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder(this.contextParameterBuilder$2);
+  this.indexQueryParameterBuilder$2 = $m_Lvotelog_client_service_ReadOnlyStoreXhr$().indexQueryParam__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder__Lvotelog_domain_param_Encoder($m_Lvotelog_client_service_params_Politics$().contextParamEncoder$1, $m_Lvotelog_client_service_params_Politics$().orderEncoder__Lio_circe_KeyEncoder__Lvotelog_domain_param_Encoder($m_Lvotelog_orphans_circe_implicits$().businessOrderingKeyEncoder$1));
   return this
 });
 var $d_Lvotelog_client_service_BusinessStoreXhr = new $TypeData().initClass({
@@ -41255,7 +41665,8 @@ function $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters() {
   $c_O.call(this);
   this.pageSize$1 = null;
   this.offset$1 = null;
-  this.queryParameters$1 = null
+  this.indexContext$1 = null;
+  this.orderings$1 = null
 }
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype = new $h_O();
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.constructor = $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters;
@@ -41268,13 +41679,7 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.product
   return "IndexQueryParameters"
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.productArity__I = (function() {
-  return 3
-});
-$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O = (function(pageSize, offset, queryParameters) {
-  this.pageSize$1 = pageSize;
-  this.offset$1 = offset;
-  this.queryParameters$1 = queryParameters;
-  return this
+  return 4
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
@@ -41290,8 +41695,10 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.equals_
     } else {
       var jsx$1 = false
     };
-    if (jsx$1) {
-      return $m_sr_BoxesRunTime$().equals__O__O__Z(this.queryParameters$1, IndexQueryParameters$1.queryParameters$1)
+    if ((jsx$1 && $m_sr_BoxesRunTime$().equals__O__O__Z(this.indexContext$1, IndexQueryParameters$1.indexContext$1))) {
+      var x$5 = this.orderings$1;
+      var x$6 = IndexQueryParameters$1.orderings$1;
+      return ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
     } else {
       return false
     }
@@ -41310,7 +41717,11 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.product
       break
     }
     case 2: {
-      return this.queryParameters$1;
+      return this.indexContext$1;
+      break
+    }
+    case 3: {
+      return this.orderings$1;
       break
     }
     default: {
@@ -41320,6 +41731,13 @@ $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.product
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.init___Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$PageSize__Lvotelog_domain_crudi_ReadOnlyStoreAlg$QueryParameters$Offset__O__sci_List = (function(pageSize, offset, indexContext, orderings) {
+  this.pageSize$1 = pageSize;
+  this.offset$1 = offset;
+  this.indexContext$1 = indexContext;
+  this.orderings$1 = orderings;
+  return this
 });
 $c_Lvotelog_domain_crudi_ReadOnlyStoreAlg$IndexQueryParameters.prototype.hashCode__I = (function() {
   var this$2 = $m_s_util_hashing_MurmurHash3$();
@@ -50056,7 +50474,7 @@ $c_Lvotelog_client_service_UserStoreXhr.prototype.init___Lvotelog_client_Configu
   var jsx$4 = $m_Lvotelog_orphans_circe_implicits$().userCodec$1;
   var jsx$3 = $m_Lvotelog_orphans_circe_implicits$().userIdDecoder$1;
   var jsx$2 = $m_Lvotelog_orphans_circe_implicits$().keyEncoderUserId$1;
-  var jsx$1 = $m_Lvotelog_orphans_circe_implicits$().userStoreRecipleCodec$1;
+  var jsx$1 = $m_Lvotelog_orphans_circe_implicits$().userStoreRecipeCodec$1;
   $m_Lvotelog_orphans_circe_implicits$();
   var evidence$1 = $m_Lvotelog_orphans_circe_implicits$().userIdDecoder$1;
   $c_Lvotelog_client_service_StoreXhr.prototype.init___Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Decoder.call(this, jsx$4, jsx$3, jsx$2, jsx$1, new $c_Lvotelog_orphans_circe_implicits$$anon$37().init___Lio_circe_Codec(evidence$1));
@@ -50923,6 +51341,106 @@ var $d_Lvotelog_domain_authentication_Authentication$Credentials$UserPassword = 
 });
 $c_Lvotelog_domain_authentication_Authentication$Credentials$UserPassword.prototype.$classData = $d_Lvotelog_domain_authentication_Authentication$Credentials$UserPassword;
 /** @constructor */
+function $c_Lvotelog_domain_authentication_User$Ordering$Email$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype = new $h_O();
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.constructor = $c_Lvotelog_domain_authentication_User$Ordering$Email$;
+/** @constructor */
+function $h_Lvotelog_domain_authentication_User$Ordering$Email$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_authentication_User$Ordering$Email$.prototype = $c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype;
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.productPrefix__T = (function() {
+  return "Email"
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.toString__T = (function() {
+  return "Email"
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.hashCode__I = (function() {
+  return 67066748
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_authentication_User$Ordering$Email$ = new $TypeData().initClass({
+  Lvotelog_domain_authentication_User$Ordering$Email$: 0
+}, false, "votelog.domain.authentication.User$Ordering$Email$", {
+  Lvotelog_domain_authentication_User$Ordering$Email$: 1,
+  O: 1,
+  Lvotelog_domain_authentication_User$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Email$.prototype.$classData = $d_Lvotelog_domain_authentication_User$Ordering$Email$;
+var $n_Lvotelog_domain_authentication_User$Ordering$Email$ = (void 0);
+function $m_Lvotelog_domain_authentication_User$Ordering$Email$() {
+  if ((!$n_Lvotelog_domain_authentication_User$Ordering$Email$)) {
+    $n_Lvotelog_domain_authentication_User$Ordering$Email$ = new $c_Lvotelog_domain_authentication_User$Ordering$Email$().init___()
+  };
+  return $n_Lvotelog_domain_authentication_User$Ordering$Email$
+}
+/** @constructor */
+function $c_Lvotelog_domain_authentication_User$Ordering$Name$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype = new $h_O();
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.constructor = $c_Lvotelog_domain_authentication_User$Ordering$Name$;
+/** @constructor */
+function $h_Lvotelog_domain_authentication_User$Ordering$Name$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_authentication_User$Ordering$Name$.prototype = $c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype;
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.productPrefix__T = (function() {
+  return "Name"
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.toString__T = (function() {
+  return "Name"
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.hashCode__I = (function() {
+  return 2420395
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_authentication_User$Ordering$Name$ = new $TypeData().initClass({
+  Lvotelog_domain_authentication_User$Ordering$Name$: 0
+}, false, "votelog.domain.authentication.User$Ordering$Name$", {
+  Lvotelog_domain_authentication_User$Ordering$Name$: 1,
+  O: 1,
+  Lvotelog_domain_authentication_User$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_authentication_User$Ordering$Name$.prototype.$classData = $d_Lvotelog_domain_authentication_User$Ordering$Name$;
+var $n_Lvotelog_domain_authentication_User$Ordering$Name$ = (void 0);
+function $m_Lvotelog_domain_authentication_User$Ordering$Name$() {
+  if ((!$n_Lvotelog_domain_authentication_User$Ordering$Name$)) {
+    $n_Lvotelog_domain_authentication_User$Ordering$Name$ = new $c_Lvotelog_domain_authentication_User$Ordering$Name$().init___()
+  };
+  return $n_Lvotelog_domain_authentication_User$Ordering$Name$
+}
+/** @constructor */
 function $c_Lvotelog_domain_authorization_Capability$Create$() {
   $c_O.call(this)
 }
@@ -51316,6 +51834,156 @@ var $d_Lvotelog_domain_diff_ListDiff$Op$Insert = new $TypeData().initClass({
 });
 $c_Lvotelog_domain_diff_ListDiff$Op$Insert.prototype.$classData = $d_Lvotelog_domain_diff_ListDiff$Op$Insert;
 /** @constructor */
+function $c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.constructor = $c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype = $c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype;
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.productPrefix__T = (function() {
+  return "SubmissionDate"
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.toString__T = (function() {
+  return "SubmissionDate"
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.hashCode__I = (function() {
+  return (-2127108806)
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Business$Ordering$SubmissionDate$: 0
+}, false, "votelog.domain.politics.Business$Ordering$SubmissionDate$", {
+  Lvotelog_domain_politics_Business$Ordering$SubmissionDate$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Business$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$.prototype.$classData = $d_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$;
+var $n_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$ = (void 0);
+function $m_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$() {
+  if ((!$n_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$)) {
+    $n_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$ = new $c_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Business$Ordering$SubmissionDate$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.constructor = $c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype = $c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype;
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.productPrefix__T = (function() {
+  return "SubmittedBy"
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.toString__T = (function() {
+  return "SubmittedBy"
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.hashCode__I = (function() {
+  return 1740359314
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Business$Ordering$SubmittedBy$: 0
+}, false, "votelog.domain.politics.Business$Ordering$SubmittedBy$", {
+  Lvotelog_domain_politics_Business$Ordering$SubmittedBy$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Business$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$.prototype.$classData = $d_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$;
+var $n_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$ = (void 0);
+function $m_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$() {
+  if ((!$n_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$)) {
+    $n_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$ = new $c_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Business$Ordering$SubmittedBy$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Business$Ordering$Title$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.constructor = $c_Lvotelog_domain_politics_Business$Ordering$Title$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Business$Ordering$Title$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Business$Ordering$Title$.prototype = $c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype;
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.productPrefix__T = (function() {
+  return "Title"
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.toString__T = (function() {
+  return "Title"
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.hashCode__I = (function() {
+  return 80818744
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Business$Ordering$Title$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Business$Ordering$Title$: 0
+}, false, "votelog.domain.politics.Business$Ordering$Title$", {
+  Lvotelog_domain_politics_Business$Ordering$Title$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Business$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Business$Ordering$Title$.prototype.$classData = $d_Lvotelog_domain_politics_Business$Ordering$Title$;
+var $n_Lvotelog_domain_politics_Business$Ordering$Title$ = (void 0);
+function $m_Lvotelog_domain_politics_Business$Ordering$Title$() {
+  if ((!$n_Lvotelog_domain_politics_Business$Ordering$Title$)) {
+    $n_Lvotelog_domain_politics_Business$Ordering$Title$ = new $c_Lvotelog_domain_politics_Business$Ordering$Title$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Business$Ordering$Title$
+}
+/** @constructor */
 function $c_Lvotelog_domain_politics_Language$English$() {
   $c_O.call(this)
 }
@@ -51581,6 +52249,56 @@ function $m_Lvotelog_domain_politics_Language$Romansh$() {
   return $n_Lvotelog_domain_politics_Language$Romansh$
 }
 /** @constructor */
+function $c_Lvotelog_domain_politics_Ngo$Ordering$Name$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.constructor = $c_Lvotelog_domain_politics_Ngo$Ordering$Name$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Ngo$Ordering$Name$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype = $c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype;
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.productPrefix__T = (function() {
+  return "Name"
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.toString__T = (function() {
+  return "Name"
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.hashCode__I = (function() {
+  return 2420395
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Ngo$Ordering$Name$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Ngo$Ordering$Name$: 0
+}, false, "votelog.domain.politics.Ngo$Ordering$Name$", {
+  Lvotelog_domain_politics_Ngo$Ordering$Name$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Ngo$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Ngo$Ordering$Name$.prototype.$classData = $d_Lvotelog_domain_politics_Ngo$Ordering$Name$;
+var $n_Lvotelog_domain_politics_Ngo$Ordering$Name$ = (void 0);
+function $m_Lvotelog_domain_politics_Ngo$Ordering$Name$() {
+  if ((!$n_Lvotelog_domain_politics_Ngo$Ordering$Name$)) {
+    $n_Lvotelog_domain_politics_Ngo$Ordering$Name$ = new $c_Lvotelog_domain_politics_Ngo$Ordering$Name$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Ngo$Ordering$Name$
+}
+/** @constructor */
 function $c_Lvotelog_domain_politics_Person$Gender$Female$() {
   $c_O.call(this)
 }
@@ -51679,6 +52397,206 @@ function $m_Lvotelog_domain_politics_Person$Gender$Male$() {
     $n_Lvotelog_domain_politics_Person$Gender$Male$ = new $c_Lvotelog_domain_politics_Person$Gender$Male$().init___()
   };
   return $n_Lvotelog_domain_politics_Person$Gender$Male$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.constructor = $c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype = $c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype;
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.productPrefix__T = (function() {
+  return "DateOfBirth"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.toString__T = (function() {
+  return "DateOfBirth"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.hashCode__I = (function() {
+  return 1280996730
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Person$Ordering$DateOfBirth$: 0
+}, false, "votelog.domain.politics.Person$Ordering$DateOfBirth$", {
+  Lvotelog_domain_politics_Person$Ordering$DateOfBirth$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Person$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$.prototype.$classData = $d_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$;
+var $n_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$ = (void 0);
+function $m_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$() {
+  if ((!$n_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$)) {
+    $n_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$ = new $c_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Person$Ordering$DateOfBirth$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Person$Ordering$FirstName$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.constructor = $c_Lvotelog_domain_politics_Person$Ordering$FirstName$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Person$Ordering$FirstName$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype = $c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype;
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.productPrefix__T = (function() {
+  return "FirstName"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.toString__T = (function() {
+  return "FirstName"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.hashCode__I = (function() {
+  return 2136803643
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Person$Ordering$FirstName$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Person$Ordering$FirstName$: 0
+}, false, "votelog.domain.politics.Person$Ordering$FirstName$", {
+  Lvotelog_domain_politics_Person$Ordering$FirstName$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Person$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Person$Ordering$FirstName$.prototype.$classData = $d_Lvotelog_domain_politics_Person$Ordering$FirstName$;
+var $n_Lvotelog_domain_politics_Person$Ordering$FirstName$ = (void 0);
+function $m_Lvotelog_domain_politics_Person$Ordering$FirstName$() {
+  if ((!$n_Lvotelog_domain_politics_Person$Ordering$FirstName$)) {
+    $n_Lvotelog_domain_politics_Person$Ordering$FirstName$ = new $c_Lvotelog_domain_politics_Person$Ordering$FirstName$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Person$Ordering$FirstName$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Person$Ordering$Id$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.constructor = $c_Lvotelog_domain_politics_Person$Ordering$Id$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Person$Ordering$Id$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Person$Ordering$Id$.prototype = $c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype;
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.productPrefix__T = (function() {
+  return "Id"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.toString__T = (function() {
+  return "Id"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.hashCode__I = (function() {
+  return 2363
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Person$Ordering$Id$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Person$Ordering$Id$: 0
+}, false, "votelog.domain.politics.Person$Ordering$Id$", {
+  Lvotelog_domain_politics_Person$Ordering$Id$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Person$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Person$Ordering$Id$.prototype.$classData = $d_Lvotelog_domain_politics_Person$Ordering$Id$;
+var $n_Lvotelog_domain_politics_Person$Ordering$Id$ = (void 0);
+function $m_Lvotelog_domain_politics_Person$Ordering$Id$() {
+  if ((!$n_Lvotelog_domain_politics_Person$Ordering$Id$)) {
+    $n_Lvotelog_domain_politics_Person$Ordering$Id$ = new $c_Lvotelog_domain_politics_Person$Ordering$Id$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Person$Ordering$Id$
+}
+/** @constructor */
+function $c_Lvotelog_domain_politics_Person$Ordering$LastName$() {
+  $c_O.call(this)
+}
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype = new $h_O();
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.constructor = $c_Lvotelog_domain_politics_Person$Ordering$LastName$;
+/** @constructor */
+function $h_Lvotelog_domain_politics_Person$Ordering$LastName$() {
+  /*<skip>*/
+}
+$h_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype = $c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype;
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.init___ = (function() {
+  return this
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.productPrefix__T = (function() {
+  return "LastName"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.productArity__I = (function() {
+  return 0
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.productElement__I__O = (function(x$1) {
+  return $m_sr_Statics$().ioobe__I__O(x$1)
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.toString__T = (function() {
+  return "LastName"
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.hashCode__I = (function() {
+  return (-1394955679)
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+var $d_Lvotelog_domain_politics_Person$Ordering$LastName$ = new $TypeData().initClass({
+  Lvotelog_domain_politics_Person$Ordering$LastName$: 0
+}, false, "votelog.domain.politics.Person$Ordering$LastName$", {
+  Lvotelog_domain_politics_Person$Ordering$LastName$: 1,
+  O: 1,
+  Lvotelog_domain_politics_Person$Ordering: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lvotelog_domain_politics_Person$Ordering$LastName$.prototype.$classData = $d_Lvotelog_domain_politics_Person$Ordering$LastName$;
+var $n_Lvotelog_domain_politics_Person$Ordering$LastName$ = (void 0);
+function $m_Lvotelog_domain_politics_Person$Ordering$LastName$() {
+  if ((!$n_Lvotelog_domain_politics_Person$Ordering$LastName$)) {
+    $n_Lvotelog_domain_politics_Person$Ordering$LastName$ = new $c_Lvotelog_domain_politics_Person$Ordering$LastName$().init___()
+  };
+  return $n_Lvotelog_domain_politics_Person$Ordering$LastName$
 }
 /** @constructor */
 function $c_Lvotelog_domain_politics_Votum$Absent$() {
