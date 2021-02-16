@@ -1,5 +1,6 @@
 package votelog.service
 
+import cats.Id
 import cats.effect.IO
 import io.circe._
 import io.circe.syntax._
@@ -22,7 +23,8 @@ class BusinessServiceSpec extends AnyFlatSpec with Matchers {
 
   val store =
     new BusinessStore[IO] {
-      override def index(queryParameters: IndexParameters): IO[Index[Business.Id]] = IO.pure(Index(1, List(Business.Id(0))))
+      override def index(queryParameters: IndexParameters): IO[Index[Business.Id, Business.Partial]] =
+        IO.pure(Index(1, List((Business.Id(0), Business.empty))))
       override def read(queryParameters: ReadParameters)(id: Business.Id): IO[Business] = ???
     }
 
@@ -32,7 +34,7 @@ class BusinessServiceSpec extends AnyFlatSpec with Matchers {
   }
 
   val auth: AuthorizationAlg[IO] = (_, _, _) => IO.pure(true)
-  val user = User("unprivileged", User.Email("mail"), "qux", Set.empty)
+  val user: User = User("unprivileged", User.Email("mail"), "qux", Set.empty)
 
   val service = new BusinessService(Component.Root, store, auth, vote).service
 

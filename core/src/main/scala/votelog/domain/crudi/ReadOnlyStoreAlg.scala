@@ -4,21 +4,19 @@ import cats.Show
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 
-import scala.collection.SortedSet
-
-trait ReadOnlyStoreAlg[F[_], T, Identity, Order] {
+trait ReadOnlyStoreAlg[F[_], T, Identity, Partial, Order, Fields] {
   type ReadParameters
   type IndexParameters
 
-  def index(queryParameters: IndexParameters): F[Index[Identity]]
+  def index(queryParameters: IndexParameters): F[Index[Identity, Partial]]
   def read(queryParameters: ReadParameters)(id: Identity): F[T]
 }
 
 object ReadOnlyStoreAlg {
 
-  case class IndexQueryParameters[T, Ordering](pageSize: PageSize, offset: Offset, indexContext: T, orderings: List[Ordering])
-  // todo: index should return an sorted set
-  case class Index[T](totalEntities: Int, entities: List[T])
+  case class IndexQueryParameters[T, Ordering, Field](pageSize: PageSize, offset: Offset, indexContext: T, orderings: List[Ordering], fields: Set[Field])
+
+  case class Index[Id, Partial](totalEntities: Int, entities: List[(Id, Partial)])
 
   object QueryParameters {
     case class PageSize(value: Int) { override def toString: String = value.toString }

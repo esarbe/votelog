@@ -25,10 +25,10 @@ class UserComponent(
   component: votelog.domain.authorization.Component,
   configuration: UserComponent.Configuration,
   val store: UserStore[Future],
-) extends CrudIndexComponent[User, User.Id, User.Ordering] { self =>
+) extends CrudIndexComponent[User, User.Id, User.Partial, User.Field, User.Field] { self =>
 
-  val indexQueryParameters: Rx[store.IndexParameters] = Rx(())
-  val queryParameters: Rx[store.ReadParameters] = Rx(())
+  val indexQueryParameters: Rx[store.IndexParameters] = Rx(Set.empty)
+  val queryParameters: Rx[store.ReadParameters] = Rx(Set.empty)
   val queryParametersView: Option[Node] = None
 
   def id(id: String): String = component.child(id).location

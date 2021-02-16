@@ -1,8 +1,9 @@
 package votelog.persistence
 
 
-import java.util.UUID
+import cats.Id
 
+import java.util.UUID
 import cats.implicits._
 import cats.data.{NonEmptyList, Validated}
 import cats.data.Validated.{Invalid, Valid}
@@ -10,11 +11,12 @@ import votelog.domain.authentication.User
 import votelog.domain.authentication.User.Email
 import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.crudi.StoreAlg
+import scala.collection.immutable.Seq
 
-trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe, User.Ordering] {
+trait UserStore[F[_]] extends StoreAlg[F, User, User.Id, UserStore.Recipe, User.Partial, User.Field, User.Field] {
 
-  type ReadParameters = Unit
-  type IndexParameters = Unit
+  type ReadParameters = Set[User.Field]
+  type IndexParameters = Set[User.Field]
 
   def findByName(name: String): F[Option[User]]
   def grantPermission(userId: User.Id, component: Component, capability: Capability): F[Unit]

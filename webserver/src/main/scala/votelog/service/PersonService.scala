@@ -4,7 +4,7 @@ import cats.effect.IO
 import cats.implicits._
 import io.circe._
 import io.circe.generic.auto._
-import votelog.domain.politics.VoteAlg
+import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Person, PersonPartial, VoteAlg}
 import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.circe._
@@ -14,7 +14,6 @@ import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Person}
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.ReadOnlyStoreService
 import votelog.orphans.circe.implicits._
@@ -26,17 +25,18 @@ class PersonService(
   val voteAlg: VoteAlg[IO],
   val log: Logger[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends ReadOnlyStoreService[Person, Person.Id, Person.Ordering] {
+) extends ReadOnlyStoreService[Person, Person.Id, PersonPartial, Person.Field, Person.Field] {
 
   implicit val motionIdCirceKeyEncoder: KeyEncoder[Business.Id] =
     KeyEncoder.instance[Business.Id](_.value.toString)
 
-  val defaultIndexQueryParameters: IndexQueryParameters[Context, Person.Ordering] =
+  val defaultIndexQueryParameters: IndexQueryParameters[Context, Person.Field, Person.Field] =
     IndexQueryParameters(
       PageSize(20),
       Offset(0),
       Context(LegislativePeriod.Id(50), Language.English),
-      List(Person.Ordering.LastName, Person.Ordering.FirstName, Person.Ordering.DateOfBirth, Person.Ordering.Id)
+      List(Person.Field.LastName, Person.Field.FirstName, Person.Field.DateOfBirth, Person.Field.Id),
+      Set.empty
     )
 
   object MotionId {
@@ -60,7 +60,7 @@ class PersonService(
   override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
 
   // TODO: redirect in case of missing required parameters would be better
-  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Person.Ordering]] =
-    params => Params.indexParamsDecoder(Params.contextParam, Params.orderDecoder[Person.Ordering]).decode(params)
+  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Person.Field, Person.Field]] =
+    params => Params.indexParamsDecoder[votelog.domain.politics.Context, Person.Field, Person.Field](Params.contextParam, Params.orderDecoder[Person.Field]).decode(params)
       .orElse(Some(defaultIndexQueryParameters))
 }

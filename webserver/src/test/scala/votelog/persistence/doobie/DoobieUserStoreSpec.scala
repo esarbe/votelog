@@ -1,5 +1,6 @@
 package votelog.persistence.doobie
 
+import cats.Id
 import cats.effect.{ContextShift, IO}
 import cats.implicits._
 import doobie.util.transactor.Transactor
@@ -10,6 +11,7 @@ import org.scalatest.matchers.should.Matchers
 import votelog.app.Database
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
+import votelog.domain.crudi.StoreAlg
 import votelog.persistence.UserStore.{Password, Recipe}
 import votelog.persistence.{StoreSpec, UserStore}
 
@@ -40,7 +42,7 @@ class DoobieUserStoreSpec
 
   val userStore =
     schema.initialize *>
-      aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)((), ())
+      aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity, (a: User.Id) => User.empty)(Set.empty, Set.empty)
 
   it should behave like userStore.unsafeRunSync()
 }

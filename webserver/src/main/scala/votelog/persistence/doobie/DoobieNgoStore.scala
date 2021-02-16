@@ -16,7 +16,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
 ) extends NgoStore[F] {
 
   private val indexQuery =
-    sql"select id from ngos".query[Ngo.Id].accumulate[List]
+    sql"select id from ngos".query[(Ngo.Id, Ngo.Partial)].accumulate[List]
 
   private def createQuery(recipe: Recipe, id: Ngo.Id) =
     sql"insert into ngos (id, name) values ($id, ${recipe.name})"
@@ -56,7 +56,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   private val countQuery = sql"select count(id) from ngos".query[Int].unique
 
 
-  override def index(params: IndexParameters): F[Index[Ngo.Id]] = {
+  override def index(params: IndexParameters): F[Index[Ngo.Id, Ngo.Partial]] = {
     val count = countQuery.transact(transactor)
     val entities = indexQuery.transact(transactor)
     (count, entities).parMapN(Index.apply)

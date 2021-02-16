@@ -1,5 +1,6 @@
 package votelog.infrastructure
 
+import cats.Id
 import cats.effect._
 import io.circe.{Decoder, Encoder, KeyDecoder}
 import io.circe.syntax._
@@ -14,11 +15,12 @@ import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the effect type
-abstract class ReadOnlyStoreService[T: Encoder: Decoder, Identity: Encoder: KeyDecoder, Ordering](
-  implicit val indexEncoder: Encoder[Index[Identity]]
+abstract class ReadOnlyStoreService[T, Identity: Encoder: KeyDecoder, Partial, Ordering, Fields](
+  implicit val indexEncoder: Encoder[Index[Identity, Partial]],
+  val entityEncoder: Encoder[T]
 ) {
 
-  val store: ReadOnlyStoreAlg[IO, T, Identity, Ordering]
+  val store: ReadOnlyStoreAlg[IO, T, Identity, Partial, Ordering, Fields]
   implicit val queryParamDecoder: param.Decoder[store.ReadParameters]
   implicit val indexQueryParamDecoder: param.Decoder[store.IndexParameters]
 

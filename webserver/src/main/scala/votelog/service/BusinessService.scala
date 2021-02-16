@@ -19,12 +19,12 @@ class BusinessService(
   val store: BusinessStore[IO],
   val authAlg: AuthorizationAlg[IO],
   val voteAlg: VoteAlg[IO],
-) extends ReadOnlyStoreService[Business, Business.Id, Business.Ordering] {
+) extends ReadOnlyStoreService[Business, Business.Id, Business.Partial, Business.Field, Business.Field] {
 
-  implicit val orderingParamDecoder: param.Decoder[List[Business.Ordering]] = Params.orderDecoder
+  implicit val orderingParamDecoder: param.Decoder[List[Business.Field]] = Params.orderDecoder
   implicit val contextParamDecoder: param.Decoder[Context] = Params.contextParam
   override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
-  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Business.Ordering]] =
+  override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Business.Field, Business.Field]] =
     Params.indexParamsDecoder(contextParamDecoder, orderingParamDecoder)
 
   lazy val voting: AuthedRoutes[User, IO] = AuthedRoutes.of {

@@ -1,5 +1,6 @@
 package votelog.client.service
 
+import cats.Id
 import org.scalajs.dom.ext.Ajax
 import votelog.domain.crudi.StoreAlg
 import cats.implicits._
@@ -13,13 +14,16 @@ import votelog.domain.param.Encoder._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encoder, Ordering](
-  implicit indexDecoder: Decoder[Index[Identity]]
-) extends StoreAlg[Future, T, Identity, Recipe, Ordering]{
+abstract class StoreXhr[T, Identity: Decoder: KeyEncoder, Recipe: Encoder, Partial, Ordering, Fields](
+  implicit indexDecoder: Decoder[Index[Identity, Partial]],
+  implicit val entityOptionDecoder: Decoder[Partial],
+  implicit val entityDecoder: Decoder[T],
+) extends StoreAlg[Future, T, Identity, Recipe, Partial, Ordering, Fields]{
 
   val indexUrl: String // TODO: maybe reuse [[Component]]?!!!
   implicit val indexQueryParameterEncoder: ParamEncoder[IndexParameters]
   implicit val queryParameterEncoder: ParamEncoder[ReadParameters]
+
 
   def param(id: Identity): String =
     s"/${KeyEncoder[Identity].apply(id)}"
@@ -42,10 +46,10 @@ abstract class StoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Recipe: Encod
       }
   }
 
-  override def index(queryParameters: IndexParameters): Future[Index[Identity]] = {
+  override def index(queryParameters: IndexParameters): Future[Index[Identity, Partial]] = {
     Ajax.get(indexUrl + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
-        decode[Index[Identity]](res.responseText).fold(Future.failed(_), Future.successful(_))
+        decode[Index[Identity, Partial]](res.responseText).fold(Future.failed(_), Future.successful(_))
       }
   }
 

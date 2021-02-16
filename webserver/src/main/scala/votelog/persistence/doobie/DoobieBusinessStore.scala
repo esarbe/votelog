@@ -7,7 +7,7 @@ import doobie.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Business, Language}
 import votelog.persistence.BusinessStore
-import votelog.persistence.doobie.DoobieBusinessStore.orderToFieldname
+import votelog.persistence.doobie.DoobieBusinessStore.toColumnName
 import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta // idea thinks this is not needed but it's wrong
 
 class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
@@ -18,10 +18,11 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
     sql"select title, description, submitted_by, submission_date from business where id=${id} and language=${language.iso639_1}"
       .query[Business].unique
 
-  def indexQuery(qp: IndexParameters): doobie.ConnectionIO[List[Business.Id]] = {
-    val orderBy = buildOrderBy(qp.orderings.map(orderToFieldname))
+  def indexQuery(qp: IndexParameters): doobie.ConnectionIO[List[(Business.Id, Business.Partial)]] = {
+    val fields = buildFields(qp.fields.toSeq.map(toColumnName))
+    val orderBy = buildOrderBy(qp.orderings.map(toColumnName))
 
-    sql"""select id from business
+    sql"""select id $fields from business
          |where business_type in (3, 4, 5)
          |and submission_legislative_period = ${qp.indexContext.legislativePeriod}
          |and language = ${qp.indexContext.language.iso639_1.toUpperCase}
@@ -29,6 +30,7 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
          |LIMIT ${qp.pageSize}
          |""".stripMargin
       .query[Business.Id]
+      .map(id => (id, Business.empty))
       .accumulate[List]
   }
 
@@ -38,18 +40,19 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
   override def read(queryParameters: ReadParameters)(id: Business.Id): F[Business] =
     selectQuery(queryParameters)(id).transact(transactor)
 
-  override def index(indexQueryParameters: IndexParameters): F[Index[Business.Id]] = {
+  override def index(indexQueryParameters: IndexParameters): F[Index[Business.Id, Business.Partial]] = {
     val index = indexQuery(indexQueryParameters).transact(transactor)
     val count = this.count.transact(transactor)
 
-    (count, index).parMapN(Index.apply)
+    (count, index).parMapN { case (count, index) => Index[Business.Id, Business.Partial](count, index)}
   }
 }
 
 object DoobieBusinessStore {
-  val orderToFieldname: Business.Ordering => String = {
-    case Business.Ordering.SubmissionDate => "submission_date"
-    case Business.Ordering.SubmittedBy => "submitted_by"
-    case Business.Ordering.Title => "title"
+  val toColumnName: Business.Field => String = {
+    case Business.Field.SubmissionDate => "submission_date"
+    case Business.Field.SubmittedBy => "submitted_by"
+    case Business.Field.Title => "title"
+    case Business.Field.Description => "description"
   }
 }

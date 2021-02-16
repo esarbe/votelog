@@ -1,15 +1,15 @@
 package votelog.client.service
 
-import io.circe.KeyDecoder
 import votelog.client.Configuration
 import votelog.domain.politics.{Business, Ngo, Scoring}
 import votelog.persistence.NgoStore
 import votelog.orphans.circe.implicits._
 import votelog.domain.param.Encoder
+
 import scala.concurrent.Future
 
 class NgoStoreXhr(configuration: Configuration)
-  extends StoreXhr[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Ordering]
+  extends StoreXhr[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Partial,Ngo.Fields, Ngo.Fields]
     with NgoStore[Future] {
 
   override val indexUrl: String = configuration.url + "/ngo"

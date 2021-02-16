@@ -15,8 +15,8 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scala.xml.Elem
 
-trait CrudCreateComponent[F, T, Identity, Recipe, Order] {
-  val store: StoreAlg[Future, T, Identity, Recipe, Order]
+trait CrudCreateComponent[F, T, Identity, Recipe, Partial, Order, Fields] {
+  val store: StoreAlg[Future, T, Identity, Recipe, Partial, Order, Fields]
   implicit val component: Component
 
   implicit def showIdentity: Show[Identity]

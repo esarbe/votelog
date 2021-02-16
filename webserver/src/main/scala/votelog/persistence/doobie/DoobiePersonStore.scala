@@ -1,17 +1,14 @@
 package votelog.persistence.doobie
 
 import cats._
-import cats.data._
-import cats.Monad
 import cats.implicits._
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
+import votelog.domain.politics.{Canton, Language, Person, PersonPartial}
+import votelog.persistence.PersonStore
 import doobie._
 import doobie.implicits._
-
-import votelog.domain.crudi.ReadOnlyStoreAlg.Index
-import votelog.domain.politics.{Language, Person}
-import votelog.persistence.PersonStore
 import votelog.orphans.doobie.implicits._
-import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta
+import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta // idea thinks this is not needed but it's wrong
 
 class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
@@ -31,12 +28,22 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .query[Person]
       .unique
 
-  def indexQuery(p: IndexParameters): doobie.ConnectionIO[List[Person.Id]] = {
+  def indexQuery(p: IndexParameters): doobie.ConnectionIO[List[(Person.Id, PersonPartial)]] = {
+    import shapeless._
+    import doobie._
+    import doobie.implicits._
+    import doobie.util.Get._
 
-    val orderBy = buildOrderBy(p.orderings.map(toFieldName))
+    val orderBy = buildOrderBy(p.orderings.filter(p.fields).map(toFieldName))
+    val fields = Person.Field.values.map {
+      field =>
+        (p.fields ++ Set(Person.Field.Id)).toList.find( _ == field).map(toFieldName).getOrElse(s"null as ${toFieldName(field)}")
+    }
+
+    val selectFields = buildFields(fields)
 
     sql"""
-      SELECT p.id from person p
+      SELECT $selectFields from person p
       WHERE p.`language` = ${p.indexContext.language.iso639_1}
       AND p.person_number in (
         select distinct person_number
@@ -47,7 +54,8 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       $orderBy
       LIMIT ${p.offset.value}, ${p.pageSize.value}
     """
-      .queryWithLogHandler[Person.Id](LogHandler.jdkLogHandler)
+      .queryWithLogHandler[PersonPartial](doobie.util.log.LogHandler.jdkLogHandler)
+      .map(p => (p.id, person))
       .accumulate[List]
   }
 
@@ -63,15 +71,19 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
   override def read(lang: Language)(id: Person.Id): F[Person] =
     selectQuery(id, lang).transact(transactor)
 
-  override def index(p: IndexParameters): F[Index[Person.Id]] = {
+  override def index(p: IndexParameters): F[Index[Person.Id, PersonPartial]] = {
     (count(p), indexQuery(p)).mapN(Index.apply).transact(transactor)
   }
 
-  val toFieldName: Person.Ordering => String = {
-    case Person.Ordering.FirstName => "first_name"
-    case Person.Ordering.LastName => "last_name"
-    case Person.Ordering.Id => "id"
-    case Person.Ordering.DateOfBirth => "date_of_birth"
+  val toFieldName: Person.Field => String = {
+    case Person.Field.FirstName => "first_name"
+    case Person.Field.LastName => "last_name"
+    case Person.Field.Id => "id"
+    case Person.Field.DateOfBirth => "date_of_birth"
+    case Person.Field.Canton => "canton"
+    case Person.Field.DateOfElection => "date_election"
+    case Person.Field.Gender => "gender_as_string"
+    case Person.Field.Party => "party_name"
   }
 
 }

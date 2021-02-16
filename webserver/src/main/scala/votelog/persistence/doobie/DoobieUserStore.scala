@@ -1,15 +1,16 @@
 package votelog.persistence.doobie
 
 import java.util.UUID
-
 import cats._
 import cats.effect.Sync
 import cats.implicits._
+import doobie.{Get, Read}
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.meta.Meta
 import votelog.crypto.PasswordHasherAlg
 import votelog.domain.authentication.User
+import votelog.domain.authentication.User.Permission
 import votelog.domain.authorization.{Capability, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.orphans.doobie.implicits._
@@ -21,13 +22,18 @@ class DoobieUserStore[F[_]: NonEmptyParallel: ThrowableBracket](
   passwordHasher: PasswordHasherAlg[F],
 ) extends UserStore[F] {
 
+  val fieldAsString: User.Field => String = {
+    case User.Field.Name => "name"
+    case User.Field.Email => "email"
+  }
+
   implicit val metaCapability: Meta[Capability] =
     Meta[String]
       .imap {
-        case "Read" => Capability.Read: Capability
-        case "Create" => Capability.Create: Capability
-        case "Update" => Capability.Update: Capability
-        case "Delete" => Capability.Delete: Capability
+        case "Read" => Capability.Read
+        case "Create" => Capability.Create
+        case "Update" => Capability.Update
+        case "Delete" => Capability.Delete
       }{
         case Capability.Read => "Read"
         case Capability.Create => "Create"
@@ -81,14 +87,18 @@ class DoobieUserStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .run
   }
 
-
   def findIdByNameQuery(name: String): doobie.ConnectionIO[Option[User.Id]] =
     sql"select id from users where name = $name"
       .query[User.Id]
       .accumulate[Option]
 
-  val indexQuery: doobie.ConnectionIO[List[User.Id]] =
-    sql"select id from users".query[User.Id].accumulate[List]
+  def indexQuery(fields: Set[User.Field]): doobie.ConnectionIO[List[(User.Id, User.Partial)]] = {
+    val selectFields = buildFields(fields.toSeq.map(fieldAsString))
+
+    sql"select id from users"
+      .query[(User.Id, User.Partial)]
+      .accumulate[List]
+  }
 
   override def create(recipe: Recipe): F[User.Id] =
     for {
@@ -122,11 +132,11 @@ class DoobieUserStore[F[_]: NonEmptyParallel: ThrowableBracket](
 
   private def countQuery = sql"select count(id) from users".query[Int].unique
 
-  override def index(q: IndexParameters): F[Index[User.Id]] = {
-    val entities = indexQuery.transact(transactor)
+  override def index(fields: Set[User.Field]): F[Index[User.Id, User.Partial]] = {
+    val entities = indexQuery(fields).transact(transactor)
     val count = countQuery.transact(transactor)
 
-    (count, entities).parMapN(Index.apply)
+    (count, entities).parMapN(Index.apply[User.Id, User.Partial])
   }
 
   override def findByName(name: String): F[Option[User]] =

@@ -1,5 +1,6 @@
 package votelog.orphans.circe
 
+import cats.Id
 import io.circe.Decoder.Result
 import io.circe._
 import io.circe.generic.extras.encoding.UnwrappedEncoder
@@ -8,7 +9,6 @@ import votelog.domain.authentication.User
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.Person.Gender.{Female, Male}
 import votelog.domain.politics._
-//import io.circe.generic.semiauto._
 import io.circe.generic.extras.semiauto._
 import io.circe.generic.extras.defaults._
 import votelog.domain.authentication.User.Permission
@@ -26,8 +26,9 @@ object implicits {
   implicit val capabilityCodec: Codec[Capability] = deriveConfiguredCodec
   implicit val permissionCodec: Codec[Permission] = deriveConfiguredCodec
   implicit val userCodec: Codec[User] = deriveConfiguredCodec
-  implicit val userOrderingKeyDecoder: KeyDecoder[User.Ordering] =
-    KeyDecoder.decodeKeyString.map(User.Ordering.fromString)
+  implicit val userHCodec: Codec[User.Partial] = deriveConfiguredCodec
+  implicit val userOrderingKeyDecoder: KeyDecoder[User.Field] =
+    KeyDecoder.decodeKeyString.map(User.Field.fromString)
 
   implicit val personIdCodec: Codec[Person.Id] = deriveUnwrappedCodec
   implicit val personNameCodec: Codec[Person.Name] = deriveUnwrappedCodec
@@ -36,11 +37,12 @@ object implicits {
   implicit val userStoreRecipeCodec: Codec[UserStore.Recipe] = deriveConfiguredCodec
 
   implicit val ngoCodec: Codec[Ngo] = deriveConfiguredCodec
+  implicit val ngoHCodec: Codec[Ngo.Partial] = deriveConfiguredCodec
   implicit val ngoIdCodec: Codec[Ngo.Id] = deriveUnwrappedCodec
   implicit val ngoStoreRecipeCodec: Codec[NgoStore.Recipe] = deriveConfiguredCodec
   implicit val ngoIdCirceKeyDecoder: KeyDecoder[Ngo.Id] = KeyDecoder.decodeKeyString.map(Ngo.Id)
-  implicit val ngoOrderingKeyDecoder: KeyDecoder[Ngo.Ordering] =
-    KeyDecoder.decodeKeyString.map(Ngo.Ordering.fromString)
+  implicit val ngoOrderingKeyDecoder: KeyDecoder[Ngo.Fields] =
+    KeyDecoder.decodeKeyString.map(Ngo.Fields.fromString)
 
   implicit val keyEncoderNgoId: KeyEncoder[Ngo.Id] = KeyEncoder.encodeKeyString.contramap(_.value)
 
@@ -51,18 +53,19 @@ object implicits {
   implicit val langKeyDecoder: KeyDecoder[Language] = (key: String) => Language.fromIso639_1(key)
 
   implicit val businessCodec: Codec[Business] = deriveConfiguredCodec
+  implicit val businessHCodec: Codec[Business.Partial] = deriveConfiguredCodec
   implicit val businessIdKeyDecoder: KeyDecoder[Business.Id] = KeyDecoder.decodeKeyInt.map(Business.Id)
   implicit val businessIdKeyEncoder: KeyEncoder[Business.Id] = KeyEncoder.encodeKeyInt.contramap(_.value)
   implicit val businessIdCodec: Codec[Business.Id] = deriveUnwrappedCodec
 
-  implicit val businessOrderingKeyDecoder: KeyDecoder[Business.Ordering] =
-    KeyDecoder.decodeKeyString.map(Business.Ordering.fromString)
-  implicit val businessOrderingKeyEncoder: KeyEncoder[Business.Ordering] =
+  implicit val businessOrderingKeyDecoder: KeyDecoder[Business.Field] =
+    KeyDecoder.decodeKeyString.map(Business.Field.fromString)
+  implicit val businessOrderingKeyEncoder: KeyEncoder[Business.Field] =
     KeyEncoder.encodeKeyString.contramap(_.toString)
 
-  implicit val personOrderingKeyDecoder: KeyDecoder[Person.Ordering] =
-    KeyDecoder.decodeKeyString.map(Person.Ordering.fromString)
-  implicit val personOrderingKeyEncoder: KeyEncoder[Person.Ordering] =
+  implicit val personOrderingKeyDecoder: KeyDecoder[Person.Field] =
+    KeyDecoder.decodeKeyString.map(Person.Field.fromString)
+  implicit val personOrderingKeyEncoder: KeyEncoder[Person.Field] =
     KeyEncoder.encodeKeyString.contramap(_.toString)
 
   implicit val votumCodec: Codec[Votum] = Codec.from(
@@ -94,17 +97,17 @@ object implicits {
       case Male => "male"
     }
 
-  implicit def indexCodec[T: Codec]: Codec[Index[T]] =
-    new Codec[Index[T]] {
-      override def apply(index: Index[T]): Json = Json.obj(
+  implicit def indexCodec[T: Codec, Id: Codec]: Codec[Index[Id, T]] =
+    new Codec[Index[Id, T]] {
+      override def apply(index: Index[Id, T]): Json = Json.obj(
         ("totalEntities", Json.fromInt(index.totalEntities)),
-        ("entities", Encoder.encodeList[T].apply(index.entities))
+        ("entities", Encoder.encodeList[(Id, T)].apply(index.entities))
       )
 
-      override def apply(c: HCursor): Result[Index[T]] =
+      override def apply(c: HCursor): Result[Index[Id, T]] =
         for {
           totalEntities <- c.downField("totalEntities").as[Int]
-          entities <- c.downField("entities").as[List[T]]
+          entities <- c.downField("entities").as[List[(Id, T)]]
         } yield Index(totalEntities, entities)
     }
 }

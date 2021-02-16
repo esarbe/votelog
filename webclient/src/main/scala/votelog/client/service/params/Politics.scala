@@ -20,6 +20,8 @@ object Politics {
   implicit val langParam: param.Encoder[Language] =
     (lang: Language) => Params(Map("lang" -> Seq(lang.iso639_1)))
 
-  implicit def orderEncoder[A](implicit ev: KeyEncoder[A]): param.Encoder[List[A]] =
-    (ordering: List[A]) => Params(Map("orderBy" -> ordering.map(ev.apply)))
+  //implicit def orderEncoder[A](implicit ev: KeyEncoder[A]): param.Encoder[List[A]] =
+    //(ordering: List[A]) => Params(Map("orderBy" -> ordering.map(ev.apply)))
+
+
 }

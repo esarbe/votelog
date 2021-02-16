@@ -1,7 +1,6 @@
 package votelog.service
 
 import cats.effect.IO
-import io.circe.Encoder
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.politics.Ngo
 import votelog.infrastructure.StoreService
@@ -13,7 +12,7 @@ class NgoService(
   val component: Component,
   val store: NgoStore[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends StoreService[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Ordering] {
+) extends StoreService[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Partial, Ngo.Fields, Ngo.Fields] {
   override implicit val queryParamDecoder: param.Decoder[store.ReadParameters] = param.Decoder.always(())
   override implicit val indexQueryParamDecoder: param.Decoder[store.IndexParameters] = param.Decoder.always(())
 }

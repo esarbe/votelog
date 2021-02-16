@@ -1,6 +1,7 @@
 package votelog
 package infrastructure
 
+import cats.Id
 import cats.effect._
 import io.circe.{Decoder, Encoder, KeyDecoder}
 import io.circe.syntax._
@@ -17,11 +18,11 @@ import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.crudi.StoreAlg
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the effect type
-abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,  Recipe: Decoder, Order: KeyDecoder](
-  implicit indexEncoder: Encoder[Index[Identity]]
+abstract class StoreService[T: Encoder: Decoder, Identity: Encoder: KeyDecoder, Recipe: Decoder, Partial: Encoder, Ordering: KeyDecoder, Fields](
+  implicit indexEncoder: Encoder[Index[Identity, Partial]]
 ) {
   val authAlg: AuthorizationAlg[IO]
-  val store: StoreAlg[IO, T, Identity, Recipe, Order]
+  val store: StoreAlg[IO, T, Identity, Recipe, Partial, Ordering, Fields]
   val component: Component
 
   implicit val queryParamDecoder: param.Decoder[store.ReadParameters]

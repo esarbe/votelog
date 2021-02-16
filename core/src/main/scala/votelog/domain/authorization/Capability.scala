@@ -2,7 +2,7 @@ package votelog.domain.authorization
 
 import cats.Show
 
-sealed trait Capability
+sealed trait Capability extends Product with Serializable
 
 object Capability {
   case object Read extends Capability

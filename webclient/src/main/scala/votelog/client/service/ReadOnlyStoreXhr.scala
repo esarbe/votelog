@@ -1,32 +1,34 @@
 package votelog.client.service
 
+import cats.Id
 import io.circe._
 import io.circe.parser._
 import org.scalajs.dom.ext.Ajax
 import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters}
-import votelog.domain.param.{Param, Params, Encoder => ParamEncoder}
+import votelog.domain.param.{Params, Encoder => ParamEncoder}
 import votelog.domain.param.Encoder._
-
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-abstract class ReadOnlyStoreXhr[T: Decoder, Identity: Decoder: KeyEncoder, Ordering](
-  implicit indexDecoder: Decoder[Index[Identity]]
-) extends ReadOnlyStoreAlg[Future, T, Identity, Ordering]{
+abstract class ReadOnlyStoreXhr[T, Identity: Decoder: KeyEncoder, Partial, Ordering, Fields](
+  implicit indexDecoder: Decoder[Index[Identity, Partial]],
+  implicit val entityDecoder: Decoder[T],
+) extends ReadOnlyStoreAlg[Future, T, Identity, Partial, Ordering, Fields]{
 
   val indexUrl: String // TODO: maybe reuse [[Component]]?!!!
   implicit val indexQueryParameterBuilder: ParamEncoder[IndexParameters]
   implicit val queryParameterBuilder: ParamEncoder[ReadParameters]
 
+
   def param(id: Identity): String = s"/${KeyEncoder[Identity].apply(id)}"
 
-  override def index(queryParameters: IndexParameters): Future[Index[Identity]] = {
+  override def index(queryParameters: IndexParameters): Future[Index[Identity, Partial]] = {
     println(s"$indexUrl")
     Ajax.get(indexUrl + queryParameters.urlEncode, withCredentials = true)
       .flatMap { res =>
-        decode[Index[Identity]](res.responseText).fold(Future.failed, Future.successful)
+        decode[Index[Identity, Partial]](res.responseText).fold(Future.failed, Future.successful)
       }
   }
 
@@ -43,11 +45,11 @@ object ReadOnlyStoreXhr {
 
   import cats.implicits._
 
-  implicit def indexQueryParam[T, Ordering](
+  implicit def indexQueryParam[T, Ordering, Fields](
     implicit ev: ParamEncoder[T],
     ev1: ParamEncoder[List[Ordering]]
-  ): ParamEncoder[IndexQueryParameters[T, Ordering]] =
-    (qp: IndexQueryParameters[T, Ordering]) => {
+  ): ParamEncoder[IndexQueryParameters[T, Ordering, Fields]] =
+    (qp: IndexQueryParameters[T, Ordering, Fields]) => {
       val tParam = ev.encode(qp.indexContext)
       val oParam = ev1.encode(qp.orderings)
       Params(Map(

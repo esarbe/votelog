@@ -22,10 +22,10 @@ object Params {
   def orderDecoder[Order: KeyDecoder]: Decoder[List[Order]] =
     Decoder[List[Order]]("orderBy")(listKeyDecoder[Order])
 
-  def indexParamsDecoder[T, Order](
+  def indexParamsDecoder[T, Order, Fields](
     contextDecoder: Decoder[T],
     orderDecoder: Decoder[List[Order]]
-  ): Decoder[ReadOnlyStoreAlg.IndexQueryParameters[T, Order]] = {
+  ): Decoder[ReadOnlyStoreAlg.IndexQueryParameters[T, Order, Fields]] = {
 
     implicit val pageSizeKeyDecoder: KeyDecoder[PageSize] = KeyDecoder.decodeKeyInt.map(PageSize.apply)
     implicit val offsetDecoder: KeyDecoder[Offset] = KeyDecoder.decodeKeyLong.map(Offset.apply)
@@ -37,7 +37,7 @@ object Params {
       zip contextDecoder
       zip orderDecoder)
       .map { case (((ps, os), t), order) =>
-        IndexQueryParameters[T, Order](ps, os, t, order)
+        IndexQueryParameters[T, Order, Fields](ps, os, t, order, Set.empty)
     }
   }
 
