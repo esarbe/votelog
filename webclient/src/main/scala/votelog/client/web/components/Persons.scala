@@ -8,6 +8,7 @@ import votelog.client.web.components.html.{DynamicList, StaticSelect}
 import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.data.Sorting.Direction.Descending
 import votelog.domain.politics.{Business, Context, LegislativePeriod, Person, PersonPartial, Vote, VoteAlg, Votum}
 import votelog.persistence.{BusinessStore, PersonStore}
 
@@ -52,9 +53,9 @@ class Persons(
       offset <- paging.offset
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
-      orderings = List(Person.Field.LastName, Person.Field.FirstName)
+      orderings = List(Person.Field.LastName -> Descending, Person.Field.FirstName -> Descending)
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings, previewFields)
-      ids <- persons.index(indexQueryParams).map(_.entities).toRx
+      ids <- persons.index(indexQueryParams) .map(_.entities).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(Right(ids))
       case Some(Failure(error)) => Some(Left(error))
@@ -101,7 +102,7 @@ class Persons(
       offset <- paging.offset
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
-      orderings = List(Person.Field.LastName, Person.Field.FirstName)
+      orderings = List(Person.Field.LastName -> Descending, Person.Field.FirstName -> Descending)
       indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings, previewFields)
       ids = persons.index(indexQueryParams)
       persons <-
@@ -184,7 +185,7 @@ class Persons(
             for {
               firstName <- partial.firstName
               lastName <- partial.lastName
-            } yield firstName.value + " " + lastName.value
+            } yield firstName + " " + lastName
           }
         </span>
       </a>

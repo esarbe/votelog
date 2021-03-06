@@ -12,11 +12,11 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scala.xml.{Elem, Node}
 
-trait CrudIndexComponent[T, Identity, Partial, Ordering, Fields] { self =>
+trait CrudIndexComponent[T, Identity, Partial, ReadParameters, IndexParameters] { self =>
 
-  val store: ReadOnlyStoreAlg[Future, T, Identity, Partial, Ordering, Fields]
-  val indexQueryParameters: Rx[store.IndexParameters]
-  val queryParameters: Rx[store.ReadParameters]
+  val store: ReadOnlyStoreAlg[Future, T, Identity, Partial, ReadParameters, IndexParameters]
+  val indexQueryParameters: Rx[IndexParameters]
+  val queryParameters: Rx[ReadParameters]
 
   var viewCancelable: Option[Cancelable] = None
   val selectedId: Var[Option[Identity]] = Var(None)

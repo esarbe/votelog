@@ -10,11 +10,9 @@ object User {
   case class Partial(
     name: Option[String],
     email: Option[User.Email],
-    passwordHash: Option[String],
-    permissions: Option[List[Permission]]
   )
 
-  val empty = Partial(None, None, None, None)
+  val empty = Partial(None, None)
   case class Permission(capability: Capability, component: Component)
 
   case class Id(value: String) extends AnyVal
@@ -25,7 +23,7 @@ object User {
     case object Name extends Field
     case object Email extends Field
 
-    val values = Set(Name, Email)
+    val values = List(Name, Email)
     val fromString: (String => Field) =
       (values zip values).map( { case (key, value) => (key.toString, value) }).toMap.apply
   }

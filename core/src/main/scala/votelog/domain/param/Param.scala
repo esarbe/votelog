@@ -20,12 +20,9 @@ case class Params(entries: Map[String, Iterable[String]]) {
 
 object Params {
 
-  def empty: Params = ParamsMonoid.empty
-
   implicit object ParamsMonoid extends Monoid[Params] {
-    override def empty: Params = Params(Map.empty[String, Seq[String]])
-
-    override def combine(x: Params, y: Params): Params = Params(x.entries <+> y.entries)
+    def empty: Params = Params(Map.empty[String, Seq[String]])
+    def combine(x: Params, y: Params): Params = Params(x.entries <+> y.entries)
   }
 }
 
@@ -38,7 +35,7 @@ object Encoder {
     def urlEncode: String = ev.encode(t).urlEncode
   }
 
-  def unit[T]: Encoder[T] = _ => Params.empty
+  def unit[T]: Encoder[T] = _ => Monoid[Params].empty
 }
 
 

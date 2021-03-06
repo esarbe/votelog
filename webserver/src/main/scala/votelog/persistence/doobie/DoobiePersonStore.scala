@@ -2,17 +2,19 @@ package votelog.persistence.doobie
 
 import cats._
 import cats.implicits._
-import votelog.domain.crudi.ReadOnlyStoreAlg.Index
-import votelog.domain.politics.{Canton, Language, Person, PersonPartial}
+import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters}
+import votelog.domain.politics.{Business, Canton, Context, Language, Person, PersonPartial}
 import votelog.persistence.PersonStore
 import doobie._
 import doobie.implicits._
 import votelog.orphans.doobie.implicits._
-import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta // idea thinks this is not needed but it's wrong
+import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta
+import votelog.domain.data.Sorting // idea thinks this is not needed but it's wrong
 
 class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
 ) extends PersonStore[F] {
+
 
   def selectQuery(id: Person.Id, lang: Language): ConnectionIO[Person] =
     sql"""
@@ -34,7 +36,9 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
     import doobie.implicits._
     import doobie.util.Get._
 
-    val orderBy = buildOrderBy(p.orderings.filter(p.fields).map(toFieldName))
+    def toOrderPair(field: Person.Field, direction: Sorting.Direction) = toFieldName(field) -> direction
+
+    val orderBy = buildOrderBy(p.orderings.filter(o => p.fields.contains(o._1)).map((toOrderPair _).tupled))
     val fields = Person.Field.values.map {
       field =>
         (p.fields ++ Set(Person.Field.Id)).toList.find( _ == field).map(toFieldName).getOrElse(s"null as ${toFieldName(field)}")
@@ -55,7 +59,7 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       LIMIT ${p.offset.value}, ${p.pageSize.value}
     """
       .queryWithLogHandler[PersonPartial](doobie.util.log.LogHandler.jdkLogHandler)
-      .map(p => (p.id, person))
+      .map(p => (p.id, p))
       .accumulate[List]
   }
 

@@ -3,15 +3,24 @@ package votelog.persistence
 import cats.effect.Bracket
 import _root_.doobie.Fragment
 import _root_.doobie.implicits.toSqlInterpolator
+import votelog.domain.data.Sorting
 
 import scala.collection.immutable
 
 package object doobie {
   type ThrowableBracket[F[_]] = Bracket[F, Throwable]
 
-  def buildOrderBy(orderings: immutable.Seq[String]): Fragment = {
-      if (orderings.nonEmpty) fr"ORDER BY ${mkFrag(orderings,",")}"
-      else Fragment.empty
+  def buildOrderBy(orderings: immutable.Seq[(String, Sorting.Direction)]): Fragment = {
+    val orderBys = orderings.map {
+      case (ordering, direction) =>
+        ordering + " " + (direction match {
+        case Sorting.Direction.Ascending => "ASC"
+        case Sorting.Direction.Descending => "DESC"
+      })
+    }
+
+    if (orderBys.nonEmpty) fr"ORDER BY ${mkFrag(orderBys,",")}"
+    else Fragment.empty
   }
 
   def buildFields(fields: immutable.Seq[String]) = mkFrag(fields, "", ",", "")

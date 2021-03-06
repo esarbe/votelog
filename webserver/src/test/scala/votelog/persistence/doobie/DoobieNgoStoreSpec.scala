@@ -34,7 +34,7 @@ class DoobieNgoStoreSpec
 
   val ngoStore =
     for {
-      ngoStore <- aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity, (_: Any) => Ngo.empty)((), ())
+      ngoStore <- aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity, (_: Any) => Ngo.empty)((), Seq.empty)
     } yield ngoStore
 
   it should behave like ngoStore.unsafeRunSync()

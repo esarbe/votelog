@@ -7,7 +7,10 @@ import mhtml.{Rx, Var}
 import votelog.client.web.components.html.tools.{ifEnter, inputPassword, inputText, set}
 import votelog.domain.authentication.User
 import votelog.domain.authentication.User.Permission
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.data.Sorting.Direction
+import votelog.domain.data.Sorting.Direction.Descending
 import votelog.persistence.UserStore
 import votelog.persistence.UserStore.{Password, Recipe}
 
@@ -25,10 +28,18 @@ class UserComponent(
   component: votelog.domain.authorization.Component,
   configuration: UserComponent.Configuration,
   val store: UserStore[Future],
-) extends CrudIndexComponent[User, User.Id, User.Partial, User.Field, User.Field] { self =>
+) extends CrudIndexComponent[User, User.Id, User.Partial, Unit, IndexQueryParameters[Unit, User.Field, User.Field]] { self =>
 
-  val indexQueryParameters: Rx[store.IndexParameters] = Rx(Set.empty)
-  val queryParameters: Rx[store.ReadParameters] = Rx(Set.empty)
+  val indexQueryParameters: Rx[IndexQueryParameters[Unit, User.Field, User.Field]] =
+    Rx(IndexQueryParameters(
+      pageSize = PageSize(10),
+      offset = Offset(0),
+      indexContext = (),
+      orderings = List(User.Field.Name -> Descending),
+      fields = User.Field.values.toSet))
+
+
+  val queryParameters: Rx[Unit] = Rx(())
   val queryParametersView: Option[Node] = None
 
   def id(id: String): String = component.child(id).location

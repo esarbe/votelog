@@ -13,15 +13,16 @@ import votelog.infrastructure.ReadOnlyStoreService
 import votelog.persistence.BusinessStore
 import votelog.orphans.circe.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
+import votelog.domain.data.Sorting
 
 class BusinessService(
   val component: Component,
   val store: BusinessStore[IO],
   val authAlg: AuthorizationAlg[IO],
   val voteAlg: VoteAlg[IO],
-) extends ReadOnlyStoreService[Business, Business.Id, Business.Partial, Business.Field, Business.Field] {
+) extends ReadOnlyStoreService[Business, Business.Id, Business.Partial, Language, IndexQueryParameters[Context, Business.Field, Business.Field]] {
 
-  implicit val orderingParamDecoder: param.Decoder[List[Business.Field]] = Params.orderDecoder
+  implicit val orderingParamDecoder: param.Decoder[List[(Business.Field, Sorting.Direction)]] = Params.orderDecoder
   implicit val contextParamDecoder: param.Decoder[Context] = Params.contextParam
   override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
   override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Business.Field, Business.Field]] =

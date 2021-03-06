@@ -7,8 +7,9 @@ import doobie.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Business, Language}
 import votelog.persistence.BusinessStore
-import votelog.persistence.doobie.DoobieBusinessStore.toColumnName
-import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta // idea thinks this is not needed but it's wrong
+import votelog.persistence.doobie.DoobieBusinessStore.{toFieldName, toOrderPair}
+import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta
+import votelog.domain.data.Sorting // idea thinks this is not needed but it's wrong
 
 class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]
@@ -19,10 +20,16 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .query[Business].unique
 
   def indexQuery(qp: IndexParameters): doobie.ConnectionIO[List[(Business.Id, Business.Partial)]] = {
-    val fields = buildFields(qp.fields.toSeq.map(toColumnName))
-    val orderBy = buildOrderBy(qp.orderings.map(toColumnName))
+    val orderBy = buildOrderBy(qp.orderings.filter(o => qp.fields.contains(o._1)).map((toOrderPair _).tupled))
+    val fields = Business.Field.values.map {
+      field =>
+        qp.fields.toList.find( _ == field).map(toFieldName)
+          .getOrElse(s"null as ${toFieldName(field)}")
+    }
 
-    sql"""select id $fields from business
+    val selectFields = buildFields(fields)
+
+    sql"""select id $selectFields from business
          |where business_type in (3, 4, 5)
          |and submission_legislative_period = ${qp.indexContext.legislativePeriod}
          |and language = ${qp.indexContext.language.iso639_1.toUpperCase}
@@ -49,7 +56,10 @@ class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
 }
 
 object DoobieBusinessStore {
-  val toColumnName: Business.Field => String = {
+  def toOrderPair(field: Business.Field, direction: Sorting.Direction) =
+    toFieldName(field) -> direction
+
+  val toFieldName: Business.Field => String = {
     case Business.Field.SubmissionDate => "submission_date"
     case Business.Field.SubmittedBy => "submitted_by"
     case Business.Field.Title => "title"

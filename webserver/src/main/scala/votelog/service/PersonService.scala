@@ -14,6 +14,7 @@ import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.data.Sorting.Direction.Descending
 import votelog.infrastructure.logging.Logger
 import votelog.infrastructure.ReadOnlyStoreService
 import votelog.orphans.circe.implicits._
@@ -25,7 +26,7 @@ class PersonService(
   val voteAlg: VoteAlg[IO],
   val log: Logger[IO],
   val authAlg: AuthorizationAlg[IO],
-) extends ReadOnlyStoreService[Person, Person.Id, PersonPartial, Person.Field, Person.Field] {
+) extends ReadOnlyStoreService[Person, Person.Id, PersonPartial, Language, IndexQueryParameters[Context, Person.Field, Person.Field]] {
 
   implicit val motionIdCirceKeyEncoder: KeyEncoder[Business.Id] =
     KeyEncoder.instance[Business.Id](_.value.toString)
@@ -35,7 +36,11 @@ class PersonService(
       PageSize(20),
       Offset(0),
       Context(LegislativePeriod.Id(50), Language.English),
-      List(Person.Field.LastName, Person.Field.FirstName, Person.Field.DateOfBirth, Person.Field.Id),
+      List(
+        Person.Field.LastName -> Descending,
+        Person.Field.FirstName -> Descending,
+        Person.Field.DateOfBirth -> Descending,
+        Person.Field.Id -> Descending),
       Set.empty
     )
 

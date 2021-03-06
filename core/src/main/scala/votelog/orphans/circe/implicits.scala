@@ -13,10 +13,13 @@ import io.circe.generic.extras.semiauto._
 import io.circe.generic.extras.defaults._
 import votelog.domain.authentication.User.Permission
 import votelog.domain.authorization.{Capability, Component}
+import votelog.orphans.circe.data.SortingInstances
 import votelog.persistence.{NgoStore, UserStore}
 import votelog.persistence.UserStore.Password
 
-object implicits {
+
+
+object implicits extends SortingInstances{
 
   implicit val keyEncoderUserId: KeyEncoder[User.Id] = KeyEncoder.encodeKeyString.contramap(_.value)
   implicit val userIdCirceKeyDecoder: KeyDecoder[User.Id] = a => Some(User.Id(a))
@@ -41,8 +44,8 @@ object implicits {
   implicit val ngoIdCodec: Codec[Ngo.Id] = deriveUnwrappedCodec
   implicit val ngoStoreRecipeCodec: Codec[NgoStore.Recipe] = deriveConfiguredCodec
   implicit val ngoIdCirceKeyDecoder: KeyDecoder[Ngo.Id] = KeyDecoder.decodeKeyString.map(Ngo.Id)
-  implicit val ngoOrderingKeyDecoder: KeyDecoder[Ngo.Fields] =
-    KeyDecoder.decodeKeyString.map(Ngo.Fields.fromString)
+  implicit val ngoOrderingKeyDecoder: KeyDecoder[Ngo.Field] =
+    KeyDecoder.decodeKeyString.map(Ngo.Field.fromString)
 
   implicit val keyEncoderNgoId: KeyEncoder[Ngo.Id] = KeyEncoder.encodeKeyString.contramap(_.value)
 

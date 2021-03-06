@@ -15,14 +15,20 @@ import votelog.domain.crudi.ReadOnlyStoreAlg
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the effect type
-abstract class ReadOnlyStoreService[T, Identity: Encoder: KeyDecoder, Partial, Ordering, Fields](
+abstract class ReadOnlyStoreService[
+  T,
+  Identity: Encoder: KeyDecoder,
+  Partial,
+  ReadParameters,
+  IndexParameters
+](
   implicit val indexEncoder: Encoder[Index[Identity, Partial]],
   val entityEncoder: Encoder[T]
 ) {
 
-  val store: ReadOnlyStoreAlg[IO, T, Identity, Partial, Ordering, Fields]
-  implicit val queryParamDecoder: param.Decoder[store.ReadParameters]
-  implicit val indexQueryParamDecoder: param.Decoder[store.IndexParameters]
+  val store: ReadOnlyStoreAlg[IO, T, Identity, Partial, ReadParameters, IndexParameters]
+  implicit val queryParamDecoder: param.Decoder[ReadParameters]
+  implicit val indexQueryParamDecoder: param.Decoder[IndexParameters]
 
   val authAlg: AuthorizationAlg[IO]
   val component: Component
@@ -32,8 +38,8 @@ abstract class ReadOnlyStoreService[T, Identity: Encoder: KeyDecoder, Partial, O
       KeyDecoder[Identity].apply(str)
   }
 
-  object iqp extends QueryParameterExtractor[store.IndexParameters]
-  object qp extends QueryParameterExtractor[store.ReadParameters]
+  object iqp extends QueryParameterExtractor[IndexParameters]
+  object qp extends QueryParameterExtractor[ReadParameters]
 
   def checkAuthorization(
     user: User,

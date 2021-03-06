@@ -14,11 +14,11 @@ import votelog.domain.param.Encoder._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-abstract class StoreXhr[T, Identity: Decoder: KeyEncoder, Recipe: Encoder, Partial, Ordering, Fields](
+abstract class StoreXhr[T, Identity: Decoder: KeyEncoder, Recipe: Encoder, Partial, ReadParameters, IndexParameters](
   implicit indexDecoder: Decoder[Index[Identity, Partial]],
   implicit val entityOptionDecoder: Decoder[Partial],
   implicit val entityDecoder: Decoder[T],
-) extends StoreAlg[Future, T, Identity, Recipe, Partial, Ordering, Fields]{
+) extends StoreAlg[Future, T, Identity, Recipe, Partial, ReadParameters, IndexParameters]{
 
   val indexUrl: String // TODO: maybe reuse [[Component]]?!!!
   implicit val indexQueryParameterEncoder: ParamEncoder[IndexParameters]

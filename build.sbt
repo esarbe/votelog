@@ -1,7 +1,8 @@
-import sbt.Keys.libraryDependencies
+import sbt.Keys.{libraryDependencies, parallelExecution}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossType
-import Settings.{circeVersion, scalatestVersion, scalacheckVersion}
+import Settings.{circeVersion, scalacheckVersion, scalatestVersion}
+import sbt.IntegrationTest
 
 val core =
   crossProject(JSPlatform, JVMPlatform)
@@ -76,8 +77,10 @@ val webserver =
 
 val root =
   (project in file("."))
+    .configs(IntegrationTest)
     .settings(
       Settings.compiler,
-      ThisBuild / useSuperShell := false
+      ThisBuild / useSuperShell := false,
+      IntegrationTest / parallelExecution := false
     )
     .aggregate(webserver, webclient)

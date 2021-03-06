@@ -12,16 +12,16 @@ import votelog.domain.politics.Language
 
 trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfterAll {
 
-  def aStore[Entity, Identity, Recipe, Partial, Ordering, Fields](
-    store: StoreAlg[IO, Entity, Identity, Recipe, Partial, Ordering, Fields],
+  def aStore[Entity, Identity, Recipe, Partial, ReadParameters, IndexParameters](
+    store: StoreAlg[IO, Entity, Identity, Recipe, Partial, ReadParameters, IndexParameters],
     creationRecipe: Recipe,
     createdEntity: Identity => Entity,
     updatedRecipe: Recipe,
     updatedEntity: Identity => Entity,
     partialEntity: Identity => Partial,
   )(
-    queryParams: store.ReadParameters,
-    indexQueryParams: store.IndexParameters,
+    queryParams: ReadParameters,
+    indexQueryParams: IndexParameters,
   ): IO[Unit] = IO {
 
     it should "be able to store an entity" in {

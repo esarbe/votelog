@@ -5,6 +5,7 @@ import cats.implicits._
 import doobie._
 import doobie.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
+import votelog.domain.data.Sorting.Direction
 import votelog.domain.politics.Scoring.Score
 import votelog.domain.politics.{Business, Ngo}
 import votelog.persistence.NgoStore
@@ -56,7 +57,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   private val countQuery = sql"select count(id) from ngos".query[Int].unique
 
 
-  override def index(params: IndexParameters): F[Index[Ngo.Id, Ngo.Partial]] = {
+  override def index(params: Seq[(Ngo.Field, Direction)]): F[Index[Ngo.Id, Ngo.Partial]] = {
     val count = countQuery.transact(transactor)
     val entities = indexQuery.transact(transactor)
     (count, entities).parMapN(Index.apply)

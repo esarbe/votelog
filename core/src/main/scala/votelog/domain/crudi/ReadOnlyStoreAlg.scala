@@ -3,18 +3,16 @@ package votelog.domain.crudi
 import cats.Show
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.data.Sorting.Direction
 
-trait ReadOnlyStoreAlg[F[_], T, Identity, Partial, Order, Fields] {
-  type ReadParameters
-  type IndexParameters
-
+trait ReadOnlyStoreAlg[F[_], T, Identity, Partial, ReadParameters, IndexParameters] {
   def index(queryParameters: IndexParameters): F[Index[Identity, Partial]]
   def read(queryParameters: ReadParameters)(id: Identity): F[T]
 }
 
 object ReadOnlyStoreAlg {
 
-  case class IndexQueryParameters[T, Ordering, Field](pageSize: PageSize, offset: Offset, indexContext: T, orderings: List[Ordering], fields: Set[Field])
+  case class IndexQueryParameters[T, Ordering, Field](pageSize: PageSize, offset: Offset, indexContext: T, orderings: List[(Ordering, Direction)], fields: Set[Field])
 
   case class Index[Id, Partial](totalEntities: Int, entities: List[(Id, Partial)])
 

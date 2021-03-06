@@ -7,6 +7,7 @@ import mhtml.{Rx, Var}
 import votelog.client.web.components.{CrudIndexComponent, Paging}
 import votelog.client.web.components.html.tools.{ifEnter, inputText, set}
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.data.Sorting.Direction
 import votelog.domain.politics.{Context, Ngo}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
@@ -24,9 +25,9 @@ class NgoComponent(
   component: votelog.domain.authorization.Component,
   configuration: NgoComponent.Configuration,
   val store: NgoStore[Future],
-) extends CrudIndexComponent[Ngo, Ngo.Id, Ngo.Partial, Ngo.Fields, Ngo.Fields] { self =>
+) extends CrudIndexComponent[Ngo, Ngo.Id, Ngo.Partial, Unit, Seq[(Ngo.Field, Direction)]] { self =>
 
-  lazy val indexQueryParameters: Rx[store.IndexParameters] = Rx(())
+  lazy val indexQueryParameters: Rx[Seq[(Ngo.Field, Direction)]] = Rx(Seq.empty)
   lazy val queryParameters: Rx[store.ReadParameters] = Rx(())
   lazy val queryParametersView: Option[Node] = None
 
