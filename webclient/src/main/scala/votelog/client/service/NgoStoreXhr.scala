@@ -1,6 +1,7 @@
 package votelog.client.service
 
 import votelog.client.Configuration
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.data.Sorting.Direction
 import votelog.domain.politics.{Business, Ngo, Scoring}
 import votelog.persistence.NgoStore
@@ -10,11 +11,11 @@ import votelog.domain.param.Encoder
 import scala.concurrent.Future
 
 class NgoStoreXhr(configuration: Configuration)
-  extends StoreXhr[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Partial, Unit, Seq[(Ngo.Field, Direction)]]
+  extends StoreXhr[Ngo, Ngo.Id, NgoStore.Recipe, Ngo.Partial, Unit, IndexQueryParameters[(), Ngo.Field, Ngo.Field]]
     with NgoStore[Future] {
 
   override val indexUrl: String = configuration.url + "/ngo"
-  override implicit val indexQueryParameterEncoder: Encoder[Seq[(Ngo.Field, Direction)]] = Encoder.unit
+  override implicit val indexQueryParameterEncoder: Encoder[IndexQueryParameters[(), Ngo.Field, Ngo.Field]] = Encoder.unit
   override implicit val queryParameterEncoder: Encoder[Unit] = Encoder.unit
 
   override def motionsScoredBy(ngo: Ngo.Id): Future[List[(Business.Id, Scoring.Score)]] = ???

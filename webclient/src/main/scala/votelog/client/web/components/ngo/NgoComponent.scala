@@ -6,8 +6,10 @@ import mhtml.future.syntax._
 import mhtml.{Rx, Var}
 import votelog.client.web.components.{CrudIndexComponent, Paging}
 import votelog.client.web.components.html.tools.{ifEnter, inputText, set}
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.data.Sorting.Direction
+import votelog.domain.data.Sorting.Direction.Descending
 import votelog.domain.politics.{Context, Ngo}
 import votelog.persistence.NgoStore
 import votelog.persistence.NgoStore.Recipe
@@ -25,10 +27,18 @@ class NgoComponent(
   component: votelog.domain.authorization.Component,
   configuration: NgoComponent.Configuration,
   val store: NgoStore[Future],
-) extends CrudIndexComponent[Ngo, Ngo.Id, Ngo.Partial, Unit, Seq[(Ngo.Field, Direction)]] { self =>
+) extends CrudIndexComponent[Ngo, Ngo.Id, Ngo.Partial, Unit, IndexQueryParameters[Unit, Ngo.Field, Ngo.Field]] { self =>
 
-  lazy val indexQueryParameters: Rx[Seq[(Ngo.Field, Direction)]] = Rx(Seq.empty)
-  lazy val queryParameters: Rx[store.ReadParameters] = Rx(())
+  lazy val indexQueryParameters: Rx[IndexQueryParameters[Unit, Ngo.Field, Ngo.Field]] =
+    Rx(IndexQueryParameters(
+      PageSize(10),
+      Offset(0),
+      (),
+      List(Ngo.Field.Name -> Descending),
+      Ngo.Field.values.toSet
+    ))
+
+  lazy val queryParameters: Rx[Unit] = Rx(())
   lazy val queryParametersView: Option[Node] = None
 
   def id(id: String): String = component.child(id).location
