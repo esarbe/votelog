@@ -23,7 +23,7 @@ package object doobie {
     else Fragment.empty
   }
 
-  def buildFields(fields: immutable.Seq[String]) = mkFrag(fields, "", ",", "")
+  def buildFields(fields: immutable.Seq[String]) = mkFrag(fields, ",", ",", "")
   def buildSubsequentFields(fields: immutable.Seq[String]): Fragment =  mkFrag(fields, ",", ",", "")
 
   def mkFrag(ts: immutable.Seq[String], sep: String): Fragment = mkFrag(ts, "", sep, "")

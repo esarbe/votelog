@@ -13,7 +13,7 @@ object Ngo {
   object Field {
     case object Name extends Field
 
-    val values: Set[Field] = Set(Name)
+    val values: Seq[Field] = Seq(Name)
 
     lazy val fromString: (String => Field) =
       (values zip values).map({ case (key, value) => (key.toString, value) }).toMap.apply

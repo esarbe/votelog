@@ -55,9 +55,12 @@ val webclient =
 
 val webserver =
   (project in file("webserver"))
+    .configs(IntegrationTest)
     .settings(
       name := "webserver",
       mainClass in Compile := Some("votelog.app.Webserver"),
+      IntegrationTest / parallelExecution := false,
+      Defaults.itSettings,
       Settings.common,
       Settings.compiler,
       Dependencies.cats,
@@ -77,10 +80,8 @@ val webserver =
 
 val root =
   (project in file("."))
-    .configs(IntegrationTest)
     .settings(
       Settings.compiler,
       ThisBuild / useSuperShell := false,
-      IntegrationTest / parallelExecution := false
     )
     .aggregate(webserver, webclient)

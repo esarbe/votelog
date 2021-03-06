@@ -4,7 +4,8 @@ import cats._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
-import votelog.domain.crudi.ReadOnlyStoreAlg.Index
+import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters}
+import votelog.domain.data.Sorting
 import votelog.domain.data.Sorting.Direction
 import votelog.domain.politics.Scoring.Score
 import votelog.domain.politics.{Business, Ngo}
@@ -16,11 +17,30 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: Transactor[F],
 ) extends NgoStore[F] {
 
-  private val indexQuery =
-    sql"select id from ngos".query[(Ngo.Id, Ngo.Partial)].accumulate[List]
+  private def indexQuery(qp: IndexQueryParameters[(), Ngo.Field, Ngo.Field]) = {
+
+    val toFieldName: Ngo.Field => String = {
+      case Ngo.Field.Name => "name"
+    }
+
+    def toOrderPair(field: Ngo.Field, direction: Sorting.Direction) = {
+      toFieldName(field) -> direction
+    }
+
+    val orderBy = buildOrderBy(qp.orderings.filter(o => qp.fields.contains(o._1)).map((toOrderPair _).tupled))
+    val fields = Ngo.Field.values.map {
+      field =>
+        qp.fields.find( _ == field).map(toFieldName).getOrElse(s"null as ${toFieldName(field)}")
+    }
+
+    val selectFields = buildFields(fields)
+
+    sql"select id $selectFields from ngos $orderBy"
+      .query[(Ngo.Id, Ngo.Partial)].accumulate[List]
+  }
 
   private def createQuery(recipe: Recipe, id: Ngo.Id) =
-    sql"insert into ngos (id, name) values ($id, ${recipe.name})"
+    sql"insert into ngos (id, name) values (${id.value}, ${recipe.name})"
       .update.run
 
   private def updateQuery(id: Ngo.Id, recipe: Recipe) =
@@ -57,9 +77,9 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   private val countQuery = sql"select count(id) from ngos".query[Int].unique
 
 
-  override def index(params: Seq[(Ngo.Field, Direction)]): F[Index[Ngo.Id, Ngo.Partial]] = {
+  override def index(params: IndexQueryParameters[(), Ngo.Field, Ngo.Field]): F[Index[Ngo.Id, Ngo.Partial]] = {
     val count = countQuery.transact(transactor)
-    val entities = indexQuery.transact(transactor)
+    val entities = indexQuery(params).transact(transactor)
     (count, entities).parMapN(Index.apply)
   }
 
@@ -81,7 +101,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .flatMap(_ => readQuery(id))
       .transact(transactor)
 
-  override def read(p: ReadParameters)(id: Ngo.Id): F[Ngo] =
+  override def read(n: ())(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
   override def motionsScoredBy(ngo: Ngo.Id): F[List[(Business.Id, Score)]] =

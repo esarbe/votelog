@@ -7,9 +7,9 @@ import doobie.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.politics.{Business, Language}
 import votelog.persistence.BusinessStore
-import votelog.persistence.doobie.DoobieBusinessStore.{toFieldName, toOrderPair}
 import doobie.implicits.legacy.localdate.JavaTimeLocalDateMeta
-import votelog.domain.data.Sorting // idea thinks this is not needed but it's wrong
+import votelog.domain.data.Sorting
+import votelog.persistence.doobie.DoobieBusinessStore.{toFieldName, toOrderPair} // idea thinks this is not needed but it's wrong
 
 class DoobieBusinessStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: doobie.util.transactor.Transactor[F]

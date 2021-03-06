@@ -11,10 +11,9 @@ import votelog.domain.politics.{Ngo, Scoring}
 import votelog.persistence.NgoStore.Recipe
 
 //TODO: Scoring should be it's own store
-trait NgoStore[F[_]] extends StoreAlg[F, Ngo, Ngo.Id, Recipe, Ngo.Partial, Unit, Seq[(Ngo.Field, Direction)]] with Scoring[F] {
-  type ReadParameters = Unit
-  type IndexParameters = IndexQueryParameters[Ngo, Ngo.Field, Ngo.Field]
-}
+trait NgoStore[F[_]]
+  extends StoreAlg[F, Ngo, Ngo.Id, Recipe, Ngo.Partial, Unit, IndexQueryParameters[(), Ngo.Field, Ngo.Field]]
+    with Scoring[F]
 
 object NgoStore {
   case class Recipe(name: String)

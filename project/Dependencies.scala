@@ -36,7 +36,7 @@ object Dependencies {
       "org.tpolecat" %% "doobie-core" % doobieVersion,
       "org.tpolecat" %% "doobie-h2" % doobieVersion,
       "org.tpolecat" %% "doobie-postgres" % doobieVersion,
-      "org.tpolecat" %% "doobie-scalatest" % doobieVersion % Test,
+      "org.tpolecat" %% "doobie-scalatest" % doobieVersion % Test
     )
 
   lazy val decline =
@@ -60,9 +60,9 @@ object Dependencies {
 
   val test =
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % scalatestVersion % Test,
-      "org.scalacheck" %% "scalacheck" % scalacheckVersion % Test,
-      "org.scalatestplus" %% "scalacheck-1-14" % "3.1.2.0" % Test,
+      "org.scalatest" %% "scalatest" % scalatestVersion % "test, it",
+      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test, it",
+      "org.scalatestplus" %% "scalacheck-1-14" % "3.1.2.0" % "test, it",
     )
 
   val mariaDb = libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "2.6.1"

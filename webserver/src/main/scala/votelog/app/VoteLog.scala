@@ -11,8 +11,8 @@ import votelog.domain.authorization.AuthorizationAlg
 import votelog.domain.politics.Scoring.{Score, Weight}
 import votelog.domain.politics.{Business, Ngo, VoteAlg}
 import votelog.implementation.UserCapabilityAuthorization
-import votelog.persistence.doobie._
 import votelog.persistence._
+import votelog.persistence.doobie._
 
 abstract class VoteLog[F[_]] {
   val vote: VoteAlg[F]
