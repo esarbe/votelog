@@ -12,7 +12,7 @@ import param.Decoder
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.data.Sorting
 
-object Params {
+object ParamDecoders {
 
   val languageParam: Decoder[Language] = param.Decoder[Language]("lang")
 
@@ -24,13 +24,16 @@ object Params {
     new KeyDecoder[(Ordering, Sorting.Direction)] {
       def apply(key: String): Option[(Ordering, Sorting.Direction)] = key.split('|').toList match {
         case ordering :: "Asc" :: Nil => KeyDecoder[Ordering].apply(ordering).map(o => (o, Sorting.Direction.Ascending))
-        case ordering :: "Des" :: Nil => KeyDecoder[Ordering].apply(ordering).map(o => (o, Sorting.Direction.Descending))
+        case ordering :: "Desc" :: Nil => KeyDecoder[Ordering].apply(ordering).map(o => (o, Sorting.Direction.Descending))
         case _ => None
       }
   }
 
   def orderDecoder[Order: KeyDecoder]: Decoder[List[(Order, Sorting.Direction)]] =
     Decoder[List[(Order, Sorting.Direction)]]("orderBy")(listKeyDecoder[(Order, Sorting.Direction)])
+
+  def fieldsDecoder[Field: KeyDecoder]: Decoder[Set[Field]] =
+    Decoder[Set[Field]]("fields")(listKeyDecoder[Field].map(_.toSet))
 
   def indexParamsDecoder[T, Order, Field](
     contextDecoder: Decoder[T],
@@ -48,8 +51,8 @@ object Params {
       zip contextDecoder
       zip orderDecoder
       zip fieldsDecoder)
-      .map { case (((ps, os), t), order) =>
-        IndexQueryParameters[T, Order, Field](ps, os, t, order, Set.empty)
+      .map { case ((((ps, os), t), order), fields) =>
+        IndexQueryParameters[T, Order, Field](ps, os, t, order, fields)
     }
   }
 

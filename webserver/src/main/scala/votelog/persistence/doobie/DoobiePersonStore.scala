@@ -31,23 +31,20 @@ class DoobiePersonStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .unique
 
   def indexQuery(p: IndexParameters): doobie.ConnectionIO[List[(Person.Id, PersonPartial)]] = {
-    import shapeless._
-    import doobie._
     import doobie.implicits._
-    import doobie.util.Get._
 
     def toOrderPair(field: Person.Field, direction: Sorting.Direction) = toFieldName(field) -> direction
 
     val orderBy = buildOrderBy(p.orderings.filter(o => p.fields.contains(o._1)).map((toOrderPair _).tupled))
     val fields = Person.Field.values.map {
       field =>
-        (p.fields ++ Set(Person.Field.Id)).toList.find( _ == field).map(toFieldName).getOrElse(s"null as ${toFieldName(field)}")
+        p.fields.toList.find( _ == field).map(toFieldName).getOrElse(s"null as ${toFieldName(field)}")
     }
 
     val selectFields = buildFields(fields)
 
     sql"""
-      SELECT $selectFields from person p
+      SELECT id $selectFields from person p
       WHERE p.`language` = ${p.indexContext.language.iso639_1}
       AND p.person_number in (
         select distinct person_number

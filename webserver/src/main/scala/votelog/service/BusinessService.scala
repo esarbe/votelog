@@ -1,6 +1,7 @@
 package votelog.service
 
 import cats.effect.IO
+import io.circe.KeyDecoder
 import io.circe.syntax._
 import org.http4s.AuthedRoutes
 import org.http4s.dsl.io._
@@ -14,6 +15,7 @@ import votelog.persistence.BusinessStore
 import votelog.orphans.circe.implicits._
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.data.Sorting
+import votelog.domain.param.Params
 
 class BusinessService(
   val component: Component,
@@ -22,11 +24,13 @@ class BusinessService(
   val voteAlg: VoteAlg[IO],
 ) extends ReadOnlyStoreService[Business, Business.Id, Business.Partial, Language, IndexQueryParameters[Context, Business.Field, Business.Field]] {
 
-  implicit val orderingParamDecoder: param.Decoder[List[(Business.Field, Sorting.Direction)]] = Params.orderDecoder
-  implicit val contextParamDecoder: param.Decoder[Context] = Params.contextParam
-  override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
+  override implicit val queryParamDecoder: param.Decoder[Language] = ParamDecoders.languageParam
   override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Business.Field, Business.Field]] =
-    Params.indexParamsDecoder(contextParamDecoder, orderingParamDecoder)
+    ParamDecoders.indexParamsDecoder(
+      ParamDecoders.contextParam,
+      ParamDecoders.orderDecoder,
+      ParamDecoders.fieldsDecoder
+    )
 
   lazy val voting: AuthedRoutes[User, IO] = AuthedRoutes.of {
     case GET -> Root / Id(id) / "votes" :? iqp(params) as user =>

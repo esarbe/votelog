@@ -35,7 +35,7 @@ class PersonService(
     IndexQueryParameters(
       PageSize(20),
       Offset(0),
-      Context(LegislativePeriod.Id(50), Language.English),
+      Context(LegislativePeriod.Id(50), Language.German),
       List(
         Person.Field.LastName -> Descending,
         Person.Field.FirstName -> Descending,
@@ -62,10 +62,14 @@ class PersonService(
 
   override def service: AuthedRoutes[User, IO] = super.service <+> voting
 
-  override implicit val queryParamDecoder: param.Decoder[Language] = Params.languageParam
+  override implicit val queryParamDecoder: param.Decoder[Language] = ParamDecoders.languageParam
 
   // TODO: redirect in case of missing required parameters would be better
   override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Context, Person.Field, Person.Field]] =
-    params => Params.indexParamsDecoder[votelog.domain.politics.Context, Person.Field, Person.Field](Params.contextParam, Params.orderDecoder[Person.Field]).decode(params)
-      .orElse(Some(defaultIndexQueryParameters))
+    params =>
+      ParamDecoders.indexParamsDecoder(
+        ParamDecoders.contextParam,
+        ParamDecoders.orderDecoder[Person.Field],
+        ParamDecoders.fieldsDecoder[Person.Field]
+      ).decode(params).orElse(Some(defaultIndexQueryParameters))
 }

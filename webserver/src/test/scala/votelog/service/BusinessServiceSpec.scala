@@ -14,8 +14,12 @@ import org.scalatest.matchers.should.Matchers
 import votelog.orphans.circe.implicits._
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Component}
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
 import votelog.domain.politics.{Business, Context, Language, LegislativePeriod, Person, VoteAlg, Votum}
 import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
+import votelog.domain.data.Sorting
+import votelog.domain.data.Sorting.Direction.Descending
+import votelog.domain.param.Params
 import votelog.persistence.BusinessStore
 import votelog.service.BusinessServiceSpec.check
 
@@ -36,14 +40,36 @@ class BusinessServiceSpec extends AnyFlatSpec with Matchers {
   val auth: AuthorizationAlg[IO] = (_, _, _) => IO.pure(true)
   val user: User = User("unprivileged", User.Email("mail"), "qux", Set.empty)
 
-  val service = new BusinessService(Component.Root, store, auth, vote).service
+
+  val service  = new BusinessService(Component.Root, store, auth, vote)
+
 
   it should "serve requests" in {
     val request = AuthedRequest(user, Request[IO](method = Method.GET, uri = Uri.uri("index")))
-    val result = service.run(request).value
+    val result = service.service.run(request).value
 
     // TODO: find a way to use matchers better
     check(result, Ok, Some(List.empty[Business.Id].asJson)) shouldBe true
+  }
+
+  it should "be able to decode url parameters" in {
+    val params = "?lp=50&os=0&ps=100&fields=Title,Description&orderBy=Title|Desc,Description|Desc&lang=de"
+
+    val ps = params.drop(1).split('&').map { p =>
+      val key :: value :: Nil = p.split('=').toList
+      key -> List(value)
+    }.toMap
+
+    service.indexQueryParamDecoder.decode(Params(ps)) shouldBe
+      Some(
+        IndexQueryParameters(
+          PageSize(100),
+          Offset(0),
+          Context(LegislativePeriod.Id(50), Language.German),
+          List[(Business.Field, Sorting.Direction)](Business.Field.Title -> Descending, Business.Field.Description -> Descending),
+          Set(Business.Field.Title, Business.Field.Description),
+        )
+      )
   }
 }
 
