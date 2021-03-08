@@ -70,11 +70,11 @@ object Decoder {
   def apply[T: KeyDecoder](key: String): Decoder[T] =
     params => params.entries.get(key).flatMap(vs => KeyDecoder[T].apply(vs.head))
 
-  def combineDecoder[A, B](a: Decoder[A], b: Decoder[B])(implicit ev: Tupler[A, B]): Decoder[ev.Out] = {
+  def combineDecoder[A, B](a: Decoder[A], b: Decoder[B]): Decoder[(A, B)] = {
     params: Params =>
       for {
         a <- a.decode(params)
         b <- b.decode(params)
-      } yield ev.apply(a, b)
+      } yield (a, b)
   }
 }
