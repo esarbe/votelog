@@ -23,7 +23,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class PersonStoreXhr(configuration: Configuration)
-  extends PersonStore[Future] {
+  extends PersonStore[Future]
+    with Xhr {
 
   implicit val indexParamEncoder: Encoder[IndexQueryParameters[Context, Person.Field, Person.Field]] =
     new Encoder[IndexQueryParameters[Context, Person.Field, Person.Field]] {
@@ -40,12 +41,12 @@ class PersonStoreXhr(configuration: Configuration)
 
   override def index(qp: IndexQueryParameters[Context, Person.Field, Person.Field]): Future[Index[Person.Id, PersonPartial]] = {
     Ajax
-      .get(configuration.url + s"/person/" + qp.urlEncode, withCredentials = true)
+      .get(configuration.url + s"/person/" + urlEncodeParams(qp.urlEncode), withCredentials = true)
       .flatMap(ifSuccess(fromJson[Index[Person.Id, PersonPartial]]))
   }
 
   override def read(language: Language)(id: Person.Id): Future[Person] =
     Ajax
-      .get(configuration.url + s"/person/" + id.value + language.urlEncode, withCredentials = true)
+      .get(configuration.url + s"/person/" + id.value + urlEncodeParams(language.urlEncode), withCredentials = true)
       .flatMap(ifSuccess(fromJson[Person]))
 }
