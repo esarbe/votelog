@@ -3,7 +3,6 @@ package votelog.domain.param
 import cats._
 import cats.implicits._
 import io.circe.KeyDecoder
-import votelog.Tupler
 
 /**
  * Allows to encode structured data in url query parameters and

@@ -12,8 +12,8 @@ case class Person(
 )
 
 case class PersonPartial(
-  id: Person.Id,
-  firstName: Option[String],
+  id: Option[Person.Id],
+  firstName: Option[Person.Name],
   lastName: Option[Person.Name],
   canton: Option[Canton],
   gender: Option[Person.Gender],
@@ -26,6 +26,10 @@ object Person {
 
   case class Id(value: Int) extends AnyVal { override def toString: String = value.toString}
   case class Name(value: String) extends AnyVal
+
+  object Name  {
+    implicit val ordering: Ordering[Name] = (x: Name, y: Name) => x.value.compare(y.value)
+  }
 
   sealed trait Gender extends Product with Serializable
   object Gender {
