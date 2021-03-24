@@ -17,7 +17,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   transactor: Transactor[F],
 ) extends NgoStore[F] {
 
-  private def indexQuery(qp: IndexQueryParameters[(), Ngo.Field, Ngo.Field]) = {
+  private def indexQuery(qp: IndexQueryParameters[Unit, Ngo.Field, Ngo.Field]) = {
 
     val toFieldName: Ngo.Field => String = {
       case Ngo.Field.Name => "name"
@@ -77,7 +77,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
   private val countQuery = sql"select count(id) from ngos".query[Int].unique
 
 
-  override def index(params: IndexQueryParameters[(), Ngo.Field, Ngo.Field]): F[Index[Ngo.Id, Ngo.Partial]] = {
+  override def index(params: IndexQueryParameters[Unit, Ngo.Field, Ngo.Field]): F[Index[Ngo.Id, Ngo.Partial]] = {
     val count = countQuery.transact(transactor)
     val entities = indexQuery(params).transact(transactor)
     (count, entities).parMapN(Index.apply)
@@ -101,7 +101,7 @@ class DoobieNgoStore[F[_]: NonEmptyParallel: ThrowableBracket](
       .flatMap(_ => readQuery(id))
       .transact(transactor)
 
-  override def read(n: ())(id: Ngo.Id): F[Ngo] =
+  override def read(n: Unit)(id: Ngo.Id): F[Ngo] =
     readQuery(id).transact(transactor)
 
   override def motionsScoredBy(ngo: Ngo.Id): F[List[(Business.Id, Score)]] =

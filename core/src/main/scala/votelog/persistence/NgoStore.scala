@@ -12,7 +12,7 @@ import votelog.persistence.NgoStore.Recipe
 
 //TODO: Scoring should be it's own store
 trait NgoStore[F[_]]
-  extends StoreAlg[F, Ngo, Ngo.Id, Recipe, Ngo.Partial, Unit, IndexQueryParameters[(), Ngo.Field, Ngo.Field]]
+  extends StoreAlg[F, Ngo, Ngo.Id, Recipe, Ngo.Partial, Unit, IndexQueryParameters[Unit, Ngo.Field, Ngo.Field]]
     with Scoring[F]
 
 object NgoStore {

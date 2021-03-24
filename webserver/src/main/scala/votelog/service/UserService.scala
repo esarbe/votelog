@@ -25,7 +25,7 @@ class UserService(
   Unit,
   IndexQueryParameters[Unit, User.Field, User.Field]
 ] {
-  override implicit val queryParamDecoder: param.Decoder[()] = param.Decoder.always(Set.empty)
+  override implicit val queryParamDecoder: param.Decoder[Unit] = param.Decoder.always(Set.empty)
   override implicit val indexQueryParamDecoder: param.Decoder[IndexQueryParameters[Unit, User.Field, User.Field]] =
     param.Decoder.always(
       IndexQueryParameters(

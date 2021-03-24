@@ -40,9 +40,7 @@ class BusinessServiceSpec extends AnyFlatSpec with Matchers {
   val auth: AuthorizationAlg[IO] = (_, _, _) => IO.pure(true)
   val user: User = User("unprivileged", User.Email("mail"), "qux", Set.empty)
 
-
   val service  = new BusinessService(Component.Root, store, auth, vote)
-
 
   it should "serve requests" in {
     val request = AuthedRequest(user, Request[IO](method = Method.GET, uri = Uri.uri("index")))

@@ -13,8 +13,9 @@ import io.circe.KeyDecoder
  */
 case class Param[T](label: String, key: String, description: String)
 case class Params(entries: Map[String, Iterable[String]]) {
-  def urlEncode: String =
+  def urlEncode: String = {
     entries.view.mapValues(_.mkString(",")).toList.map { case (key, values) => s"$key=$values"}.mkString("?", "&", "")
+  }
 }
 
 object Params {
@@ -31,7 +32,7 @@ trait Encoder[T] {
 
 object Encoder {
   implicit final class ParamEncoderOps[T](t: T)(implicit ev: Encoder[T]) {
-    def urlEncode: String = ev.encode(t).urlEncode
+    def urlEncode: String =  ev.encode(t).urlEncode
   }
 
   def unit[T]: Encoder[T] = _ => Monoid[Params].empty
@@ -66,8 +67,11 @@ object Decoder {
       params => decoder.decode(params).map(f)
   }
 
-  def apply[T: KeyDecoder](key: String): Decoder[T] =
-    params => params.entries.get(key).flatMap(vs => KeyDecoder[T].apply(vs.head))
+  def apply[T: KeyDecoder](key: String): Decoder[T] = {
+    params =>
+      params.entries.get(key).flatMap(vs => KeyDecoder[T].apply(vs.head))
+  }
+
 
   def combineDecoder[A, B](a: Decoder[A], b: Decoder[B]): Decoder[(A, B)] = {
     params: Params =>

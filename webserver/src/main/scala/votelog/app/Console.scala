@@ -1,7 +1,6 @@
 package votelog
 package app
 
-
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.effect.implicits._
 import doobie.util.transactor.Transactor
@@ -14,6 +13,7 @@ import votelog.persistence.doobie.DoobieSchema
 import pureconfig.generic.auto._
 import votelog.domain.authentication.User
 import votelog.domain.crudi.StoreAlg
+
 object Console extends IOApp {
 
   implicit val log = new Log4SLogger[IO](org.log4s.getLogger)
@@ -28,8 +28,8 @@ object Console extends IOApp {
       votelogTransactor = Database.buildTransactor[IO](configuration.votelog.database)
       _ <- log.info(s"configuration: $configuration")
       voteLog = VoteLog[IO](configuration.votelog)
-      _ <- new DoobieSchema[IO](votelogTransactor).initialize
-      _ <- voteLog.use(v => setupAdmin(v.user))
+      //_ <- new DoobieSchema[IO](votelogTransactor).initialize
+      // _ <- voteLog.use(v => setupAdmin(v.user))
     } yield ExitCode.Success
 
 

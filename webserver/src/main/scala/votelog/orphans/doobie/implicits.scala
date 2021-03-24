@@ -10,8 +10,9 @@ import votelog.domain.politics.Person.Gender.{Female, Male}
 import votelog.domain.politics.{Language, Ngo, Person, Votum}
 import doobie.postgres.implicits._
 import doobie.util.meta.Meta
+import votelog.orphans.doobie.domain.politics.PersonInstances
 
-object implicits {
+object implicits extends PersonInstances {
 
   implicit val votumRead: Read[Votum] =
     Read[String].map(s =>
@@ -19,17 +20,6 @@ object implicits {
       // values from the DB. Votum could be represented as an Enum in
       // postgresql (https://github.com/esarbe/votelog/issues/3)
       Votum.fromString(s).getOrElse(sys.error(s"invalid string representation for votum: $s")))
-
-  val genderToString: String => Gender = {
-    case "f" | "F" => Female
-    case "m" | "M" => Male
-  }
-
-  implicit val genderRead: Read[Gender] =
-    Read[String].map(genderToString)
-
-  // i know that supposedly this should work out of the box, but for some reason it fails with
-  implicit def applicativeRead[A: Read, F[_]: Applicative]: Read[F[A]] = Read[A].map(a => Applicative[F].pure(a))
 
   implicit val languagePut: Put[Language] = Put[String].contramap(_.iso639_1.toUpperCase)
   implicit val languageRead: Read[Language] = Read[String].map(s => Language.fromIso639_1Unsafe(s.toLowerCase))

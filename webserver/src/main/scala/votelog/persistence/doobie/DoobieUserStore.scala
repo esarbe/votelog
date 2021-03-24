@@ -154,7 +154,7 @@ class DoobieUserStore[F[_]: NonEmptyParallel: ThrowableBracket](
     } yield p
   }
 
-  override def read(unit: ())(id: User.Id): F[User] =
+  override def read(unit: Unit)(id: User.Id): F[User] =
     readQuery(id).transact(transactor)
 
   private def countQuery = sql"select count(id) from users".query[Int].unique
