@@ -70,7 +70,7 @@ val webserver =
       Dependencies.mariaDb,
       Dependencies.decline,
     )
-    .enablePlugins(JavaAppPackaging)
+    .enablePlugins(JavaServerAppPackaging, RpmPlugin)
     .dependsOn(coreJvm)
 
 
