@@ -4,21 +4,21 @@ import cats.effect.IO
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.{BeforeAndAfterAll, Inside}
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
-import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.crudi.StoreAlg
-import votelog.domain.politics.Language
 
 trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfterAll {
 
-  def aStore[Entity, Id, Recipe, Ordering](
-    store: StoreAlg[IO, Entity, Id, Recipe, Ordering],
+  def aStore[Entity, Identity, Recipe, Partial, ReadParameters, IndexParameters](
+    store: StoreAlg[IO, Entity, Identity, Recipe, Partial, ReadParameters, IndexParameters],
     creationRecipe: Recipe,
-    createdEntity: Id => Entity,
+    createdEntity: Identity => Entity,
     updatedRecipe: Recipe,
-    updatedEntity: Id => Entity)(
-    queryParams: store.ReadParameters,
-    indexQueryParams: store.IndexParameters,
+    updatedEntity: Identity => Entity,
+    partialEntity: Identity => Partial,
+  )(
+    queryParams: ReadParameters,
+    indexQueryParams: IndexParameters,
   ): IO[Unit] = IO {
 
     it should "be able to store an entity" in {
@@ -29,7 +29,7 @@ trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfte
           indexAfter <- store.index(indexQueryParams)
         } yield {
           indexBefore shouldBe Index(0, Nil)
-          indexAfter shouldBe Index(1, List(id))
+          indexAfter shouldBe Index(1, List((id, partialEntity(id))))
         }
 
       check.unsafeRunSync()
@@ -39,7 +39,7 @@ trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfte
       val entities = store.index(indexQueryParams).unsafeRunSync()
 
       inside(entities) {
-        case Index(_, List(id)) =>
+        case Index(_, List((id, partial))) =>
           val entity = store.read(queryParams)(id).unsafeRunSync()
           entity shouldBe createdEntity(id)
       }
@@ -48,7 +48,7 @@ trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfte
     it should "be able to update stored entity" in {
       val entities = store.index(indexQueryParams).unsafeRunSync()
       inside(entities) {
-        case Index(_, List(id)) =>
+        case Index(_, List((id, partial))) =>
           store.update(id, updatedRecipe).unsafeRunSync()
           val entity = store.read(queryParams)(id).unsafeRunSync()
           entity shouldBe updatedEntity(id)
@@ -59,7 +59,7 @@ trait StoreSpec extends AnyFlatSpec with Matchers with Inside with BeforeAndAfte
       val entities = store.index(indexQueryParams).unsafeRunSync()
 
       inside(entities) {
-        case Index(_, List(id)) =>
+        case Index(_, List((id, partial))) =>
           val check =
             for {
               _ <- store.delete(id)

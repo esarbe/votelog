@@ -1,16 +1,18 @@
 package votelog.orphans.doobie
 
-import java.util.UUID
+import cats.{Applicative, Apply}
 
+import java.util.UUID
 import doobie.util.{Put, Read}
 import votelog.domain.authentication.User
-import votelog.domain.politics.Person.{Gender, Ordering}
+import votelog.domain.politics.Person.{Field, Gender}
 import votelog.domain.politics.Person.Gender.{Female, Male}
 import votelog.domain.politics.{Language, Ngo, Person, Votum}
 import doobie.postgres.implicits._
 import doobie.util.meta.Meta
+import votelog.orphans.doobie.domain.politics.PersonInstances
 
-object implicits {
+object implicits extends PersonInstances {
 
   implicit val votumRead: Read[Votum] =
     Read[String].map(s =>
@@ -18,12 +20,6 @@ object implicits {
       // values from the DB. Votum could be represented as an Enum in
       // postgresql (https://github.com/esarbe/votelog/issues/3)
       Votum.fromString(s).getOrElse(sys.error(s"invalid string representation for votum: $s")))
-
-  implicit val genderRead: Read[Gender] =
-    Read[String].map {
-      case "f" | "F" => Female
-      case "m" | "M" => Male
-    }
 
   implicit val languagePut: Put[Language] = Put[String].contramap(_.iso639_1.toUpperCase)
   implicit val languageRead: Read[Language] = Read[String].map(s => Language.fromIso639_1Unsafe(s.toLowerCase))

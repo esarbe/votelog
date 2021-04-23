@@ -1,5 +1,6 @@
 package votelog.client.web.components
 
+import cats.Id
 import mhtml.future.syntax._
 import mhtml.{Cancelable, Rx, Var}
 import votelog.client.web.components.html.DynamicList
@@ -11,18 +12,18 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scala.xml.{Elem, Node}
 
-trait CrudIndexComponent[T, Identity, Ordering] { self =>
+trait CrudIndexComponent[T, Identity, Partial, ReadParameters, IndexParameters] { self =>
 
-  val store: ReadOnlyStoreAlg[Future, T, Identity, Ordering]
-  val indexQueryParameters: Rx[store.IndexParameters]
-  val queryParameters: Rx[store.ReadParameters]
+  val store: ReadOnlyStoreAlg[Future, T, Identity, Partial, ReadParameters, IndexParameters]
+  val indexQueryParameters: Rx[IndexParameters]
+  val queryParameters: Rx[ReadParameters]
 
   var viewCancelable: Option[Cancelable] = None
   val selectedId: Var[Option[Identity]] = Var(None)
 
   // will run like: None -> Some(List) -> None -> Some(List)
   // TODO: add better error handling
-  lazy val unstableIndex: Rx[Option[Index[Identity]]] =
+  lazy val unstableIndex: Rx[Option[Index[Identity, Partial]]] =
     for {
       indexQueryParameters <- indexQueryParameters
       ids <- store.index(indexQueryParameters).toRx
@@ -32,7 +33,7 @@ trait CrudIndexComponent[T, Identity, Ordering] { self =>
     }
 
   // keeps last list, None doesn't appear
-  lazy val ids: Rx[List[Identity]] = unstableIndex.map(_.map(_.entities)).foldp(List.empty[Identity]){
+  lazy val ids: Rx[List[(Identity, Partial)]] = unstableIndex.map(_.map(_.entities)).foldp(List.empty[(Identity, Partial)]){
     case (acc, curr) => curr.getOrElse(acc)
   }
 
@@ -42,7 +43,7 @@ trait CrudIndexComponent[T, Identity, Ordering] { self =>
 
   private def mountView(e: org.scalajs.dom.Node, renderEntity: (Identity, T) => Node): Unit = {
     println(s"ids: $ids, renderEntity: $renderEntity, renderEntities: ${ renderEntities _} ")
-    val cancel = DynamicList.mountOn(ids, renderEntities(renderEntity))(e)
+    val cancel = DynamicList.mountOn(ids.map(_.map(_._1)), renderEntities(renderEntity))(e)
     viewCancelable = Some(cancel)
   }
 
@@ -77,7 +78,7 @@ trait CrudIndexComponent[T, Identity, Ordering] { self =>
         qp <- queryParameters
         entity <- store.read(qp)(id).toRx
       } yield entity match {
-        case Some(Success(person)) => Right(Some(person))
+        case Some(Success(entity)) => Right(Some(entity))
         case Some(Failure(exception)) => Left(exception)
         case None => Right(None)
       }

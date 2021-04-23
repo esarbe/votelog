@@ -5,6 +5,8 @@ import votelog.client.web.components.html.StaticSelect
 import votelog.client.web.components.{CrudIndexComponent, Paging}
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
+import votelog.domain.data.Sorting.Direction.Descending
+import votelog.domain.politics
 import votelog.domain.politics.{Business, Context, Language, LegislativePeriod}
 import votelog.persistence.BusinessStore
 
@@ -20,7 +22,7 @@ class BusinessComponent(
   configuration: BusinessComponent.Configuration,
   val store: BusinessStore[Future],
   language: Rx[Language]
-) extends CrudIndexComponent[Business, Business.Id, Business.Ordering] { self =>
+) extends CrudIndexComponent[Business, Business.Id, Business.Partial, Language, IndexQueryParameters[Context, Business.Field, Business.Field]] { self =>
 
   def id(id: String): String = component.child(id).location
 
@@ -37,13 +39,18 @@ class BusinessComponent(
   lazy val paging: Paging = new Paging(self.component.child("paging"), pagingConfiguration)
   lazy val queryParameters: Rx[Language] = language
 
-  lazy val indexQueryParameters: Rx[store.IndexParameters] =
+  lazy val indexQueryParameters: Rx[IndexQueryParameters[Context, Business.Field, Business.Field]] =
     for {
       offset <- paging.offset
       pageSize <- paging.pageSize
       language <- language
       legislativePeriod <- legislativePeriod.model
-    } yield IndexQueryParameters(pageSize, offset, Context(legislativePeriod, language), List(Business.Ordering.Title))
+    } yield IndexQueryParameters(
+      pageSize,
+      offset,
+      Context(legislativePeriod, language),
+      List(Business.Field.Title -> Descending),
+      Set.empty)
 
   val errors: Rx[Iterable[Throwable]] = Rx(Nil)
 
@@ -51,7 +58,7 @@ class BusinessComponent(
     <article class="business entity" data-selected={ self.selectedId.map(_.contains(id)) }>
       <dl>
         <dt>Title</dt>
-        <dd>{business.title}</dd>
+        <dd>{business.title.getOrElse("no title")}</dd>
       </dl>
     </article>
 

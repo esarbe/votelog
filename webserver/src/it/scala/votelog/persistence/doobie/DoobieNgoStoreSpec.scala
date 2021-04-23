@@ -1,14 +1,20 @@
 package votelog.persistence.doobie
 
+import cats._
+import cats.implicits._
 import cats.effect.{ContextShift, IO}
 import doobie.util.transactor.Transactor
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
+import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.data.Sorting.Direction.Descending
+import votelog.domain.politics.Ngo.Field
 import votelog.domain.politics.{Business, Ngo}
 import votelog.domain.politics.Scoring.Score
 import votelog.persistence.NgoStore.Recipe
-import votelog.persistence.{BusinessStore, NgoStore, PersonStore, StoreSpec}
+import votelog.persistence.{NgoStore, StoreSpec}
 
 import scala.concurrent.ExecutionContext
 
@@ -26,14 +32,24 @@ class DoobieNgoStoreSpec
 
   schema.initialize.unsafeRunSync()
 
-  val creationRecipe: Recipe = NgoStore.Recipe("Die Iliberalen")
-  val createdEntity: Ngo.Id => Ngo = _ => Ngo("Die Iliberalen")
+  val creationRecipe: Recipe = NgoStore.Recipe("Die Illiberalen")
+  val createdEntity: Ngo.Id => Ngo = _ => Ngo("Die Illiberalen")
   val updatedRecipe: Recipe = Recipe("Pink Panther")
   val updatedEntity: Ngo.Id => Ngo = _ => Ngo("Pink Panther")
+  val indexQueryParameters: IndexQueryParameters[Unit, Ngo.Field, Ngo.Field] =
+    IndexQueryParameters(
+      pageSize = PageSize(10),
+      offset = Offset(0),
+      indexContext = (),
+      orderings = List(Ngo.Field.Name -> Descending),
+      fields = Ngo.Field.values.toSet
+    )
+
+  val partial: Ngo.Partial = Ngo.Partial(Some("Die Illiberalen"))
 
   val ngoStore =
     for {
-      ngoStore <- aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity)((), ())
+      ngoStore <- aStore(store, creationRecipe, createdEntity, updatedRecipe, updatedEntity, (_: Any) => partial)((), indexQueryParameters)
     } yield ngoStore
 
   it should behave like ngoStore.unsafeRunSync()

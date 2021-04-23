@@ -8,7 +8,8 @@ import votelog.client.web.components.html.{DynamicList, StaticSelect}
 import votelog.domain.authorization.Component
 import votelog.domain.crudi.ReadOnlyStoreAlg.IndexQueryParameters
 import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.PageSize
-import votelog.domain.politics.{Business, Context, LegislativePeriod, Person, Vote, VoteAlg, Votum}
+import votelog.domain.data.Sorting.Direction.Descending
+import votelog.domain.politics.{Business, Context, LegislativePeriod, Person, PersonPartial, Vote, VoteAlg, Votum}
 import votelog.persistence.{BusinessStore, PersonStore}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -38,6 +39,8 @@ class Persons(
       id = "legislativePeriod"
     )
 
+  val previewFields = Set(Person.Field.FirstName, Person.Field.LastName)
+
   val queryParameters: Rx[Context] =
     for {
       language <- language
@@ -45,14 +48,14 @@ class Persons(
     } yield Context(legislativePeriod, language)
 
   // will run like: None -> Some(List) -> None -> Some(List)
-  val unstableIds: Rx[Option[Either[Throwable, List[Person.Id]]]] =
+  val unstableIds: Rx[Option[Either[Throwable, List[(Person.Id, PersonPartial)]]]] =
     for {
       offset <- paging.offset
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
-      orderings = List(Person.Ordering.LastName, Person.Ordering.FirstName)
-      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings)
-      ids <- persons.index(indexQueryParams).map(_.entities).toRx
+      orderings = List(Person.Field.LastName -> Descending, Person.Field.FirstName -> Descending)
+      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings, previewFields)
+      ids <- persons.index(indexQueryParams) .map(_.entities).toRx
     }  yield ids match {
       case Some(Success(ids)) => Some(Right(ids))
       case Some(Failure(error)) => Some(Left(error))
@@ -60,7 +63,7 @@ class Persons(
     }
 
   // keeps last list, None doesn't appear
-  val ids: Rx[List[Person.Id]] = unstableIds.foldp(List.empty[Person.Id]){
+  val ids: Rx[List[(Person.Id, PersonPartial)]] = unstableIds.foldp(List.empty[(Person.Id, PersonPartial)]){
     case (_, Some(Right(ids))) => ids
     case (acc, _) => acc
   }
@@ -99,12 +102,12 @@ class Persons(
       offset <- paging.offset
       pageSize <- paging.pageSize
       queryParameters <- queryParameters
-      orderings = List(Person.Ordering.LastName, Person.Ordering.FirstName)
-      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings)
+      orderings = List(Person.Field.LastName -> Descending, Person.Field.FirstName -> Descending)
+      indexQueryParams = IndexQueryParameters(pageSize, offset, queryParameters, orderings, previewFields)
       ids = persons.index(indexQueryParams)
       persons <-
         ids
-          .flatMap { index => Future.sequence(index.entities.map(personsStore.read(queryParameters.language))) }
+          .flatMap { index => Future.sequence(index.entities.map { case (id, _) => personsStore.read(queryParameters.language)(id)}) }
           .toRx
           .collect { case Some(Success(persons)) => persons }(Nil)
     } yield persons
@@ -174,7 +177,20 @@ class Persons(
     case None => <dl class="empty entity person"></dl>
   }
 
-
+  def renderPartial (ref: Person.Id, partial: PersonPartial): Rx[Node] = {
+    Rx({
+      <a href={s"#${id(ref.value.toString)(component)}"}>
+        <span class="entity person" data-id={ref.value.toString}>
+          {
+            for {
+              firstName <- partial.firstName
+              lastName <- partial.lastName
+            } yield firstName + " " + lastName
+          }
+        </span>
+      </a>
+    })
+  }
 
   val render: Person.Id => Rx[Node] = { (id: Person.Id) =>
     val person: Rx[Either[Throwable, Either[Person.Id, Person]]] =
@@ -194,7 +210,8 @@ class Persons(
   }
 
   def mountView(e: org.scalajs.dom.Node): Unit = {
-    viewCancelable = Some(DynamicList.mountOn(ids, render)(e))
+
+    viewCancelable = Some(DynamicList.mountOn(ids, (renderPartial _).tupled)(e))
   }
 
   def umountView(e: org.scalajs.dom.Node): Unit = {

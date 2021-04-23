@@ -2,33 +2,38 @@ package votelog
 package infrastructure
 
 import cats.effect._
-import io.circe.{Decoder, Encoder, KeyDecoder}
 import io.circe.syntax._
+import io.circe.{Decoder, Encoder, KeyDecoder}
 import org.http4s.EntityEncoder._
-import org.http4s.{AuthedRoutes, _}
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import votelog.domain.param
+import org.http4s.{AuthedRoutes, _}
 import votelog.domain.authentication.User
 import votelog.domain.authorization.{AuthorizationAlg, Capability, Component}
-import votelog.domain.crudi.ReadOnlyStoreAlg.{Index, IndexQueryParameters, QueryParameters}
-import votelog.domain.crudi.ReadOnlyStoreAlg.QueryParameters.{Offset, PageSize}
+import votelog.domain.crudi.ReadOnlyStoreAlg.Index
 import votelog.domain.crudi.StoreAlg
+import votelog.domain.param
 
 // TODO: it would be nice for testing if StoreService had a type parameter for the effect type
-abstract class StoreService[T: Encoder: Decoder,  Identity: Encoder: KeyDecoder,  Recipe: Decoder, Order: KeyDecoder](
-  implicit indexEncoder: Encoder[Index[Identity]]
+abstract class StoreService[
+  T: Encoder: Decoder,
+  Identity: Encoder: KeyDecoder,
+  Recipe: Decoder,
+  Partial: Encoder,
+  ReadParameters,
+  IndexParameters](
+  implicit indexEncoder: Encoder[Index[Identity, Partial]]
 ) {
   val authAlg: AuthorizationAlg[IO]
-  val store: StoreAlg[IO, T, Identity, Recipe, Order]
+  val store: StoreAlg[IO, T, Identity, Recipe, Partial, ReadParameters, IndexParameters]
   val component: Component
 
-  implicit val queryParamDecoder: param.Decoder[store.ReadParameters]
-  implicit val indexQueryParamDecoder: param.Decoder[store.IndexParameters]
+  implicit val queryParamDecoder: param.Decoder[ReadParameters]
+  implicit val indexQueryParamDecoder: param.Decoder[IndexParameters]
 
-  object iqp extends QueryParameterExtractor[store.IndexParameters]
-  object qp extends QueryParameterExtractor[store.ReadParameters]
+  object iqp extends QueryParameterExtractor[IndexParameters]
+  object qp extends QueryParameterExtractor[ReadParameters]
 
   object Id {
     def unapply(str: String): Option[Identity] =

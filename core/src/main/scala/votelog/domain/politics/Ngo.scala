@@ -3,15 +3,19 @@ package votelog.domain.politics
 case class Ngo(name: String)
 
 object Ngo {
+
+  case class Partial(name: Option[String])
+
+  val empty = Partial(None)
   case class Id(value: String)
 
-  sealed trait Ordering
-  object Ordering {
-    case object Name extends Ordering
+  sealed trait Field
+  object Field {
+    case object Name extends Field
 
-    val values: Set[Ordering] = Set(Name)
+    val values: Seq[Field] = Seq(Name)
 
-    lazy val fromString: (String => Ordering) =
+    lazy val fromString: (String => Field) =
       (values zip values).map({ case (key, value) => (key.toString, value) }).toMap.apply
   }
 }

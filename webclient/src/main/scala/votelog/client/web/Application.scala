@@ -32,7 +32,8 @@ object Application {
   val context: Var[Context] = Var(defaultContext)
 
 
-  val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  //val configuration = Configuration("https://votelog.herokuapp.com/api/v0")
+  val configuration = Configuration("http://localhost:8080/api/v0")
   val root = Component.Root
 
   val authService = new SessionServiceXhr(configuration)

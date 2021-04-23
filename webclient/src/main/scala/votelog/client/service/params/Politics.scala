@@ -1,6 +1,8 @@
 package votelog.client.service.params
 
 import io.circe.KeyEncoder
+import votelog.domain.data.Sorting
+import votelog.domain.data.Sorting.Direction.{Ascending, Descending}
 import votelog.domain.politics.{Context, Language}
 import votelog.domain.param
 import votelog.domain.param.Params
@@ -20,6 +22,13 @@ object Politics {
   implicit val langParam: param.Encoder[Language] =
     (lang: Language) => Params(Map("lang" -> Seq(lang.iso639_1)))
 
-  implicit def orderEncoder[A](implicit ev: KeyEncoder[A]): param.Encoder[List[A]] =
-    (ordering: List[A]) => Params(Map("orderBy" -> ordering.map(ev.apply)))
+  def orderEncoder[A: KeyEncoder](ordering: List[(A, Sorting.Direction)]): Params =
+    Params(Map("orderBy" -> ordering.map {
+        case (by, direction) =>
+          KeyEncoder[A].apply(by) + "|" + (direction match {
+            case Ascending => "Asc"
+            case Descending => "Desc"
+          })
+      }
+    ))
 }
