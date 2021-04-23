@@ -18,8 +18,7 @@ import votelog.persistence.{NgoStore, UserStore}
 import votelog.persistence.UserStore.Password
 
 
-
-object implicits extends SortingInstances{
+object implicits extends SortingInstances {
 
   implicit val keyEncoderUserId: KeyEncoder[User.Id] = KeyEncoder.encodeKeyString.contramap(_.value)
   implicit val userIdCirceKeyDecoder: KeyDecoder[User.Id] = a => Some(User.Id(a))
