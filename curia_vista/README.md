@@ -1,10 +1,7 @@
 # About
 
-This project tracks and ranks the voting behavior of politicians in the Swiss parliament.
-
-# Curia Vista
-
-This project needs to copy the Curia Vista database in order to process its content quickly and independently.
+This project copies the Curia Vista data into a (local) database. This allows to run arbitrary queries which would not
+be possible using the official API.
 
 ## Background
 
@@ -15,14 +12,14 @@ Source and further reading: [parlament.ch](https://www.parlament.ch/en/ratsbetri
 
 ## Setup
 
-### Debian 10
+### Debian 11
 
 ```console
 apt install \
   graphviz \
   python3-pymysql \
   python3-requests-cache \
-  python3-toposort \
+  python3-toposort
 ```
 
 ## Example: Secure Database Socket Forwarding
@@ -66,7 +63,7 @@ python3 sync.py --schema doc/metadata.xml -u $DB_USER_NAME -p $DB_USER_PASSWORD 
 
 ### Use Cache
 
-Using a cache allows to re-run a import much quicker. Beware of the (undocumented) dragons!
+Using a cache allows to re-run an import much quicker. Beware of the (undocumented) dragons!
 
 ```console
 python3 sync.py --cache curia_vista_import_cache --schema doc/metadata.xml -u $DB_USER_NAME -p $DB_USER_PASSWORD -d $DB_NAME
