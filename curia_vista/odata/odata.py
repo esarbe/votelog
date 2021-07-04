@@ -13,20 +13,6 @@ logger.addHandler(handler)
 
 NS = '{http://schemas.microsoft.com/ado/2009/11/edm}'
 
-NAMESPACES = {
-    'edm': "{http://schemas.microsoft.com/ado/2009/11/edm}"  # CSDL version 3.0
-}
-
-EDM_TO_SQL_SIMPLE = {
-    'Edm.Boolean': 'boolean',
-    'Edm.Int16': 'smallint',
-    'Edm.Int32': 'integer',
-    'Edm.Int64': 'bigint',
-    'Edm.DateTime': 'timestamp',
-    'Edm.Guid': 'BINARY(16)',
-    'Edm.DateTimeOffset': 'timestamp',
-}
-
 SQL_KEYWORDS = {
     'start': 'start_',
     'end': 'end_',
@@ -38,6 +24,7 @@ def _to_snake_case(name):
     Convert a CamelCase string to snake_case.
     Source: https://stackoverflow.com/a/1176023/2200540
     """
+
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     s2 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
     if s2 in SQL_KEYWORDS:
