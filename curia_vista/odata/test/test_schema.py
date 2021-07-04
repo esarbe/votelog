@@ -18,7 +18,7 @@ XML_SCHEMA_POST = """
 
 class TestSchemaToSQL(TestCase):
     def test_to_schema_real_world_member_party(self):
-        xml = XML_SCHEMA_PRE + """
+        xml = f"""{XML_SCHEMA_PRE}
               <EntityType Name="MemberParty">
                 <Key>
                   <PropertyRef Name="ID"/>
@@ -39,7 +39,7 @@ class TestSchemaToSQL(TestCase):
                 <NavigationProperty Name="Parties" Relationship="itsystems.Pd.DataServices.DataModel.PartyMemberParty" ToRole="Party" FromRole="MemberParty"/>
                 <NavigationProperty Name="MembersCouncil" Relationship="itsystems.Pd.DataServices.DataModel.MemberCouncilMemberParty" ToRole="MemberCouncil" FromRole="MemberParty"/>
               </EntityType>
-        """ + XML_SCHEMA_POST
+        {XML_SCHEMA_POST}"""
 
         self.assertEqual(
             "CREATE TABLE member_party (\n"
@@ -60,7 +60,7 @@ class TestSchemaToSQL(TestCase):
             to_schema(xml))
 
     def test_to_schema_replace_keywords(self):
-        xml = XML_SCHEMA_PRE + """
+        xml = f"""{XML_SCHEMA_PRE}
               <EntityType Name="Keywords">
                 <Key>
                   <PropertyRef Name="ID"/>
@@ -70,7 +70,7 @@ class TestSchemaToSQL(TestCase):
                 <Property Name="End" Type="Edm.DateTime"/>
                 <Property Name="PrefixedStart" Type="Edm.DateTime"/>
               </EntityType>
-        """ + XML_SCHEMA_POST
+        {XML_SCHEMA_POST}"""
 
         self.assertEqual(
             "CREATE TABLE keywords (\n"
@@ -83,7 +83,7 @@ class TestSchemaToSQL(TestCase):
             to_schema(xml))
 
     def test_to_schema_cornercases(self):
-        xml = XML_SCHEMA_PRE + """
+        xml = f"""{XML_SCHEMA_PRE}
               <EntityType Name="Keywords">
                 <Key>
                   <PropertyRef Name="ID"/>
@@ -94,7 +94,7 @@ class TestSchemaToSQL(TestCase):
                 <Property Name="Int64" Type="Edm.Int64"/>
                 <Property Name="Interval" Type="Edm.DateTimeOffset"/>
               </EntityType>
-        """ + XML_SCHEMA_POST
+        {XML_SCHEMA_POST}"""
 
         self.assertEqual(
             "CREATE TABLE keywords (\n"
@@ -108,7 +108,7 @@ class TestSchemaToSQL(TestCase):
             to_schema(xml))
 
     def test_to_schema_real_world_member_party_to_party_association(self):
-        xml = XML_SCHEMA_PRE + """
+        xml = f"""{XML_SCHEMA_PRE}
               <EntityType Name="MemberParty">
                 <Key>
                   <PropertyRef Name="ID"/>
@@ -158,7 +158,7 @@ class TestSchemaToSQL(TestCase):
                   </Dependent>
                 </ReferentialConstraint>
               </Association>
-        """ + XML_SCHEMA_POST
+        {XML_SCHEMA_POST}"""
 
         self.assertEqual(
             "CREATE TABLE member_party (\n"
@@ -194,7 +194,7 @@ class TestSchemaToSQL(TestCase):
             to_schema(xml))
 
     def test_to_schema_real_world_broken_referential_association(self):
-        xml = XML_SCHEMA_PRE + """
+        xml = f"""{XML_SCHEMA_PRE}
             <EntityType Name="Session">
                 <Key>
                     <PropertyRef Name="ID"/>
@@ -271,7 +271,7 @@ class TestSchemaToSQL(TestCase):
                 </Dependent>
               </ReferentialConstraint>
             </Association>
-        """ + XML_SCHEMA_POST
+        {XML_SCHEMA_POST}"""
 
         self.assertEqual(
             "CREATE TABLE session (\n"
@@ -310,7 +310,7 @@ class TestSchemaToSQL(TestCase):
 
 
 class TestOData(TestCase):
-    XML = XML_SCHEMA_PRE + """
+    XML = f"""{XML_SCHEMA_PRE}
         <EntityType Name="Person">
             <Key>
                 <PropertyRef Name="ID"/>
@@ -433,7 +433,7 @@ class TestOData(TestCase):
             </Dependent>
           </ReferentialConstraint>
         </Association>
-    """ + XML_SCHEMA_POST
+    {XML_SCHEMA_POST}"""
 
     def test_str(self):
         o = create_parser(TestOData.XML)
@@ -462,16 +462,15 @@ class TestOData(TestCase):
         p = create_parser(TestOData.XML)
         t = get_topology(p, p.entity_types)
         self.assertEqual(3, len(t))
-        self.assertSetEqual(set([p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")]), t[0])
-        self.assertSetEqual(set([p.get_entity_type_by_name("Vote"),
-                                 p.get_entity_type_by_name("Business"),
-                                 p.get_entity_type_by_name("Meeting")]), t[1])
-        self.assertSetEqual(set([p.get_entity_type_by_name("MeetingNotes")]), t[2])
+        self.assertSetEqual({p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")}, t[0])
+        self.assertSetEqual({p.get_entity_type_by_name("Vote"), p.get_entity_type_by_name("Business"),
+                             p.get_entity_type_by_name("Meeting")}, t[1])
+        self.assertSetEqual({p.get_entity_type_by_name("MeetingNotes")}, t[2])
 
     def test_topology2(self):
         p = create_parser(TestOData.XML)
         t = get_topology(p, [p.get_entity_type_by_name("MeetingNotes")])
         self.assertEqual(3, len(t))
-        self.assertSetEqual(set([p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")]), t[0])
-        self.assertSetEqual(set([p.get_entity_type_by_name("Meeting")]), t[1])
-        self.assertSetEqual(set([p.get_entity_type_by_name("MeetingNotes")]), t[2])
+        self.assertSetEqual({p.get_entity_type_by_name("Session"), p.get_entity_type_by_name("Person")}, t[0])
+        self.assertSetEqual({p.get_entity_type_by_name("Meeting")}, t[1])
+        self.assertSetEqual({p.get_entity_type_by_name("MeetingNotes")}, t[2])

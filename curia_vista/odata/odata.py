@@ -81,9 +81,9 @@ class Property:
                     pass
                 continue
             if attr in ('Unicode', 'Precision'):
-                logger.debug("Unhandled facet in Property {}: {}".format(self.name, attr))
+                logger.debug(f"Unhandled facet in Property {self.name}: {attr}")
                 continue
-            raise RuntimeError("Unhandled facet in Property {}: {}".format(self.name, attr))
+            raise RuntimeError(f"Unhandled facet in Property {self.name}: {attr}")
 
 
 class EntityType:
@@ -142,7 +142,7 @@ class Association:
         self.dependent = End(self.root[1])
         referential_constraint = self.root.find(NS + 'ReferentialConstraint')
         if not referential_constraint:
-            raise RuntimeError("Missing ReferentialConstraint on Association {}".format(self.name))
+            raise RuntimeError(f"Missing ReferentialConstraint on Association {self.name}")
         self.referential_constraint = ReferentialConstraint(referential_constraint)
 
     def __str__(self):
@@ -196,13 +196,13 @@ class OData:
         for entity_type in self.entity_types:
             if entity_type.name == name:
                 return entity_type
-        raise RuntimeError("Could not find EntityType {}".format(name))
+        raise RuntimeError(f"Could not find EntityType {name}")
 
     def _get_association_by_name(self, name):
         for association in self.associations:
             if association.name == name:
                 return association
-        raise RuntimeError("Could not find Association {}".format(name))
+        raise RuntimeError(f"Could not find Association {name}")
 
 
 def create_parser(metadata: str):

@@ -25,16 +25,17 @@ def main():
     ranks = get_topology(parser, entity_types_to_import)
     relevant_entities = []
     for rank in ranks:
-        print("  subgraph rank_{} {{\n    rank=same; ".format(rank_num))
+        print(f"  subgraph rank_{rank_num} {{")
+        print("    rank=same;")
         for entity_type in rank:
-            print("    {};".format(entity_type.name))
+            print(f"    {entity_type.name};")
             relevant_entities.append(entity_type)
         print("  }")
         rank_num += 1
 
     for entity_type in relevant_entities:
         for dependency in parser.get_dependencies(entity_type, recursive=False):
-            print("  {} -> {};".format(entity_type.name, dependency.name))
+            print(f"  {entity_type.name} -> {dependency.name};")
     print("}")
 
 

@@ -2,7 +2,7 @@ from odata.odata import create_parser, Association, _to_snake_case, EDM_TO_SQL_S
 
 
 def key_to_schema(self):
-    return "PRIMARY KEY ({})".format(", ".join(self.property_refs))
+    return f"PRIMARY KEY ({', '.join(self.property_refs)})"
 
 
 def property_to_schema(self):
@@ -14,24 +14,24 @@ def property_to_schema(self):
         if self.type == "Edm.String":
             if isinstance(self.max_length, int):
                 if self.fixed_length:
-                    type_sql = "char({})".format(self.max_length)
+                    type_sql = f"char({self.max_length})"
                 else:
-                    type_sql = "varchar({})".format(self.max_length)
+                    type_sql = f"varchar({self.max_length})"
             else:
                 assert self.fixed_length is False
                 type_sql = "TEXT"
         else:
             raise RuntimeError("Unknown type: " + self.type)
-    res += " {}".format(type_sql)
+    res += f" {type_sql}"
     if not self.nullable:
         res += " NOT NULL"
     return res
 
 
 def entity_type_to_schema(self):
-    res = "CREATE TABLE {} (\n  ".format(self.table_name)
+    res = f"CREATE TABLE {self.table_name} (\n  "
     res += ",\n  ".join([property_to_schema(p) for p in self.properties]) + ","
-    res += "\n  {}".format(key_to_schema(self.key))
+    res += f"\n  {key_to_schema(self.key)}"
     res += "\n);"
     return res
 
@@ -47,16 +47,11 @@ def association_to_schema(self):
         dependent = Association.BROKEN_REFERENTIAL_CONSTRAINTS[
             self.constrain_name] if self.constrain_name in Association.BROKEN_REFERENTIAL_CONSTRAINTS else principal_or_dependent_to_schema(
             self.referential_constraint.dependent)
-        return "ALTER TABLE {}\n".format(self.dependent.table_name) + \
-               "ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({});".format(self.constrain_name,
-                                                                               dependent,
-                                                                               self.principal.table_name,
-                                                                               principal_or_dependent_to_schema(
-                                                                                   self.referential_constraint.principal))
+        return (f"""ALTER TABLE {self.dependent.table_name}\n"""
+                f"""ADD CONSTRAINT {self.constrain_name} FOREIGN KEY ({dependent}) REFERENCES {self.principal.table_name} ({principal_or_dependent_to_schema(self.referential_constraint.principal)});""")
     else:
         raise RuntimeError(
-            "Not implemented Association: Principal='{}', Dependent='{}'".format(self.principal.multiplicity,
-                                                                                 self.dependent.multiplicity))
+            f"Not implemented Association: Principal='{self.principal.multiplicity}', Dependent='{self.dependent.multiplicity}'")
 
 
 def odata_to_schema(odata):
@@ -64,7 +59,8 @@ def odata_to_schema(odata):
     if odata.entity_types:
         sections.append('\n\n'.join([entity_type_to_schema(e) for e in odata.entity_types]))
     if odata.associations:
-        sections.append('\n\n'.join(association_to_schema(a) for a in odata.associations if association_to_schema(a)))
+        sections.append(
+            '\n\n'.join(association_to_schema(a) for a in odata.associations if association_to_schema(a)))
 
     return "\n\n".join(sections)
 

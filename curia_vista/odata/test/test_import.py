@@ -7,7 +7,7 @@ from odata.test.test_schema import XML_SCHEMA_PRE, XML_SCHEMA_POST
 
 class TestImport(TestCase):
     def test_fetch_with_next(self):
-        xml = XML_SCHEMA_PRE + """
+        xml = f"""{XML_SCHEMA_PRE}
             <EntityType Name="Table">
                 <Key>
                     <PropertyRef Name="ID"/>
@@ -17,7 +17,7 @@ class TestImport(TestCase):
                 <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false"/>
                 <Property Name="Data" Type="Edm.String"/>
             </EntityType>
-        """ + XML_SCHEMA_POST
+        {XML_SCHEMA_POST}"""
         parser = create_parser(xml)
 
         def fetcher(url):

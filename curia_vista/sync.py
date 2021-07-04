@@ -56,13 +56,13 @@ def _get_json(url):
     :param url: URL to fetch
     :return: JSON data with the entries results
     """
-    logger.debug("Fetching from URL {}".format(url))
+    logger.debug(f"Fetching from URL {url}")
     # Using header instead of URL to request JSON because __next forgets about it.
     r = requests.get(url, headers={'Accept': 'application/json'})
     if hasattr(r, 'from_cache') and r.from_cache:
-        logger.debug("Found URL {} in cache".format(url))
+        logger.debug(f"Found URL {url} in cache")
     else:
-        logger.debug("HTTP code {} after {} seconds".format(r.status_code, r.elapsed.total_seconds()))
+        logger.debug(f"HTTP code {r.status_code} after {r.elapsed.total_seconds()} seconds")
     return r.json()
 
 
@@ -70,7 +70,7 @@ def _split_response(json):
     try:
         json_data = json['d']
     except KeyError as e:
-        logger.error("Could no find element 'd' in {}".format(json))
+        logger.error(f"Could no find element 'd' in {json}")
         raise e
     return (
         json_data if 'results' not in json_data else json_data['results'],
@@ -80,14 +80,13 @@ def _split_response(json):
 
 
 def create_entity_type_url(entity_type):
-    return '{}/{}?$inlinecount=allpages'.format(URL, entity_type.name)
+    return f'{URL}/{entity_type.name}?$inlinecount=allpages'
 
 
 def create_language_filter_url(entity_type, languages=None):
     # Note: Every single entity type in the Curia Vista schema has a Language property
     if languages:
-        return '{}&$filter={}'.format(create_entity_type_url(entity_type),
-                                      ' or '.join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages]))
+        return f'{create_entity_type_url(entity_type)}&$filter={" or ".join([f"(Language%20eq%20%27{l}%27)" for l in languages])}'
     return create_entity_type_url(entity_type)
 
 
@@ -95,10 +94,10 @@ def create_filter_url(entity_type, languages=None, fk_value=None):
     filters = []
     # Note: Every single entity type in the Curia Vista schema has a Language property
     if languages:
-        filters.append(' or '.join(['(Language%20eq%20%27{}%27)'.format(l) for l in languages]))
+        filters.append(' or '.join([f'(Language%20eq%20%27{l}%27)' for l in languages]))
     if fk_value:
-        filters.append(' and '.join(['({}%20eq%20{})'.format(k, v) for k, v in fk_value.items()]))
-    return '{}&$filter={}'.format(create_entity_type_url(entity_type), " and ".join(filters))
+        filters.append(' and '.join([f'({k}%20eq%20{v})' for k, v in fk_value.items()]))
+    return f'{create_entity_type_url(entity_type)}&$filter={" and ".join(filters)}'
 
 
 def fetch_all_entities(entity_type, fetcher, url):
@@ -120,7 +119,7 @@ def fetch_all_entities(entity_type, fetcher, url):
         results, total, url = _split_response(fetcher(url))
 
         if total == 0:
-            logger.error("Entity type {} has zero values".format(entity_type.name))
+            logger.error(f"Entity type {entity_type.name} has zero values")
             return
 
         if len(results) == 0:
@@ -128,8 +127,8 @@ def fetch_all_entities(entity_type, fetcher, url):
             As of 2019-05-21, for the entity types BusinessResponsibility and PersonCommunication, the server does not
             return any results.
             """
-            logger.error("Server did not return any entities for entity type {}. Did {}/{} before this.".format(
-                entity_type.name, done, total))
+            logger.error(
+                f"Server did not return any entities for entity type {entity_type.name}. Did {done}/{total} before this.")
             return
 
         header = [_to_snake_case(p.name) for p in entity_type.properties]
@@ -138,7 +137,7 @@ def fetch_all_entities(entity_type, fetcher, url):
             values.append(_results_to_sql_dict(entity_type, result))
         done += len(results)
         yield (header, values)
-        logger.info("Progress for {}: {}/{}".format(entity_type.name, done, total))
+        logger.info(f"Progress for {entity_type.name}: {done}/{total}")
 
 
 def fetch_entity_type(entity_type, fetcher, languages=None):
@@ -153,11 +152,7 @@ def fetch_entities_by_fk(entity_type_to_fetch, fk, fetcher, languages=None):
 
 
 def update_db(connection, table_name, columns, rows):
-    statement = 'INSERT INTO {} ({}) VALUES ({}) ON DUPLICATE KEY UPDATE {};'.format(
-        table_name,
-        ', '.join(columns),
-        ', '.join(['%s'] * len(columns)),
-        ', '.join(["{}=VALUES({})".format(c, c) for c in columns]))
+    statement = f'INSERT INTO {table_name} ({", ".join(columns)}) VALUES ({", ".join(["%s"] * len(columns))}) ON DUPLICATE KEY UPDATE {", ".join([f"{c}=VALUES({c})" for c in columns])};'
     with connection.cursor() as cur:
         def do_many(rows):
             try:
@@ -171,7 +166,7 @@ def update_db(connection, table_name, columns, rows):
             except Exception as e:
                 connection.rollback()
                 if len(rows) == 1:
-                    logger.error("{}: {}".format(str(rows[0]), e))
+                    logger.error(f"{str(rows[0])}: {e}")
                     return
 
             do_many(rows[len(rows) // 2:])
@@ -204,10 +199,10 @@ def main():
     parser.add_argument("-d", "--database", type=str)
     args = parser.parse_args()
     log_level = max(3 - args.verbose_count, 0) * 10
-    logger.info("Setting loglevel to {}".format(log_level))
+    logger.info(f"Setting loglevel to {log_level}")
     logger.setLevel(log_level)
 
-    logger.info("Languages to be imported: {}".format(", ".join(args.languages)))
+    logger.info(f"Languages to be imported: {', '.join(args.languages)}")
 
     xml = "".join(args.schema.readlines())
     parser = create_parser(xml)
@@ -230,7 +225,7 @@ def main():
     rank_number = 1
     for rank in ranks:
         logger.info(
-            "Rank {}/{}: {}".format(rank_number, len(ranks), ", ".join(str(p) for p in rank)))
+            f"Rank {rank_number}/{len(ranks)}: {', '.join(str(p) for p in rank)}")
         rank_number += 1
 
     connection = pymysql.connect(user=args.user, password=args.password, database=args.database, host=args.host,
@@ -239,14 +234,12 @@ def main():
     rank_number = 1
     for rank in ranks:
         logger.info(
-            "Starting work on rank {}/{}, containing {}".format(rank_number,
-                                                                len(ranks),
-                                                                ", ".join(str(p) for p in rank)))
+            f"Starting work on rank {rank_number}/{len(ranks)}, containing {', '.join(str(p) for p in rank)}")
         for entity_type in rank:
             if entity_type in entity_types_to_skip:
-                logger.warning("Skipping entity type {}".format(entity_type.name))
+                logger.warning(f"Skipping entity type {entity_type.name}")
                 continue
-            logger.info("Starting to import {}".format(entity_type.name))
+            logger.info(f"Starting to import {entity_type.name}")
 
             if entity_type.name == 'Voting':
                 with connection.cursor() as cur:
@@ -254,7 +247,7 @@ def main():
                     index = 0
                     all_vote_ids = cur.fetchall()
                     for row in all_vote_ids:
-                        logger.info('Voting by Vote: {}/{} done'.format(index, len(all_vote_ids)))
+                        logger.info(f'Voting by Vote: {index}/{len(all_vote_ids)} done')
                         for (columns, rows) in fetch_entities_by_fk(entity_type, {'IdVote': row[0]}, _get_json,
                                                                     args.languages):
                             update_db(connection, entity_type.table_name, columns, rows)
@@ -263,7 +256,7 @@ def main():
                 for (columns, rows) in fetch_entity_type(entity_type, _get_json, args.languages):
                     update_db(connection, entity_type.table_name, columns, rows)
 
-        logger.info("Finished work on rank {}/{}".format(rank_number, len(ranks)))
+        logger.info(f"Finished work on rank {rank_number}/{len(ranks)}")
         rank_number += 1
 
 
