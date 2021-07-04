@@ -17,7 +17,7 @@ Source and further reading: [parlament.ch](https://www.parlament.ch/en/ratsbetri
 ```console
 apt install \
   graphviz \
-  python3-pymysql \
+  python3-psycopg2 \
   python3-requests-cache \
   python3-toposort
 ```
@@ -25,13 +25,14 @@ apt install \
 ## Example: Secure Database Socket Forwarding
 
 This is optional, but simplifies setting up a secure connection to the database server. Also, the remaining
-documentation in this file assumes that the database is accessible on localhost:3306.
+documentation in this file assumes that the database is accessible on 127.0.0.1:5432.
 
 ```console
-ssh -L 3306:retoschn.mysql.db.internal:3306 $HOSTPOINT_WEBSERVER
+ssh votelog -N -L 5432:127.0.0.1:5432
 ```
 
 ## Update XML Schema
+
 While not strictly necessary, it makes debugging easier when we have a history of the XML manifest.
 
 ```console
@@ -46,7 +47,7 @@ This tool converts the [OData 3.0](https://www.odata.org/documentation/odata-ver
 
 ```console
 python3 schema.py --schema doc/metadata.xml > schema.sql
-mysql --host=127.0.0.1 --user=$DB_USER_NAME --password $DB_NAME < schema.sql
+psql --host=127.0.0.1 --user curiavista < schema.sql
 ```
 
 ## Mirroring: Dependency Checking
@@ -58,15 +59,18 @@ python3 dot.py --schema doc/metadata.xml | dotty -
 ## Mirroring: Data Import
 
 ```console
-python3 sync.py --schema doc/metadata.xml -u $DB_USER_NAME -p $DB_USER_PASSWORD -d $DB_NAME
+python3 sync.py --schema doc/metadata.xml
 ```
+
+Custom database user, name, port, etc. can be passed using arguments. The database password needs to be provided using
+the ~/.pgpass file.
 
 ### Use Cache
 
 Using a cache allows to re-run an import much quicker. Beware of the (undocumented) dragons!
 
 ```console
-python3 sync.py --cache curia_vista_import_cache --schema doc/metadata.xml -u $DB_USER_NAME -p $DB_USER_PASSWORD -d $DB_NAME
+python3 sync.py --cache curia_vista_import_cache --schema doc/metadata.xml
 ```
 
 ### Limit to a Single Language

@@ -6,7 +6,7 @@ EDM_TO_SQL_SIMPLE = {
     'Edm.Int32': 'integer',
     'Edm.Int64': 'bigint',
     'Edm.DateTime': 'timestamp',
-    'Edm.Guid': 'BINARY(16)',
+    'Edm.Guid': 'uuid',
     'Edm.DateTimeOffset': 'timestamp',
 }
 

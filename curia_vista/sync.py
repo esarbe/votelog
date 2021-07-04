@@ -2,10 +2,9 @@
 import argparse
 import datetime
 
-import pymysql.cursors
-import pymysql
+import psycopg2
 import requests
-from pymysql import ProgrammingError
+from psycopg2 import ProgrammingError
 
 from odata.odata import create_parser, logger, _to_snake_case
 from odata.topology import get_topology
@@ -152,7 +151,9 @@ def fetch_entities_by_fk(entity_type_to_fetch, fk, fetcher, languages=None):
 
 
 def update_db(connection, table_name, columns, rows):
-    statement = f'INSERT INTO {table_name} ({", ".join(columns)}) VALUES ({", ".join(["%s"] * len(columns))}) ON DUPLICATE KEY UPDATE {", ".join([f"{c}=VALUES({c})" for c in columns])};'
+    statement = (f'INSERT INTO {table_name} ({", ".join(columns)})'
+                 f' VALUES ({", ".join(["%s"] * len(columns))}) '
+                 f' ON CONFLICT (id, language) DO UPDATE SET {", ".join([f"{c} = EXCLUDED.{c}" for c in columns])};')
     with connection.cursor() as cur:
         def do_many(rows):
             try:
@@ -162,6 +163,7 @@ def update_db(connection, table_name, columns, rows):
             except ProgrammingError as e:
                 connection.rollback()
                 logger.fatal(e)
+                logger.fatal(f"Failed statement: {statement}")
                 exit(-1)
             except Exception as e:
                 connection.rollback()
@@ -192,11 +194,10 @@ def main():
                         action="count",
                         default=0,
                         help="Increase log verbosity for each occurrence.")
-    parser.add_argument("-u", "--user", type=str, required=True)
-    parser.add_argument("-p", "--password", type=str, required=True)
-    parser.add_argument("-H", "--host", type=str, default="localhost")
-    parser.add_argument("-P", "--port", type=int, default=3306)
-    parser.add_argument("-d", "--database", type=str)
+    parser.add_argument("-u", "--user", type=str, default="curiavista")
+    parser.add_argument("-H", "--host", type=str, default="127.0.0.1")
+    parser.add_argument("-P", "--port", type=int, default=5432)
+    parser.add_argument("-d", "--database", type=str, default="curiavista")
     args = parser.parse_args()
     log_level = max(3 - args.verbose_count, 0) * 10
     logger.info(f"Setting loglevel to {log_level}")
@@ -228,8 +229,7 @@ def main():
             f"Rank {rank_number}/{len(ranks)}: {', '.join(str(p) for p in rank)}")
         rank_number += 1
 
-    connection = pymysql.connect(user=args.user, password=args.password, database=args.database, host=args.host,
-                                 port=args.port)
+    connection = psycopg2.connect(user=args.user, database=args.database, host=args.host, port=args.port)
 
     rank_number = 1
     for rank in ranks:
