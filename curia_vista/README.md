@@ -59,7 +59,7 @@ python3 dot.py --schema doc/metadata.xml | dotty -
 ## Mirroring: Data Import
 
 ```console
-python3 sync.py --schema doc/metadata.xml
+python3 sync.py --schema doc/metadata.xml -v
 ```
 
 Custom database user, name, port, etc. can be passed using arguments. The database password needs to be provided using

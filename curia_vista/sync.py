@@ -183,7 +183,7 @@ def main():
     parser.add_argument("--include",
                         type=str,
                         nargs='*',
-                        help="Entity types to sync, including relevant dependencies. If not given, sync all.")
+                        help="Entity types to sync (pulls in relevant dependencies). If unspecified, sync all.")
     parser.add_argument("--skip", type=str, nargs='*', help="Skip the listed entities")
     parser.add_argument("--languages", choices=LANGUAGES, nargs='+', help="Limit syncing to given languages",
                         default=LANGUAGES)
